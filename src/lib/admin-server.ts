@@ -1,5 +1,4 @@
 import { createHash } from "node:crypto";
-import { adminClient } from "./supabase/admin";
 
 const COOKIE_NAME = "school11_admin";
 const allowedBuckets = new Set(["news-images", "teacher-photos", "achievement-images", "documents", "site-assets"]);
@@ -24,6 +23,11 @@ function token() {
 
 function normalizePassword(value: unknown) {
   return String(value ?? "").trim();
+}
+
+async function getAdminClient() {
+  const { adminClient } = await import("./supabase/admin");
+  return adminClient;
 }
 
 function getAdminPassword() {
@@ -141,6 +145,7 @@ export function adminMe(req: Request) {
 }
 
 async function selectAll(table: string, order = "created_at") {
+  const adminClient = await getAdminClient();
   let query = adminClient.from(table).select("*");
   if (order) query = query.order(order, { ascending: table === "achievement_years" ? false : true });
   const { data, error } = await query;
@@ -150,6 +155,7 @@ async function selectAll(table: string, order = "created_at") {
 
 export async function adminBootstrap(req: Request) {
   if (!isAdminRequest(req)) return unauthorized();
+  const adminClient = await getAdminClient();
 
   const [news, categories, teachers, years, achievementCategories, achievements, sections, courseItems, applications, settings] = await Promise.all([
     adminClient.from("news").select("*, category:news_categories(*)").order("published_at", { ascending: false }),
@@ -184,6 +190,7 @@ export async function adminBootstrap(req: Request) {
 export async function adminSave(req: Request, resource: string) {
   if (!isAdminRequest(req)) return unauthorized();
   if (!(resource in tableMap)) return json({ error: "Unknown resource" }, { status: 404 });
+  const adminClient = await getAdminClient();
 
   const payload = await req.json() as Record<string, unknown>;
   const table = tableMap[resource as Resource];
@@ -204,6 +211,7 @@ export async function adminSave(req: Request, resource: string) {
 export async function adminDelete(req: Request, resource: string, id: string) {
   if (!isAdminRequest(req)) return unauthorized();
   if (!(resource in tableMap)) return json({ error: "Unknown resource" }, { status: 404 });
+  const adminClient = await getAdminClient();
 
   const table = tableMap[resource as Resource];
   const { error } = await adminClient.from(table).delete().eq("id", id);
@@ -213,6 +221,7 @@ export async function adminDelete(req: Request, resource: string, id: string) {
 
 export async function toggleNews(req: Request, id: string) {
   if (!isAdminRequest(req)) return unauthorized();
+  const adminClient = await getAdminClient();
   const { is_published } = await req.json() as { is_published: boolean };
   const { data, error } = await adminClient.from("news").update({ is_published }).eq("id", id).select("*").single();
   if (error) return json({ error: error.message }, { status: 400 });
@@ -222,6 +231,7 @@ export async function toggleNews(req: Request, id: string) {
 export async function adminUpload(req: Request, bucket: string) {
   if (!isAdminRequest(req)) return unauthorized();
   if (!allowedBuckets.has(bucket)) return json({ error: "Unknown bucket" }, { status: 404 });
+  const adminClient = await getAdminClient();
 
   const form = await req.formData();
   const file = form.get("file");
@@ -243,6 +253,7 @@ export async function adminUpload(req: Request, bucket: string) {
 
 export async function bulkApplications(req: Request) {
   if (!isAdminRequest(req)) return unauthorized();
+  const adminClient = await getAdminClient();
   const { rows } = await req.json() as { rows?: Record<string, unknown>[] };
   if (!rows?.length) return json({ error: "No rows" }, { status: 400 });
 

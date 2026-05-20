@@ -62,16 +62,29 @@ function adminPageFromPath(): AdminPage {
 }
 
 async function api(path: string, init?: RequestInit) {
-  const res = await fetch(path, {
-    ...init,
-    credentials: "same-origin",
-    headers: init?.body instanceof FormData ? init.headers : { "Content-Type": "application/json", ...(init?.headers || {}) },
-  });
-  if (!res.ok) {
-    const payload = await res.json().catch(() => ({}));
-    throw new Error(payload.error || `Request failed: ${res.status}`);
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 20_000);
+
+  try {
+    const res = await fetch(path, {
+      ...init,
+      credentials: "same-origin",
+      signal: init?.signal || controller.signal,
+      headers: init?.body instanceof FormData ? init.headers : { "Content-Type": "application/json", ...(init?.headers || {}) },
+    });
+    if (!res.ok) {
+      const payload = await res.json().catch(() => ({}));
+      throw new Error(payload.error || `Request failed: ${res.status}`);
+    }
+    return res.json();
+  } catch (error) {
+    if (error instanceof DOMException && error.name === "AbortError") {
+      throw new Error("Request timed out");
+    }
+    throw error;
+  } finally {
+    window.clearTimeout(timeout);
   }
-  return res.json();
 }
 
 function parseCsv(text: string) {
@@ -93,6 +106,7 @@ export function AdminApp() {
   const [page, setPage] = useState<AdminPage>(adminPageFromPath());
   const [data, setData] = useState<AdminData>(emptyData);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
   const [toast, setToast] = useState<Toast>(null);
 
   const notify = (next: Toast) => {
@@ -110,15 +124,22 @@ export function AdminApp() {
 
   const load = async () => {
     setLoading(true);
+    setLoadError("");
     try {
       const session = await api("/api/admin/me");
       if (!session.authenticated) {
         location.href = "/admin/login";
         return;
       }
-      setData(await api("/api/admin/bootstrap"));
     } catch (error) {
       location.href = "/admin/login";
+      return;
+    }
+
+    try {
+      setData(await api("/api/admin/bootstrap"));
+    } catch (error) {
+      setLoadError(error instanceof Error ? error.message : "Admin data failed to load");
     } finally {
       setLoading(false);
     }
@@ -165,13 +186,14 @@ export function AdminApp() {
       <main className="admin-main">
         {toast && <div className={`admin-toast ${toast.kind}`}>{toast.text}</div>}
         {loading && <div className="admin-loading">Loading...</div>}
-        {!loading && page === "dashboard" && <Dashboard go={go} />}
-        {!loading && page === "news" && <NewsManager data={data} save={save} remove={remove} reload={load} notify={notify} />}
-        {!loading && page === "teachers" && <TeachersManager data={data} save={save} remove={remove} notify={notify} />}
-        {!loading && page === "achievements" && <AchievementsManager data={data} save={save} remove={remove} notify={notify} />}
-        {!loading && page === "courses" && <CoursesManager data={data} save={save} remove={remove} />}
-        {!loading && page === "applications" && <ApplicationsManager data={data} save={save} remove={remove} reload={load} notify={notify} />}
-        {!loading && page === "settings" && <SettingsManager data={data} save={save} notify={notify} />}
+        {!loading && loadError && <div className="admin-loading">{loadError}</div>}
+        {!loading && !loadError && page === "dashboard" && <Dashboard go={go} />}
+        {!loading && !loadError && page === "news" && <NewsManager data={data} save={save} remove={remove} reload={load} notify={notify} />}
+        {!loading && !loadError && page === "teachers" && <TeachersManager data={data} save={save} remove={remove} notify={notify} />}
+        {!loading && !loadError && page === "achievements" && <AchievementsManager data={data} save={save} remove={remove} notify={notify} />}
+        {!loading && !loadError && page === "courses" && <CoursesManager data={data} save={save} remove={remove} />}
+        {!loading && !loadError && page === "applications" && <ApplicationsManager data={data} save={save} remove={remove} reload={load} notify={notify} />}
+        {!loading && !loadError && page === "settings" && <SettingsManager data={data} save={save} notify={notify} />}
       </main>
     </div>
   );
@@ -179,7 +201,7 @@ export function AdminApp() {
 
 export function AdminLogin() {
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
   useEffect(() => {
     document.querySelector("meta[name='robots']")?.remove();
@@ -191,12 +213,12 @@ export function AdminLogin() {
   const submit = async (event: FormEvent) => {
     event.preventDefault();
     setSaving(true);
-    setError(false);
+    setError("");
     try {
       await api("/api/admin/login", { method: "POST", body: JSON.stringify({ password }) });
       location.href = "/admin";
-    } catch {
-      setError(true);
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Login failed");
     } finally {
       setSaving(false);
     }
@@ -208,7 +230,7 @@ export function AdminLogin() {
         <School size={52} />
         <h1>11-р сургууль Admin</h1>
         <input type="password" value={password} onChange={event => setPassword(event.target.value)} placeholder="Password" autoFocus />
-        {error && <p>Wrong password</p>}
+        {error && <p>{error === "Unauthorized" ? "Wrong password" : error}</p>}
         <button disabled={saving}>{saving ? "Checking..." : "Login"}</button>
       </form>
     </main>

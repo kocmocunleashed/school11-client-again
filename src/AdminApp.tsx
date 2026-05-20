@@ -64,6 +64,7 @@ function adminPageFromPath(): AdminPage {
 async function api(path: string, init?: RequestInit) {
   const res = await fetch(path, {
     ...init,
+    credentials: "same-origin",
     headers: init?.body instanceof FormData ? init.headers : { "Content-Type": "application/json", ...(init?.headers || {}) },
   });
   if (!res.ok) {

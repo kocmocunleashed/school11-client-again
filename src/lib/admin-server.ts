@@ -2,7 +2,6 @@ import { createHash } from "node:crypto";
 import { adminClient } from "./supabase/admin";
 
 const COOKIE_NAME = "school11_admin";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const allowedBuckets = new Set(["news-images", "teacher-photos", "achievement-images", "documents", "site-assets"]);
 const tableMap = {
   news: "news",
@@ -24,10 +23,27 @@ function token() {
 }
 
 function getAdminPassword() {
-  if (!ADMIN_PASSWORD) {
+  const password = process.env.ADMIN_PASSWORD;
+  if (!password) {
     throw new Error("ADMIN_PASSWORD is required");
   }
-  return ADMIN_PASSWORD;
+  return password;
+}
+
+function adminCookie(value: string, maxAge: number) {
+  const parts = [
+    `${COOKIE_NAME}=${encodeURIComponent(value)}`,
+    "HttpOnly",
+    "SameSite=Lax",
+    "Path=/",
+    `Max-Age=${maxAge}`,
+  ];
+
+  if (process.env.NODE_ENV === "production") {
+    parts.push("Secure");
+  }
+
+  return parts.join("; ");
 }
 
 function parseCookies(req: Request) {
@@ -76,7 +92,7 @@ export async function adminLogin(req: Request) {
     {
       headers: {
         ...noIndexHeaders,
-        "Set-Cookie": `${COOKIE_NAME}=${token()}; HttpOnly; SameSite=Lax; Path=/; Max-Age=604800`,
+        "Set-Cookie": adminCookie(token(), 60 * 60 * 24 * 7),
       },
     },
   );
@@ -88,7 +104,7 @@ export function adminLogout() {
     {
       headers: {
         ...noIndexHeaders,
-        "Set-Cookie": `${COOKIE_NAME}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0`,
+        "Set-Cookie": adminCookie("", 0),
       },
     },
   );

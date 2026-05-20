@@ -22,8 +22,12 @@ function token() {
   return createHash("sha256").update(password).digest("hex");
 }
 
+function normalizePassword(value: unknown) {
+  return String(value ?? "").trim();
+}
+
 function getAdminPassword() {
-  const password = process.env.ADMIN_PASSWORD;
+  const password = normalizePassword(process.env.ADMIN_PASSWORD);
   if (!password) {
     throw new Error("ADMIN_PASSWORD is required");
   }
@@ -82,9 +86,31 @@ function json(data: unknown, init?: ResponseInit) {
 }
 
 export async function adminLogin(req: Request) {
-  const { password } = await req.json() as { password?: string };
-  if (password !== getAdminPassword()) {
-    return json({ ok: false, error: "Wrong password" }, { status: 401 });
+  console.log("ADMIN_PASSWORD set:", Boolean(process.env.ADMIN_PASSWORD));
+  console.log("NODE_ENV:", process.env.NODE_ENV);
+
+  let body: { password?: string };
+  try {
+    body = await req.json() as { password?: string };
+  } catch {
+    return json({ ok: false, error: "Invalid request body" }, { status: 400 });
+  }
+
+  const stored = normalizePassword(process.env.ADMIN_PASSWORD);
+  const given = normalizePassword(body.password);
+
+  if (!stored) {
+    console.error("Admin login failed: ADMIN_PASSWORD is not configured");
+    return json({ ok: false, error: "Server misconfigured" }, { status: 500 });
+  }
+
+  if (given !== stored) {
+    console.warn("Admin login rejected", {
+      passwordProvided: Boolean(given),
+      givenLength: given.length,
+      storedLength: stored.length,
+    });
+    return json({ ok: false, error: "Unauthorized" }, { status: 401 });
   }
 
   return json(

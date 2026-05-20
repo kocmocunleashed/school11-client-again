@@ -29,7 +29,8 @@ import {
   Youtube,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import type { MouseEvent as ReactMouseEvent } from "react";
+import type { MouseEvent as ReactMouseEvent, ReactNode } from "react";
+import { Component } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AdminApp, AdminLogin } from "@/AdminApp";
 import type { AchievementYear, CourseSection, NewsArticle, SchoolSettings, Teacher } from "@/types/database";
@@ -39,6 +40,7 @@ import "./index.css";
 
 type Page = "home" | "about" | "achievements" | "courses" | "apply";
 type ResultState = "idle" | "success" | "pending" | "not-found" | "invalid";
+type AdminErrorBoundaryState = { error: string | null };
 type UiNews = {
   id: string | number;
   category: string;
@@ -90,6 +92,26 @@ const pagePaths: Record<Page, string> = {
   courses: "/courses",
   apply: "/apply",
 };
+
+class AdminErrorBoundary extends Component<{ children: ReactNode }, AdminErrorBoundaryState> {
+  override state: AdminErrorBoundaryState = { error: null };
+
+  static getDerivedStateFromError(error: unknown): AdminErrorBoundaryState {
+    return { error: error instanceof Error ? error.message : String(error) };
+  }
+
+  override render() {
+    if (this.state.error) {
+      return (
+        <div style={{ color: "red", padding: "40px", fontFamily: "monospace", background: "#fff", minHeight: "100vh" }}>
+          Admin Error: {this.state.error}
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
 
 const pathPages: Record<string, Page> = {
   "/": "home",
@@ -974,8 +996,12 @@ function CursorFollower() {
 }
 
 export function App() {
-  if (window.location.pathname === "/admin/login") return <AdminLogin />;
-  if (window.location.pathname.startsWith("/admin")) return <AdminApp />;
+  if (window.location.pathname === "/admin/login") {
+    return <AdminErrorBoundary><AdminLogin /></AdminErrorBoundary>;
+  }
+  if (window.location.pathname.startsWith("/admin")) {
+    return <AdminErrorBoundary><AdminApp /></AdminErrorBoundary>;
+  }
 
   const { page, navigate } = usePage();
   const [siteData, setSiteData] = useState({

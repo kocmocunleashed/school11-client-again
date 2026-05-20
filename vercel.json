@@ -28,6 +28,17 @@
       "permanent": false
     },
     {
+      "source": "/admin/",
+      "missing": [
+        {
+          "type": "cookie",
+          "key": "school11_admin"
+        }
+      ],
+      "destination": "/admin/login",
+      "permanent": false
+    },
+    {
       "source": "/admin/news",
       "missing": [
         {
@@ -95,6 +106,14 @@
     }
   ],
   "rewrites": [
+    {
+      "source": "/admin",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin/",
+      "destination": "/index.html"
+    },
     {
       "source": "/admin/:path*",
       "destination": "/index.html"

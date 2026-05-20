@@ -1,8 +1,8 @@
-import index from "../index.html";
-import { adminClient } from "@/lib/supabase/admin";
+import { createHash } from "node:crypto";
+import { adminClient } from "./supabase/admin";
 
 const COOKIE_NAME = "school11_admin";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "school11-admin-2026";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const allowedBuckets = new Set(["news-images", "teacher-photos", "achievement-images", "documents", "site-assets"]);
 const tableMap = {
   news: "news",
@@ -19,7 +19,15 @@ type Resource = keyof typeof tableMap;
 const noIndexHeaders = { "X-Robots-Tag": "noindex, nofollow" };
 
 function token() {
-  return new Bun.CryptoHasher("sha256").update(ADMIN_PASSWORD).digest("hex");
+  const password = getAdminPassword();
+  return createHash("sha256").update(password).digest("hex");
+}
+
+function getAdminPassword() {
+  if (!ADMIN_PASSWORD) {
+    throw new Error("ADMIN_PASSWORD is required");
+  }
+  return ADMIN_PASSWORD;
 }
 
 function parseCookies(req: Request) {
@@ -36,16 +44,11 @@ function parseCookies(req: Request) {
 }
 
 export function isAdminRequest(req: Request) {
-  return parseCookies(req)[COOKIE_NAME] === token();
-}
-
-export function adminPage(req: Request) {
-  const url = new URL(req.url);
-  if (url.pathname !== "/admin/login" && !isAdminRequest(req)) {
-    return Response.redirect(`${url.origin}/admin/login`, 302);
+  try {
+    return parseCookies(req)[COOKIE_NAME] === token();
+  } catch {
+    return false;
   }
-
-  return index;
 }
 
 function unauthorized() {
@@ -64,7 +67,7 @@ function json(data: unknown, init?: ResponseInit) {
 
 export async function adminLogin(req: Request) {
   const { password } = await req.json() as { password?: string };
-  if (password !== ADMIN_PASSWORD) {
+  if (password !== getAdminPassword()) {
     return json({ ok: false, error: "Wrong password" }, { status: 401 });
   }
 

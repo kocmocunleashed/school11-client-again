@@ -1,5 +1,5 @@
-import { adminClient } from "@/lib/supabase/admin";
-import type { ApplicationResult } from "@/types/database";
+import { adminClient } from "../supabase/admin";
+import type { ApplicationResult } from "../../types/database";
 
 export async function checkApplicationCode(rawCode: string): Promise<ApplicationResult | null> {
   const code = rawCode.trim().toUpperCase();

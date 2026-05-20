@@ -1,5 +1,5 @@
-import { createClient } from "@/lib/supabase/server";
-import type { SchoolSettings } from "@/types/database";
+import { createClient } from "../supabase/server";
+import type { SchoolSettings } from "../../types/database";
 
 export const defaultSchoolSettings: SchoolSettings = {
   school_name_mn: "Нийслэлийн 11-р сургууль",

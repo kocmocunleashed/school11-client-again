@@ -1,5 +1,5 @@
-import { createClient } from "@/lib/supabase/server";
-import type { CalendarEvent } from "@/types/database";
+import { createClient } from "../supabase/server";
+import type { CalendarEvent } from "../../types/database";
 
 export async function getUpcomingEvents(limit = 6): Promise<CalendarEvent[]> {
   try {

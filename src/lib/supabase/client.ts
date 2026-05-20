@@ -1,5 +1,5 @@
 import { createBrowserClient } from "@supabase/ssr";
-import { assertSupabasePublicEnv, env } from "@/lib/env";
+import { assertSupabasePublicEnv, env } from "../env";
 
 export const createClient = () => {
   assertSupabasePublicEnv();

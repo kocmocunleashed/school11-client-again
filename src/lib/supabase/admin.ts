@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { assertSupabaseAdminEnv, env } from "@/lib/env";
+import { assertSupabaseAdminEnv, env } from "../env";
 
 assertSupabaseAdminEnv();
 

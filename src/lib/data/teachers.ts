@@ -1,5 +1,5 @@
-import { createClient } from "@/lib/supabase/server";
-import type { Teacher } from "@/types/database";
+import { createClient } from "../supabase/server";
+import type { Teacher } from "../../types/database";
 
 export async function getAllTeachers(): Promise<Teacher[]> {
   try {

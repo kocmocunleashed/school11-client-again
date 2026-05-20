@@ -1,4 +1,4 @@
-import { adminClient } from "@/lib/supabase/admin";
+import { adminClient } from "./admin";
 
 export const getPublicUrl = (bucket: string, path: string) => {
   const { data } = adminClient.storage.from(bucket).getPublicUrl(path);

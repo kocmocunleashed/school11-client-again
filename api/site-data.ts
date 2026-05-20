@@ -1,4 +1,6 @@
-export default async function handler(request: Request) {
+import { withWebResponse } from "./_utils";
+
+export default withWebResponse(async function handler(request: Request) {
   if (request.method !== "GET") {
     return Response.json({ error: "Method not allowed" }, { status: 405 });
   }
@@ -31,4 +33,4 @@ export default async function handler(request: Request) {
     console.error("Site data fetch failed:", error);
     return Response.json({ news: [], teachers: [], settings: null, achievements: [], courses: [] });
   }
-}
+});

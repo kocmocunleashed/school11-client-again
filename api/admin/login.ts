@@ -1,6 +1,7 @@
+import { withWebResponse } from "../_utils";
 import { adminLogin } from "../../src/lib/admin-server";
 
-export default async function handler(request: Request) {
+export default withWebResponse(async function handler(request: Request) {
   console.log("ADMIN_PASSWORD set:", Boolean(process.env.ADMIN_PASSWORD));
   console.log("NODE_ENV:", process.env.NODE_ENV);
 
@@ -9,4 +10,4 @@ export default async function handler(request: Request) {
   }
 
   return adminLogin(request);
-}
+});

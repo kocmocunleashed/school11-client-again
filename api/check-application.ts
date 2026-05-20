@@ -1,4 +1,6 @@
-export default async function handler(request: Request) {
+import { withWebResponse } from "./_utils";
+
+export default withWebResponse(async function handler(request: Request) {
   if (request.method !== "POST") {
     return Response.json({ error: "Method not allowed" }, { status: 405 });
   }
@@ -23,4 +25,4 @@ export default async function handler(request: Request) {
     console.error("Application check failed:", error);
     return Response.json({ found: false }, { status: 500 });
   }
-}
+});

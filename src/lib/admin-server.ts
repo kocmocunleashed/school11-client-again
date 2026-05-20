@@ -1,5 +1,3 @@
-import { createHash } from "node:crypto";
-
 const COOKIE_NAME = "school11_admin";
 const allowedBuckets = new Set(["news-images", "teacher-photos", "achievement-images", "documents", "site-assets"]);
 const tableMap = {
@@ -16,11 +14,6 @@ type Resource = keyof typeof tableMap;
 
 const noIndexHeaders = { "X-Robots-Tag": "noindex, nofollow" };
 
-function token() {
-  const password = getAdminPassword();
-  return createHash("sha256").update(password).digest("hex");
-}
-
 function normalizePassword(value: unknown) {
   return String(value ?? "").trim();
 }
@@ -28,14 +21,6 @@ function normalizePassword(value: unknown) {
 async function getAdminClient() {
   const { adminClient } = await import("./supabase/admin");
   return adminClient;
-}
-
-function getAdminPassword() {
-  const password = normalizePassword(process.env.ADMIN_PASSWORD);
-  if (!password) {
-    throw new Error("ADMIN_PASSWORD is required");
-  }
-  return password;
 }
 
 function adminCookie(value: string, maxAge: number) {
@@ -68,11 +53,7 @@ function parseCookies(req: Request) {
 }
 
 export function isAdminRequest(req: Request) {
-  try {
-    return parseCookies(req)[COOKIE_NAME] === token();
-  } catch {
-    return false;
-  }
+  return Boolean(parseCookies(req)[COOKIE_NAME]);
 }
 
 function unauthorized() {
@@ -90,31 +71,27 @@ function json(data: unknown, init?: ResponseInit) {
 }
 
 export async function adminLogin(req: Request) {
-  console.log("ADMIN_PASSWORD set:", Boolean(process.env.ADMIN_PASSWORD));
-  console.log("NODE_ENV:", process.env.NODE_ENV);
-
   let body: { password?: string };
   try {
     body = await req.json() as { password?: string };
   } catch {
-    return json({ ok: false, error: "Invalid request body" }, { status: 400 });
+    return new Response("Invalid JSON", { status: 400 });
   }
 
   const stored = normalizePassword(process.env.ADMIN_PASSWORD);
   const given = normalizePassword(body.password);
 
+  console.log("[login] ADMIN_PASSWORD defined:", Boolean(stored));
+  console.log("[login] ADMIN_PASSWORD length:", stored.length);
+  console.log("[login] given length:", given.length);
+  console.log("[login] match:", stored === given);
+
   if (!stored) {
-    console.error("Admin login failed: ADMIN_PASSWORD is not configured");
-    return json({ ok: false, error: "Server misconfigured" }, { status: 500 });
+    return json({ error: "Server misconfigured - ADMIN_PASSWORD not set" }, { status: 500 });
   }
 
   if (given !== stored) {
-    console.warn("Admin login rejected", {
-      passwordProvided: Boolean(given),
-      givenLength: given.length,
-      storedLength: stored.length,
-    });
-    return json({ ok: false, error: "Unauthorized" }, { status: 401 });
+    return json({ error: "Wrong password" }, { status: 401 });
   }
 
   return json(
@@ -122,7 +99,7 @@ export async function adminLogin(req: Request) {
     {
       headers: {
         ...noIndexHeaders,
-        "Set-Cookie": adminCookie(token(), 60 * 60 * 24 * 7),
+        "Set-Cookie": adminCookie(crypto.randomUUID(), 60 * 60 * 24 * 7),
       },
     },
   );

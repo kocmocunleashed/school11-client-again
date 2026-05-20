@@ -107,16 +107,32 @@
   ],
   "rewrites": [
     {
+      "source": "/api/admin/login",
+      "destination": "/api/admin/login.ts"
+    },
+    {
+      "source": "/api/admin/logout",
+      "destination": "/api/admin/logout.ts"
+    },
+    {
+      "source": "/api/admin/me",
+      "destination": "/api/admin/me.ts"
+    },
+    {
+      "source": "/api/admin/debug",
+      "destination": "/api/admin/debug.ts"
+    },
+    {
       "source": "/admin",
-      "destination": "/index.html"
+      "destination": "/admin.html"
     },
     {
       "source": "/admin/",
-      "destination": "/index.html"
+      "destination": "/admin.html"
     },
     {
       "source": "/admin/:path*",
-      "destination": "/index.html"
+      "destination": "/admin.html"
     },
     {
       "source": "/((?!api/.*).*)",

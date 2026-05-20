@@ -210,15 +210,37 @@ export function AdminLogin() {
     meta.content = "noindex,nofollow";
     document.head.appendChild(meta);
   }, []);
+
+  const handleLogin = async (password: string) => {
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: password.trim() }),
+      });
+
+      const data = await res.json();
+      console.log("[login form] status:", res.status);
+      console.log("[login form] response:", data);
+
+      if (res.ok) {
+        window.location.href = "/admin";
+      } else {
+        setError(data.error ?? "Wrong password");
+      }
+    } catch (err) {
+      console.error("[login form] fetch failed:", err);
+      setError("Connection error - check console");
+    }
+  };
+
   const submit = async (event: FormEvent) => {
     event.preventDefault();
     setSaving(true);
     setError("");
     try {
-      await api("/api/admin/login", { method: "POST", body: JSON.stringify({ password }) });
-      location.href = "/admin";
-    } catch (error) {
-      setError(error instanceof Error ? error.message : "Login failed");
+      await handleLogin(password);
     } finally {
       setSaving(false);
     }

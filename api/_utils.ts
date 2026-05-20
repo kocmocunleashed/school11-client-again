@@ -107,7 +107,7 @@ async function sendNodeResponse(response: Response, nodeResponse: NodeResponse) 
 export function withWebResponse(handler: WebHandler) {
   return async function vercelHandler(request: Request | NodeRequest, response?: NodeResponse) {
     try {
-      const webRequest = request instanceof Request ? request : await toWebRequest(request);
+      const webRequest = request instanceof Request ? request : await toWebRequest(request as NodeRequest);
       const webResponse = await handler(webRequest);
       if (!response) return webResponse;
       await sendNodeResponse(webResponse, response);

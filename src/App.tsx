@@ -28,7 +28,8 @@ import {
   X,
   Youtube,
 } from "lucide-react";
-import type { MouseEvent } from "react";
+import type { LucideIcon } from "lucide-react";
+import type { MouseEvent as ReactMouseEvent } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AdminApp, AdminLogin } from "@/AdminApp";
 import type { AchievementYear, CourseSection, NewsArticle, SchoolSettings, Teacher } from "@/types/database";
@@ -422,12 +423,12 @@ function Home({
           </div>
         </div>
         <div className="teaser-grid">
-          {[
+          {([
             [BookOpen, "Секц", "Сонгон гүнзгийрүүлсэн сургалт"],
             [Microscope, "Лаборатори", "Туршилт ба судалгааны арга"],
             [Trophy, "Олимпиад", "Бэлтгэл, сорил, зөвлөмж"],
             [Music, "Дугуйлан", "Урлаг, спорт, технологи"],
-          ].map(([Icon, title, desc]) => (
+          ] as Array<[LucideIcon, string, string]>).map(([Icon, title, desc]) => (
             <button className="teaser-card" key={String(title)} onClick={() => navigate("courses")}>
               <span><Icon size={28} /></span><strong>{String(title)}</strong><small>{String(desc)}</small><b>→</b>
             </button>
@@ -573,7 +574,7 @@ function Achievements({ achievements }: { achievements: UiAchievement[] }) {
     });
   }, [achievements.length]);
 
-  const startDrag = (event: MouseEvent<HTMLDivElement>) => {
+  const startDrag = (event: ReactMouseEvent<HTMLDivElement>) => {
     const node = scrollerRef.current;
     if (!node) return;
     dragRef.current = {
@@ -583,7 +584,7 @@ function Achievements({ achievements }: { achievements: UiAchievement[] }) {
     };
   };
 
-  const drag = (event: MouseEvent<HTMLDivElement>) => {
+  const drag = (event: ReactMouseEvent<HTMLDivElement>) => {
     const node = scrollerRef.current;
     if (!node || !dragRef.current.dragging) return;
     event.preventDefault();
@@ -652,12 +653,12 @@ function Achievements({ achievements }: { achievements: UiAchievement[] }) {
         </article>
       </section>
       <section className="achievement-cats">
-        {[
+        {([
           [Award, "Олимпиад", ["Улсын түвшний медаль", "Бүсийн аваргууд", "Судалгааны уралдаан"]],
           [GraduationCap, "Төгсөгчид", ["Их дээд сургуулийн элсэлт", "Мэргэжлийн манлайлал", "Олон улсын тэтгэлэг"]],
           [Users, "Хамт олон", ["Заах арга зүйн баг", "Эцэг эхийн оролцоо", "Сурагчийн зөвлөл"]],
           [Microscope, "Судалгаа", ["STEM төсөл", "Лабораторийн ажил", "Инновацийн клуб"]],
-        ].map(([Icon, title, list]) => (
+        ] as Array<[LucideIcon, string, string[]]>).map(([Icon, title, list]) => (
           <div className="cat-card" key={String(title)}>
             <Icon size={32} /><h3>{String(title)}</h3>
             {(list as string[]).map(item => <p key={item}>→ {item}</p>)}
@@ -782,12 +783,12 @@ function Apply() {
       setResultMessage(null);
     }
   };
-  const state = useMemo(() => ({
+  const state = useMemo(() => (result === "idle" ? null : {
     success: [CheckCircle2, "Тэнцсэн", resultMessage || "Таны бүртгэл баталгаажсан байна."],
     pending: [Clock3, "Хүлээгдэж байна", resultMessage || "Материал шалгах шатанд байна."],
     "not-found": [CircleX, "Олдсонгүй", resultMessage || "Кодоо дахин шалгана уу."],
     invalid: [CircleX, "Код буруу", "Код хоосон биш, яг 8 тэмдэгттэй байх ёстой."],
-  }[result] || null), [result, resultMessage]);
+  }[result]), [result, resultMessage]);
 
   return (
     <main className="page page-apply reveal">
@@ -808,7 +809,7 @@ function Apply() {
             <input value={code} onChange={event => setCode(event.target.value.toUpperCase())} placeholder="SCH11001" maxLength={8} />
           </div>
           <button className="btn gold full" onClick={check}>Шалгах</button>
-          {state && <Result state={result} data={state as [typeof CheckCircle2, string, string]} />}
+          {state && <Result state={result} data={state as [LucideIcon, string, string]} />}
         </article>
       </section>
     </main>
@@ -827,7 +828,7 @@ function Timeline() {
   return <div className="vertical-timeline">{["1947 · Сургууль байгуулагдав", "1989 · Гүнзгийрүүлсэн сургалт өргөжив", "2016 · Шинэ хичээлийн байр нээгдэв", "2027 · 80 жилийн ойн бэлтгэл"].map(item => <p key={item}><span />{item}</p>)}</div>;
 }
 
-function Result({ state, data }: { state: ResultState; data: [typeof CheckCircle2, string, string] }) {
+function Result({ state, data }: { state: ResultState; data: [LucideIcon, string, string] }) {
   const [Icon, title, text] = data;
   return <div className={`result ${state}`}><Icon size={22} /><span><strong>{title}</strong><small>{text}</small></span></div>;
 }
@@ -845,7 +846,7 @@ function mapNewsArticles(items: NewsArticle[]): UiNews[] {
     headline: item.title_mn,
     excerpt: item.excerpt_mn || "",
     body: item.body_mn || item.excerpt_mn || "",
-    image: item.cover_image_url ? `url(${item.cover_image_url})` : fallbackNews[index % fallbackNews.length]?.image || fallbackNews[0].image,
+    image: item.cover_image_url ? `url(${item.cover_image_url})` : (fallbackNews[index % fallbackNews.length] || fallbackNews[0]!).image,
     author: item.author_name,
     authorRole: item.author_role || "Захиргаа",
     readTime: `${item.read_time_min || 3} мин унших`,
@@ -944,11 +945,11 @@ function CursorFollower() {
     let y = mouseY;
     let frame = 0;
 
-    const move = (event: MouseEvent) => {
+    const move = (event: globalThis.MouseEvent) => {
       mouseX = event.clientX;
       mouseY = event.clientY;
     };
-    const over = (event: MouseEvent) => {
+    const over = (event: globalThis.MouseEvent) => {
       const target = event.target as HTMLElement;
       cursor.classList.toggle("active", Boolean(target.closest("button, a, .news-card, .teacher-card, input")));
     };

@@ -46,7 +46,12 @@ export async function getNewsById(id: string): Promise<NewsArticle | null> {
 
     if (error) throw error;
 
-    await supabase.rpc("increment_news_view_count", { news_id: id }).catch(() => undefined);
+    try {
+      await supabase.rpc("increment_news_view_count", { news_id: id });
+    } catch (err) {
+      console.error("View count error:", err);
+    }
+
     return data as NewsArticle;
   } catch (error) {
     console.error("Error fetching news article:", error);

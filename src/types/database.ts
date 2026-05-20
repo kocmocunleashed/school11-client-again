@@ -35,6 +35,7 @@ export interface NewsArticle {
   author_role: string | null;
   author_photo: string | null;
   read_time_min: number;
+  is_published: boolean;
   is_featured: boolean;
   tags: string[];
   published_at: string;

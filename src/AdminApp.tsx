@@ -74,7 +74,7 @@ async function api(path: string, init?: RequestInit) {
 }
 
 function parseCsv(text: string) {
-  const [head, ...lines] = text.trim().split(/\r?\n/);
+  const [head = "", ...lines] = text.trim().split(/\r?\n/);
   const headers = head.split(",").map(h => h.trim());
   return lines.filter(Boolean).map(line => {
     const cols = line.split(",").map(v => v.trim());
@@ -84,7 +84,7 @@ function parseCsv(text: string) {
 
 function toCsv(rows: Record<string, unknown>[]) {
   if (!rows.length) return "";
-  const headers = Object.keys(rows[0]);
+  const headers = Object.keys(rows[0] || {});
   return [headers.join(","), ...rows.map(row => headers.map(header => JSON.stringify(row[header] ?? "")).join(","))].join("\n");
 }
 
@@ -321,7 +321,7 @@ function TeacherForm({ record, onSave, onCancel, onDelete, notify }: { record: R
     <label><input type="checkbox" checked={Boolean(form.is_featured)} onChange={e => set("is_featured", e.target.checked)} /> Featured</label>
     <label><input type="checkbox" checked={Boolean(form.is_active)} onChange={e => set("is_active", e.target.checked)} /> Active</label>
     <Field label="Display order"><input type="number" value={Number(form.display_order || 0)} onChange={e => set("display_order", Number(e.target.value))} /></Field>
-    <div className="admin-actions"><button type="button" onClick={onCancel}>Cancel</button>{form.id && <button type="button" onClick={onDelete}><Trash2 size={16} /> Delete</button>}<button className="admin-primary">Save</button></div>
+    <div className="admin-actions"><button type="button" onClick={onCancel}>Cancel</button>{Boolean(form.id) && <button type="button" onClick={onDelete}><Trash2 size={16} /> Delete</button>}<button className="admin-primary">Save</button></div>
   </form>;
 }
 

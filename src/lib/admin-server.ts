@@ -122,9 +122,7 @@ export async function adminBootstrap(req: Request) {
     adminClient.from("school_settings").select("*").limit(1).single(),
   ]);
 
-  const errors = [news, categories, teachers, years, achievementCategories, achievements, sections, courseItems, applications, settings]
-    .map(result => result.error)
-    .filter(Boolean);
+  const errors = [news.error, teachers.error, years.error, achievements.error, sections.error, courseItems.error, applications.error, settings.error].filter(Boolean);
   if (errors[0]) throw errors[0];
 
   return json({
@@ -188,10 +186,11 @@ export async function adminUpload(req: Request, bucket: string) {
   const prefix = String(form.get("prefix") || "uploads");
   if (!(file instanceof File)) return json({ error: "Missing file" }, { status: 400 });
 
-  const ext = file.name.split(".").pop() || "bin";
+  const uploadFile = file as File;
+  const ext = uploadFile.name.split(".").pop() || "bin";
   const path = `${prefix}/${crypto.randomUUID()}.${ext}`;
-  const { data, error } = await adminClient.storage.from(bucket).upload(path, file, {
-    contentType: file.type || undefined,
+  const { data, error } = await adminClient.storage.from(bucket).upload(path, uploadFile, {
+    contentType: uploadFile.type || undefined,
     upsert: false,
   });
   if (error) return json({ error: error.message }, { status: 400 });

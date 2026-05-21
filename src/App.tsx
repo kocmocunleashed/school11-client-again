@@ -17,7 +17,6 @@ import {
   Microscope,
   Music,
   Phone,
-  School,
   Search,
   ShieldCheck,
   Sparkles,
@@ -34,6 +33,7 @@ import { Component } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AdminApp, AdminLogin } from "@/AdminApp";
 import type { AchievementYear, CourseSection, NewsArticle, SchoolSettings, Teacher } from "@/types/database";
+import schoolLogo from "../logo of the school.png";
 import schoolBg from "../public/school-bg.jpg";
 import applicationGuide from "../public/application-guide.pdf";
 import "./index.css";
@@ -336,7 +336,7 @@ function Header({ page, navigate }: { page: Page; navigate: (page: Page) => void
   return (
     <header className={`site-header ${scrolled ? "is-scrolled" : ""}`}>
       <button className="brand" onClick={() => go("home")} aria-label="Нүүр хуудас">
-        <span className="brand-mark"><School size={28} /></span>
+        <span className="brand-mark"><img src={schoolLogo} alt="" /></span>
         <span><strong>11-р сургууль</strong><small>Нийслэлийн ерөнхий боловсрол</small></span>
       </button>
       <nav className="desktop-nav" aria-label="Үндсэн цэс">
@@ -394,7 +394,7 @@ function Home({
           </div>
         </div>
         <div className="hero-orbit" aria-hidden="true">
-          <div className="hero-logo"><School size={108} /></div>
+          <div className="hero-logo"><img src={schoolLogo} alt="" /></div>
         </div>
         <button className="scroll-cue" onClick={scrollToNews} aria-label="Мэдээ хэсэг рүү очих">
           <span>ДООШ</span>

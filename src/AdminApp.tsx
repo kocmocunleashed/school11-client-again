@@ -7,7 +7,6 @@ import {
   LogOut,
   Newspaper,
   Save,
-  School,
   Settings,
   Trash2,
   Upload,
@@ -16,6 +15,7 @@ import {
 import type { FormEvent, ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 import type { AchievementCategory, AchievementYear, ApplicationResult, CourseItem, CourseSection, NewsArticle, NewsCategory, SchoolSettings, Teacher } from "@/types/database";
+import schoolLogo from "../logo of the school.png";
 
 type AdminPage = "dashboard" | "news" | "teachers" | "achievements" | "courses" | "applications" | "settings";
 type Toast = { kind: "success" | "error"; text: string } | null;
@@ -173,7 +173,7 @@ export function AdminApp() {
   return (
     <div className="admin-shell">
       <aside className="admin-sidebar">
-        <div className="admin-brand"><School /><span>11-р сургууль<br /><small>Admin CMS</small></span></div>
+        <div className="admin-brand"><img src={schoolLogo} alt="" /><span>11-р сургууль<br /><small>Admin CMS</small></span></div>
         <nav>
           {nav.map(([id, Icon, label]) => (
             <button key={id} className={page === id ? "active" : ""} onClick={() => go(id)}>
@@ -249,7 +249,7 @@ export function AdminLogin() {
   return (
     <main className="admin-login">
       <form className={`login-card ${error ? "shake" : ""}`} onSubmit={submit}>
-        <School size={52} />
+        <img className="login-logo" src={schoolLogo} alt="" />
         <h1>11-р сургууль Admin</h1>
         <input type="password" value={password} onChange={event => setPassword(event.target.value)} placeholder="Password" autoFocus />
         {error && <p>{error === "Unauthorized" ? "Wrong password" : error}</p>}

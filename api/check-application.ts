@@ -6,6 +6,11 @@ export default withWebResponse(async function handler(request: Request) {
   }
 
   try {
+    const { checkApplicationLookupLimit } = await import("../src/lib/admin-server");
+    if (checkApplicationLookupLimit(request)) {
+      return Response.json({ error: "Too many attempts" }, { status: 429 });
+    }
+
     const { code } = await request.json() as { code?: string };
     const { checkApplicationCode } = await import("../src/lib/data/applications");
     const result = await checkApplicationCode(code || "");

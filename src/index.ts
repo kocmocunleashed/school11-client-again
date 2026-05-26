@@ -54,6 +54,11 @@ const server = serve({
     "/api/check-application": {
       async POST(req) {
         try {
+          const { checkApplicationLookupLimit } = await import("./lib/admin-server");
+          if (checkApplicationLookupLimit(req)) {
+            return Response.json({ error: "Too many attempts" }, { status: 429 });
+          }
+
           const { code } = await req.json() as { code?: string };
           const { checkApplicationCode } = await import("./lib/data/applications");
           const result = await checkApplicationCode(code || "");

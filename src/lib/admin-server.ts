@@ -4,9 +4,9 @@ const encoder = new TextEncoder();
 
 const allowedBuckets = new Set(["news-images", "teacher-photos", "achievement-images", "documents", "site-assets"]);
 const bucketRules = {
-  "news-images": { prefixes: new Set(["news"]), mimeTypes: new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]), extensions: new Set(["jpg", "jpeg", "png", "webp", "gif"]), maxSize: 5 * 1024 * 1024 },
-  "teacher-photos": { prefixes: new Set(["teachers"]), mimeTypes: new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]), extensions: new Set(["jpg", "jpeg", "png", "webp", "gif"]), maxSize: 5 * 1024 * 1024 },
-  "achievement-images": { prefixes: new Set(["years", "achievements"]), mimeTypes: new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]), extensions: new Set(["jpg", "jpeg", "png", "webp", "gif"]), maxSize: 5 * 1024 * 1024 },
+  "news-images": { prefixes: new Set(["news"]), mimeTypes: new Set(["image/jpeg", "image/png", "image/webp"]), extensions: new Set(["jpg", "jpeg", "png", "webp"]), maxSize: 5 * 1024 * 1024 },
+  "teacher-photos": { prefixes: new Set(["teachers"]), mimeTypes: new Set(["image/jpeg", "image/png", "image/webp"]), extensions: new Set(["jpg", "jpeg", "png", "webp"]), maxSize: 5 * 1024 * 1024 },
+  "achievement-images": { prefixes: new Set(["years", "achievements"]), mimeTypes: new Set(["image/jpeg", "image/png", "image/webp"]), extensions: new Set(["jpg", "jpeg", "png", "webp"]), maxSize: 5 * 1024 * 1024 },
   "documents": { prefixes: new Set(["documents"]), mimeTypes: new Set(["application/pdf"]), extensions: new Set(["pdf"]), maxSize: 10 * 1024 * 1024 },
   "site-assets": { prefixes: new Set(["hero"]), mimeTypes: new Set(["image/jpeg", "image/png", "image/webp"]), extensions: new Set(["jpg", "jpeg", "png", "webp"]), maxSize: 5 * 1024 * 1024 },
 } as const;

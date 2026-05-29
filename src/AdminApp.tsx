@@ -338,7 +338,7 @@ async function compressImageToWebp(file: File) {
   return new File([blob], renameAsWebp(file.name), { type: "image/webp", lastModified: Date.now() });
 }
 
-function UploadField({ bucket, prefix, value, circular, onChange, notify }: { bucket: string; prefix: string; value?: string | null; circular?: boolean; onChange: (url: string) => void; notify: (toast: Toast) => void }) {
+function UploadField({ bucket, prefix, value, circular, successMessage = "Uploaded", onChange, notify }: { bucket: string; prefix: string; value?: string | null; circular?: boolean; successMessage?: string | null; onChange: (url: string) => void | Promise<void>; notify: (toast: Toast) => void }) {
   const [preview, setPreview] = useState(value || "");
   const [uploading, setUploading] = useState(false);
   const isDocumentBucket = bucket === "documents";
@@ -361,9 +361,9 @@ function UploadField({ bucket, prefix, value, circular, onChange, notify }: { bu
           form.append("file", uploadFile);
           form.append("prefix", prefix);
           const result = await api(`/api/admin/upload/${bucket}`, { method: "POST", body: form });
-          onChange(result.publicUrl);
+          await onChange(result.publicUrl);
           setPreview(result.publicUrl);
-          notify({ kind: "success", text: "Uploaded" });
+          if (successMessage) notify({ kind: "success", text: successMessage });
         } catch (error) {
           notify({ kind: "error", text: error instanceof Error ? error.message : "Upload failed" });
         } finally {
@@ -418,14 +418,23 @@ function TeachersManager({ data, save, remove, notify }: { data: AdminData; save
 }
 
 function TeacherForm({ record, onSave, onCancel, onDelete, notify }: { record: Record<string, unknown>; onSave: (record: Record<string, unknown>) => Promise<void>; onCancel: () => void; onDelete: () => void; notify: (toast: Toast) => void }) {
-  const [form, setForm] = useState(record);
+  const [form, setForm] = useState<Record<string, unknown>>(record);
   const set = (key: string, value: unknown) => setForm(prev => ({ ...prev, [key]: value }));
+  const savePhoto = async (url: string) => {
+    const next: Record<string, unknown> = { ...form, photo_url: url };
+    if (next.id) {
+      await api("/api/admin/save/teachers", { method: "POST", body: JSON.stringify(next) });
+      notify({ kind: "success", text: "Photo saved" });
+    }
+    setForm(next);
+  };
+
   return <form className="admin-form" onSubmit={async e => { e.preventDefault(); await onSave(form); }}>
     <Field label="Full name"><input value={String(form.name_mn || "")} onChange={e => set("name_mn", e.target.value)} required /></Field>
     <Field label="Subject"><input value={String(form.subject_mn || "")} onChange={e => set("subject_mn", e.target.value)} required /></Field>
     <Field label="Years of experience"><input type="number" value={Number(form.years_exp || 0)} onChange={e => set("years_exp", Number(e.target.value))} /></Field>
     <Field label="Bio"><textarea value={String(form.bio_mn || "")} onChange={e => set("bio_mn", e.target.value)} /></Field>
-    <Field label="Photo"><UploadField bucket="teacher-photos" prefix="teachers" circular value={String(form.photo_url || "")} onChange={url => set("photo_url", url)} notify={notify} /></Field>
+    <Field label="Photo"><UploadField bucket="teacher-photos" prefix="teachers" circular value={String(form.photo_url || "")} successMessage={form.id ? null : "Uploaded. Press Save to keep it."} onChange={savePhoto} notify={notify} /></Field>
     <label><input type="checkbox" checked={Boolean(form.is_featured)} onChange={e => set("is_featured", e.target.checked)} /> Featured</label>
     <label><input type="checkbox" checked={Boolean(form.is_active)} onChange={e => set("is_active", e.target.checked)} /> Active</label>
     <Field label="Display order"><input type="number" value={Number(form.display_order || 0)} onChange={e => set("display_order", Number(e.target.value))} /></Field>

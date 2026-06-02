@@ -214,6 +214,7 @@ h1, h2, h3 { font-family: "Space Grotesk", "DM Sans", sans-serif; letter-spacing
   font-style: normal;
   text-shadow: 0 0 32px rgba(245,158,11,0.28);
 }
+.hero-mobile-logo { display: none; }
 .hero p {
   color: var(--muted);
   font-size: 1.3rem;
@@ -978,9 +979,20 @@ h1, h2, h3 { font-family: "Space Grotesk", "DM Sans", sans-serif; letter-spacing
   .section { padding: 72px 18px; }
   .editorial-hero { grid-template-columns: 1fr; padding: 110px 20px 86px; }
   .hero h1 { font-size: clamp(4rem, 18vw, 5.6rem); }
-  .hero-orbit { min-height: 170px; justify-content: flex-start; }
-  .hero-logo { height: 130px; margin: 20px 0 -54px 16px; width: 130px; }
-  .hero-logo img { height: 124px; width: 124px; }
+  .hero-title-first { align-items: center; display: flex; gap: 18px; }
+  .hero-mobile-logo {
+    align-items: center;
+    background: linear-gradient(135deg, rgba(245,158,11,0.95), rgba(252,211,77,0.85));
+    border-radius: 50%;
+    box-shadow: 0 0 0 8px rgba(245,158,11,0.14), 0 0 30px rgba(245,158,11,0.38);
+    display: inline-flex;
+    flex: 0 0 auto;
+    height: 74px;
+    justify-content: center;
+    width: 74px;
+  }
+  .hero-mobile-logo img { height: 70px; object-fit: contain; width: 70px; }
+  .hero-orbit { display: none; }
   .hero-actions { display: grid; }
   .hero-microstats span { padding: 0 14px; }
   .stats-bar, .editorial-news-grid, .teaser-grid, .mission-grid, .value-grid, .contact-grid, .course-nav, .achievement-cats, .apply-grid, .footer-grid {

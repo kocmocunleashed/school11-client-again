@@ -381,7 +381,13 @@ function Home({
       <section className="hero editorial-hero" style={{ backgroundImage: `linear-gradient(to right, rgba(3,7,30,0.92) 0%, rgba(3,7,30,0.7) 50%, rgba(3,7,30,0.3) 100%), url(${schoolBg})` }}>
         <div className="hero-inner reveal">
           <span className="eyebrow">НИЙСЛЭЛИЙН · EST. 1940</span>
-          <h1><span>11-р</span> <em>сургууль</em></h1>
+          <h1>
+            <span className="hero-title-first">
+              11-р
+              <span className="hero-mobile-logo" aria-hidden="true"><img src={schoolLogo} alt="" /></span>
+            </span>
+            <em>сургууль</em>
+          </h1>
           <p>Таны амжилтын аялал эндээс эхэлнэ</p>
           <div className="hero-actions">
             <button className="btn gold" onClick={() => navigate("apply")}>Элсэх</button>

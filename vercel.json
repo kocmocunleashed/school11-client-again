@@ -1,4 +1,9 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "bunVersion": "1.x",
+  "installCommand": "bun install",
+  "buildCommand": "bun run build",
+  "outputDirectory": "dist",
   "headers": [
     {
       "source": "/:path*",
@@ -46,6 +51,101 @@
       ],
       "destination": "/admin/login",
       "permanent": false
+    },
+    {
+      "source": "/admin/",
+      "missing": [
+        {
+          "type": "cookie",
+          "key": "school11_admin"
+        }
+      ],
+      "destination": "/admin/login",
+      "permanent": false
+    },
+    {
+      "source": "/admin/news",
+      "missing": [
+        {
+          "type": "cookie",
+          "key": "school11_admin"
+        }
+      ],
+      "destination": "/admin/login",
+      "permanent": false
+    },
+    {
+      "source": "/admin/teachers",
+      "missing": [
+        {
+          "type": "cookie",
+          "key": "school11_admin"
+        }
+      ],
+      "destination": "/admin/login",
+      "permanent": false
+    },
+    {
+      "source": "/admin/achievements",
+      "missing": [
+        {
+          "type": "cookie",
+          "key": "school11_admin"
+        }
+      ],
+      "destination": "/admin/login",
+      "permanent": false
+    },
+    {
+      "source": "/admin/courses",
+      "missing": [
+        {
+          "type": "cookie",
+          "key": "school11_admin"
+        }
+      ],
+      "destination": "/admin/login",
+      "permanent": false
+    },
+    {
+      "source": "/admin/applications",
+      "missing": [
+        {
+          "type": "cookie",
+          "key": "school11_admin"
+        }
+      ],
+      "destination": "/admin/login",
+      "permanent": false
+    },
+    {
+      "source": "/admin/settings",
+      "missing": [
+        {
+          "type": "cookie",
+          "key": "school11_admin"
+        }
+      ],
+      "destination": "/admin/login",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/admin/",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/admin/:path*",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/((?!api/.*).*)",
+      "destination": "/index.html"
     }
   ]
 }

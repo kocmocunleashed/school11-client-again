@@ -1,5 +1,6 @@
-import { clearRateLimit, consumeRateLimit, getClientIp, loginRateLimit, type RateLimitBucket } from "./api-handlers/rate-limit";
+import { clearSharedRateLimit, consumeSharedRateLimit, getClientIp, loginRateLimit, makeRateLimitKey, type RateLimitBucket } from "./api-handlers/rate-limit";
 import { noStoreHeaders } from "./api-handlers/http";
+import { sanitizeAdminRecord, sanitizeBulkApplicationRows, validateToggleNewsPayload, type Resource } from "./admin-validation";
 
 const COOKIE_NAME = "school11_admin";
 const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 7;
@@ -13,7 +14,7 @@ const bucketRules = {
   "documents": { prefixes: new Set(["documents"]), mimeTypes: new Set(["application/pdf"]), extensions: new Set(["pdf"]), maxSize: 10 * 1024 * 1024 },
   "site-assets": { prefixes: new Set(["hero"]), mimeTypes: new Set(["image/jpeg", "image/png", "image/webp"]), extensions: new Set(["jpg", "jpeg", "png", "webp"]), maxSize: 5 * 1024 * 1024 },
 } as const;
-const tableMap = {
+const tableMap: Record<Resource, string> = {
   news: "news",
   teachers: "teachers",
   years: "achievement_years",
@@ -23,28 +24,10 @@ const tableMap = {
   settings: "school_settings",
 } as const;
 
-type Resource = keyof typeof tableMap;
-type SessionPayload = { iat: number; exp: number; nonce: string };
+type SessionPayload = { iat: number; exp: number; nonce: string; version: string };
 
 const noIndexHeaders = { "X-Robots-Tag": "noindex, nofollow" };
 const loginRateLimits = new Map<string, RateLimitBucket>();
-const writableFields: Record<Resource, Set<string>> = {
-  news: new Set(["title_mn", "title_en", "excerpt_mn", "excerpt_en", "body_mn", "body_en", "cover_image_url", "category_id", "author_name", "author_role", "author_photo", "read_time_min", "is_published", "is_featured", "tags", "published_at"]),
-  teachers: new Set(["name_mn", "name_en", "subject_mn", "subject_en", "years_exp", "bio_mn", "bio_en", "photo_url", "is_featured", "display_order", "is_active"]),
-  years: new Set(["year", "highlight_mn", "highlight_en", "description_mn", "description_en", "image_url", "is_milestone"]),
-  achievements: new Set(["year_id", "category_id", "title_mn", "title_en", "description_mn", "description_en", "image_url", "is_published", "display_order"]),
-  courseItems: new Set(["section_id", "title_mn", "title_en", "short_desc_mn", "short_desc_en", "full_desc_mn", "full_desc_en", "teacher_name", "schedule_mn", "location_mn", "max_students", "current_students", "tags", "is_active", "display_order"]),
-  applications: new Set(["code", "student_name", "status", "message_mn", "academic_year", "grade_applying", "notes"]),
-  settings: new Set(["school_name_mn", "school_name_en", "established", "student_count", "teacher_count", "club_count", "address_mn", "city", "phone", "email", "facebook_url", "instagram_url", "youtube_url", "twitter_url", "hero_image_url", "application_guide_url"]),
-};
-const applicationStatuses = new Set(["accepted", "pending", "waitlisted", "rejected", "incomplete"]);
-const imageFields: Partial<Record<Resource, string[]>> = {
-  news: ["cover_image_url", "author_photo"],
-  teachers: ["photo_url"],
-  years: ["image_url"],
-  achievements: ["image_url"],
-  settings: ["hero_image_url"],
-};
 
 function normalizePassword(value: unknown) {
   return String(value ?? "").trim();
@@ -107,6 +90,10 @@ function getSessionSecret() {
   return secret;
 }
 
+function getAdminSessionVersion() {
+  return normalizePassword(process.env.ADMIN_SESSION_VERSION) || "1";
+}
+
 async function signPayload(payload: string) {
   const key = await crypto.subtle.importKey(
     "raw",
@@ -119,18 +106,19 @@ async function signPayload(payload: string) {
   return base64UrlEncode(new Uint8Array(signature));
 }
 
-async function createSessionCookieValue() {
+export async function createSessionCookieValue() {
   const now = Math.floor(Date.now() / 1000);
   const session: SessionPayload = {
     iat: now,
     exp: now + SESSION_MAX_AGE_SECONDS,
     nonce: crypto.randomUUID(),
+    version: getAdminSessionVersion(),
   };
   const payload = base64UrlEncode(JSON.stringify(session));
   return `${payload}.${await signPayload(payload)}`;
 }
 
-async function verifySessionCookie(value: string | undefined) {
+export async function verifySessionCookie(value: string | undefined) {
   if (!value) return false;
   const [payload, signature, extra] = value.split(".");
   if (!payload || !signature || extra) return false;
@@ -145,7 +133,7 @@ async function verifySessionCookie(value: string | undefined) {
   }
 
   const now = Math.floor(Date.now() / 1000);
-  return Number.isFinite(session.exp) && session.exp > now;
+  return Number.isFinite(session.exp) && session.exp > now && session.version === getAdminSessionVersion();
 }
 
 function parseCookies(req: Request) {
@@ -189,7 +177,7 @@ function json(data: unknown, init?: ResponseInit) {
   });
 }
 
-function sameOrigin(req: Request) {
+export function sameOrigin(req: Request) {
   const requestUrl = new URL(req.url);
   const origin = req.headers.get("origin");
   if (origin) return origin === requestUrl.origin;
@@ -204,11 +192,35 @@ function sameOrigin(req: Request) {
   }
 }
 
+async function hashIp(req: Request) {
+  const ip = getClientIp(req);
+  const digest = new Uint8Array(await crypto.subtle.digest("SHA-256", encoder.encode(`school11-audit:${ip}`)));
+  return Array.from(digest).map(byte => byte.toString(16).padStart(2, "0")).join("").slice(0, 32);
+}
+
+async function writeAuditLog(req: Request, action: string, resource: string, resourceId?: string | null, metadata?: Record<string, unknown>) {
+  try {
+    const adminClient = await getAdminClient();
+    const userAgent = req.headers.get("user-agent");
+    const { error } = await adminClient.from("admin_audit_logs").insert({
+      action,
+      resource,
+      resource_id: resourceId || null,
+      request_ip_hash: await hashIp(req),
+      user_agent: userAgent ? userAgent.slice(0, 300) : null,
+      metadata: metadata || null,
+    });
+    if (error) throw error;
+  } catch (error) {
+    console.error("Admin audit log write failed:", error);
+  }
+}
+
 export async function adminLogin(req: Request) {
   if (!sameOrigin(req)) return forbidden();
 
-  const rateLimitKey = getClientIp(req);
-  if (consumeRateLimit(loginRateLimits, rateLimitKey, loginRateLimit.maxAttempts, loginRateLimit.windowMs)) {
+  const rateLimitKey = await makeRateLimitKey("admin_login", getClientIp(req));
+  if (await consumeSharedRateLimit(loginRateLimits, rateLimitKey, loginRateLimit)) {
     return json({ error: "Too many attempts" }, { status: 429 });
   }
 
@@ -227,10 +239,12 @@ export async function adminLogin(req: Request) {
   }
 
   if (!(await timingSafeEqual(given, stored))) {
+    await writeAuditLog(req, "auth_failed", "admin_login", null, { reason: "bad_password" });
     return json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  clearRateLimit(loginRateLimits, rateLimitKey);
+  await clearSharedRateLimit(loginRateLimits, rateLimitKey);
+  await writeAuditLog(req, "auth_success", "admin_login");
 
   return json(
     { ok: true },
@@ -310,12 +324,17 @@ export async function adminSave(req: Request, resource: string) {
   if (!(resource in tableMap)) return json({ error: "Unknown resource" }, { status: 404 });
   const adminClient = await getAdminClient();
 
-  const payload = await req.json() as Record<string, unknown>;
+  let payload: Record<string, unknown>;
+  try {
+    payload = await req.json() as Record<string, unknown>;
+  } catch {
+    return json({ error: "Invalid JSON" }, { status: 400 });
+  }
   const table = tableMap[resource as Resource];
   const id = payload.id;
   let record: Record<string, unknown>;
   try {
-    record = sanitizeRecord(resource as Resource, payload);
+    record = sanitizeAdminRecord(resource as Resource, payload);
   } catch (error) {
     return json({ error: error instanceof Error ? error.message : "Invalid payload" }, { status: 400 });
   }
@@ -325,6 +344,7 @@ export async function adminSave(req: Request, resource: string) {
     : adminClient.from(table).insert(record).select("*").single();
   const { data, error } = await query;
   if (error) return json({ error: error.message }, { status: 400 });
+  await writeAuditLog(req, id ? "save:update" : "save:create", resource, String((data as { id?: unknown } | null)?.id || id || ""), { fields: Object.keys(record) });
   return json({ data });
 }
 
@@ -337,6 +357,7 @@ export async function adminDelete(req: Request, resource: string, id: string) {
   const table = tableMap[resource as Resource];
   const { error } = await adminClient.from(table).delete().eq("id", id);
   if (error) return json({ error: error.message }, { status: 400 });
+  await writeAuditLog(req, "delete", resource, id);
   return json({ ok: true });
 }
 
@@ -344,9 +365,16 @@ export async function toggleNews(req: Request, id: string) {
   if (!sameOrigin(req)) return forbidden();
   if (!(await isAdminRequest(req))) return unauthorized();
   const adminClient = await getAdminClient();
-  const { is_published } = await req.json() as { is_published: boolean };
+  let body: { is_published: boolean };
+  try {
+    body = validateToggleNewsPayload(await req.json());
+  } catch (error) {
+    return json({ error: error instanceof Error ? error.message : "Invalid payload" }, { status: 400 });
+  }
+  const { is_published } = body;
   const { data, error } = await adminClient.from("news").update({ is_published }).eq("id", id).select("*").single();
   if (error) return json({ error: error.message }, { status: 400 });
+  await writeAuditLog(req, "toggle_news", "news", id, { is_published });
   return json({ data });
 }
 
@@ -379,6 +407,7 @@ export async function adminUpload(req: Request, bucket: string) {
   if (error) return json({ error: error.message }, { status: 400 });
 
   const { data: publicData } = adminClient.storage.from(bucket).getPublicUrl(data.path);
+  await writeAuditLog(req, "upload", "storage", data.path, { bucket, content_type: uploadFile.type, size: uploadFile.size });
   return json({ path: data.path, publicUrl: publicData.publicUrl });
 }
 
@@ -386,60 +415,19 @@ export async function bulkApplications(req: Request) {
   if (!sameOrigin(req)) return forbidden();
   if (!(await isAdminRequest(req))) return unauthorized();
   const adminClient = await getAdminClient();
-  const { rows } = await req.json() as { rows?: Record<string, unknown>[] };
-  if (!rows?.length) return json({ error: "No rows" }, { status: 400 });
-
-  const cleaned = rows.map(row => ({
-    code: String(row.code || "").trim().toUpperCase(),
-    student_name: row.student_name ? String(row.student_name) : null,
-    status: String(row.status || "pending"),
-    message_mn: row.message_mn ? String(row.message_mn) : null,
-    academic_year: String(row.academic_year || "2024-2025"),
-    grade_applying: row.grade_applying ? Number(row.grade_applying) : null,
-  })).filter(row => row.code.length === 8 && applicationStatuses.has(row.status));
-  if (!cleaned.length) return json({ error: "No valid rows" }, { status: 400 });
+  let cleaned: Record<string, unknown>[];
+  try {
+    const { rows } = await req.json() as { rows?: unknown };
+    cleaned = sanitizeBulkApplicationRows(rows);
+  } catch (error) {
+    return json({ error: error instanceof Error ? error.message : "Invalid payload" }, { status: 400 });
+  }
 
   const { data, error } = await adminClient
     .from("application_results")
     .upsert(cleaned, { onConflict: "code" })
     .select("*");
   if (error) return json({ error: error.message }, { status: 400 });
+  await writeAuditLog(req, "bulk_import", "applications", null, { count: cleaned.length });
   return json({ data });
-}
-
-function sanitizeRecord(resource: Resource, payload: Record<string, unknown>) {
-  const allowed = writableFields[resource];
-  const record: Record<string, unknown> = {};
-
-  for (const [key, value] of Object.entries(payload)) {
-    if (allowed.has(key)) record[key] = value;
-  }
-
-  for (const field of imageFields[resource] || []) {
-    if (field in record) {
-      record[field] = sanitizeHttpsImageUrl(record[field], field);
-    }
-  }
-
-  if (resource === "applications") {
-    record.code = String(record.code || "").trim().toUpperCase();
-    if (String(record.code).length !== 8) throw new Error("Application code must be 8 characters");
-    if (!applicationStatuses.has(String(record.status || ""))) throw new Error("Invalid application status");
-  }
-
-  return record;
-}
-
-function sanitizeHttpsImageUrl(value: unknown, field: string) {
-  if (value === null || value === undefined) return value;
-  const text = String(value).trim();
-  if (!text) return "";
-
-  try {
-    const url = new URL(text);
-    if (url.protocol !== "https:") throw new Error("Invalid protocol");
-    return url.toString();
-  } catch {
-    throw new Error(`${field} must be an HTTPS URL`);
-  }
 }

@@ -1,26 +1,21 @@
 import { noStoreJson } from "./http";
-import { applicationLookupRateLimit, consumeRateLimit, getClientIp } from "./rate-limit";
+import { applicationLookupRateLimit, consumeSharedRateLimit, getClientIp, makeRateLimitKey } from "./rate-limit";
 import { checkApplicationCode } from "../data/applications";
+import { applicationCodePattern, normalizeApplicationCode } from "../admin-validation";
 
 const lookupRateLimits = new Map<string, { count: number; resetAt: number }>();
 
-export const applicationCodePattern = /^[A-Z0-9]{8}$/;
-
-export function normalizeApplicationCode(value: unknown) {
-  return String(value ?? "").trim().toUpperCase();
-}
-
-export function checkApplicationLookupLimit(req: Request) {
-  return consumeRateLimit(
+export async function checkApplicationLookupLimit(req: Request) {
+  const key = await makeRateLimitKey("application_lookup", getClientIp(req));
+  return consumeSharedRateLimit(
     lookupRateLimits,
-    getClientIp(req),
-    applicationLookupRateLimit.maxAttempts,
-    applicationLookupRateLimit.windowMs,
+    key,
+    applicationLookupRateLimit,
   );
 }
 
 export async function applicationLookupHandler(request: Request) {
-  if (checkApplicationLookupLimit(request)) {
+  if (await checkApplicationLookupLimit(request)) {
     return noStoreJson({ error: "Too many attempts" }, { status: 429 });
   }
 

@@ -19,6 +19,7 @@ import schoolLogo from "../logo of the school.png";
 import { adminApi as api } from "@/lib/admin/api";
 import { parseCsv, toCsv } from "@/lib/admin/csv";
 import { compressImageToWebp } from "@/lib/admin/upload";
+import { writableFieldNames, type Resource } from "@/lib/admin-validation";
 
 type AdminPage = "dashboard" | "news" | "teachers" | "achievements" | "courses" | "applications" | "settings";
 type Toast = { kind: "success" | "error"; text: string } | null;
@@ -58,6 +59,17 @@ const nav = [
   ["applications", FileText, "Application Codes"],
   ["settings", Settings, "School Settings"],
 ] as const;
+
+function cleanAdminRecord(resource: string, record: Record<string, unknown>) {
+  if (!(resource in writableFieldNames)) return record;
+  const allowed = new Set<string>(writableFieldNames[resource as Resource]);
+  const cleaned: Record<string, unknown> = {};
+  if (typeof record.id === "string") cleaned.id = record.id;
+  for (const [key, value] of Object.entries(record)) {
+    if (allowed.has(key)) cleaned[key] = value;
+  }
+  return cleaned;
+}
 
 function adminPageFromPath(): AdminPage {
   const slug = window.location.pathname.split("/")[2] as AdminPage | undefined;
@@ -120,7 +132,7 @@ export function AdminApp() {
   };
 
   const save = async (resource: string, record: Record<string, unknown>) => {
-    await api(`/api/admin/save/${resource}`, { method: "POST", body: JSON.stringify(record) });
+    await api(`/api/admin/save/${resource}`, { method: "POST", body: JSON.stringify(cleanAdminRecord(resource, record)) });
     notify({ kind: "success", text: "Saved" });
     await load();
   };
@@ -390,7 +402,7 @@ function TeacherForm({ record, onSave, onCancel, onDelete, notify }: { record: R
   const savePhoto = async (url: string) => {
     const next: Record<string, unknown> = { ...form, photo_url: url };
     if (next.id) {
-      await api("/api/admin/save/teachers", { method: "POST", body: JSON.stringify(next) });
+      await api("/api/admin/save/teachers", { method: "POST", body: JSON.stringify(cleanAdminRecord("teachers", next)) });
       notify({ kind: "success", text: "Photo saved" });
     }
     setForm(next);

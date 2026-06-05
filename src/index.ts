@@ -1,4 +1,5 @@
 import { serve } from "bun";
+import adminIndex from "./admin.html";
 import index from "./index.html";
 import {
   adminBootstrap,
@@ -43,8 +44,8 @@ const server = serve({
 
     "/api/admin/bulk-applications": req => requireMethod(req, ["POST"], bulkApplications, true),
 
-    "/admin": index,
-    "/admin/*": index,
+    "/admin": adminIndex,
+    "/admin/*": adminIndex,
   },
 
   development: process.env.NODE_ENV !== "production" && {

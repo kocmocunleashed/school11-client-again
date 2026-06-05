@@ -4,7 +4,18 @@ import { existsSync } from "fs";
 import { cp, mkdir, readFile, rm, writeFile } from "fs/promises";
 import path from "path";
 
-const siteUrl = "https://school11-client-again.vercel.app";
+const defaultSiteUrl = "https://school11-client-again.vercel.app";
+const normalizeSiteUrl = (value: string | undefined) => {
+  const trimmed = (value || defaultSiteUrl).trim().replace(/\/+$/, "");
+  try {
+    const url = new URL(trimmed);
+    if (url.protocol !== "https:") return defaultSiteUrl;
+    return url.toString().replace(/\/+$/, "");
+  } catch {
+    return defaultSiteUrl;
+  }
+};
+const siteUrl = normalizeSiteUrl(process.env.SITE_URL);
 const schoolStructuredData = {
   "@context": "https://schema.org",
   "@type": "School",
@@ -60,7 +71,7 @@ const staticRoutes: StaticRoute[] = [
             <p>Манай сургуулийн сурагчид улсын олимпиадад өндөр амжилт үзүүллээ.</p>
           </article>
           <article>
-            <h3>80 жилийн ойд зориулсан түүхэн материал цуглуулах ажил эхэллээ</h3>
+            <h3>Сургуулийн түүхэн материал цуглуулах ажил эхэллээ</h3>
             <p>Сургуулийн түүхэн замналыг баримтжуулах ажилд төгсөгчид, багш нар нэгдэж байна.</p>
           </article>
           <article>
@@ -124,7 +135,7 @@ const staticRoutes: StaticRoute[] = [
         <section>
           <h2>Түүхэн үйл явдлууд</h2>
           <article>
-            <h3>1947 · Үүсгэн байгуулагдсан</h3>
+            <h3>1940 · Үүсгэн байгуулагдсан</h3>
             <p>Нийслэлийн боловсролын салбарт математик, байгалийн ухааны чиглэлээр ялгарах сууриа тавьсан.</p>
           </article>
           <article>
@@ -355,6 +366,31 @@ async function writeStaticRoutes(outdir: string) {
   }));
 }
 
+async function writeSeoFiles(outdir: string) {
+  const lastmod = new Date().toISOString().slice(0, 10);
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${staticRoutes.map(route => {
+  const routePath = route.path === "/" ? "/" : route.path;
+  return `  <url>
+    <loc>${siteUrl}${routePath === "/" ? "/" : routePath}</loc>
+    <lastmod>${lastmod}</lastmod>
+  </url>`;
+}).join("\n")}
+</urlset>
+`;
+  const robots = `User-agent: *
+Allow: /
+Disallow: /admin/
+Sitemap: ${siteUrl}/sitemap.xml
+`;
+
+  await Promise.all([
+    writeFile(path.join(outdir, "sitemap.xml"), sitemap),
+    writeFile(path.join(outdir, "robots.txt"), robots),
+  ]);
+}
+
 console.log("\n🚀 Starting build process...\n");
 
 const cliConfig = parseArgs();
@@ -394,6 +430,7 @@ if (existsSync(publicDir)) {
 }
 
 await writeStaticRoutes(outdir);
+await writeSeoFiles(outdir);
 
 const outputTable = result.outputs.map(output => ({
   File: path.relative(process.cwd(), output.path),

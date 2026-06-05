@@ -8,7 +8,9 @@
     "start": "NODE_ENV=production bun src/index.ts",
     "build": "bun run build.ts",
     "typecheck": "tsc --noEmit",
-    "check": "bun run typecheck && bun run build",
+    "test": "bun test",
+    "check:secrets": "bun run scripts/check-no-secrets.ts",
+    "check": "bun run check:secrets && bun run typecheck && bun run build",
     "supabase:storage": "bun scripts/create-storage-buckets.ts",
     "supabase:seed-achievements": "bun scripts/seed-achievement-records.ts"
   },

@@ -28,10 +28,8 @@ import {
   Youtube,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import type { MouseEvent as ReactMouseEvent, ReactNode } from "react";
-import { Component } from "react";
+import type { MouseEvent as ReactMouseEvent } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { AdminApp, AdminLogin } from "@/AdminApp";
 import type { AchievementYear, CourseSection, NewsArticle, SchoolSettings, Teacher } from "@/types/database";
 import schoolLogo from "../logo of the school.png";
 import schoolBg from "../public/school-bg.jpg";
@@ -40,7 +38,6 @@ import "./index.css";
 
 type Page = "home" | "about" | "achievements" | "courses" | "apply";
 type ResultState = "idle" | "success" | "pending" | "not-found" | "invalid";
-type AdminErrorBoundaryState = { error: string | null };
 type UiNews = {
   id: string | number;
   category: string;
@@ -116,26 +113,6 @@ const routeMeta: Record<Page, { title: string; description: string }> = {
   },
 };
 
-class AdminErrorBoundary extends Component<{ children: ReactNode }, AdminErrorBoundaryState> {
-  override state: AdminErrorBoundaryState = { error: null };
-
-  static getDerivedStateFromError(error: unknown): AdminErrorBoundaryState {
-    return { error: error instanceof Error ? error.message : String(error) };
-  }
-
-  override render() {
-    if (this.state.error) {
-      return (
-        <div style={{ color: "red", padding: "40px", fontFamily: "monospace", background: "#fff", minHeight: "100vh" }}>
-          Admin Error: {this.state.error}
-        </div>
-      );
-    }
-
-    return this.props.children;
-  }
-}
-
 const pathPages: Record<string, Page> = {
   "/": "home",
   "/about": "about",
@@ -179,7 +156,7 @@ const fallbackNews: UiNews[] = [
     id: 2,
     category: "Арга хэмжээ",
     date: "2024 оны 5-р сарын 8",
-    headline: "80 жилийн ойд зориулсан түүхэн материал цуглуулах ажил эхэллээ",
+    headline: "Сургуулийн түүхэн материал цуглуулах ажил эхэллээ",
     excerpt: "Сургуулийн түүхэн замналыг баримтжуулах ажилд төгсөгчид, багш нар нэгдэж байна...",
     body: "Нийслэлийн 11-р сургуулийн түүхэн ойд зориулан үе үеийн төгсөгчид, ахмад багш нар, сурагчдын дурсамж, гэрэл зураг, баримтат материалыг нэгтгэх ажил эхэллээ. Энэхүү сан нь сургуулийн үнэ цэн, уламжлалыг дараагийн үед өвлүүлэх зорилготой.",
     image: "linear-gradient(135deg, #03071e 0%, #0d2149 48%, #0891b2 100%)",
@@ -254,7 +231,7 @@ const fallbackTeachers: UiTeacher[] = [
 ];
 
 const fallbackAchievements: UiAchievement[] = [
-  { id: "1947", year: "1947", label: "Үүсгэн байгуулагдсан", detail: "Нийслэлийн боловсролын салбарт математик, байгалийн ухааны чиглэлээр ялгарах сууриа тавьсан.", tag: "Түүх", image: null, isMilestone: true, achievements: [] },
+  { id: "1940", year: "1940", label: "Үүсгэн байгуулагдсан", detail: "Нийслэлийн боловсролын салбарт математик, байгалийн ухааны чиглэлээр ялгарах сууриа тавьсан.", tag: "Түүх", image: null, isMilestone: true, achievements: [] },
   { id: "1989", year: "1989", label: "Гүнзгийрүүлсэн сургалт", detail: "Математик, физикийн сонгон сургалт тогтмолжиж, олимпиадын багш-сурагчийн систем бүрэлдсэн.", tag: "Сургалт", image: null, isMilestone: true, achievements: [] },
   { id: "2016", year: "2016", label: "Шинэ байр", detail: "Орчин үеийн сургалтын орчинтой шинэ хичээлийн байр ашиглалтад орж, лаборатори, танхимын хүртээмж сайжирсан.", tag: "Кампус", image: null, isMilestone: true, achievements: [] },
   { id: "2026", year: "2026", label: "Олон улсын гараа", detail: "Сурагчдын судалгааны төслүүд олон улсын уралдаанд шалгарч, ахлах ангийн академик соёл улам бэхжив.", tag: "Олон улс", image: null, isMilestone: false, achievements: [] },
@@ -369,7 +346,7 @@ function Header({ page, navigate }: { page: Page; navigate: (page: Page) => void
           </button>
         ))}
       </nav>
-      <button className="apply-pill" onClick={() => go("apply")} aria-label="Элсэлтийн хуудас руу очих">Apply</button>
+      <button className="apply-pill" onClick={() => go("apply")} aria-label="Элсэлтийн хуудас руу очих">Элсэлт</button>
       <button className="mobile-toggle" onClick={() => setOpen(true)} aria-label="Цэс нээх"><Menu /></button>
       <div className={`mobile-panel ${open ? "open" : ""}`}>
         <button className="panel-close" onClick={() => setOpen(false)} aria-label="Цэс хаах"><X /></button>
@@ -452,7 +429,7 @@ function Home({
           {visibleNews.map((item, index) => (
             <article className={`news-card ${index === 0 ? "featured" : ""}`} key={item.id} onClick={() => setSelectedNews(item)}>
               <div className="news-image" style={{ background: item.image }}>
-                <span>{index === 0 ? "NEW · " : ""}{item.category}</span>
+                <span>{index === 0 ? "ШИНЭ · " : ""}{item.category}</span>
               </div>
               <div className="news-body">
                 <div className="meta"><CalendarDays size={15} /> {item.date} · {item.readTime}</div>
@@ -537,7 +514,7 @@ function TeachersCarousel({ teachers }: { teachers: UiTeacher[] }) {
           <span className="section-number">02 — БАГШ НАР</span>
           <div className="section-kicker"><i />МАНАЙ БАГШ НАР</div>
           <h2><span>Мэргэжлийн</span> баг</h2>
-          <p>Туршлагатай, х献身적인 багш нарын хамт</p>
+          <p>Туршлагатай, хичээнгүй багш нарын хамт</p>
         </div>
       </div>
       <div className="teacher-marquee" aria-label="Багш нарын жагсаалт">
@@ -550,7 +527,7 @@ function TeachersCarousel({ teachers }: { teachers: UiTeacher[] }) {
               <h3>{teacher.name}</h3>
               <span>{teacher.subject}</span>
               <small>Туршлага: {teacher.years}</small>
-              {index === 0 && <b>NEW</b>}
+              {index === 0 && <b>ШИНЭ</b>}
             </article>
           ))}
         </div>
@@ -570,7 +547,7 @@ function getInitials(name: string) {
 function About({ settings }: { settings: SchoolSettings }) {
   return (
     <main className="page page-about reveal">
-      <PageTitle label="БИДНИЙ ТУХАЙ" title="Our School" />
+      <PageTitle label="БИДНИЙ ТУХАЙ" title="Манай сургууль" />
       <section className="narrow about-content">
         <div className="story-block">
           <span>Манай сургууль</span>
@@ -578,8 +555,8 @@ function About({ settings }: { settings: SchoolSettings }) {
           <p>Нийслэлийн 11-р сургууль нь сурагч бүрийн академик сахилга, бүтээлч сэтгэлгээ, нийгмийн хариуцлагыг зэрэг хөгжүүлэхийг зорьдог. Бид сургалтын чанар, багшийн арга зүй, сурагчийн судалгааны оролцоог нэг систем болгон хөгжүүлдэг.</p>
         </div>
         <div className="mission-grid">
-          <InfoCard icon={Target} title="Mission" text="Суралцахуйн өндөр стандарт, ёс зүй, хамтын ажиллагаанд тулгуурлан ирээдүйн манлайлагчдыг бэлтгэнэ." />
-          <InfoCard icon={Sparkles} title="Vision" text="Монголын ерөнхий боловсролын шилдэг академик кампус болж, олон улсын түвшний сурагчдыг төлөвшүүлнэ." />
+          <InfoCard icon={Target} title="Эрхэм зорилго" text="Суралцахуйн өндөр стандарт, ёс зүй, хамтын ажиллагаанд тулгуурлан ирээдүйн манлайлагчдыг бэлтгэнэ." />
+          <InfoCard icon={Sparkles} title="Алсын хараа" text="Монголын ерөнхий боловсролын шилдэг академик кампус болж, олон улсын түвшний сурагчдыг төлөвшүүлнэ." />
         </div>
         <div className="value-grid">
           <InfoCard icon={BookOpen} title="Эрдэм" text="Гүн ойлголт, нотолгоо, тасралтгүй суралцах дадал." compact />
@@ -844,7 +821,7 @@ function Apply({ settings }: { settings: SchoolSettings }) {
 
   return (
     <main className="page page-apply reveal">
-      <PageTitle label="ЭЛСЭЛТ" title="Application Guides" subtitle="Элсэлтийн материал, хугацаа, баталгаажуулалтын дарааллыг нэг дороос харна уу." />
+      <PageTitle label="ЭЛСЭЛТ" title="Элсэлтийн гарын авлага" subtitle="Элсэлтийн материал, хугацаа, баталгаажуулалтын дарааллыг нэг дороос харна уу." />
       <section className="apply-grid">
         <article className="pdf-card">
           <h3><FileText size={22} /> Элсэлтийн гарын авлага</h3>
@@ -877,7 +854,7 @@ function InfoCard({ icon: Icon, title, text, compact = false }: { icon: typeof B
 }
 
 function Timeline() {
-  return <div className="vertical-timeline">{["1947 · Сургууль байгуулагдав", "1989 · Гүнзгийрүүлсэн сургалт өргөжив", "2016 · Шинэ хичээлийн байр нээгдэв", "2027 · 80 жилийн ойн бэлтгэл"].map(item => <p key={item}><span />{item}</p>)}</div>;
+  return <div className="vertical-timeline">{["1940 · Сургууль байгуулагдав", "1989 · Гүнзгийрүүлсэн сургалт өргөжив", "2016 · Шинэ хичээлийн байр нээгдэв"].map(item => <p key={item}><span />{item}</p>)}</div>;
 }
 
 function Result({ state, data }: { state: ResultState; data: [LucideIcon, string, string] }) {
@@ -1026,13 +1003,6 @@ function CursorFollower() {
 }
 
 export function App() {
-  if (window.location.pathname === "/admin/login") {
-    return <AdminErrorBoundary><AdminLogin /></AdminErrorBoundary>;
-  }
-  if (window.location.pathname.startsWith("/admin")) {
-    return <AdminErrorBoundary><AdminApp /></AdminErrorBoundary>;
-  }
-
   const { page, navigate } = usePage();
   const [siteData, setSiteData] = useState({
     news: fallbackNews,

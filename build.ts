@@ -1,8 +1,187 @@
 #!/usr/bin/env bun
 import plugin from "bun-plugin-tailwind";
 import { existsSync } from "fs";
-import { cp, rm } from "fs/promises";
+import { cp, mkdir, readFile, rm, writeFile } from "fs/promises";
 import path from "path";
+
+const siteUrl = "https://school11-client-again.vercel.app";
+
+type StaticRoute = {
+  path: string;
+  title: string;
+  description: string;
+  html: string;
+};
+
+const staticRoutes: StaticRoute[] = [
+  {
+    path: "/",
+    title: "Нийслэлийн 11-р сургууль",
+    description: "Нийслэлийн 11-р сургуулийн мэдээ, багш нар, сургалт, амжилт, элсэлтийн мэдээлэл.",
+    html: `
+      <main class="static-crawl-page">
+        <nav aria-label="Үндсэн цэс">
+          <a href="/">Нүүр</a>
+          <a href="/about">Бидний тухай</a>
+          <a href="/achievements">Амжилт</a>
+          <a href="/courses">Сургалт</a>
+          <a href="/apply">Элсэлт</a>
+        </nav>
+        <section>
+          <p>НИЙСЛЭЛИЙН · EST. 1940</p>
+          <h1>Нийслэлийн 11-р сургууль</h1>
+          <p>Таны амжилтын аялал эндээс эхэлнэ.</p>
+        </section>
+        <section>
+          <h2>Сүүлийн мэдээ</h2>
+          <article>
+            <h3>Математикийн олимпиадад тэргүүн байр эзэллээ</h3>
+            <p>Манай сургуулийн сурагчид улсын олимпиадад өндөр амжилт үзүүллээ.</p>
+          </article>
+          <article>
+            <h3>80 жилийн ойд зориулсан түүхэн материал цуглуулах ажил эхэллээ</h3>
+            <p>Сургуулийн түүхэн замналыг баримтжуулах ажилд төгсөгчид, багш нар нэгдэж байна.</p>
+          </article>
+          <article>
+            <h3>Шинжлэх ухаан, урлаг, спортын дугуйлангууд шинэ элсэлт авч байна</h3>
+            <p>Сурагчдын сонирхол, авьяасыг хөгжүүлэх олон төрлийн клубүүд бүртгэлээ нээлээ.</p>
+          </article>
+        </section>
+        <section>
+          <h2>Мэргэжлийн багш нар</h2>
+          <p>Туршлагатай багш нар сурагчдын академик сахилга, бүтээлч сэтгэлгээ, судалгааны оролцоог хөгжүүлдэг.</p>
+        </section>
+      </main>
+    `,
+  },
+  {
+    path: "/about",
+    title: "Бидний тухай | Нийслэлийн 11-р сургууль",
+    description: "Нийслэлийн 11-р сургуулийн түүх, эрхэм зорилго, холбоо барих мэдээлэл.",
+    html: `
+      <main class="static-crawl-page">
+        <nav aria-label="Үндсэн цэс">
+          <a href="/">Нүүр</a>
+          <a href="/about">Бидний тухай</a>
+          <a href="/achievements">Амжилт</a>
+          <a href="/courses">Сургалт</a>
+          <a href="/apply">Элсэлт</a>
+        </nav>
+        <h1>Бидний тухай</h1>
+        <section>
+          <h2>Математик, байгалийн ухааны соёлыг төлөвшүүлэгч сургууль</h2>
+          <p>Нийслэлийн 11-р сургууль нь сурагч бүрийн академик сахилга, бүтээлч сэтгэлгээ, нийгмийн хариуцлагыг зэрэг хөгжүүлэхийг зорьдог.</p>
+          <p>Бид сургалтын чанар, багшийн арга зүй, сурагчийн судалгааны оролцоог нэг систем болгон хөгжүүлдэг.</p>
+        </section>
+        <section>
+          <h2>Эрхэм зорилго</h2>
+          <p>Суралцахуйн өндөр стандарт, ёс зүй, хамтын ажиллагаанд тулгуурлан ирээдүйн манлайлагчдыг бэлтгэнэ.</p>
+        </section>
+        <section>
+          <h2>Холбоо барих</h2>
+          <p>Партизаны гудамж, Сүхбаатар дүүрэг, Улаанбаатар.</p>
+          <p>Утас: +976 11 327226. Имэйл: School_11@edub.edu.mn.</p>
+        </section>
+      </main>
+    `,
+  },
+  {
+    path: "/achievements",
+    title: "Амжилт | Нийслэлийн 11-р сургууль",
+    description: "Сургуулийн олимпиад, судалгаа, сургалтын чанарын онцлох амжилтууд.",
+    html: `
+      <main class="static-crawl-page">
+        <nav aria-label="Үндсэн цэс">
+          <a href="/">Нүүр</a>
+          <a href="/about">Бидний тухай</a>
+          <a href="/achievements">Амжилт</a>
+          <a href="/courses">Сургалт</a>
+          <a href="/apply">Элсэлт</a>
+        </nav>
+        <h1>Амжилтын замнал</h1>
+        <p>Олимпиад, судалгаа, сургалтын чанараар хэмжигдэх олон жилийн итгэл.</p>
+        <section>
+          <h2>Түүхэн үйл явдлууд</h2>
+          <article>
+            <h3>1947 · Үүсгэн байгуулагдсан</h3>
+            <p>Нийслэлийн боловсролын салбарт математик, байгалийн ухааны чиглэлээр ялгарах сууриа тавьсан.</p>
+          </article>
+          <article>
+            <h3>1989 · Гүнзгийрүүлсэн сургалт</h3>
+            <p>Математик, физикийн сонгон сургалт тогтмолжиж, олимпиадын багш-сурагчийн систем бүрэлдсэн.</p>
+          </article>
+          <article>
+            <h3>2016 · Шинэ байр</h3>
+            <p>Орчин үеийн сургалтын орчинтой шинэ хичээлийн байр ашиглалтад орж, лаборатори, танхимын хүртээмж сайжирсан.</p>
+          </article>
+        </section>
+      </main>
+    `,
+  },
+  {
+    path: "/courses",
+    title: "Сургалт | Нийслэлийн 11-р сургууль",
+    description: "Секц, дугуйлан, олимпиадын бэлтгэл болон сургалтын чиглэлүүд.",
+    html: `
+      <main class="static-crawl-page">
+        <nav aria-label="Үндсэн цэс">
+          <a href="/">Нүүр</a>
+          <a href="/about">Бидний тухай</a>
+          <a href="/achievements">Амжилт</a>
+          <a href="/courses">Сургалт</a>
+          <a href="/apply">Элсэлт</a>
+        </nav>
+        <h1>Сургалтын орчин ба клубүүд</h1>
+        <p>Гүнзгийрүүлсэн хичээл, лаборатори, олимпиад, сонирхлын дугуйлан нэг системд.</p>
+        <section>
+          <h2>Секц ба дугуйлан</h2>
+          <article>
+            <h3>Математик олимпиад</h3>
+            <p>Бодлогын арга зүй, нотолгооны соёл. Мягмар, Пүрэв 15:30.</p>
+          </article>
+          <article>
+            <h3>Физик судалгаа</h3>
+            <p>Туршилт, хэмжилт, инженерчлэлийн суурь. Даваа, Лхагва 16:00.</p>
+          </article>
+          <article>
+            <h3>Роботик ба код</h3>
+            <p>Алгоритм, электроник, багийн төсөл. Баасан 15:00.</p>
+          </article>
+          <article>
+            <h3>Урлагийн студи</h3>
+            <p>Найрал дуу, хөгжим, тайзны соёл. Лхагва 15:30.</p>
+          </article>
+        </section>
+      </main>
+    `,
+  },
+  {
+    path: "/apply",
+    title: "Элсэлт | Нийслэлийн 11-р сургууль",
+    description: "Элсэлтийн гарын авлага болон өргөдлийн үр дүн шалгах хэсэг.",
+    html: `
+      <main class="static-crawl-page">
+        <nav aria-label="Үндсэн цэс">
+          <a href="/">Нүүр</a>
+          <a href="/about">Бидний тухай</a>
+          <a href="/achievements">Амжилт</a>
+          <a href="/courses">Сургалт</a>
+          <a href="/apply">Элсэлт</a>
+        </nav>
+        <h1>Элсэлт</h1>
+        <section>
+          <h2>Элсэлтийн гарын авлага</h2>
+          <p>Элсэлтийн материал, хугацаа, баталгаажуулалтын дарааллыг нэг дороос харна уу.</p>
+          <p><a href="/application-guide.pdf">Элсэлтийн гарын авлага PDF татаж авах</a></p>
+        </section>
+        <section>
+          <h2>Элсэлтийн үр дүн шалгах</h2>
+          <p>Өргөдлийн хариуг зөвхөн танд өгсөн 8 тэмдэгттэй кодоор шалгана. Хувийн үр дүн, сурагчийн мэдээлэл олон нийтэд нийтлэгдэхгүй.</p>
+        </section>
+      </main>
+    `,
+  },
+];
 
 if (process.argv.includes("--help") || process.argv.includes("-h")) {
   console.log(`
@@ -105,6 +284,47 @@ const formatFileSize = (bytes: number): string => {
   return `${size.toFixed(2)} ${units[unitIndex]}`;
 };
 
+const normalizeRoutePath = (routePath: string) => routePath === "/" ? "" : routePath.replace(/^\/+|\/+$/g, "");
+
+const routeOutputPath = (outdir: string, routePath: string) => {
+  const normalized = normalizeRoutePath(routePath);
+  return normalized ? path.join(outdir, normalized, "index.html") : path.join(outdir, "index.html");
+};
+
+const stripManagedHeadTags = (html: string) => html
+  .replace(/\s*<meta\s+name=["']description["'][^>]*>\s*/i, "\n")
+  .replace(/\s*<link\s+rel=["']canonical["'][^>]*>\s*/i, "\n")
+  .replace(/\s*<meta\s+name=["']robots["'][^>]*>\s*/i, "\n");
+
+const buildStaticHtml = (shell: string, route: StaticRoute) => {
+  const canonicalPath = route.path === "/" ? "/" : route.path;
+  const canonicalUrl = `${siteUrl}${canonicalPath === "/" ? "" : canonicalPath}`;
+  const managedHead = [
+    `    <meta name="description" content="${route.description}" />`,
+    `    <link rel="canonical" href="${canonicalUrl}" />`,
+    `    <meta name="robots" content="index, follow" />`,
+  ].join("\n");
+
+  const rootHtml = `<div id="root">${route.html.trim()}</div>`;
+
+  return stripManagedHeadTags(shell)
+    .replace(/<html\b[^>]*>/i, `<html lang="mn">`)
+    .replace(/<title>.*?<\/title>/i, `<title>${route.title}</title>`)
+    .replace("</head>", `${managedHead}\n  </head>`)
+    .replace(/<div id="root"><\/div>/, rootHtml);
+};
+
+async function writeStaticRoutes(outdir: string) {
+  const shellPath = path.join(outdir, "index.html");
+  const shell = await readFile(shellPath, "utf8");
+
+  await Promise.all(staticRoutes.map(async route => {
+    const target = routeOutputPath(outdir, route.path);
+    await mkdir(path.dirname(target), { recursive: true });
+    await writeFile(target, buildStaticHtml(shell, route));
+  }));
+}
+
 console.log("\n🚀 Starting build process...\n");
 
 const cliConfig = parseArgs();
@@ -142,6 +362,8 @@ const publicDir = path.join(process.cwd(), "public");
 if (existsSync(publicDir)) {
   await cp(publicDir, outdir, { recursive: true, force: true });
 }
+
+await writeStaticRoutes(outdir);
 
 const outputTable = result.outputs.map(output => ({
   File: path.relative(process.cwd(), output.path),

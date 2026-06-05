@@ -5,6 +5,26 @@ import { cp, mkdir, readFile, rm, writeFile } from "fs/promises";
 import path from "path";
 
 const siteUrl = "https://school11-client-again.vercel.app";
+const schoolStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "School",
+  name: "Нийслэлийн 11-р сургууль",
+  alternateName: [
+    "11-р сургууль",
+    "Нийслэлийн 11 сургууль",
+    "School 11 Ulaanbaatar",
+  ],
+  url: `${siteUrl}/`,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Партизаны гудамж",
+    addressLocality: "Улаанбаатар",
+    addressRegion: "Сүхбаатар дүүрэг",
+    addressCountry: "MN",
+  },
+  telephone: "+976 11 327226",
+  email: "School_11@edub.edu.mn",
+};
 
 type StaticRoute = {
   path: string;
@@ -30,7 +50,8 @@ const staticRoutes: StaticRoute[] = [
         <section>
           <p>НИЙСЛЭЛИЙН · EST. 1940</p>
           <h1>Нийслэлийн 11-р сургууль</h1>
-          <p>Таны амжилтын аялал эндээс эхэлнэ.</p>
+          <p>11-р сургууль нь Улаанбаатар хотын Сүхбаатар дүүрэгт байрлах ерөнхий боловсролын сургууль бөгөөд сурагчдын академик сахилга, бүтээлч сэтгэлгээ, хамтын ажиллагааг дэмждэг.</p>
+          <p>Нийслэлийн 11 сургууль буюу School 11 Ulaanbaatar-ийн албан ёсны цахим хуудсаас мэдээ, сургалт, амжилт, элсэлтийн мэдээллийг авна уу.</p>
         </section>
         <section>
           <h2>Сүүлийн мэдээ</h2>
@@ -294,7 +315,10 @@ const routeOutputPath = (outdir: string, routePath: string) => {
 const stripManagedHeadTags = (html: string) => html
   .replace(/\s*<meta\s+name=["']description["'][^>]*>\s*/i, "\n")
   .replace(/\s*<link\s+rel=["']canonical["'][^>]*>\s*/i, "\n")
-  .replace(/\s*<meta\s+name=["']robots["'][^>]*>\s*/i, "\n");
+  .replace(/\s*<meta\s+name=["']robots["'][^>]*>\s*/i, "\n")
+  .replace(/\s*<meta\s+property=["']og:[^"']+["'][^>]*>\s*/gi, "\n")
+  .replace(/\s*<meta\s+name=["']twitter:[^"']+["'][^>]*>\s*/gi, "\n")
+  .replace(/\s*<script\s+type=["']application\/ld\+json["'][\s\S]*?<\/script>\s*/gi, "\n");
 
 const buildStaticHtml = (shell: string, route: StaticRoute) => {
   const canonicalPath = route.path === "/" ? "/" : route.path;
@@ -303,6 +327,12 @@ const buildStaticHtml = (shell: string, route: StaticRoute) => {
     `    <meta name="description" content="${route.description}" />`,
     `    <link rel="canonical" href="${canonicalUrl}" />`,
     `    <meta name="robots" content="index, follow" />`,
+    `    <meta property="og:title" content="${route.title}" />`,
+    `    <meta property="og:description" content="${route.description}" />`,
+    `    <meta property="og:url" content="${canonicalUrl}" />`,
+    `    <meta property="og:type" content="website" />`,
+    `    <meta name="twitter:card" content="summary" />`,
+    `    <script type="application/ld+json">${JSON.stringify(schoolStructuredData)}</script>`,
   ].join("\n");
 
   const rootHtml = `<div id="root">${route.html.trim()}</div>`;

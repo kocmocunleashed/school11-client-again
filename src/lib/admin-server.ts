@@ -1,3 +1,6 @@
+import { clearRateLimit, consumeRateLimit, getClientIp, loginRateLimit, type RateLimitBucket } from "./api-handlers/rate-limit";
+import { noStoreHeaders } from "./api-handlers/http";
+
 const COOKIE_NAME = "school11_admin";
 const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 7;
 const encoder = new TextEncoder();
@@ -21,12 +24,10 @@ const tableMap = {
 } as const;
 
 type Resource = keyof typeof tableMap;
-type RateLimitBucket = { count: number; resetAt: number };
 type SessionPayload = { iat: number; exp: number; nonce: string };
 
 const noIndexHeaders = { "X-Robots-Tag": "noindex, nofollow" };
 const loginRateLimits = new Map<string, RateLimitBucket>();
-const lookupRateLimits = new Map<string, RateLimitBucket>();
 const writableFields: Record<Resource, Set<string>> = {
   news: new Set(["title_mn", "title_en", "excerpt_mn", "excerpt_en", "body_mn", "body_en", "cover_image_url", "category_id", "author_name", "author_role", "author_photo", "read_time_min", "is_published", "is_featured", "tags", "published_at"]),
   teachers: new Set(["name_mn", "name_en", "subject_mn", "subject_en", "years_exp", "bio_mn", "bio_en", "photo_url", "is_featured", "display_order", "is_active"]),
@@ -73,9 +74,7 @@ function base64UrlDecode(value: string) {
   return Buffer.from(padded, "base64").toString("utf8");
 }
 
-function timingSafeEqual(a: string, b: string) {
-  const left = encoder.encode(a);
-  const right = encoder.encode(b);
+function timingSafeEqualBytes(left: Uint8Array, right: Uint8Array) {
   if (left.byteLength !== right.byteLength) return false;
 
   let diff = 0;
@@ -83,6 +82,14 @@ function timingSafeEqual(a: string, b: string) {
     diff |= left[i]! ^ right[i]!;
   }
   return diff === 0;
+}
+
+async function digestString(value: string) {
+  return new Uint8Array(await crypto.subtle.digest("SHA-256", encoder.encode(value)));
+}
+
+async function timingSafeEqual(a: string, b: string) {
+  return timingSafeEqualBytes(await digestString(a), await digestString(b));
 }
 
 function getSessionSecret() {
@@ -121,7 +128,7 @@ async function verifySessionCookie(value: string | undefined) {
   const [payload, signature, extra] = value.split(".");
   if (!payload || !signature || extra) return false;
   const expected = await signPayload(payload);
-  if (!timingSafeEqual(signature, expected)) return false;
+  if (!(await timingSafeEqual(signature, expected))) return false;
 
   let session: SessionPayload;
   try {
@@ -132,28 +139,6 @@ async function verifySessionCookie(value: string | undefined) {
 
   const now = Math.floor(Date.now() / 1000);
   return Number.isFinite(session.exp) && session.exp > now;
-}
-
-function getClientIp(req: Request) {
-  return (req.headers.get("x-forwarded-for") || "").split(",")[0]?.trim()
-    || req.headers.get("x-real-ip")
-    || "local";
-}
-
-function consumeRateLimit(store: Map<string, RateLimitBucket>, key: string, limit: number, windowMs: number) {
-  const now = Date.now();
-  const current = store.get(key);
-  if (!current || current.resetAt <= now) {
-    store.set(key, { count: 1, resetAt: now + windowMs });
-    return false;
-  }
-
-  current.count += 1;
-  return current.count > limit;
-}
-
-function clearRateLimit(store: Map<string, RateLimitBucket>, key: string) {
-  store.delete(key);
 }
 
 function parseCookies(req: Request) {
@@ -179,22 +164,44 @@ export async function isAdminRequest(req: Request) {
 }
 
 function unauthorized() {
-  return Response.json({ error: "Unauthorized" }, { status: 401, headers: noIndexHeaders });
+  return Response.json({ error: "Unauthorized" }, { status: 401, headers: { ...noStoreHeaders, ...noIndexHeaders } });
+}
+
+function forbidden() {
+  return json({ error: "Forbidden" }, { status: 403 });
 }
 
 function json(data: unknown, init?: ResponseInit) {
   return Response.json(data, {
     ...init,
     headers: {
+      ...noStoreHeaders,
       ...noIndexHeaders,
       ...(init?.headers || {}),
     },
   });
 }
 
+function sameOrigin(req: Request) {
+  const requestUrl = new URL(req.url);
+  const origin = req.headers.get("origin");
+  if (origin) return origin === requestUrl.origin;
+
+  const referer = req.headers.get("referer");
+  if (!referer) return false;
+
+  try {
+    return new URL(referer).origin === requestUrl.origin;
+  } catch {
+    return false;
+  }
+}
+
 export async function adminLogin(req: Request) {
+  if (!sameOrigin(req)) return forbidden();
+
   const rateLimitKey = getClientIp(req);
-  if (consumeRateLimit(loginRateLimits, rateLimitKey, 5, 15 * 60 * 1000)) {
+  if (consumeRateLimit(loginRateLimits, rateLimitKey, loginRateLimit.maxAttempts, loginRateLimit.windowMs)) {
     return json({ error: "Too many attempts" }, { status: 429 });
   }
 
@@ -202,7 +209,7 @@ export async function adminLogin(req: Request) {
   try {
     body = await req.json() as { password?: string };
   } catch {
-    return new Response("Invalid JSON", { status: 400 });
+    return json({ error: "Invalid JSON" }, { status: 400 });
   }
 
   const stored = normalizePassword(process.env.ADMIN_PASSWORD);
@@ -212,7 +219,7 @@ export async function adminLogin(req: Request) {
     return json({ error: "Server misconfigured - ADMIN_PASSWORD not set" }, { status: 500 });
   }
 
-  if (given !== stored) {
+  if (!(await timingSafeEqual(given, stored))) {
     return json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -229,7 +236,9 @@ export async function adminLogin(req: Request) {
   );
 }
 
-export function adminLogout() {
+export function adminLogout(req?: Request) {
+  if (req && !sameOrigin(req)) return forbidden();
+
   return json(
     { ok: true },
     {
@@ -289,6 +298,7 @@ export async function adminBootstrap(req: Request) {
 }
 
 export async function adminSave(req: Request, resource: string) {
+  if (!sameOrigin(req)) return forbidden();
   if (!(await isAdminRequest(req))) return unauthorized();
   if (!(resource in tableMap)) return json({ error: "Unknown resource" }, { status: 404 });
   const adminClient = await getAdminClient();
@@ -312,6 +322,7 @@ export async function adminSave(req: Request, resource: string) {
 }
 
 export async function adminDelete(req: Request, resource: string, id: string) {
+  if (!sameOrigin(req)) return forbidden();
   if (!(await isAdminRequest(req))) return unauthorized();
   if (!(resource in tableMap)) return json({ error: "Unknown resource" }, { status: 404 });
   const adminClient = await getAdminClient();
@@ -323,6 +334,7 @@ export async function adminDelete(req: Request, resource: string, id: string) {
 }
 
 export async function toggleNews(req: Request, id: string) {
+  if (!sameOrigin(req)) return forbidden();
   if (!(await isAdminRequest(req))) return unauthorized();
   const adminClient = await getAdminClient();
   const { is_published } = await req.json() as { is_published: boolean };
@@ -332,6 +344,7 @@ export async function toggleNews(req: Request, id: string) {
 }
 
 export async function adminUpload(req: Request, bucket: string) {
+  if (!sameOrigin(req)) return forbidden();
   if (!(await isAdminRequest(req))) return unauthorized();
   if (!allowedBuckets.has(bucket)) return json({ error: "Unknown bucket" }, { status: 404 });
   const adminClient = await getAdminClient();
@@ -363,6 +376,7 @@ export async function adminUpload(req: Request, bucket: string) {
 }
 
 export async function bulkApplications(req: Request) {
+  if (!sameOrigin(req)) return forbidden();
   if (!(await isAdminRequest(req))) return unauthorized();
   const adminClient = await getAdminClient();
   const { rows } = await req.json() as { rows?: Record<string, unknown>[] };
@@ -384,10 +398,6 @@ export async function bulkApplications(req: Request) {
     .select("*");
   if (error) return json({ error: error.message }, { status: 400 });
   return json({ data });
-}
-
-export function checkApplicationLookupLimit(req: Request) {
-  return consumeRateLimit(lookupRateLimits, getClientIp(req), 30, 10 * 60 * 1000);
 }
 
 function sanitizeRecord(resource: Resource, payload: Record<string, unknown>) {

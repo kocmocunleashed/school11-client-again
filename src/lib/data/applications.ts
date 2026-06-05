@@ -1,11 +1,17 @@
 import { adminClient } from "../supabase/admin";
 import type { ApplicationResult } from "../../types/database";
 
+const applicationCodePattern = /^[A-Z0-9]{8}$/;
+
 export async function checkApplicationCode(rawCode: string): Promise<ApplicationResult | null> {
   const code = rawCode.trim().toUpperCase();
-  if (code.length !== 8) return null;
+  if (!applicationCodePattern.test(code)) return null;
 
-  const { data, error } = await adminClient.from("application_results").select("*").eq("code", code).single();
+  const { data, error } = await adminClient
+    .from("application_results")
+    .select("code,status,message_mn,academic_year")
+    .eq("code", code)
+    .single();
 
   if (error) {
     if (error.code !== "PGRST116") console.error("Error checking application code:", error);

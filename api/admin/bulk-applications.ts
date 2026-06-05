@@ -1,10 +1,7 @@
 import { withWebResponse } from "../_utils";
 import { bulkApplications } from "../../src/lib/admin-server";
+import { requireMethod } from "../../src/lib/api-handlers/http";
 
 export default withWebResponse(async function handler(request: Request) {
-  if (request.method !== "POST") {
-    return Response.json({ error: "Method not allowed" }, { status: 405 });
-  }
-
-  return bulkApplications(request);
+  return requireMethod(request, ["POST"], bulkApplications, true);
 });

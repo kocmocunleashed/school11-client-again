@@ -15,6 +15,10 @@ type NodeResponse = {
 };
 
 type WebHandler = (request: Request) => Response | Promise<Response>;
+const internalErrorHeaders = {
+  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+  "Pragma": "no-cache",
+};
 
 function firstHeader(value: HeaderValue) {
   return Array.isArray(value) ? value[0] : value;
@@ -113,7 +117,7 @@ export function withWebResponse(handler: WebHandler) {
       await sendNodeResponse(webResponse, response);
     } catch (error) {
       console.error("API handler failed:", error);
-      const webResponse = Response.json({ error: "Internal Server Error" }, { status: 500 });
+      const webResponse = Response.json({ error: "Internal Server Error" }, { status: 500, headers: internalErrorHeaders });
       if (!response) return webResponse;
       await sendNodeResponse(webResponse, response);
     }

@@ -132,18 +132,6 @@
   ],
   "rewrites": [
     {
-      "source": "/api/admin/login",
-      "destination": "/api/admin/login.ts"
-    },
-    {
-      "source": "/api/admin/logout",
-      "destination": "/api/admin/logout.ts"
-    },
-    {
-      "source": "/api/admin/me",
-      "destination": "/api/admin/me.ts"
-    },
-    {
       "source": "/admin",
       "destination": "/admin.html"
     },

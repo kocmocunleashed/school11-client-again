@@ -11,6 +11,9 @@ import {
   bulkApplications,
   toggleNews,
 } from "@/lib/admin-server";
+import { applicationLookupHandler } from "@/lib/api-handlers/application-lookup";
+import { requireMethod } from "@/lib/api-handlers/http";
+import { siteDataHandler } from "@/lib/api-handlers/site-data";
 
 const server = serve({
   port: Number(process.env.PORT || 3000),
@@ -18,147 +21,30 @@ const server = serve({
     // Serve index.html for all unmatched routes.
     "/*": index,
 
-    "/api/site-data": {
-      async GET() {
-        try {
-          const [
-            { getPublishedNews },
-            { getAllTeachers },
-            { getSchoolSettings },
-            { getAchievementYears },
-            { getCourseSections },
-          ] = await Promise.all([
-            import("./lib/data/news"),
-            import("./lib/data/teachers"),
-            import("./lib/data/settings"),
-            import("./lib/data/achievements"),
-            import("./lib/data/courses"),
-          ]);
+    "/api/site-data": req => requireMethod(req, ["GET"], siteDataHandler),
 
-          const [news, teachers, settings, achievements, courses] = await Promise.all([
-            getPublishedNews(6),
-            getAllTeachers(),
-            getSchoolSettings(),
-            getAchievementYears(),
-            getCourseSections(),
-          ]);
+    "/api/check-application": req => requireMethod(req, ["POST"], applicationLookupHandler, true),
 
-          return Response.json({ news, teachers, settings, achievements, courses });
-        } catch (error) {
-          console.error("Site data fetch failed:", error);
-          return Response.json({ news: [], teachers: [], settings: null, achievements: [], courses: [] });
-        }
-      },
-    },
+    "/api/admin/login": req => requireMethod(req, ["POST"], adminLogin, true),
 
-    "/api/check-application": {
-      async POST(req) {
-        try {
-          const { checkApplicationLookupLimit } = await import("./lib/admin-server");
-          if (checkApplicationLookupLimit(req)) {
-            return Response.json({ error: "Too many attempts" }, { status: 429 });
-          }
+    "/api/admin/logout": req => requireMethod(req, ["POST"], adminLogout, true),
 
-          const { code } = await req.json() as { code?: string };
-          const { checkApplicationCode } = await import("./lib/data/applications");
-          const result = await checkApplicationCode(code || "");
+    "/api/admin/me": req => requireMethod(req, ["GET"], adminMe, true),
 
-          if (!result) {
-            return Response.json({ found: false }, { status: 404 });
-          }
+    "/api/admin/bootstrap": req => requireMethod(req, ["GET"], adminBootstrap, true),
 
-          return Response.json({
-            found: true,
-            status: result.status,
-            message_mn: result.message_mn,
-            student_name: result.student_name,
-            academic_year: result.academic_year,
-          });
-        } catch (error) {
-          console.error("Application check failed:", error);
-          return Response.json({ found: false }, { status: 500 });
-        }
-      },
-    },
+    "/api/admin/save/:resource": req => requireMethod(req, ["POST"], () => adminSave(req, req.params.resource), true),
 
-    "/api/admin/login": {
-      async POST(req) {
-        return adminLogin(req);
-      },
-    },
+    "/api/admin/delete/:resource/:id": req => requireMethod(req, ["DELETE"], () => adminDelete(req, req.params.resource, req.params.id), true),
 
-    "/api/admin/logout": {
-      async POST() {
-        return adminLogout();
-      },
-    },
+    "/api/admin/toggle-news/:id": req => requireMethod(req, ["POST"], () => toggleNews(req, req.params.id), true),
 
-    "/api/admin/me": {
-      async GET(req) {
-        return adminMe(req);
-      },
-    },
+    "/api/admin/upload/:bucket": req => requireMethod(req, ["POST"], () => adminUpload(req, req.params.bucket), true),
 
-    "/api/admin/bootstrap": {
-      async GET(req) {
-        return adminBootstrap(req);
-      },
-    },
-
-    "/api/admin/save/:resource": {
-      async POST(req) {
-        return adminSave(req, req.params.resource);
-      },
-    },
-
-    "/api/admin/delete/:resource/:id": {
-      async DELETE(req) {
-        return adminDelete(req, req.params.resource, req.params.id);
-      },
-    },
-
-    "/api/admin/toggle-news/:id": {
-      async POST(req) {
-        return toggleNews(req, req.params.id);
-      },
-    },
-
-    "/api/admin/upload/:bucket": {
-      async POST(req) {
-        return adminUpload(req, req.params.bucket);
-      },
-    },
-
-    "/api/admin/bulk-applications": {
-      async POST(req) {
-        return bulkApplications(req);
-      },
-    },
+    "/api/admin/bulk-applications": req => requireMethod(req, ["POST"], bulkApplications, true),
 
     "/admin": index,
     "/admin/*": index,
-
-    "/api/hello": {
-      async GET(req) {
-        return Response.json({
-          message: "Hello, world!",
-          method: "GET",
-        });
-      },
-      async PUT(req) {
-        return Response.json({
-          message: "Hello, world!",
-          method: "PUT",
-        });
-      },
-    },
-
-    "/api/hello/:name": async req => {
-      const name = req.params.name;
-      return Response.json({
-        message: `Hello, ${name}!`,
-      });
-    },
   },
 
   development: process.env.NODE_ENV !== "production" && {

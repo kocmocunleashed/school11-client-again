@@ -1,11 +1,10 @@
 import { withWebResponse } from "../../_utils";
 import { toggleNews } from "../../../src/lib/admin-server";
+import { requireMethod } from "../../../src/lib/api-handlers/http";
 
 export default withWebResponse(async function handler(request: Request) {
-  if (request.method !== "POST") {
-    return Response.json({ error: "Method not allowed" }, { status: 405 });
-  }
-
-  const id = new URL(request.url).pathname.split("/").filter(Boolean).at(-1) || "";
-  return toggleNews(request, id);
+  return requireMethod(request, ["POST"], request => {
+    const id = new URL(request.url).pathname.split("/").filter(Boolean).at(-1) || "";
+    return toggleNews(request, id);
+  }, true);
 });

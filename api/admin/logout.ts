@@ -1,10 +1,7 @@
 import { withWebResponse } from "../_utils";
 import { adminLogout } from "../../src/lib/admin-server";
+import { requireMethod } from "../../src/lib/api-handlers/http";
 
 export default withWebResponse(async function handler(request: Request) {
-  if (request.method !== "POST") {
-    return Response.json({ error: "Method not allowed" }, { status: 405 });
-  }
-
-  return adminLogout();
+  return requireMethod(request, ["POST"], adminLogout, true);
 });

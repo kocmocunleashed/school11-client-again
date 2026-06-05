@@ -3,7 +3,7 @@ const normalizeSupabaseUrl = (url: string | undefined) => (url || "").replace(/\
 
 export const env = {
   supabaseUrl: normalizeSupabaseUrl(runtimeEnv?.NEXT_PUBLIC_SUPABASE_URL),
-  supabaseAnonKey: runtimeEnv?.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? runtimeEnv?.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? "",
+  supabaseAnonKey: runtimeEnv?.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "",
   supabaseServiceRoleKey: runtimeEnv?.SUPABASE_SERVICE_ROLE_KEY ?? "",
 };
 

@@ -93,6 +93,29 @@ const pagePaths: Record<Page, string> = {
   apply: "/apply",
 };
 
+const routeMeta: Record<Page, { title: string; description: string }> = {
+  home: {
+    title: "Нийслэлийн 11-р сургууль",
+    description: "Нийслэлийн 11-р сургуулийн мэдээ, багш нар, сургалт, элсэлтийн мэдээлэл.",
+  },
+  about: {
+    title: "Бидний тухай | Нийслэлийн 11-р сургууль",
+    description: "Нийслэлийн 11-р сургуулийн түүх, эрхэм зорилго, холбоо барих мэдээлэл.",
+  },
+  achievements: {
+    title: "Амжилт | Нийслэлийн 11-р сургууль",
+    description: "Сургуулийн олимпиад, судалгаа, сургалтын чанарын онцлох амжилтууд.",
+  },
+  courses: {
+    title: "Сургалт | Нийслэлийн 11-р сургууль",
+    description: "Секц, дугуйлан, олимпиадын бэлтгэл болон сургалтын чиглэлүүд.",
+  },
+  apply: {
+    title: "Элсэлт | Нийслэлийн 11-р сургууль",
+    description: "Элсэлтийн гарын авлага болон өргөдлийн үр дүн шалгах хэсэг.",
+  },
+};
+
 class AdminErrorBoundary extends Component<{ children: ReactNode }, AdminErrorBoundaryState> {
   override state: AdminErrorBoundaryState = { error: null };
 
@@ -336,7 +359,7 @@ function Header({ page, navigate }: { page: Page; navigate: (page: Page) => void
   return (
     <header className={`site-header ${scrolled ? "is-scrolled" : ""}`}>
       <button className="brand" onClick={() => go("home")} aria-label="Нүүр хуудас">
-        <span className="brand-mark"><img src={schoolLogo} alt="" /></span>
+        <span className="brand-mark"><img src={schoolLogo} alt="11-р сургуулийн лого" /></span>
         <span><strong>11-р сургууль</strong><small>Нийслэлийн ерөнхий боловсрол</small></span>
       </button>
       <nav className="desktop-nav" aria-label="Үндсэн цэс">
@@ -346,7 +369,7 @@ function Header({ page, navigate }: { page: Page; navigate: (page: Page) => void
           </button>
         ))}
       </nav>
-      <button className="apply-pill" onClick={() => go("apply")}>Apply</button>
+      <button className="apply-pill" onClick={() => go("apply")} aria-label="Элсэлтийн хуудас руу очих">Apply</button>
       <button className="mobile-toggle" onClick={() => setOpen(true)} aria-label="Цэс нээх"><Menu /></button>
       <div className={`mobile-panel ${open ? "open" : ""}`}>
         <button className="panel-close" onClick={() => setOpen(false)} aria-label="Цэс хаах"><X /></button>
@@ -400,7 +423,7 @@ function Home({
           </div>
         </div>
         <div className="hero-orbit" aria-hidden="true">
-          <div className="hero-logo"><img src={schoolLogo} alt="" /></div>
+          <div className="hero-logo"><img src={schoolLogo} alt="11-р сургуулийн лого" /></div>
         </div>
         <button className="scroll-cue" onClick={scrollToNews} aria-label="Мэдээ хэсэг рүү очих">
           <span>ДООШ</span>
@@ -522,7 +545,7 @@ function TeachersCarousel({ teachers }: { teachers: UiTeacher[] }) {
           {doubled.map((teacher, index) => (
             <article className="teacher-card" key={`${teacher.name}-${index}`}>
               <div className="teacher-photo" aria-hidden="true">
-                {teacher.photo ? <img src={teacher.photo} alt="" /> : getInitials(teacher.name)}
+                {teacher.photo ? <img src={teacher.photo} alt={`${teacher.name} багшийн зураг`} /> : getInitials(teacher.name)}
               </div>
               <h3>{teacher.name}</h3>
               <span>{teacher.subject}</span>
@@ -669,7 +692,7 @@ function Achievements({ achievements }: { achievements: UiAchievement[] }) {
                         <h5>{record.title}</h5>
                         <p>{record.description}</p>
                       </div>
-                      {record.image && <img src={record.image} alt="" />}
+                      {record.image && <img src={record.image} alt={record.title} />}
                     </article>
                   ))}
                 </section>
@@ -952,11 +975,11 @@ function Footer() {
       <div className="footer-grid">
         <div><span>LOCATION</span><p>Партизаны гудамж, Сүхбаатар дүүрэг, Улаанбаатар</p></div>
         <div><span>CONTACT</span><p>+976 11 327226<br />School_11@edub.edu.mn</p></div>
-        <div><span>SOCIAL</span><p className="socials"><a href="https://www.facebook.com/search/top?q=11-%D1%80%20%D1%81%D1%83%D1%80%D0%B3%D1%83%D1%83%D0%BB%D1%8C" target="_blank" rel="noreferrer"><Facebook /></a><a href="https://www.instagram.com/explore/search/keyword/?q=11-%D1%80%20%D1%81%D1%83%D1%80%D0%B3%D1%83%D1%83%D0%BB%D1%8C" target="_blank" rel="noreferrer"><Instagram /></a><a href="https://www.youtube.com/results?search_query=11-%D1%80+%D1%81%D1%83%D1%80%D0%B3%D1%83%D1%83%D0%BB%D1%8C" target="_blank" rel="noreferrer"><Youtube /></a></p></div>
+        <div><span>SOCIAL</span><p className="socials"><a href="https://www.facebook.com/search/top?q=11-%D1%80%20%D1%81%D1%83%D1%80%D0%B3%D1%83%D1%83%D0%BB%D1%8C" target="_blank" rel="noreferrer" aria-label="Facebook"><Facebook /></a><a href="https://www.instagram.com/explore/search/keyword/?q=11-%D1%80%20%D1%81%D1%83%D1%80%D0%B3%D1%83%D1%83%D0%BB%D1%8C" target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram /></a><a href="https://www.youtube.com/results?search_query=11-%D1%80+%D1%81%D1%83%D1%80%D0%B3%D1%83%D1%83%D0%BB%D1%8C" target="_blank" rel="noreferrer" aria-label="YouTube"><Youtube /></a></p></div>
       </div>
       <button className="tetris-trigger" onClick={() => setTetris(true)} aria-label="Нууц тоглоом" />
       <p className="copyright">© 2026 Нийслэлийн 11-р сургууль</p>
-      {tetris && <div className="modal" onClick={() => setTetris(false)}><div className="tetris" onClick={e => e.stopPropagation()}><button onClick={() => setTetris(false)}><X /></button>{Array.from({ length: 120 }).map((_, i) => <span key={i} className={i % 7 === 0 || [55, 56, 57, 68, 81, 82, 94].includes(i) ? "filled" : ""} />)}</div></div>}
+      {tetris && <div className="modal" onClick={() => setTetris(false)}><div className="tetris" onClick={e => e.stopPropagation()}><button onClick={() => setTetris(false)} aria-label="Хаах"><X /></button>{Array.from({ length: 120 }).map((_, i) => <span key={i} className={i % 7 === 0 || [55, 56, 57, 68, 81, 82, 94].includes(i) ? "filled" : ""} />)}</div></div>}
     </footer>
   );
 }
@@ -1017,6 +1040,18 @@ export function App() {
     achievements: fallbackAchievements,
     courses: fallbackCourseSections,
   });
+
+  useEffect(() => {
+    const meta = routeMeta[page];
+    document.title = meta.title;
+    let description = document.querySelector<HTMLMetaElement>("meta[name='description']");
+    if (!description) {
+      description = document.createElement("meta");
+      description.name = "description";
+      document.head.appendChild(description);
+    }
+    description.content = meta.description;
+  }, [page]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(entries => {

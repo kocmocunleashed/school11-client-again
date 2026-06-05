@@ -2,6 +2,7 @@ import { createClient } from "../supabase/server";
 import type { NewsArticle } from "../../types/database";
 
 const newsSelect = "*, category:news_categories(*)";
+const newsByCategorySelect = "*, category:news_categories!inner(*)";
 
 export async function getPublishedNews(limit = 6): Promise<NewsArticle[]> {
   try {
@@ -64,9 +65,10 @@ export async function getNewsByCategory(slug: string): Promise<NewsArticle[]> {
     const supabase = createClient();
     const { data, error } = await supabase
       .from("news")
-      .select(newsSelect)
+      // Use an inner embedded relation so PostgREST filters by the joined category row.
+      .select(newsByCategorySelect)
       .eq("is_published", true)
-      .eq("news_categories.slug", slug)
+      .eq("category.slug", slug)
       .order("published_at", { ascending: false });
 
     if (error) throw error;

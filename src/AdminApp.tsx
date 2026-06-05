@@ -13,9 +13,12 @@ import {
   Users,
 } from "lucide-react";
 import type { FormEvent, ReactNode } from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { AchievementCategory, AchievementYear, ApplicationResult, CourseItem, CourseSection, NewsArticle, NewsCategory, SchoolSettings, Teacher } from "@/types/database";
 import schoolLogo from "../logo of the school.png";
+import { adminApi as api } from "@/lib/admin/api";
+import { parseCsv, toCsv } from "@/lib/admin/csv";
+import { compressImageToWebp } from "@/lib/admin/upload";
 
 type AdminPage = "dashboard" | "news" | "teachers" | "achievements" | "courses" | "applications" | "settings";
 type Toast = { kind: "success" | "error"; text: string } | null;
@@ -59,47 +62,6 @@ const nav = [
 function adminPageFromPath(): AdminPage {
   const slug = window.location.pathname.split("/")[2] as AdminPage | undefined;
   return nav.some(([id]) => id === slug) ? slug! : "dashboard";
-}
-
-async function api(path: string, init?: RequestInit) {
-  const controller = new AbortController();
-  const timeout = window.setTimeout(() => controller.abort(), 20_000);
-
-  try {
-    const res = await fetch(path, {
-      ...init,
-      credentials: "same-origin",
-      signal: init?.signal || controller.signal,
-      headers: init?.body instanceof FormData ? init.headers : { "Content-Type": "application/json", ...(init?.headers || {}) },
-    });
-    if (!res.ok) {
-      const payload = await res.json().catch(() => ({}));
-      throw new Error(payload.error || `Request failed: ${res.status}`);
-    }
-    return res.json();
-  } catch (error) {
-    if (error instanceof DOMException && error.name === "AbortError") {
-      throw new Error("Request timed out");
-    }
-    throw error;
-  } finally {
-    window.clearTimeout(timeout);
-  }
-}
-
-function parseCsv(text: string) {
-  const [head = "", ...lines] = text.trim().split(/\r?\n/);
-  const headers = head.split(",").map(h => h.trim());
-  return lines.filter(Boolean).map(line => {
-    const cols = line.split(",").map(v => v.trim());
-    return Object.fromEntries(headers.map((header, index) => [header, cols[index] || ""]));
-  });
-}
-
-function toCsv(rows: Record<string, unknown>[]) {
-  if (!rows.length) return "";
-  const headers = Object.keys(rows[0] || {});
-  return [headers.join(","), ...rows.map(row => headers.map(header => JSON.stringify(row[header] ?? "")).join(","))].join("\n");
 }
 
 export function AdminApp() {
@@ -173,7 +135,7 @@ export function AdminApp() {
   return (
     <div className="admin-shell">
       <aside className="admin-sidebar">
-        <div className="admin-brand"><img src={schoolLogo} alt="" /><span>11-р сургууль<br /><small>Admin CMS</small></span></div>
+        <div className="admin-brand"><img src={schoolLogo} alt="11-р сургуулийн лого" /><span>11-р сургууль<br /><small>Admin CMS</small></span></div>
         <nav>
           {nav.map(([id, Icon, label]) => (
             <button key={id} className={page === id ? "active" : ""} onClick={() => go(id)}>
@@ -221,17 +183,14 @@ export function AdminLogin() {
       });
 
       const data = await res.json();
-      console.log("[login form] status:", res.status);
-      console.log("[login form] response:", data);
 
       if (res.ok) {
         window.location.href = "/admin";
       } else {
         setError(data.error ?? "Wrong password");
       }
-    } catch (err) {
-      console.error("[login form] fetch failed:", err);
-      setError("Connection error - check console");
+    } catch {
+      setError("Connection error");
     }
   };
 
@@ -249,7 +208,7 @@ export function AdminLogin() {
   return (
     <main className="admin-login">
       <form className={`login-card ${error ? "shake" : ""}`} onSubmit={submit}>
-        <img className="login-logo" src={schoolLogo} alt="" />
+        <img className="login-logo" src={schoolLogo} alt="11-р сургуулийн лого" />
         <h1>11-р сургууль Admin</h1>
         <input type="password" value={password} onChange={event => setPassword(event.target.value)} placeholder="Password" autoFocus />
         {error && <p>{error === "Unauthorized" ? "Wrong password" : error}</p>}
@@ -282,87 +241,54 @@ function Field({ label, children }: { label: string; children: ReactNode }) {
   return <label className="admin-field"><span>{label}</span>{children}</label>;
 }
 
-const compressedImageMaxSide = 1600;
-const compressedImageQuality = 0.82;
-const compressibleImageTypes = new Set(["image/jpeg", "image/png", "image/webp"]);
-
-function renameAsWebp(fileName: string) {
-  const trimmed = fileName.trim() || "upload";
-  const base = trimmed.includes(".") ? trimmed.slice(0, trimmed.lastIndexOf(".")) : trimmed;
-  return `${base || "upload"}.webp`;
-}
-
-function loadImage(file: File) {
-  return new Promise<HTMLImageElement>((resolve, reject) => {
-    const url = URL.createObjectURL(file);
-    const image = new Image();
-    image.onload = () => {
-      URL.revokeObjectURL(url);
-      resolve(image);
-    };
-    image.onerror = () => {
-      URL.revokeObjectURL(url);
-      reject(new Error("Could not read image"));
-    };
-    image.src = url;
-  });
-}
-
-async function compressImageToWebp(file: File) {
-  if (file.type === "image/gif") {
-    throw new Error("GIF uploads are not supported. Please upload a JPG, PNG, or WebP image.");
-  }
-  if (!compressibleImageTypes.has(file.type)) return file;
-
-  const image = await loadImage(file);
-  const sourceWidth = image.naturalWidth || image.width;
-  const sourceHeight = image.naturalHeight || image.height;
-  if (!sourceWidth || !sourceHeight) throw new Error("Could not read image dimensions");
-
-  const scale = Math.min(1, compressedImageMaxSide / Math.max(sourceWidth, sourceHeight));
-  const width = Math.max(1, Math.round(sourceWidth * scale));
-  const height = Math.max(1, Math.round(sourceHeight * scale));
-  const canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
-
-  const context = canvas.getContext("2d");
-  if (!context) throw new Error("Image compression is not supported in this browser");
-  context.drawImage(image, 0, 0, width, height);
-
-  const blob = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve, "image/webp", compressedImageQuality));
-  if (!blob || blob.type !== "image/webp") {
-    throw new Error("WebP compression is not supported in this browser");
-  }
-
-  return new File([blob], renameAsWebp(file.name), { type: "image/webp", lastModified: Date.now() });
-}
-
 function UploadField({ bucket, prefix, value, circular, successMessage = "Uploaded", onChange, notify }: { bucket: string; prefix: string; value?: string | null; circular?: boolean; successMessage?: string | null; onChange: (url: string) => void | Promise<void>; notify: (toast: Toast) => void }) {
   const [preview, setPreview] = useState(value || "");
   const [uploading, setUploading] = useState(false);
+  const previewObjectUrl = useRef<string | null>(null);
   const isDocumentBucket = bucket === "documents";
 
   useEffect(() => {
+    if (previewObjectUrl.current) {
+      URL.revokeObjectURL(previewObjectUrl.current);
+      previewObjectUrl.current = null;
+    }
     setPreview(value || "");
   }, [value]);
 
+  useEffect(() => () => {
+    if (previewObjectUrl.current) URL.revokeObjectURL(previewObjectUrl.current);
+  }, []);
+
+  const setObjectPreview = (file: File) => {
+    if (previewObjectUrl.current) URL.revokeObjectURL(previewObjectUrl.current);
+    previewObjectUrl.current = URL.createObjectURL(file);
+    setPreview(previewObjectUrl.current);
+  };
+
+  const setRemotePreview = (url: string) => {
+    if (previewObjectUrl.current) {
+      URL.revokeObjectURL(previewObjectUrl.current);
+      previewObjectUrl.current = null;
+    }
+    setPreview(url);
+  };
+
   return (
     <div className="upload-field">
-      {preview && <img className={circular ? "upload-preview circle" : "upload-preview"} src={preview} alt="" />}
+      {preview && <img className={circular ? "upload-preview circle" : "upload-preview"} src={preview} alt="Оруулсан файлын урьдчилсан харагдац" />}
       <input type="file" accept={isDocumentBucket ? "application/pdf" : "image/jpeg,image/png,image/webp"} onChange={async event => {
         const file = event.target.files?.[0];
         if (!file) return;
         setUploading(true);
         try {
           const uploadFile = isDocumentBucket ? file : await compressImageToWebp(file);
-          setPreview(URL.createObjectURL(uploadFile));
+          if (!isDocumentBucket) setObjectPreview(uploadFile);
           const form = new FormData();
           form.append("file", uploadFile);
           form.append("prefix", prefix);
           const result = await api(`/api/admin/upload/${bucket}`, { method: "POST", body: form });
           await onChange(result.publicUrl);
-          setPreview(result.publicUrl);
+          setRemotePreview(result.publicUrl);
           if (successMessage) notify({ kind: "success", text: successMessage });
         } catch (error) {
           notify({ kind: "error", text: error instanceof Error ? error.message : "Upload failed" });
@@ -412,7 +338,7 @@ function TeachersManager({ data, save, remove, notify }: { data: AdminData; save
   const blank = { name_mn: "", subject_mn: "", years_exp: 0, bio_mn: "", photo_url: "", is_featured: true, is_active: true, display_order: data.teachers.length + 1 };
   const [editing, setEditing] = useState<Record<string, unknown> | null>(null);
   return <section><AdminTitle title="Teachers Manager" action={<button className="admin-primary" onClick={() => setEditing(blank)}>Add Teacher</button>} />
-    <div className="teacher-admin-grid">{data.teachers.map(t => <button key={t.id} className="teacher-admin-card" onClick={() => setEditing(t as unknown as Record<string, unknown>)}><div>{t.photo_url ? <img src={t.photo_url} /> : t.name_mn.slice(0, 2)}</div><strong>{t.name_mn}</strong><span>{t.subject_mn}</span></button>)}</div>
+    <div className="teacher-admin-grid">{data.teachers.map(t => <button key={t.id} className="teacher-admin-card" onClick={() => setEditing(t as unknown as Record<string, unknown>)}><div>{t.photo_url ? <img src={t.photo_url} alt={`${t.name_mn} багшийн зураг`} /> : t.name_mn.slice(0, 2)}</div><strong>{t.name_mn}</strong><span>{t.subject_mn}</span></button>)}</div>
     {editing && <div className="admin-panel"><TeacherForm record={editing} onCancel={() => setEditing(null)} onDelete={() => editing.id && remove("teachers", String(editing.id))} onSave={async record => { await save("teachers", record); setEditing(null); }} notify={notify} /></div>}
   </section>;
 }
@@ -515,6 +441,7 @@ function ApplicationsManager({ data, save, remove, reload, notify }: { data: Adm
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url; a.download = "application-codes.csv"; a.click();
+    URL.revokeObjectURL(url);
   };
   return <section><AdminTitle title="Application Codes" action={<div><button onClick={exportRows}>Export CSV</button><button className="admin-primary" onClick={() => setForm({ code: "", status: "pending", academic_year: "2024-2025" })}>Add Single Code</button></div>} />
     <div className="admin-filters"><select value={year} onChange={e => setYear(e.target.value)}><option value="">All years</option>{years.map(y => <option key={y} value={y}>{y}</option>)}</select><select value={status} onChange={e => setStatus(e.target.value)}><option value="">All statuses</option>{["accepted", "pending", "waitlisted", "rejected", "incomplete"].map(s => <option key={s}>{s}</option>)}</select></div>

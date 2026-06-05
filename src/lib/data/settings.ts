@@ -16,6 +16,8 @@ export const defaultSchoolSettings: SchoolSettings = {
   instagram_url: null,
   youtube_url: null,
   twitter_url: null,
+  hero_image_url: null,
+  application_guide_url: null,
 };
 
 export async function getSchoolSettings(): Promise<SchoolSettings> {

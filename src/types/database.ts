@@ -143,4 +143,6 @@ export interface SchoolSettings {
   instagram_url: string | null;
   youtube_url?: string | null;
   twitter_url?: string | null;
+  hero_image_url?: string | null;
+  application_guide_url?: string | null;
 }

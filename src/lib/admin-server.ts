@@ -35,9 +35,16 @@ const writableFields: Record<Resource, Set<string>> = {
   achievements: new Set(["year_id", "category_id", "title_mn", "title_en", "description_mn", "description_en", "image_url", "is_published", "display_order"]),
   courseItems: new Set(["section_id", "title_mn", "title_en", "short_desc_mn", "short_desc_en", "full_desc_mn", "full_desc_en", "teacher_name", "schedule_mn", "location_mn", "max_students", "current_students", "tags", "is_active", "display_order"]),
   applications: new Set(["code", "student_name", "status", "message_mn", "academic_year", "grade_applying", "notes"]),
-  settings: new Set(["school_name_mn", "school_name_en", "established", "student_count", "teacher_count", "club_count", "address_mn", "city", "phone", "email", "facebook_url", "instagram_url", "youtube_url", "twitter_url", "hero_image_url"]),
+  settings: new Set(["school_name_mn", "school_name_en", "established", "student_count", "teacher_count", "club_count", "address_mn", "city", "phone", "email", "facebook_url", "instagram_url", "youtube_url", "twitter_url", "hero_image_url", "application_guide_url"]),
 };
 const applicationStatuses = new Set(["accepted", "pending", "waitlisted", "rejected", "incomplete"]);
+const imageFields: Partial<Record<Resource, string[]>> = {
+  news: ["cover_image_url", "author_photo"],
+  teachers: ["photo_url"],
+  years: ["image_url"],
+  achievements: ["image_url"],
+  settings: ["hero_image_url"],
+};
 
 function normalizePassword(value: unknown) {
   return String(value ?? "").trim();
@@ -408,6 +415,12 @@ function sanitizeRecord(resource: Resource, payload: Record<string, unknown>) {
     if (allowed.has(key)) record[key] = value;
   }
 
+  for (const field of imageFields[resource] || []) {
+    if (field in record) {
+      record[field] = sanitizeHttpsImageUrl(record[field], field);
+    }
+  }
+
   if (resource === "applications") {
     record.code = String(record.code || "").trim().toUpperCase();
     if (String(record.code).length !== 8) throw new Error("Application code must be 8 characters");
@@ -415,4 +428,18 @@ function sanitizeRecord(resource: Resource, payload: Record<string, unknown>) {
   }
 
   return record;
+}
+
+function sanitizeHttpsImageUrl(value: unknown, field: string) {
+  if (value === null || value === undefined) return value;
+  const text = String(value).trim();
+  if (!text) return "";
+
+  try {
+    const url = new URL(text);
+    if (url.protocol !== "https:") throw new Error("Invalid protocol");
+    return url.toString();
+  } catch {
+    throw new Error(`${field} must be an HTTPS URL`);
+  }
 }

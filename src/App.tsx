@@ -798,10 +798,11 @@ function Courses({ sections }: { sections: typeof fallbackCourseSections }) {
   );
 }
 
-function Apply() {
+function Apply({ settings }: { settings: SchoolSettings }) {
   const [code, setCode] = useState("");
   const [result, setResult] = useState<ResultState>("idle");
   const [resultMessage, setResultMessage] = useState<string | null>(null);
+  const guideUrl = settings.application_guide_url || applicationGuide;
   const check = async () => {
     const normalized = code.trim().toUpperCase();
     if (normalized.length !== 8) {
@@ -847,10 +848,10 @@ function Apply() {
       <section className="apply-grid">
         <article className="pdf-card">
           <h3><FileText size={22} /> Элсэлтийн гарын авлага</h3>
-          <object data={applicationGuide} type="application/pdf" aria-label="Элсэлтийн гарын авлага">
-            <a href={applicationGuide}>PDF татаж авах</a>
+          <object data={guideUrl} type="application/pdf" aria-label="Элсэлтийн гарын авлага">
+            <a href={guideUrl}>PDF татаж авах</a>
           </object>
-          <a className="download-link" href={applicationGuide} download>PDF татаж авах</a>
+          <a className="download-link" href={guideUrl} download>PDF татаж авах</a>
         </article>
         <article className="checker-card">
           <h3>Элсэлтийн үр дүн шалгах</h3>
@@ -1101,7 +1102,7 @@ export function App() {
         {page === "about" && <About settings={siteData.settings} />}
         {page === "achievements" && <Achievements achievements={siteData.achievements} />}
         {page === "courses" && <Courses sections={siteData.courses} />}
-        {page === "apply" && <Apply />}
+        {page === "apply" && <Apply settings={siteData.settings} />}
       </div>
       <Footer />
     </>

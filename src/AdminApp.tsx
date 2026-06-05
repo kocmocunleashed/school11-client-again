@@ -241,11 +241,26 @@ function Field({ label, children }: { label: string; children: ReactNode }) {
   return <label className="admin-field"><span>{label}</span>{children}</label>;
 }
 
-function UploadField({ bucket, prefix, value, circular, successMessage = "Uploaded", onChange, notify }: { bucket: string; prefix: string; value?: string | null; circular?: boolean; successMessage?: string | null; onChange: (url: string) => void | Promise<void>; notify: (toast: Toast) => void }) {
+function normalizeImageLink(value: string) {
+  const trimmed = value.trim();
+  if (!trimmed) return "";
+
+  try {
+    const url = new URL(trimmed);
+    if (url.protocol !== "https:") throw new Error("Only HTTPS image links are allowed");
+    return url.toString();
+  } catch {
+    throw new Error("Enter a valid HTTPS image link");
+  }
+}
+
+function UploadField({ bucket, prefix, value, circular, successMessage = "Uploaded", linkLabel = "Current file", onChange, onLinkChange, notify }: { bucket: string; prefix: string; value?: string | null; circular?: boolean; successMessage?: string | null; linkLabel?: string; onChange: (url: string) => void | Promise<void>; onLinkChange?: (url: string) => void | Promise<void>; notify: (toast: Toast) => void }) {
   const [preview, setPreview] = useState(value || "");
+  const [linkValue, setLinkValue] = useState(value || "");
   const [uploading, setUploading] = useState(false);
   const previewObjectUrl = useRef<string | null>(null);
   const isDocumentBucket = bucket === "documents";
+  const allowLinkInput = !isDocumentBucket;
 
   useEffect(() => {
     if (previewObjectUrl.current) {
@@ -253,6 +268,7 @@ function UploadField({ bucket, prefix, value, circular, successMessage = "Upload
       previewObjectUrl.current = null;
     }
     setPreview(value || "");
+    setLinkValue(value || "");
   }, [value]);
 
   useEffect(() => () => {
@@ -271,11 +287,36 @@ function UploadField({ bucket, prefix, value, circular, successMessage = "Upload
       previewObjectUrl.current = null;
     }
     setPreview(url);
+    setLinkValue(url);
+  };
+
+  const applyLink = async () => {
+    try {
+      const url = normalizeImageLink(linkValue);
+      if (previewObjectUrl.current) {
+        URL.revokeObjectURL(previewObjectUrl.current);
+        previewObjectUrl.current = null;
+      }
+      setPreview(url);
+      setLinkValue(url);
+      await (onLinkChange || onChange)(url);
+      notify({ kind: "success", text: url ? "Image link applied. Press Save to keep it." : "Image cleared. Press Save to keep it." });
+    } catch (error) {
+      notify({ kind: "error", text: error instanceof Error ? error.message : "Invalid image link" });
+    }
   };
 
   return (
     <div className="upload-field">
-      {preview && <img className={circular ? "upload-preview circle" : "upload-preview"} src={preview} alt="Оруулсан файлын урьдчилсан харагдац" />}
+      {preview && (isDocumentBucket
+        ? <a href={preview} target="_blank" rel="noreferrer">{linkLabel}</a>
+        : <img className={circular ? "upload-preview circle" : "upload-preview"} src={preview} alt="Оруулсан файлын урьдчилсан харагдац" />)}
+      {allowLinkInput && (
+        <div className="upload-link-row">
+          <input type="url" value={linkValue} placeholder="https://example.com/photo.jpg" onChange={event => setLinkValue(event.target.value)} />
+          <button type="button" onClick={applyLink}>Use link</button>
+        </div>
+      )}
       <input type="file" accept={isDocumentBucket ? "application/pdf" : "image/jpeg,image/png,image/webp"} onChange={async event => {
         const file = event.target.files?.[0];
         if (!file) return;
@@ -360,7 +401,7 @@ function TeacherForm({ record, onSave, onCancel, onDelete, notify }: { record: R
     <Field label="Subject"><input value={String(form.subject_mn || "")} onChange={e => set("subject_mn", e.target.value)} required /></Field>
     <Field label="Years of experience"><input type="number" value={Number(form.years_exp || 0)} onChange={e => set("years_exp", Number(e.target.value))} /></Field>
     <Field label="Bio"><textarea value={String(form.bio_mn || "")} onChange={e => set("bio_mn", e.target.value)} /></Field>
-    <Field label="Photo"><UploadField bucket="teacher-photos" prefix="teachers" circular value={String(form.photo_url || "")} successMessage={form.id ? null : "Uploaded. Press Save to keep it."} onChange={savePhoto} notify={notify} /></Field>
+    <Field label="Photo"><UploadField bucket="teacher-photos" prefix="teachers" circular value={String(form.photo_url || "")} successMessage={form.id ? null : "Uploaded. Press Save to keep it."} onChange={savePhoto} onLinkChange={url => set("photo_url", url)} notify={notify} /></Field>
     <label><input type="checkbox" checked={Boolean(form.is_featured)} onChange={e => set("is_featured", e.target.checked)} /> Featured</label>
     <label><input type="checkbox" checked={Boolean(form.is_active)} onChange={e => set("is_active", e.target.checked)} /> Active</label>
     <Field label="Display order"><input type="number" value={Number(form.display_order || 0)} onChange={e => set("display_order", Number(e.target.value))} /></Field>
@@ -464,6 +505,7 @@ function SettingsManager({ data, save, notify }: { data: AdminData; save: (r: st
   return <section><AdminTitle title="School Settings" action={null} /><form className="admin-form wide" onSubmit={async e => { e.preventDefault(); await save("settings", form); }}>
     {fields.map(key => <Field key={key} label={key}><input value={String(form[key] || "")} onChange={e => setForm(f => ({ ...f, [key]: ["student_count", "teacher_count", "club_count"].includes(key) ? Number(e.target.value) : e.target.value }))} /></Field>)}
     <Field label="Hero background image"><UploadField bucket="site-assets" prefix="hero" value={String(form.hero_image_url || "")} onChange={url => setForm(f => ({ ...f, hero_image_url: url }))} notify={notify} /></Field>
+    <Field label="Application guide PDF"><UploadField bucket="documents" prefix="documents" value={String(form.application_guide_url || "")} linkLabel="Current application guide PDF" onChange={url => setForm(f => ({ ...f, application_guide_url: url }))} notify={notify} /></Field>
     <button className="admin-primary">Save Settings</button>
   </form></section>;
 }

@@ -37,7 +37,7 @@ import applicationGuide from "../public/application-guide.pdf";
 import "./index.css";
 
 type Page = "home" | "about" | "achievements" | "courses" | "apply";
-type ResultState = "idle" | "success" | "pending" | "not-found" | "invalid";
+type ResultState = "idle" | "success" | "pending" | "rejected" | "not-found" | "invalid";
 type UiNews = {
   id: string | number;
   category: string;
@@ -804,7 +804,7 @@ function Apply({ settings }: { settings: SchoolSettings }) {
       const payload = await response.json() as { status: string; message_mn?: string | null };
       setResultMessage(payload.message_mn || null);
       if (payload.status === "accepted") setResult("success");
-      else if (payload.status === "rejected") setResult("not-found");
+      else if (payload.status === "rejected") setResult("rejected");
       else setResult("pending");
     } catch (error) {
       console.error("Application lookup failed:", error);
@@ -815,6 +815,7 @@ function Apply({ settings }: { settings: SchoolSettings }) {
   const state = useMemo(() => (result === "idle" ? null : {
     success: [CheckCircle2, "Тэнцсэн", resultMessage || "Таны бүртгэл баталгаажсан байна."],
     pending: [Clock3, "Хүлээгдэж байна", resultMessage || "Материал шалгах шатанд байна."],
+    rejected: [CircleX, "Тэнцээгүй", resultMessage || "Уучлаарай, энэ удаад элсэлт баталгаажсангүй."],
     "not-found": [CircleX, "Олдсонгүй", resultMessage || "Кодоо дахин шалгана уу."],
     invalid: [CircleX, "Код буруу", "Код хоосон биш, яг 8 тэмдэгттэй байх ёстой."],
   }[result]), [result, resultMessage]);

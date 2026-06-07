@@ -882,7 +882,7 @@ h1, h2, h3 { font-family: "Space Grotesk", "DM Sans", sans-serif; letter-spacing
 .result { align-items: center; border-radius: 12px; display: flex; gap: 12px; margin-top: 16px; padding: 15px; }
 .result.success { background: rgba(34,197,94,0.14); border: 1px solid rgba(34,197,94,0.45); }
 .result.pending { background: rgba(245,158,11,0.14); border: 1px solid rgba(245,158,11,0.45); }
-.result.not-found, .result.invalid { background: rgba(239,68,68,0.14); border: 1px solid rgba(239,68,68,0.45); }
+.result.rejected, .result.not-found, .result.invalid { background: rgba(239,68,68,0.14); border: 1px solid rgba(239,68,68,0.45); }
 .result strong, .result small { display: block; }
 .result small { color: var(--muted); }
 

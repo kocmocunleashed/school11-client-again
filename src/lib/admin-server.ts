@@ -1,5 +1,6 @@
 import { clearSharedRateLimit, consumeSharedRateLimit, getClientIp, loginRateLimit, makeRateLimitKey, type RateLimitBucket } from "./api-handlers/rate-limit";
 import { noStoreHeaders } from "./api-handlers/http";
+import { hallDataResult } from "./hall-data-result";
 import { sanitizeAdminRecord, sanitizeBulkApplicationRows, validateToggleNewsPayload, type Resource } from "./admin-validation";
 
 const COOKIE_NAME = "school11_admin";
@@ -304,7 +305,8 @@ export async function adminBootstrap(req: Request) {
     adminClient.from("hall_of_fame").select("*").order("display_order", { ascending: true }),
   ]);
 
-  const errors = [news.error, teachers.error, years.error, achievements.error, sections.error, courseItems.error, applications.error, settings.error, hallOfFame.error].filter(Boolean);
+  const hallRecords = hallDataResult(hallOfFame);
+  const errors = [news.error, teachers.error, years.error, achievements.error, sections.error, courseItems.error, applications.error, settings.error].filter(Boolean);
   if (errors[0]) throw errors[0];
 
   return json({
@@ -318,7 +320,7 @@ export async function adminBootstrap(req: Request) {
     courseItems: courseItems.data || [],
     applications: applications.data || [],
     settings: settings.data || null,
-    hallOfFame: hallOfFame.data || [],
+    hallOfFame: hallRecords,
   });
 }
 

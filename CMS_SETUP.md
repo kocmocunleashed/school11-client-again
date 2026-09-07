@@ -28,6 +28,8 @@ Set the Vercel Root Directory to `school11-redesign` when deploying this reposit
 
 Apply the two pending redesign migrations to Supabase before serving the deployment; a Vercel build does not apply database migrations. Existing databases must also have the original schema and security migrations.
 
+If `hall_of_fame` has not been created yet, the public site and existing admin sections remain available with an empty Hall of Fame. The server logs a migration warning. Hall of Fame editing and the new settings columns still require the migrations; credential errors and other database failures are not treated as missing-table compatibility cases.
+
 The inherited upload endpoint sends multipart files through a Vercel Function. Vercel limits request bodies to 4.5 MB, so keep individual uploads below 4 MB to leave room for multipart overhead, even though the app currently allows 5 MB images and 10 MB PDFs. Larger files require a future direct-to-storage upload flow.
 
 ## Editing map

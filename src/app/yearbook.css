@@ -1,5 +1,5 @@
 /* The student yearbook: sunflower, ultramarine, ink, and pink paper. */
-.public-site{--blue:#2344df;--blue-deep:#1430b1;--blue-soft:#ececff;--ink:#19233b;--slate:#55586b;--line:#d5d2c9;--paper:#faf9f5;--gold:#ffda45;--shell:min(1320px,calc(100% - 88px));background:#faf9f5;color:var(--ink)}
+.public-site{--blue:#2344df;--blue-deep:#1430b1;--blue-soft:#ececff;--ink:#19233b;--slate:#55586b;--line:#d5d2c9;--paper:#faf9f5;--gold:#ffda45;--shell:calc(100% - clamp(88px,8vw,192px));background:#faf9f5;color:var(--ink)}
 .public-site ::selection{background:#ff99ba;color:#19233b}.public-site :focus-visible{outline:3px solid #f44770;outline-offset:5px}.public-site h1,.public-site h2,.public-site h3{letter-spacing:-.035em}
 .public-site .site-header{background:#ffda45}.public-site .utility-bar{background:#ffda45;color:#3c3d36}.public-site .utility-bar>div{border-bottom:1px solid #19233b22;min-height:30px}.public-site .header-inner{height:91px}.public-site .site-brand strong{font-weight:750;font-size:18px}.public-site .site-brand small{color:#424839}.public-site .desktop-nav a{font-size:13px;font-weight:600}.public-site .desktop-nav a[aria-current=page]{color:#19233b;border-color:#19233b}.public-site .header-apply{border-radius:100px;background:#19233b;color:#fff;padding:14px 24px;font-size:13px}.public-site .header-apply:hover{background:#2344df}.public-site .preview-notice{background:#f5cf3d;color:#50441e;font-size:9px;padding-block:5px}
 .public-site .primary-button{background:#2344df;border:1px solid #2344df;border-radius:100px;font-weight:600;padding:17px 25px;gap:20px;transition:background .2s,transform .25s}.public-site .primary-button:hover{background:#19233b;border-color:#19233b;transform:translateY(-3px)}.public-site .secondary-button{background:transparent;border-radius:100px;border-color:#19233b}.public-site .text-action{font-size:14px;font-weight:600}.public-site .primary-button svg{width:20px;height:20px}
@@ -23,3 +23,22 @@
 .honoree-more{margin-top:16px;border-top:1px solid #d5d2c9;padding-top:12px}.honoree-more summary{font-size:12px;color:#2344df;cursor:pointer;font-weight:600}.honoree-more ul{margin-top:14px}.honoree-more[open] summary{margin-bottom:12px}
 .arrival-lead,.school-introduction h2,.join-section h2{white-space:pre-line}.cms-teachers{background:#eeedff}.cms-teacher-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}.cms-teacher-photo{position:relative;height:255px;background:#ffda45;display:grid;place-items:center;overflow:hidden}.cms-teacher-photo img{object-fit:cover;object-position:top}.cms-teacher-photo>span{font-size:20px;font-weight:700;padding:20px;overflow-wrap:anywhere}.cms-teacher-grid h3{font-size:21px;margin-top:17px}.cms-teacher-grid p{font-size:13px;margin-top:7px}.cms-teacher-grid p:last-child{white-space:pre-line}.inner-page .cms-teachers{padding:35px;margin-top:60px}.cms-teachers .section-heading>h2{font-size:38px}@media(max-width:700px){.cms-teacher-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.cms-teacher-photo{height:180px}.cms-teacher-grid h3{font-size:17px}.cms-teachers .section-heading>h2{font-size:30px}.inner-page .cms-teachers{padding:20px}}
 @media(max-width:700px){.public-site .school-numbers{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:24px}}
+
+/* Let the desktop composition grow with the display instead of stopping at 1320px. */
+@media (min-width: 1101px) {
+  .public-site .arrival {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100svh - 121px);
+  }
+  .arrival-grid {
+    flex: 1;
+    min-height: 620px;
+  }
+  .arrival-copy { align-self: center; padding-block: 28px; }
+  .public-site .arrival h1 { font-size: clamp(80px, 6.7vw, 164px); }
+  .arrival-lead { font-size: clamp(16px, 1.05vw, 24px); }
+  .sculpture-number { font-size: clamp(360px, 33vw, 780px); }
+  .campus-postcard { max-width: 600px; width: 74%; }
+  .postcard-photo { height: clamp(190px, 14vw, 340px); }
+}

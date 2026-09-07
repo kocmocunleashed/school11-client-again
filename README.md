@@ -15,6 +15,17 @@ bun run dev --port 3011
 
 Open http://localhost:3011. Production: `bun run build`, then `bun run start --port 3011`.
 
+## Styling
+
+Tailwind CSS v4 runs through `@tailwindcss/postcss`. `src/app/globals.css` is the single stylesheet entry point, with explicit theme, base, components, and utilities layers. Utilities in JSX override the shared component styles.
+
+- `src/styles/theme.css` maps the school's colors, fonts, and fluid spacing to Tailwind tokens, such as `text-school-ink`, `font-ui`, and `pt-school-3`.
+- `src/styles/base.css` keeps the existing reset and CSS variables. Tailwind Preflight is intentionally omitted to preserve the current typography and native form controls.
+- `src/styles/public.css` and `src/styles/admin.css` use `@apply` for shared styles. Each references the theme so Next.js can compile imported stylesheets independently. One-off layouts also use utilities directly in JSX.
+- Custom CSS remains for the dimensional “11”, orbital artwork, gradients, and keyframe animations. Existing media queries retain their exact breakpoints, including reduced-motion behavior.
+
+Use literal Tailwind class names so source detection can find them. For conditional styling, select complete class strings instead of constructing utility names dynamically.
+
 ## Scope
 
 - Original responsive Mongolian homepage, school information, academic catalog, achievement timeline, news index and reader, admissions interface, navigation and footer.

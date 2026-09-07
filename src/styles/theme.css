@@ -1,0 +1,21 @@
+@import "tailwindcss/theme.css" layer(theme);
+
+@theme inline {
+  --color-school-blue: var(--blue);
+  --color-school-deep: var(--blue-deep);
+  --color-school-soft: var(--blue-soft);
+  --color-school-ink: var(--ink);
+  --color-school-muted: var(--slate);
+  --color-school-line: var(--line);
+  --color-school-paper: var(--paper);
+  --color-school-gold: var(--gold);
+  --color-school-danger: var(--danger);
+  --color-school-success: var(--success);
+  --font-ui: var(--font-sans);
+  --font-editorial: var(--font-display);
+  --spacing-school-1: var(--space-1);
+  --spacing-school-2: var(--space-2);
+  --spacing-school-3: var(--space-3);
+  --spacing-school-4: var(--space-4);
+  --spacing-school-5: var(--space-5);
+}

@@ -1,0 +1,65 @@
+@reference "./theme.css";
+
+:root {
+  --blue: #0757a6;
+  --blue-deep: #063f79;
+  --blue-soft: #eaf2fa;
+  --gold: #f6b512;
+  --gold-soft: #fff5d9;
+  --ink: #132033;
+  --slate: #667085;
+  --line: #d9e0e8;
+  --paper: #f7f8fa;
+  --white: #fff;
+  --danger: #b42318;
+  --success: #067647;
+  --shell: min(1180px, calc(100% - 40px));
+  --space-1: clamp(.5rem, .4rem + .25vw, .75rem);
+  --space-2: clamp(.85rem, .7rem + .5vw, 1.25rem);
+  --space-3: clamp(1.25rem, 1rem + 1vw, 2rem);
+  --space-4: clamp(2rem, 1.35rem + 2.5vw, 4rem);
+  --space-5: clamp(3.5rem, 2.5rem + 4vw, 7rem);
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  @apply [background:var(--white)] text-school-ink;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  @apply m-0 min-w-[320px];
+}
+body, button, input, select, textarea {
+  font: inherit;
+}
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  @apply cursor-pointer;
+}
+a {
+  @apply text-inherit no-underline;
+}
+img {
+  @apply block max-w-full;
+}
+h1, h2, h3, h4, p {
+  @apply my-0;
+}
+h1, h2 {
+  font-family: var(--font-display), Georgia, serif;
+  @apply text-balance;
+}
+p {
+  @apply leading-[1.65];
+}
+svg {
+  @apply [flex:0_0_auto];
+}
+:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+}

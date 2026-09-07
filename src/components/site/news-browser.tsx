@@ -74,7 +74,7 @@ export function NewsBrowser({ home = false }: { items?: NewsArticle[]; home?: bo
           </div>
         </article>)}
       </div>
-      {home && feedItems.length > 3 ? <button className="secondary-button news-more" type="button" onClick={() => setShowAll(value => !value)}>{showAll ? "Хураах" : "Бүх мэдээг харах"}</button> : null}
+      {home && feedItems.length > 3 ? <button className="secondary-button news-more mt-5" type="button" onClick={() => setShowAll(value => !value)}>{showAll ? "Хураах" : "Бүх мэдээг харах"}</button> : null}
       {selected ? <div className="dialog-backdrop" onMouseDown={event => event.target === event.currentTarget && setSelected(null)}>
         <div className="news-dialog" role="dialog" aria-modal="true" aria-labelledby={titleId} ref={dialog}>
           <button className="dialog-close" type="button" onClick={() => setSelected(null)} aria-label="Мэдээ хаах"><X /></button>
@@ -83,7 +83,7 @@ export function NewsBrowser({ home = false }: { items?: NewsArticle[]; home?: bo
             <p className="news-category">{selected.category?.name_mn || "Мэдээ"}</p>
             <p className="news-date">{dateLabel(selected.published_at)} · {selected.read_time_min || 3} минут</p>
             <h2 id={titleId}>{selected.title_mn}</h2>
-            <p className="dialog-author">{selected.author_name}{selected.author_role ? ` · ${selected.author_role}` : ""}</p>
+            <p className="dialog-author [border-bottom:1px_solid_var(--line)] text-school-muted text-[.86rem] mt-5 pb-5">{selected.author_name}{selected.author_role ? ` · ${selected.author_role}` : ""}</p>
             <div className="article-body"><p>{selected.body_mn || selected.excerpt_mn}</p></div>
             <div className="tag-list">{selected.tags.map(tag => <span key={tag}>{tag}</span>)}</div>
           </div>

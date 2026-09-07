@@ -133,27 +133,27 @@ export function AdminApp({ mode = "live" }: { mode?: "live" | "mock" }) {
   };
 
   return (
-    <div className="admin-shell">
-      <aside className="admin-sidebar">
-        <div className="admin-brand"><img src="/school-logo.png" alt="11-р сургуулийн лого" /><span>11-р сургууль<br /><small>Удирдлагын систем</small></span></div>
-        <nav>
+    <div className="admin-shell grid min-h-svh grid-cols-[260px_minmax(0,1fr)] bg-[#f4f6f8] text-school-ink [@media(max-width:980px)]:grid-cols-1">
+      <aside className="admin-sidebar sticky top-0 flex h-svh flex-col gap-[1.4rem] bg-school-deep px-4 py-[1.3rem] text-[#e6edf6] [@media(max-width:980px)]:static [@media(max-width:980px)]:h-auto">
+        <div className="admin-brand flex items-center gap-3 [border-bottom:1px_solid_rgba(255,255,255,.18)] pb-4 font-extrabold leading-[1.2]"><img src="/school-logo.png" alt="11-р сургуулийн лого" /><span>11-р сургууль<br /><small>Удирдлагын систем</small></span></div>
+        <nav className="grid gap-[.3rem]">
           {nav.map(([id, Icon, label]) => (
             <button key={id} className={page === id ? "active" : ""} onClick={() => go(id)}>
               <Icon size={18} /> {label}
             </button>
           ))}
         </nav>
-        <button className="admin-logout" onClick={async () => {
+        <button className="admin-logout mt-auto [@media(max-width:980px)]:mt-0" onClick={async () => {
           if (mode === "mock") { router.push("/"); return; }
           await request("/api/admin/logout", { method: "POST" });
           router.replace("/admin/login");
         }}><LogOut size={18} /> {mode === "mock" ? "Exit Demo" : "Logout"}</button>
       </aside>
-      <main className="admin-main">
-        {mode === "mock" ? <div className="admin-demo-bar" role="status"><span><strong>Demo mode</strong> Browser-local sample database · no backend connection</span><button type="button" onClick={resetDemo}><RotateCcw size={16} /> Reset demo data</button></div> : null}
+      <main className="admin-main relative min-w-0 overflow-x-auto p-[clamp(1.2rem,3vw,2.5rem)] [@media(max-width:700px)]:p-4">
+        {mode === "mock" ? <div className="admin-demo-bar mb-6 flex items-center justify-between gap-4 border border-solid border-[#e9c65f] bg-[#fff8df] px-4 py-3 text-[#5c4810] [@media(max-width:700px)]:flex-col [@media(max-width:700px)]:items-stretch" role="status"><span><strong>Demo mode</strong> Browser-local sample database · no backend connection</span><button type="button" onClick={resetDemo}><RotateCcw size={16} /> Reset demo data</button></div> : null}
         {toast && <div className={`admin-toast ${toast.kind}`} role="status" aria-live="polite">{toast.text}</div>}
-        {loading && <div className="admin-loading">Loading...</div>}
-        {!loading && loadError && <div className="admin-loading">{loadError}</div>}
+        {loading && <div className="admin-loading border border-solid border-school-line bg-white p-[1.3rem]">Loading...</div>}
+        {!loading && loadError && <div className="admin-loading border border-solid border-school-line bg-white p-[1.3rem]">{loadError}</div>}
         {!loading && !loadError && page === "dashboard" && <Dashboard go={go} />}
         {!loading && !loadError && page === "news" && <NewsManager data={data} save={save} remove={remove} reload={load} notify={notify} request={request} />}
         {!loading && !loadError && page === "teachers" && <TeachersManager data={data} save={save} remove={remove} notify={notify} request={request} />}
@@ -205,10 +205,10 @@ export function AdminLogin() {
   };
 
   return (
-    <main className="admin-login">
+    <main className="admin-login flex min-h-svh items-center justify-center bg-school-deep p-5">
       <form className={`login-card ${error ? "shake" : ""}`} onSubmit={submit}>
-        <img className="login-logo" src="/school-logo.png" alt="11-р сургуулийн лого" />
-        <p className="login-kicker">Удирдлагын систем</p>
+        <img className="login-logo mx-auto mb-2 size-[84px] object-contain" src="/school-logo.png" alt="11-р сургуулийн лого" />
+        <p className="login-kicker text-center text-[.7rem] font-extrabold tracking-[.12em] text-school-blue uppercase">Удирдлагын систем</p>
         <h1>11-р сургууль</h1>
         <label htmlFor="admin-password">Нууц үг</label>
         <input id="admin-password" type="password" value={password} onChange={event => setPassword(event.target.value)} placeholder="Нууц үгээ оруулна уу" autoFocus />
@@ -223,7 +223,7 @@ function Dashboard({ go }: { go: (page: AdminPage) => void }) {
   return (
     <section>
       <AdminTitle title="Dashboard" action={null} />
-      <div className="admin-card-grid">
+      <div className="admin-card-grid grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-px border border-solid border-school-line bg-school-line">
         {nav.slice(1).map(([id, Icon, label]) => (
           <button className="admin-card-link" key={id} onClick={() => go(id)}>
             <Icon /> <strong>{label}</strong><span>Manage content</span>
@@ -235,11 +235,11 @@ function Dashboard({ go }: { go: (page: AdminPage) => void }) {
 }
 
 function AdminTitle({ title, action }: { title: string; action: ReactNode }) {
-  return <div className="admin-title"><h1>{title}</h1>{action}</div>;
+  return <div className="admin-title mb-6 flex flex-wrap items-center justify-between gap-4"><h1>{title}</h1>{action}</div>;
 }
 
 function Field({ label, children }: { label: string; children: ReactNode }) {
-  return <label className="admin-field"><span>{label}</span>{children}</label>;
+  return <label className="admin-field grid gap-[.35rem]"><span>{label}</span>{children}</label>;
 }
 
 function normalizeImageLink(value: string) {
@@ -311,12 +311,12 @@ function UploadField({ bucket, prefix, value, circular, successMessage = "Upload
   };
 
   return (
-    <div className="upload-field">
+    <div className="upload-field grid gap-[.6rem]">
       {preview && (isDocumentBucket
         ? <a href={preview} target="_blank" rel="noreferrer">{linkLabel}</a>
         : <img className={circular ? "upload-preview circle" : "upload-preview"} src={preview} alt="Оруулсан файлын урьдчилсан харагдац" />)}
       {allowLinkInput && (
-        <div className="upload-link-row">
+        <div className="upload-link-row grid grid-cols-[minmax(0,1fr)_auto] gap-2 [@media(max-width:700px)]:grid-cols-1">
           <input type="url" value={linkValue} placeholder="https://example.com/photo.jpg" onChange={event => setLinkValue(event.target.value)} />
           <button type="button" onClick={applyLink}>Use link</button>
         </div>
@@ -367,7 +367,7 @@ function NewsForm({ record, categories, onSave, onCancel, notify, request }: { r
   return <form className="admin-form" onSubmit={async event => { event.preventDefault(); setSaving(true); await onSave({ ...form, tags: String(form.tags || "").split(",").map(t => t.trim()).filter(Boolean) }); setSaving(false); }}>
     <Field label="Title (Mongolian)"><input value={String(form.title_mn || "")} onChange={e => set("title_mn", e.target.value)} required /></Field>
     <Field label="Category"><select value={String(form.category_id || "")} onChange={e => set("category_id", e.target.value)}>{categories.map(c => <option key={c.id} value={c.id}>{c.name_mn}</option>)}</select></Field>
-    <div className="admin-two"><Field label="Author name"><input value={String(form.author_name || "")} onChange={e => set("author_name", e.target.value)} /></Field><Field label="Author role"><input value={String(form.author_role || "")} onChange={e => set("author_role", e.target.value)} /></Field></div>
+    <div className="admin-two grid grid-cols-2 gap-[1.2rem] [@media(max-width:700px)]:grid-cols-1"><Field label="Author name"><input value={String(form.author_name || "")} onChange={e => set("author_name", e.target.value)} /></Field><Field label="Author role"><input value={String(form.author_role || "")} onChange={e => set("author_role", e.target.value)} /></Field></div>
     <Field label="Read time"><input type="number" value={Number(form.read_time_min || 3)} onChange={e => set("read_time_min", Number(e.target.value))} /></Field>
     <Field label="Cover image"><UploadField bucket="news-images" prefix="news" value={String(form.cover_image_url || "")} onChange={url => set("cover_image_url", url)} notify={notify} request={request} /></Field>
     <Field label="Excerpt"><textarea value={String(form.excerpt_mn || "")} onChange={e => set("excerpt_mn", e.target.value)} /></Field>
@@ -375,7 +375,7 @@ function NewsForm({ record, categories, onSave, onCancel, notify, request }: { r
     <Field label="Tags"><input value={Array.isArray(form.tags) ? form.tags.join(", ") : String(form.tags || "")} onChange={e => set("tags", e.target.value)} /></Field>
     <label><input type="checkbox" checked={Boolean(form.is_featured)} onChange={e => set("is_featured", e.target.checked)} /> Featured</label>
     <label><input type="checkbox" checked={Boolean(form.is_published)} onChange={e => set("is_published", e.target.checked)} /> Published</label>
-    <div className="admin-actions"><button type="button" onClick={onCancel}>Cancel</button><button className="admin-primary" disabled={saving}><Save size={16} /> {saving ? "Saving..." : "Save"}</button></div>
+    <div className="admin-actions flex flex-wrap justify-end gap-[.6rem]"><button type="button" onClick={onCancel}>Cancel</button><button className="admin-primary" disabled={saving}><Save size={16} /> {saving ? "Saving..." : "Save"}</button></div>
   </form>;
 }
 
@@ -383,7 +383,7 @@ function TeachersManager({ data, save, remove, notify, request }: { data: AdminD
   const blank = { name_mn: "", subject_mn: "", years_exp: 0, bio_mn: "", photo_url: "", is_featured: true, is_active: true, display_order: data.teachers.length + 1 };
   const [editing, setEditing] = useState<Record<string, unknown> | null>(null);
   return <section><AdminTitle title="Teachers Manager" action={<button className="admin-primary" onClick={() => setEditing(blank)}>Add Teacher</button>} />
-    <div className="teacher-admin-grid">{data.teachers.map(t => <button key={t.id} className="teacher-admin-card" onClick={() => setEditing(t as unknown as Record<string, unknown>)}><div>{t.photo_url ? <img src={t.photo_url} alt={`${t.name_mn} багшийн зураг`} /> : t.name_mn.slice(0, 2)}</div><strong>{t.name_mn}</strong><span>{t.subject_mn}</span></button>)}</div>
+    <div className="teacher-admin-grid grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-px border border-solid border-school-line bg-school-line">{data.teachers.map(t => <button key={t.id} className="teacher-admin-card" onClick={() => setEditing(t as unknown as Record<string, unknown>)}><div>{t.photo_url ? <img src={t.photo_url} alt={`${t.name_mn} багшийн зураг`} /> : t.name_mn.slice(0, 2)}</div><strong>{t.name_mn}</strong><span>{t.subject_mn}</span></button>)}</div>
     {editing && <div className="admin-panel"><TeacherForm record={editing} onCancel={() => setEditing(null)} onDelete={() => editing.id && remove("teachers", String(editing.id))} onSave={async record => { await save("teachers", record); setEditing(null); }} notify={notify} request={request} /></div>}
   </section>;
 }
@@ -409,7 +409,7 @@ function TeacherForm({ record, onSave, onCancel, onDelete, notify, request }: { 
     <label><input type="checkbox" checked={Boolean(form.is_featured)} onChange={e => set("is_featured", e.target.checked)} /> Featured</label>
     <label><input type="checkbox" checked={form.is_active !== false} onChange={e => set("is_active", e.target.checked)} /> Active</label>
     <Field label="Display order"><input type="number" value={Number(form.display_order || 0)} onChange={e => set("display_order", Number(e.target.value))} /></Field>
-    <div className="admin-actions"><button type="button" onClick={onCancel}>Cancel</button>{Boolean(form.id) && <button type="button" onClick={onDelete}><Trash2 size={16} /> Delete</button>}<button className="admin-primary">Save</button></div>
+    <div className="admin-actions flex flex-wrap justify-end gap-[.6rem]"><button type="button" onClick={onCancel}>Cancel</button>{Boolean(form.id) && <button type="button" onClick={onDelete}><Trash2 size={16} /> Delete</button>}<button className="admin-primary">Save</button></div>
   </form>;
 }
 
@@ -466,7 +466,7 @@ function CoursesManager({ data, save, remove }: { data: AdminData; save: (r: str
   const items = data.courseItems.filter(item => item.section_id === sectionId);
   return <section><AdminTitle title="Courses Manager" action={<button className="admin-primary" onClick={() => setForm({ section_id: sectionId, title_mn: "" })}>Add Item</button>} />
     <SectionsManager data={data} save={save} />
-    <div className="admin-tabs">{data.sections.map(s => <button key={s.id} className={sectionId === s.id ? "active" : ""} onClick={() => { setSectionId(s.id); setForm({ section_id: s.id, title_mn: "" }); }}>{s.title_mn}</button>)}</div>
+    <div className="admin-tabs mb-4 flex flex-wrap gap-[.4rem]">{data.sections.map(s => <button key={s.id} className={sectionId === s.id ? "active" : ""} onClick={() => { setSectionId(s.id); setForm({ section_id: s.id, title_mn: "" }); }}>{s.title_mn}</button>)}</div>
     <div className="admin-split"><div className="admin-list">{items.map(item => <button key={item.id} onClick={() => setForm(item as unknown as Record<string, unknown>)}>{item.title_mn}<span onClick={e => { e.stopPropagation(); remove("courseItems", item.id); }}>Delete</span></button>)}</div>
     <form className="admin-form" onSubmit={async e => { e.preventDefault(); await save("courseItems", { ...form, section_id: sectionId, tags: String(form.tags || "").split(",").map(t => t.trim()).filter(Boolean) }); }}>
       {["title_mn", "short_desc_mn", "full_desc_mn", "teacher_name", "schedule_mn", "location_mn"].map(key => <Field key={key} label={key}><textarea value={String(form[key] || "")} onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))} /></Field>)}
@@ -494,7 +494,7 @@ function ApplicationsManager({ data, save, remove, reload, notify, request }: { 
     URL.revokeObjectURL(url);
   };
   return <section><AdminTitle title="Application Codes" action={<div><button onClick={exportRows}>Export CSV</button><button className="admin-primary" onClick={() => setForm({ code: "", status: "pending", academic_year: "2024-2025" })}>Add Single Code</button></div>} />
-    <div className="admin-filters"><select value={year} onChange={e => setYear(e.target.value)}><option value="">All years</option>{years.map(y => <option key={y} value={y}>{y}</option>)}</select><select value={status} onChange={e => setStatus(e.target.value)}><option value="">All statuses</option>{["accepted", "pending", "waitlisted", "rejected", "incomplete"].map(s => <option key={s}>{s}</option>)}</select></div>
+    <div className="admin-filters mb-[.8rem] flex gap-[.7rem]"><select value={year} onChange={e => setYear(e.target.value)}><option value="">All years</option>{years.map(y => <option key={y} value={y}>{y}</option>)}</select><select value={status} onChange={e => setStatus(e.target.value)}><option value="">All statuses</option>{["accepted", "pending", "waitlisted", "rejected", "incomplete"].map(s => <option key={s}>{s}</option>)}</select></div>
     <table className="admin-table"><thead><tr><th>Code</th><th>Student</th><th>Status</th><th>Year</th><th /></tr></thead><tbody>{rows.map(row => <tr key={row.id}><td>{row.code}</td><td>{row.student_name}</td><td>{row.status}</td><td>{row.academic_year}</td><td><button onClick={() => setForm(row as unknown as Record<string, unknown>)}>Edit</button><button onClick={() => remove("applications", row.id)}>Delete</button></td></tr>)}</tbody></table>
     <div className="admin-split"><form className="admin-form" onSubmit={async e => { e.preventDefault(); await save("applications", { ...form, code: String(form.code || "").toUpperCase() }); }}>
       <Field label="Code"><input maxLength={8} value={String(form.code || "")} onChange={e => setForm(f => ({ ...f, code: e.target.value.toUpperCase() }))} /></Field>
@@ -563,5 +563,5 @@ function HallManager({ data, save, remove, notify, request }: { data: AdminData;
 
 function SectionsManager({ data, save }: { data: AdminData; save: (resource: string, value: Record<string, unknown>) => Promise<void> }) {
   const [form, setForm] = useState<Record<string, unknown>>({ title_mn: "", slug: "", description_mn: "", icon: "book", display_order: 0, is_active: true });
-  return <details className="admin-panel"><summary>Сургалтын ангилал удирдах</summary><div className="admin-tabs">{data.sections.map(section => <button type="button" key={section.id} onClick={() => setForm(section as unknown as Record<string, unknown>)}>{section.title_mn}</button>)}<button type="button" onClick={() => setForm({ title_mn: "", slug: "", description_mn: "", icon: "book", display_order: data.sections.length, is_active: true })}>Ангилал нэмэх</button></div><form className="admin-form" onSubmit={async event => { event.preventDefault(); await save("sections", form); }}>{["title_mn", "slug", "description_mn", "icon"].map(key => <Field key={key} label={key}><input required={key === "title_mn" || key === "slug"} value={String(form[key] || "")} onChange={event => setForm(value => ({ ...value, [key]: event.target.value }))} /></Field>)}<Field label="Эрэмбэ"><input type="number" min="0" value={Number(form.display_order || 0)} onChange={event => setForm(value => ({ ...value, display_order: Number(event.target.value) }))} /></Field><label><input type="checkbox" checked={form.is_active !== false} onChange={event => setForm(value => ({ ...value, is_active: event.target.checked }))} /> Идэвхтэй</label><button className="admin-primary">Ангилал хадгалах</button></form></details>;
+  return <details className="admin-panel"><summary>Сургалтын ангилал удирдах</summary><div className="admin-tabs mb-4 flex flex-wrap gap-[.4rem]">{data.sections.map(section => <button type="button" key={section.id} onClick={() => setForm(section as unknown as Record<string, unknown>)}>{section.title_mn}</button>)}<button type="button" onClick={() => setForm({ title_mn: "", slug: "", description_mn: "", icon: "book", display_order: data.sections.length, is_active: true })}>Ангилал нэмэх</button></div><form className="admin-form" onSubmit={async event => { event.preventDefault(); await save("sections", form); }}>{["title_mn", "slug", "description_mn", "icon"].map(key => <Field key={key} label={key}><input required={key === "title_mn" || key === "slug"} value={String(form[key] || "")} onChange={event => setForm(value => ({ ...value, [key]: event.target.value }))} /></Field>)}<Field label="Эрэмбэ"><input type="number" min="0" value={Number(form.display_order || 0)} onChange={event => setForm(value => ({ ...value, display_order: Number(event.target.value) }))} /></Field><label><input type="checkbox" checked={form.is_active !== false} onChange={event => setForm(value => ({ ...value, is_active: event.target.checked }))} /> Идэвхтэй</label><button className="admin-primary">Ангилал хадгалах</button></form></details>;
 }

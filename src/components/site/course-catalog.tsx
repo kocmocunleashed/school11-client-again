@@ -14,7 +14,7 @@ export function CourseCatalog() {
   const { courses: sections } = useSiteData();
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   return (
-    <div className="course-catalog">
+    <div className="course-catalog [border-top:1px_solid_var(--line)] pt-school-3">
       <nav className="course-index" aria-label="Сургалтын ангилал">
         {sections.map(section => <a href={`#course-${section.slug}`} key={section.id}><SectionIcon icon={section.icon} /><span><strong>{section.title_mn}</strong><small>{section.description_mn}</small></span></a>)}
       </nav>

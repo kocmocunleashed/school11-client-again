@@ -68,7 +68,7 @@ export function AchievementBrowser() {
   if (!active) return <p className="empty-state">Амжилтын мэдээлэл удахгүй нэмэгдэнэ.</p>;
 
   return (
-    <div className="achievement-browser" ref={container} onMouseEnter={() => { hovered.current = true; }} onMouseLeave={() => { hovered.current = false; }} onFocus={() => { focused.current = true; }} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) focused.current = false; }}>
+    <div className="achievement-browser [border-top:1px_solid_var(--line)] pt-school-3" ref={container} onMouseEnter={() => { hovered.current = true; }} onMouseLeave={() => { hovered.current = false; }} onFocus={() => { focused.current = true; }} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) focused.current = false; }}>
       {sorted.length > 1 && !reducedMotion && <div className="year-playback"><span>Он жилээр аялах · 8 секунд тутам</span><button type="button" onClick={() => setPlaying(value => !value)} aria-pressed={!playing} aria-label={playing ? "Он жилийн автомат гүйлгэлтийг түр зогсоох" : "Он жилийн автомат гүйлгэлтийг эхлүүлэх"}>{playing ? <Pause size={18} /> : <Play size={18} />}{playing ? "Түр зогсоох" : "Үргэлжлүүлэх"}</button></div>}
       <div className="year-index" ref={rail} role="tablist" aria-label="Амжилтын он сонгох">
         {sorted.map(year => <button type="button" role="tab" aria-selected={year.id === active.id} id={`year-tab-${year.id}`} tabIndex={year.id === active.id ? 0 : -1} onKeyDown={event => {

@@ -58,6 +58,6 @@ export function ApplicationChecker() {
     <label htmlFor="application-code">Элсэлтийн код</label>
     <div className="application-input"><Search aria-hidden="true" /><input id="application-code" value={code} onChange={event => setCode(event.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ""))} placeholder="SCH11001" maxLength={8} autoComplete="off" aria-invalid={state === "invalid"} /></div>
     <button className="primary-button" type="submit" disabled={state === "loading"} aria-busy={state === "loading"}>{state === "loading" ? "Шалгаж байна…" : "Үр дүн шалгах"}</button>
-    <div className="checker-status" aria-live="polite">{result && Icon ? <div className={`result-card is-${state}`}><Icon aria-hidden="true" /><span><strong>{result[1]}</strong><small>{serverMessage || result[2]}</small></span></div> : null}</div>
+    <div className="checker-status min-h-[100px] mt-4" aria-live="polite">{result && Icon ? <div className={`result-card is-${state}`}><Icon aria-hidden="true" /><span><strong>{result[1]}</strong><small>{serverMessage || result[2]}</small></span></div> : null}</div>
   </form>;
 }

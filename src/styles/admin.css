@@ -1,0 +1,79 @@
+@reference "./theme.css";
+
+/* Shared CMS controls and states use Tailwind's component layer; individual
+   page layouts live beside their markup in admin-app.tsx. */
+.admin-brand img { @apply size-[46px] object-contain; }
+.admin-brand small { @apply font-medium text-[#aebdd0]; }
+.admin-sidebar button, .admin-logout { @apply flex min-h-[44px] items-center gap-[.65rem] border-0 bg-transparent px-3 py-[.65rem] text-left text-[#cfdae7]; }
+.admin-sidebar button:hover, .admin-sidebar button.active, .admin-logout:hover { @apply bg-white/[.12] text-white; }
+.admin-demo-bar span { @apply grid gap-[.15rem]; }
+.admin-demo-bar strong { @apply text-[.78rem] tracking-[.08em] text-[#3b2d06] uppercase; }
+.admin-demo-bar button { @apply inline-flex flex-none items-center gap-[.45rem] border-0 bg-[#3b2d06] px-[.7rem] py-2 text-white; }
+.admin-title h1 { @apply [font-family:var(--font-display),serif] text-[2.2rem] font-normal; }
+.admin-primary, .admin-main button { @apply min-h-10; }
+.admin-primary { @apply inline-flex items-center gap-2 border-0 bg-school-blue px-[.85rem] py-[.55rem] font-extrabold text-white; }
+.admin-primary:disabled { @apply opacity-60; }
+.admin-card-link { @apply grid min-h-[155px] gap-[.65rem] border-0 bg-white p-[1.3rem] text-left text-school-ink; }
+.admin-card-link:hover { @apply bg-school-soft; }
+.admin-card-link svg { @apply text-school-blue; }
+.admin-card-link span { @apply text-school-muted; }
+.admin-table { @apply w-full min-w-[760px] border-collapse bg-white; }
+.admin-table th, .admin-table td { @apply [border-bottom:1px_solid_var(--line)] px-[.85rem] py-3 text-left align-top; }
+.admin-table th { @apply bg-[#eef2f6] text-[.7rem] tracking-[.06em] text-[#475467] uppercase; }
+.admin-table button, .admin-tabs button, .admin-list button, .admin-title button:not(.admin-primary) { @apply m-0.5 border border-solid border-[#b9c5d2] bg-white px-[.6rem] py-[.42rem] text-school-ink; }
+.admin-table .mini { @apply border-[#a7c6e5] bg-school-soft text-school-deep; }
+.admin-panel, .admin-form, .admin-list, .admin-split > div { @apply mt-[1.2rem] border border-solid border-school-line bg-white p-[1.2rem]; }
+.admin-form { @apply grid max-w-[820px] gap-[.9rem]; }
+.admin-form.wide { @apply max-w-[980px]; }
+.admin-field > span, .login-card label { @apply text-[.78rem] font-extrabold text-[#475467]; }
+.admin-field input, .admin-field select, .admin-field textarea, .admin-filters select, .admin-form > input { @apply min-h-[44px] w-full border border-solid border-[#b9c5d2] bg-white px-3 py-[.65rem] text-school-ink; }
+.admin-field textarea, .admin-form textarea { @apply min-h-[110px] resize-y; }
+.admin-field textarea.large { @apply min-h-[300px]; }
+.admin-split { @apply grid grid-cols-2 gap-[1.2rem]; }
+.upload-link-row input { @apply min-w-0; }
+.upload-preview { @apply max-h-[220px] w-[min(360px,100%)] object-cover; }
+.upload-preview.circle { @apply size-[130px] rounded-full border-4 border-solid border-school-gold; }
+.teacher-admin-card { @apply grid min-h-[190px] justify-items-center gap-2 border-0 bg-white p-4 text-school-ink; }
+.teacher-admin-card:hover { @apply bg-school-soft; }
+.teacher-admin-card div { @apply flex size-[90px] items-center justify-center overflow-hidden rounded-full bg-school-blue text-[1.4rem] font-black text-white; }
+.teacher-admin-card img { @apply size-full object-cover; }
+.teacher-admin-card span { @apply text-school-muted; }
+.admin-tabs button.active { @apply border-school-blue bg-school-blue text-white; }
+.admin-list { @apply grid gap-[.45rem]; }
+.admin-list button { @apply flex w-full items-center justify-between text-left; }
+.admin-list button.active { @apply border-school-blue bg-school-soft text-school-blue; }
+.admin-list span { @apply text-[.78rem] text-school-danger; }
+.achievements-admin-split { @apply items-start; }
+.grouped-achievement-list section { @apply grid gap-[.4rem] [border-bottom:1px_solid_var(--line)] pb-[.8rem]; }
+.grouped-achievement-list h3 { @apply [font-family:var(--font-sans),sans-serif] text-[.78rem] tracking-[.05em] text-school-blue uppercase; }
+.admin-toast { @apply fixed top-6 right-6 z-[2000] px-4 py-3 font-extrabold text-white; }
+.admin-toast.success { @apply bg-school-success; }
+.admin-toast.error { @apply bg-school-danger; }
+.login-card { @apply grid w-full max-w-[390px] gap-[.8rem] bg-white p-8 text-left text-school-ink; }
+.login-card h1 { @apply text-center text-[2rem] font-normal; }
+.login-card input { @apply min-h-12 border border-solid border-[#b9c5d2] px-3 py-[.65rem]; }
+.login-card button { @apply min-h-12 border-0 bg-school-blue font-black text-white; }
+.login-card p:not(.login-kicker) { @apply text-center text-[.84rem] text-school-danger; }
+.login-card.shake { @apply animate-[shake_.26s_ease]; }
+.cms-record-list { @apply max-h-[70vh] overflow-auto; }
+.cms-record-list button { @apply gap-[15px]; }
+.cms-record-list small { @apply text-[11px]; }
+.cms-medal-fields { @apply grid min-w-0 gap-3 border border-solid border-school-line p-[15px]; }
+.cms-medal-fields legend { @apply text-[13px] font-bold; }
+
+/* Keep the existing error shake; its timing and motion are deliberately small. */
+@keyframes shake { 25% { transform: translateX(-7px); } 75% { transform: translateX(7px); } }
+
+@media (max-width: 980px) {
+  .admin-sidebar nav { @apply grid-cols-4; }
+}
+
+@media (max-width: 700px) {
+  .admin-sidebar nav { @apply grid-cols-2; }
+  .admin-split { @apply grid-cols-1; }
+  .admin-demo-bar button { @apply w-full justify-center; }
+}
+
+@media (max-width: 430px) {
+  .admin-sidebar nav { @apply grid-cols-1; }
+}

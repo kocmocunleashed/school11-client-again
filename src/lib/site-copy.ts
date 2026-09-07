@@ -6,6 +6,7 @@ export const defaultSiteCopy = {
   join_title: "Чиний дараагийн\nтом эхлэл.",
   about_title: "Уламжлалд тулгуурласан шинэ үеийн сургууль",
   about_description: "Боловсролын түүхээ орчин үеийн сургалтын арга, судалгаа, сурагчийн идэвхтэй оролцоотой холбож байна.",
+  principal_name: "", principal_message: "",
   story_title: "Математик, байгалийн ухааны соёлыг төлөвшүүлэгч хамт олон",
   story_description: "Нийслэлийн 11-р сургууль нь сурагч бүрийн академик сахилга, бүтээлч сэтгэлгээ, нийгмийн хариуцлагыг зэрэг хөгжүүлэхийг зорьдог.",
   vision: "Монголын ерөнхий боловсролын шилдэг академик кампус болно.",
@@ -16,5 +17,6 @@ export const siteCopyLabels: Record<keyof SiteCopy, string> = {
   hero_line_1: "Нүүр: гарчгийн 1-р мөр", hero_line_2: "Нүүр: гарчгийн 2-р мөр", hero_line_3: "Нүүр: гарчгийн 3-р мөр",
   hero_description: "Нүүр: танилцуулга", intro_title: "Сургуулийн танилцуулгын гарчиг", intro_description: "Сургуулийн танилцуулга",
   join_title: "Элсэлт хэсгийн гарчиг", about_title: "Бидний тухай: гарчиг", about_description: "Бидний тухай: товч тайлбар",
-  story_title: "Манай сургууль: гарчиг", story_description: "Манай сургууль: тайлбар", vision: "Алсын хараа", mission: "Эрхэм зорилго",
+  principal_name: "Захирлын нэр", principal_message: "Захирлын үг",
+  story_title: "Сургуулийн түүх: гарчиг", story_description: "Сургуулийн түүх: дэлгэрэнгүй", vision: "Алсын хараа", mission: "Эрхэм зорилго",
 };

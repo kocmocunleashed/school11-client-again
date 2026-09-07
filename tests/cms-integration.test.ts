@@ -83,3 +83,13 @@ describe("new CMS validation and auth", () => {
     expect((await adminDelete(new Request("https://school.example/api/admin/delete/hallOfFame/x", { method: "DELETE", headers: { origin: "https://school.example" } }), "hallOfFame", "x")).status).toBe(401);
   });
 });
+
+test("principal message stays editable, optional, and reaches the public About content", () => {
+  const data = createMockAdminDatabase();
+  const site_copy = { principal_name: "Туршилтын нэр", principal_message: "Эхний мөр\nДараагийн мөр" };
+  const record = sanitizeAdminRecord("settings", { ...data.settings, id: "123e4567-e89b-12d3-a456-426614174000", site_copy });
+  expect(record.site_copy).toEqual(site_copy);
+  data.settings = { ...data.settings!, site_copy };
+  expect(mockPublicData(data).settings.site_copy?.principal_message).toBe(site_copy.principal_message);
+  expect(sanitizeAdminRecord("settings", { ...data.settings, id: "123e4567-e89b-12d3-a456-426614174000", site_copy: { principal_name: "", principal_message: "" } }).site_copy).toEqual({ principal_name: "", principal_message: "" });
+});

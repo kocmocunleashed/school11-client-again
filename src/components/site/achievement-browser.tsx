@@ -2,9 +2,16 @@
 import { useSiteData } from "./site-data-provider";
 
 import Image from "next/image";
-import { Award, GraduationCap, Medal, Microscope, Star, Users } from "lucide-react";
-import { useMemo, useState } from "react";
+import { Award, GraduationCap, Medal, Microscope, Star, Users, Pause, Play } from "lucide-react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import type { AchievementYear } from "@/types/database";
+
+const reducedMotionQuery = "(prefers-reduced-motion: reduce)";
+function subscribeMotion(callback: () => void) {
+  const query = window.matchMedia(reducedMotionQuery);
+  query.addEventListener("change", callback);
+  return () => query.removeEventListener("change", callback);
+}
 
 function CategoryIcon({ name }: { name: string }) {
   if (name.includes("Төгсөгч")) return <GraduationCap aria-hidden="true" />;
@@ -17,6 +24,37 @@ export function AchievementBrowser() {
   const { achievements: years } = useSiteData();
   const sorted = useMemo(() => [...years].sort((a, b) => a.year - b.year), [years]);
   const [activeId, setActiveId] = useState(sorted.at(-1)?.id || "");
+  const [playing, setPlaying] = useState(true);
+  const reducedMotion = useSyncExternalStore(subscribeMotion, () => window.matchMedia(reducedMotionQuery).matches, () => true);
+  const container = useRef<HTMLDivElement>(null);
+  const rail = useRef<HTMLDivElement>(null);
+  const hovered = useRef(false);
+  const focused = useRef(false);
+  useEffect(() => {
+    const node = container.current;
+    if (!node || !playing || reducedMotion || sorted.length < 2) return;
+    let inView = false;
+    const observer = new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; }, { threshold: .15 });
+    observer.observe(node);
+    const timer = window.setInterval(() => {
+      if (!inView || hovered.current || focused.current || document.hidden) return;
+      setActiveId(current => {
+        const index = sorted.findIndex(year => year.id === current);
+        return sorted[(index + 1) % sorted.length].id;
+      });
+    }, 8000);
+    return () => { observer.disconnect(); clearInterval(timer); };
+  }, [playing, reducedMotion, sorted]);
+  useEffect(() => {
+    const node = rail.current;
+    const tab = node?.querySelector<HTMLElement>('[aria-selected="true"]');
+    if (!node || !tab) return;
+    const bounds = tab.getBoundingClientRect();
+    const viewport = node.getBoundingClientRect();
+    if (bounds.left < viewport.left || bounds.right > viewport.right) {
+      node.scrollTo({ left: node.scrollLeft + bounds.left - viewport.left, behavior: reducedMotion ? "instant" : "smooth" });
+    }
+  }, [activeId, reducedMotion]);
   const active = sorted.find(item => item.id === activeId) || sorted.at(-1);
   const groups = useMemo(() => {
     const map = new Map<string, NonNullable<AchievementYear["achievements"]>>();
@@ -30,15 +68,16 @@ export function AchievementBrowser() {
   if (!active) return <p className="empty-state">Амжилтын мэдээлэл удахгүй нэмэгдэнэ.</p>;
 
   return (
-    <div className="achievement-browser">
-      <div className="year-index" role="tablist" aria-label="Амжилтын он сонгох">
+    <div className="achievement-browser" ref={container} onMouseEnter={() => { hovered.current = true; }} onMouseLeave={() => { hovered.current = false; }} onFocus={() => { focused.current = true; }} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) focused.current = false; }}>
+      {sorted.length > 1 && !reducedMotion && <div className="year-playback"><span>Он жилээр аялах · 8 секунд тутам</span><button type="button" onClick={() => setPlaying(value => !value)} aria-pressed={!playing} aria-label={playing ? "Он жилийн автомат гүйлгэлтийг түр зогсоох" : "Он жилийн автомат гүйлгэлтийг эхлүүлэх"}>{playing ? <Pause size={18} /> : <Play size={18} />}{playing ? "Түр зогсоох" : "Үргэлжлүүлэх"}</button></div>}
+      <div className="year-index" ref={rail} role="tablist" aria-label="Амжилтын он сонгох">
         {sorted.map(year => <button type="button" role="tab" aria-selected={year.id === active.id} id={`year-tab-${year.id}`} tabIndex={year.id === active.id ? 0 : -1} onKeyDown={event => {
           const index = sorted.findIndex(item => item.id === year.id);
           const next = event.key === "ArrowRight" ? (index + 1) % sorted.length : event.key === "ArrowLeft" ? (index - 1 + sorted.length) % sorted.length : event.key === "Home" ? 0 : event.key === "End" ? sorted.length - 1 : -1;
           if (next < 0) return;
-          event.preventDefault(); setActiveId(sorted[next].id);
+          event.preventDefault(); setPlaying(false); setActiveId(sorted[next].id);
           document.getElementById(`year-tab-${sorted[next].id}`)?.focus();
-        }} aria-controls="achievement-panel" key={year.id} onClick={() => setActiveId(year.id)}><strong>{year.year}</strong><span>{year.highlight_mn || "Амжилт"}</span></button>)}
+        }} aria-controls="achievement-panel" key={year.id} onClick={() => { setPlaying(false); setActiveId(year.id); }}><strong>{year.year}</strong><span>{year.highlight_mn || "Амжилт"}</span></button>)}
       </div>
       <article className="achievement-panel" id="achievement-panel" role="tabpanel" aria-labelledby={`year-tab-${active.id}`}>
         <div className="achievement-year"><span>{active.year}</span>{active.is_milestone ? <b><Star size={16} /> Түүхэн үйл явдал</b> : <b><Award size={16} /> Онцлох жил</b>}</div>

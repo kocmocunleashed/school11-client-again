@@ -216,7 +216,9 @@ export function sanitizeAdminRecord(resource: Resource, payload: unknown) {
       const copy: Record<string, string> = {};
       for (const [key, value] of Object.entries(payload.site_copy)) {
         if (!Object.hasOwn(defaultSiteCopy, key)) throw new Error(`Unknown site copy field: ${key}`);
-        copy[key] = requiredString(value, key, key.startsWith("hero_line") ? 80 : 3000);
+        copy[key] = key === "principal_name" || key === "principal_message"
+          ? optionalString(value, key, key === "principal_name" ? 160 : 3000) || ""
+          : requiredString(value, key, key.startsWith("hero_line") ? 80 : 3000);
       }
       record.site_copy = copy;
     }

@@ -1,0 +1,2918 @@
+[
+  {
+    "id": "ouom-ou001",
+    "name": "Ү.Отгонбаяр",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou001.jpg",
+    "medals": [
+      {
+        "competition": "ОУМО",
+        "medal": "Мөнгө",
+        "year": "1994 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou002",
+    "name": "Г.Цогбадрал",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou002.jpg",
+    "medals": [
+      {
+        "competition": "ОУМО",
+        "medal": "Хүрэл",
+        "year": "1995 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou003",
+    "name": "Т.Хулан",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou003.jpg",
+    "medals": [
+      {
+        "competition": "ОУМО",
+        "medal": "Хүрэл",
+        "year": "1996 он"
+      },
+      {
+        "competition": "ОУМО",
+        "medal": "Хүрэл",
+        "year": "1997 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou004",
+    "name": "Б.Баттулга",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou004.jpg",
+    "medals": [
+      {
+        "competition": "ОУМО",
+        "medal": "Хүрэл",
+        "year": "1997 он"
+      },
+      {
+        "competition": "ОУМО",
+        "medal": "Мөнгө",
+        "year": "1999 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou005",
+    "name": "Б.Энхбаяр",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou005.jpg",
+    "medals": [
+      {
+        "competition": "ОУМО",
+        "medal": "Хүрэл",
+        "year": "1997 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou006",
+    "name": "Б.Амаржаргал",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou006.jpg",
+    "medals": [
+      {
+        "competition": "Евро-Ази ОУМО",
+        "medal": "Мөнгө",
+        "year": "1997 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou007",
+    "name": "Ж.Эрдэмбилэг",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou007.jpg",
+    "medals": [
+      {
+        "competition": "Евро-Ази ОУМО",
+        "medal": "Мөнгө",
+        "year": "1997 он"
+      },
+      {
+        "competition": "ОУМО",
+        "medal": "Хүрэл",
+        "year": "1998 он"
+      },
+      {
+        "competition": "ОУМО",
+        "medal": "Хүрэл",
+        "year": "1999 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou008",
+    "name": "Л.Хатанбаатар",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou008.jpg",
+    "medals": [
+      {
+        "competition": "ОУМО",
+        "medal": "Мөнгө",
+        "year": "1999 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou009",
+    "name": "Б.Амарсанаа",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou009.jpg",
+    "medals": [
+      {
+        "competition": "ОУМО",
+        "medal": "Хүрэл",
+        "year": "2000 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou010",
+    "name": "Б.Сансархүү",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou010.jpg",
+    "medals": [
+      {
+        "competition": "ОУМО",
+        "medal": "Мөнгө",
+        "year": "2000 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou011",
+    "name": "С.Булган",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou011.jpg",
+    "medals": [
+      {
+        "competition": "ОУОХО",
+        "medal": "Хүрэл",
+        "year": "2001 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou012",
+    "name": "Н.Батзоригт",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou012.jpg",
+    "medals": [
+      {
+        "competition": "Жаутыковын нэрэмжит ОУМО",
+        "medal": "Хүрэл",
+        "year": "2008 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou013",
+    "name": "З.Болор-Эрдэнэ",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou013.jpg",
+    "medals": [
+      {
+        "competition": "Жаутыковын нэрэмжит ОУМО",
+        "medal": "Мөнгө",
+        "year": "2009 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou014",
+    "name": "Д.Амарсанаа",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou014.jpg",
+    "medals": [
+      {
+        "competition": "ОУХО",
+        "medal": "Хүрэл",
+        "year": "2010 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou015",
+    "name": "М.Ананд",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou015.jpg",
+    "medals": [
+      {
+        "competition": "ОУХО",
+        "medal": "Хүрэл",
+        "year": "2010 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou016",
+    "name": "Д.Батзориг",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou016.jpg",
+    "medals": [
+      {
+        "competition": "IMC",
+        "medal": "Хүрэл",
+        "year": "2010 он"
+      },
+      {
+        "competition": "IMC",
+        "medal": "Хүрэл",
+        "year": "2011 он"
+      },
+      {
+        "competition": "ОУМО",
+        "medal": "Хүрэл",
+        "year": "2014 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou017",
+    "name": "Б.Эрдэнэбаяр",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou017.jpg",
+    "medals": [
+      {
+        "competition": "ОУМО",
+        "medal": "Хүрэл",
+        "year": "2015 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou018",
+    "name": "А.Алтансүх",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou018.jpg",
+    "medals": [
+      {
+        "competition": "IMC",
+        "medal": "Хүрэл",
+        "year": "2016 он"
+      },
+      {
+        "competition": "IMC",
+        "medal": "Алт",
+        "year": "2017 он"
+      },
+      {
+        "competition": "Жаутыковын нэрэмжит ОУМО",
+        "medal": "Хүрэл",
+        "year": "2019 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou019",
+    "name": "Б.Нурсауле",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou019.jpg",
+    "medals": [
+      {
+        "competition": "EGMO",
+        "medal": "Хүрэл",
+        "year": "2017 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou020",
+    "name": "Б.Хантүшиг",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou020.jpg",
+    "medals": [
+      {
+        "competition": "Жаутыковын нэрэмжит ОУМО",
+        "medal": "Мөнгө",
+        "year": "2020 он"
+      },
+      {
+        "competition": "IMO",
+        "medal": "Хүрэл",
+        "year": "2020 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou021",
+    "name": "Н.Сувд",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou021.jpg",
+    "medals": [
+      {
+        "competition": "Ираны геометрийн олимпиад",
+        "medal": "Хүрэл",
+        "year": "2021 он"
+      },
+      {
+        "competition": "Азербайжан ОУМО",
+        "medal": "Хүрэл",
+        "year": "2021 он"
+      },
+      {
+        "competition": "Европын охидын ОУМО",
+        "medal": "Хүрэл",
+        "year": "2022 он"
+      },
+      {
+        "competition": "IYMC-Энэтхэг",
+        "medal": "Хүрэл",
+        "year": "2023 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou022",
+    "name": "Б.Билэгдэмбэрэл",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou022.jpg",
+    "medals": [
+      {
+        "competition": "Азербайжан ОУМО",
+        "medal": "Мөнгө",
+        "year": "2021 он"
+      },
+      {
+        "competition": "Жаутыковын нэрэмжит ОУМО",
+        "medal": "Мөнгө",
+        "year": "2022 он"
+      },
+      {
+        "competition": "IMO",
+        "medal": "Мөнгө",
+        "year": "2022 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou023",
+    "name": "А.Амарсайхан",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou023.jpg",
+    "medals": [
+      {
+        "competition": "Ираны геометрийн олимпиад",
+        "medal": "Хүрэл",
+        "year": "2021 он"
+      },
+      {
+        "competition": "Ираны геометрийн олимпиад",
+        "medal": "Хүрэл",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou024",
+    "name": "Н.Болор",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou024.jpg",
+    "medals": [
+      {
+        "competition": "Ираны геометрийн олимпиад",
+        "medal": "Хүрэл",
+        "year": "2021 он"
+      },
+      {
+        "competition": "IMC",
+        "medal": "Мөнгө",
+        "year": "2022 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou025",
+    "name": "Х.Нурсолтан",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou025.jpg",
+    "medals": [
+      {
+        "competition": "Азербайжан ОУМО",
+        "medal": "Хүрэл",
+        "year": "2022 он"
+      },
+      {
+        "competition": "Ираны геометрийн олимпиад",
+        "medal": "Хүрэл",
+        "year": "2022 он"
+      },
+      {
+        "competition": "Жаутыковын нэрэмжит ОУМО",
+        "medal": "Хүрэл",
+        "year": "2022 он"
+      },
+      {
+        "competition": "IMO",
+        "medal": "Хүрэл",
+        "year": "2023 он"
+      },
+      {
+        "competition": "Жаутыковын нэрэмжит ОУМО",
+        "medal": "Хүрэл",
+        "year": "2023 он"
+      },
+      {
+        "competition": "IYMC-Энэтхэг",
+        "medal": "Хүрэл",
+        "year": "2023 он"
+      },
+      {
+        "competition": "IMO",
+        "medal": "Хүрэл",
+        "year": "2024 он"
+      },
+      {
+        "competition": "Жаутыковын нэрэмжит ОУМО",
+        "medal": "Мөнгө",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou026",
+    "name": "Б.Бэлгүтэй",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou026.jpg",
+    "medals": [
+      {
+        "competition": "IMC",
+        "medal": "Хүрэл",
+        "year": "2022 он"
+      },
+      {
+        "competition": "Ираны геометрийн олимпиад",
+        "medal": "Хүрэл",
+        "year": "2022 он"
+      },
+      {
+        "competition": "Жаутыковын нэрэмжит ОУМО",
+        "medal": "Хүрэл",
+        "year": "2023 он"
+      },
+      {
+        "competition": "IYMC-Энэтхэг",
+        "medal": "Алт",
+        "year": "2023 он"
+      },
+      {
+        "competition": "Ираны геометрийн олимпиад",
+        "medal": "Хүрэл",
+        "year": "2023 он"
+      },
+      {
+        "competition": "Жаутыковын нэрэмжит ОУМО",
+        "medal": "Мөнгө",
+        "year": "2024 он"
+      },
+      {
+        "competition": "IMO",
+        "medal": "Хүрэл",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou027",
+    "name": "О.Тэнгис",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou027.jpg",
+    "medals": [
+      {
+        "competition": "Азербайжан ОУМО",
+        "medal": "Хүрэл",
+        "year": "2022 он"
+      },
+      {
+        "competition": "Ираны геометрийн олимпиад",
+        "medal": "Хүрэл",
+        "year": "2022 он"
+      },
+      {
+        "competition": "Жаутыковын нэрэмжит ОУМО",
+        "medal": "Мөнгө",
+        "year": "2023 он"
+      },
+      {
+        "competition": "IMO",
+        "medal": "Мөнгө",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou028",
+    "name": "А.Ивээл",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou028.jpg",
+    "medals": [
+      {
+        "competition": "IMO",
+        "medal": "Хүрэл",
+        "year": "2023 он"
+      },
+      {
+        "competition": "Жаутыковын нэрэмжит ОУМО",
+        "medal": "Мөнгө",
+        "year": "2023 он"
+      },
+      {
+        "competition": "IYMC-Энэтхэг",
+        "medal": "Мөнгө",
+        "year": "2023 он"
+      },
+      {
+        "competition": "Ираны геометрийн олимпиад",
+        "medal": "Хүрэл",
+        "year": "2023 он"
+      },
+      {
+        "competition": "Жаутыковын нэрэмжит ОУМО",
+        "medal": "Мөнгө",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou029",
+    "name": "Н.Дөлгөөн",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou029.jpg",
+    "medals": [
+      {
+        "competition": "Жаутыковын нэрэмжит ОУМО",
+        "medal": "Хүрэл",
+        "year": "2023 он"
+      },
+      {
+        "competition": "IYMC-Энэтхэг",
+        "medal": "Хүрэл",
+        "year": "2023 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou030",
+    "name": "Б.Мөнхбадар",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou030.jpg",
+    "medals": [
+      {
+        "competition": "IYMC-Энэтхэг",
+        "medal": "Мөнгө",
+        "year": "2023 он"
+      },
+      {
+        "competition": "Жаутыковын нэрэмжит ОУМО",
+        "medal": "Хүрэл",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou031",
+    "name": "Ж.Гарет",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou031.jpg",
+    "medals": [
+      {
+        "competition": "Ираны геометрийн олимпиад",
+        "medal": "Мөнгө",
+        "year": "2023 он"
+      },
+      {
+        "competition": "IMC",
+        "medal": "Мөнгө",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou032",
+    "name": "Б.Төвшиндалай",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou032.jpg",
+    "medals": [
+      {
+        "competition": "Ираны геометрийн олимпиад",
+        "medal": "Хүрэл",
+        "year": "2023 он"
+      },
+      {
+        "competition": "IMC",
+        "medal": "Мөнгө",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou033",
+    "name": "П.Тэмүүлэн",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou033.jpg",
+    "medals": [
+      {
+        "competition": "Ираны геометрийн олимпиад",
+        "medal": "Хүрэл",
+        "year": "2023 он"
+      },
+      {
+        "competition": "Ираны геометрийн олимпиад",
+        "medal": "Хүрэл",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou034",
+    "name": "О.Жавхлантөгс",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou034.jpg",
+    "medals": [
+      {
+        "competition": "Ираны геометрийн олимпиад",
+        "medal": "Хүрэл",
+        "year": "2023 он"
+      },
+      {
+        "competition": "Ираны геометрийн олимпиад",
+        "medal": "Мөнгө",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou035",
+    "name": "Э.Энх-Орчлон",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou035.jpg",
+    "medals": [
+      {
+        "competition": "Ираны геометрийн олимпиад",
+        "medal": "Хүрэл",
+        "year": "2023 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou036",
+    "name": "Б.Билгүүн",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou036.jpg",
+    "medals": [
+      {
+        "competition": "IMC",
+        "medal": "Хүрэл",
+        "year": "2023 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou037",
+    "name": "Б.Бат-Оргил",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou037.jpg",
+    "medals": [
+      {
+        "competition": "Жаутыковын нэрэмжит ОУМО",
+        "medal": "Хүрэл",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou038",
+    "name": "Ш.Ирмүүн",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou038.jpg",
+    "medals": [
+      {
+        "competition": "IMC",
+        "medal": "Мөнгө",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou039",
+    "name": "М.Энххүслэн",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou039.jpg",
+    "medals": [
+      {
+        "competition": "IMC",
+        "medal": "Хүрэл",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou040",
+    "name": "М.Энх-Амирлан",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou040.jpg",
+    "medals": [
+      {
+        "competition": "IMC",
+        "medal": "Хүрэл",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou041",
+    "name": "С.Мөрөн",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou041.jpg",
+    "medals": [
+      {
+        "competition": "IMC",
+        "medal": "Хүрэл",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "ouom-ou042",
+    "name": "Б.Батзориг",
+    "scope": "international",
+    "photo": "https://www.famhall.school11.edu.mn/image/ouom/ou042.jpg",
+    "medals": [
+      {
+        "competition": "Жаутыковын нэрэмжит ОУМО",
+        "medal": "Хүрэл",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-001",
+    "name": "С.Цогзолмаа",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/001.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "1992 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Алт",
+        "year": "1993 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-002",
+    "name": "Ш.Ням",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/002.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "1993 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-003",
+    "name": "Д.Алтангэрэл",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/003.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Алт",
+        "year": "1992 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "1993 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-004",
+    "name": "Г.Алтанхуяг",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/004.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "1993 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-005",
+    "name": "Ү.Отгонбаяр",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/005.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "1992 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "1993 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Алт",
+        "year": "1994 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-006",
+    "name": "Д.Амгалан",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/006.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "1992 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "1993 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "1994 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-007",
+    "name": "О.Батбаатар",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/007.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Алт, Мөнгө, Хүрэл",
+        "year": "1992-1995 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-008",
+    "name": "Я.Өлзийболд",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/008.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "1993 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "1994 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "1995 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-009",
+    "name": "З.Мөнхзул",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/009.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "1994 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "1995 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-010",
+    "name": "Г.Төгөлдөр",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/010.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "1995 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-011",
+    "name": "Ц.Чинзориг",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/011.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "1995 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-012",
+    "name": "Д.Одгэрэл",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/012.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Алт",
+        "year": "1995 он"
+      },
+      {
+        "competition": "УФО",
+        "medal": "Хүрэл",
+        "year": "1996 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-013",
+    "name": "Г.Цогбадрал",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/013.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "1994 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "1995 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "1996 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-014",
+    "name": "Т.Хулан",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/014.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "1995 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Алт",
+        "year": "1996 он"
+      },
+      {
+        "competition": "УФО",
+        "medal": "Хүрэл",
+        "year": "1995 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-015",
+    "name": "Б.Хөлгөн",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/015.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "1996 он"
+      },
+      {
+        "competition": "УФО",
+        "medal": "Хүрэл",
+        "year": "1998 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-016",
+    "name": "Б.Энхбаяр",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/016.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "1995 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "1996 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Алт",
+        "year": "1997 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-017",
+    "name": "Ё.Эрдэмбаяр",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/017.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Алт",
+        "year": "1995 он"
+      },
+      {
+        "competition": "ММО, Хот",
+        "medal": "Хүрэл",
+        "year": "1996 он"
+      },
+      {
+        "competition": "ММО, Хот",
+        "medal": "Хүрэл",
+        "year": "1997 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-018",
+    "name": "Ж.Амаржаргал",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/018.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "1995-1997 он"
+      },
+      {
+        "competition": "УФО",
+        "medal": "Хүрэл",
+        "year": "1995 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-019",
+    "name": "Э.Лхагва-Очир",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/019.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Алт",
+        "year": "1997 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Алт",
+        "year": "1998 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-020",
+    "name": "А.Амаржаргал",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/020.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "1998 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-021",
+    "name": "Б.Тамир",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/021.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "1998 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-022",
+    "name": "Б.Сансар",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/022.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "1997 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "1998 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "1999 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-023",
+    "name": "Ж.Эрдэмбилэгт",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/023.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "1997 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "1998 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "1999 он"
+      },
+      {
+        "competition": "УФО",
+        "medal": "Хүрэл",
+        "year": "1999 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-024",
+    "name": "Б.Очирбат",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/024.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "1997 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "1999 он"
+      },
+      {
+        "competition": "УФО",
+        "medal": "Мөнгө",
+        "year": "1997 он"
+      },
+      {
+        "competition": "УФО",
+        "medal": "Хүрэл",
+        "year": "1999 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-025",
+    "name": "Л.Хатанбаатар",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/025.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "1997 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "1998 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Алт",
+        "year": "1999 он"
+      },
+      {
+        "competition": "УФО",
+        "medal": "Хүрэл",
+        "year": "1997 он"
+      },
+      {
+        "competition": "УФО",
+        "medal": "Хүрэл",
+        "year": "1998 он"
+      },
+      {
+        "competition": "УФО",
+        "medal": "Хүрэл",
+        "year": "1999 он"
+      },
+      {
+        "competition": "УМЗО",
+        "medal": "Алт",
+        "year": "1999 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-026",
+    "name": "Б.Баттулга",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/026.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Алт, Мөнгө, Хүрэл",
+        "year": "1996-1999 он"
+      },
+      {
+        "competition": "УФО",
+        "medal": "Алт, Мөнгө, Хүрэл",
+        "year": "он"
+      }
+    ]
+  },
+  {
+    "id": "uom-027",
+    "name": "С.Болорбат",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/027.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "1999 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-028",
+    "name": "Э.Цэрэннэдмид",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/028.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "1998 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2000 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-029",
+    "name": "Б.Амарсанаа",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/029.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Алт",
+        "year": "1999 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Алт",
+        "year": "2000 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-030",
+    "name": "А.Тэмүүлэн",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/030.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2000 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-031",
+    "name": "Б.Сансархүү",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/031.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "1999 он"
+      },
+      {
+        "competition": "УХО",
+        "medal": "Алт",
+        "year": "2000 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-032",
+    "name": "С.Эрдэнэчимэг",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/032.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2001 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-033",
+    "name": "Г.Очцэцэг",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/033.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2001 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-034",
+    "name": "Б.Нямцэцэг",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/034.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2001 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-035",
+    "name": "Э.Болдбаяр",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/035.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2002 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-037",
+    "name": "Б.Энхсайхан",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/037.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2003 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-038",
+    "name": "Д.Энхбат",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/038.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2004 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-039",
+    "name": "Л.Одонтуул",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/039.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2004 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-040",
+    "name": "Б.Энхжин",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/040.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2005 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-041",
+    "name": "Б.Анх-Эрдэнэ",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/041.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2004 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Алт",
+        "year": "2005 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-042",
+    "name": "Б.Батмөнх",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/042.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2005 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-043",
+    "name": "Т.Серикжан",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/043.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2006 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-044",
+    "name": "Б.Болдбаатар",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/044.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2006 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-045",
+    "name": "М.Молор-Эрдэнэ",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/045.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2007 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-046",
+    "name": "Г.Жавхлан-Очир",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/046.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2007 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-047",
+    "name": "Г.Бямбасүрэн",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/047.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2007 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-048",
+    "name": "Н.Батзоригт",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/048.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Алт",
+        "year": "2007 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2008 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-049",
+    "name": "Л.Мөнх-Од",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/049.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2008 он"
+      },
+      {
+        "competition": "УФО",
+        "medal": "Мөнгө",
+        "year": "2008 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-050",
+    "name": "З.Болор-Эрдэнэ",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/050.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2007 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2008 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2010 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-051",
+    "name": "Б.Номиндарь",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/051.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2010 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-052",
+    "name": "Н.Санчир",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/052.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2010 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-053",
+    "name": "Б.Ганхэт",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/053.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2010 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2011 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-054",
+    "name": "Б.Батболд",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/054.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2011 он"
+      },
+      {
+        "competition": "УФО",
+        "medal": "Хүрэл",
+        "year": "2011 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-055",
+    "name": "М.Мөнх-Учрал",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/055.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2013 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-056",
+    "name": "З.Уранчимэг",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/056.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2013 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-057",
+    "name": "Б.Билгүүн",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/057.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2013 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-058",
+    "name": "Д.Батзориг",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/058.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2011 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2013 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2014 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-059",
+    "name": "А.Оюун-Эрдэнэ",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/059.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2014 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-060",
+    "name": "Б.Аминаа",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/060.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2014 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-061",
+    "name": "Б.Эрдэнэбаяр",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/061.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2012 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2013 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2014 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Алт",
+        "year": "2015 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-062",
+    "name": "Н.Төрцэцэг",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/062.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2012 он"
+      },
+      {
+        "competition": "УФО",
+        "medal": "Мөнгө",
+        "year": "2015 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-063",
+    "name": "О.Булгантамир",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/063.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2015 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-064",
+    "name": "Б.Энхболд",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/064.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2015 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-065",
+    "name": "Түвшинбилэг",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/065.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2014 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2016 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-066",
+    "name": "Г.Оргил",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/066.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2014 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2015 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2016 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-067",
+    "name": "Г.Амарсанаа",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/067.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2013 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2014 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2015 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2016 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2017 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-068",
+    "name": "Б.Ганхуяг",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/068.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2017 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-069",
+    "name": "Г.Өнөржаргал",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/069.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Алт",
+        "year": "2017 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-070",
+    "name": "Б.Нурсауле",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/070.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2017 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-071",
+    "name": "А.Билэгжаргал",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/071.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2015 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2017 он"
+      },
+      {
+        "competition": "УФО",
+        "medal": "Хүрэл",
+        "year": "2018 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-072",
+    "name": "Э.Эрдэнэбилэг",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/072.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2016 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2018 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Алт",
+        "year": "2019 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-073",
+    "name": "Ш.Билэгжаргал",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/073.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2017 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2018 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2019 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-074",
+    "name": "А.Алтсүх",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/074.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2017 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2018 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2019 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-075",
+    "name": "Х.Нурсолтан",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/075.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2021 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2023 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-076",
+    "name": "Б.Бэлгүтэй",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/076.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2022 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2023 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-077",
+    "name": "М.Анд",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/077.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2021 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-078",
+    "name": "Н.Болор",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/078.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2021 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-079",
+    "name": "Б.Хантүшиг",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/079.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Алт",
+        "year": "2018 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2019 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2021 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-080",
+    "name": "Н.Дөлгөөн",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/080.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2021 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-081",
+    "name": "П.Билгүүнтөгөлдөр",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/081.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2022 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-082",
+    "name": "А.Төгсцогт",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/082.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2022 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2023 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-083",
+    "name": "Н.Сувд",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/083.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2021 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2022 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-084",
+    "name": "Б.Билэгдэмбэрэл",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/084.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2019 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2021 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Алт",
+        "year": "2022 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-115",
+    "name": "А.Ивээл",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/115.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2023 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-116",
+    "name": "А.Мөнхбадар",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/116.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2023 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-117",
+    "name": "А.Амарсайхан",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/117.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2023 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-118",
+    "name": "О.Тэнгис",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/118.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2023 он"
+      },
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-119",
+    "name": "Б.Төвшиндалай",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/119.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-120",
+    "name": "П.Тэмүүлэн",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/120.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Мөнгө",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-121",
+    "name": "Д.Төрмандах",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/121.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-122",
+    "name": "Гарет Брюс Харрис",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/122.jpg",
+    "medals": [
+      {
+        "competition": "ММО",
+        "medal": "Хүрэл",
+        "year": "2024 он"
+      },
+      {
+        "competition": "УФО",
+        "medal": "Мөнгө",
+        "year": "2024 он"
+      },
+      {
+        "competition": "УООСО",
+        "medal": "Хүрэл",
+        "year": "2023 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-085",
+    "name": "А.Хүдэр",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/085.jpg",
+    "medals": [
+      {
+        "competition": "УФО",
+        "medal": "Мөнгө",
+        "year": "1996 он"
+      },
+      {
+        "competition": "УФО",
+        "medal": "Мөнгө",
+        "year": "1997 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-086",
+    "name": "Ц.Батсайхан",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/086.jpg",
+    "medals": [
+      {
+        "competition": "УФО",
+        "medal": "Хүрэл",
+        "year": "2003 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-087",
+    "name": "Б.Батхишиг",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/087.jpg",
+    "medals": [
+      {
+        "competition": "УФО",
+        "medal": "Алт",
+        "year": "2005 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-088",
+    "name": "С.Сайханбилэг",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/088.jpg",
+    "medals": [
+      {
+        "competition": "УФО",
+        "medal": "Мөнгө",
+        "year": "2016 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-089",
+    "name": "Б.Магнайтүвшин",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/089.jpg",
+    "medals": [
+      {
+        "competition": "УФО",
+        "medal": "Хүрэл",
+        "year": "2016 он"
+      },
+      {
+        "competition": "УФО",
+        "medal": "Мөнгө",
+        "year": "2017 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-090",
+    "name": "С.Хатанболд",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/090.jpg",
+    "medals": [
+      {
+        "competition": "УФО",
+        "medal": "Хүрэл",
+        "year": "2017 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-091",
+    "name": "Г.Баяртулга",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/091.jpg",
+    "medals": [
+      {
+        "competition": "УФО",
+        "medal": "Хүрэл",
+        "year": "2017 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-092",
+    "name": "С.Од",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/092.jpg",
+    "medals": [
+      {
+        "competition": "УФО",
+        "medal": "Мөнгө",
+        "year": "2022 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-093",
+    "name": "С.Чинүүн",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/093.jpg",
+    "medals": [
+      {
+        "competition": "УФО",
+        "medal": "Хүрэл",
+        "year": "2022 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-094",
+    "name": "Н.Ананд",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/094.jpg",
+    "medals": [
+      {
+        "competition": "УФО",
+        "medal": "Хүрэл",
+        "year": "2022 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-95",
+    "name": "Э.Мөнхжин",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/95.jpg",
+    "medals": [
+      {
+        "competition": "УФО",
+        "medal": "Мөнгө",
+        "year": "2022 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-096",
+    "name": "Л.Дөлгөөн",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/096.jpg",
+    "medals": [
+      {
+        "competition": "УФО",
+        "medal": "Хүрэл",
+        "year": "2022 он"
+      },
+      {
+        "competition": "УФО",
+        "medal": "Хүрэл",
+        "year": "2023 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-123",
+    "name": "Эрдэнэбулган",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/123.jpg",
+    "medals": [
+      {
+        "competition": "УООСО",
+        "medal": "Хүрэл",
+        "year": "2024 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-097",
+    "name": "Т.Тунгалагсаран",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/097.jpg",
+    "medals": [
+      {
+        "competition": "УМЗО",
+        "medal": "Мөнгө",
+        "year": "1995 он"
+      },
+      {
+        "competition": "УМЗО",
+        "medal": "Алт",
+        "year": "1996 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-098",
+    "name": "С.Батболд",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/098.jpg",
+    "medals": [
+      {
+        "competition": "УМЗО",
+        "medal": "Мөнгө",
+        "year": "1997 он"
+      },
+      {
+        "competition": "УМЗО",
+        "medal": "Мөнгө",
+        "year": "1999 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-099",
+    "name": "Т.Тулга",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/099.jpg",
+    "medals": [
+      {
+        "competition": "УМЗО",
+        "medal": "Мөнгө",
+        "year": "2000 он"
+      },
+      {
+        "competition": "УМЗО",
+        "medal": "Мөнгө",
+        "year": "2001 он"
+      },
+      {
+        "competition": "УМЗО",
+        "medal": "Алт",
+        "year": "2002 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-100",
+    "name": "",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/100.jpg",
+    "medals": [
+      {
+        "competition": "УМЗО",
+        "medal": "Хүрэл",
+        "year": "2017 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-101",
+    "name": "Б.Хүлэгү",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/101.jpg",
+    "medals": [
+      {
+        "competition": "УМЗО",
+        "medal": "Хүрэл",
+        "year": "2019 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-102",
+    "name": "Э.Санчир",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/102.jpg",
+    "medals": [
+      {
+        "competition": "УМЗО",
+        "medal": "Мөнгө",
+        "year": "2019 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-103",
+    "name": "А.Алтбилэг",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/103.jpg",
+    "medals": [
+      {
+        "competition": "УХО",
+        "medal": "Алт",
+        "year": "1998 он"
+      },
+      {
+        "competition": "УХО",
+        "medal": "Алт",
+        "year": "1999 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-104",
+    "name": "Ч.Доржнамжил",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/104.jpg",
+    "medals": [
+      {
+        "competition": "УМЗО",
+        "medal": "Мөнгө",
+        "year": "2000 он"
+      },
+      {
+        "competition": "УМО",
+        "medal": "Хүрэл",
+        "year": "2001,2002 он"
+      },
+      {
+        "competition": "УМЗО",
+        "medal": "Хүрэл",
+        "year": "2002 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-105",
+    "name": "Б.Мөнхдөл",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/105.jpg",
+    "medals": [
+      {
+        "competition": "УАХО",
+        "medal": "Алт",
+        "year": "1998 он"
+      },
+      {
+        "competition": "УАХО",
+        "medal": "Алт",
+        "year": "2000 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-106",
+    "name": "Г.Мягмар",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/106.jpg",
+    "medals": [
+      {
+        "competition": "УМХО",
+        "medal": "Мөнгө",
+        "year": "2001 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-107",
+    "name": "А.Саран",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/107.jpg",
+    "medals": [
+      {
+        "competition": "УОХО",
+        "medal": "Хүрэл",
+        "year": "2003 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-108",
+    "name": "С.Нарантөгөлдөр",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/108.jpg",
+    "medals": [
+      {
+        "competition": "УОХО",
+        "medal": "Алт",
+        "year": "2003 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-109",
+    "name": "Д.Намуунтуул",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/109.jpg",
+    "medals": [
+      {
+        "competition": "УХО",
+        "medal": "Алт",
+        "year": "2006 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-110",
+    "name": "Э.Золбоо",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/110.jpg",
+    "medals": [
+      {
+        "competition": "УХО",
+        "medal": "Хүрэл",
+        "year": "2007 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-111",
+    "name": "Д.Амарсанаа",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/111.jpg",
+    "medals": [
+      {
+        "competition": "УХО",
+        "medal": "Хүрэл",
+        "year": "2008 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-112",
+    "name": "М.Чулуун-Эрдэнэ",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/112.jpg",
+    "medals": [
+      {
+        "competition": "ОХУО",
+        "medal": "Хүрэл",
+        "year": "2011 он"
+      },
+      {
+        "competition": "ОХУО",
+        "medal": "Мөнгө",
+        "year": "2013 он"
+      },
+      {
+        "competition": "ОХУО",
+        "medal": "Алт",
+        "year": "2015 он"
+      }
+    ]
+  },
+  {
+    "id": "uom-113",
+    "name": "Э.Ундрах",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/113.jpg",
+    "medals": [
+      {
+        "competition": "УАХО",
+        "medal": "Хүрэл",
+        "year": "он"
+      }
+    ]
+  },
+  {
+    "id": "uom-114",
+    "name": "А.Жавхлантөгс",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/114.jpg",
+    "medals": [
+      {
+        "competition": "УГЗО",
+        "medal": "Мөнгө",
+        "year": "он"
+      }
+    ]
+  },
+  {
+    "id": "uom-124",
+    "name": "Г.Өсөхбаяр",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/124.jpg",
+    "medals": [
+      {
+        "competition": "УОХО",
+        "medal": "Алт",
+        "year": "2022он"
+      }
+    ]
+  },
+  {
+    "id": "uom-125",
+    "name": "Б.Цолмон",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/125.jpg",
+    "medals": [
+      {
+        "competition": "УНО",
+        "medal": "Алт",
+        "year": "2022он"
+      }
+    ]
+  },
+  {
+    "id": "uom-126",
+    "name": "Б.Чингүүн",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/126.jpg",
+    "medals": [
+      {
+        "competition": "УМЗО",
+        "medal": "Алт",
+        "year": "2024он"
+      }
+    ]
+  },
+  {
+    "id": "uom-127",
+    "name": "Б.Бат-Оргил",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/127.jpg",
+    "medals": [
+      {
+        "competition": "УМЗО",
+        "medal": "Хүрэл",
+        "year": "2024он"
+      }
+    ]
+  },
+  {
+    "id": "uom-128",
+    "name": "Ц.Мөнх-Очир",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/128.jpg",
+    "medals": [
+      {
+        "competition": "УАХО",
+        "medal": "Алт",
+        "year": "2024он"
+      }
+    ]
+  },
+  {
+    "id": "uom-129",
+    "name": "У.Ирмүүн",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/129.jpg",
+    "medals": [
+      {
+        "competition": "УАХО",
+        "medal": "Хүрэл",
+        "year": "2024он"
+      }
+    ]
+  },
+  {
+    "id": "uom-130",
+    "name": "С.Эрдэм",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/130.jpg",
+    "medals": [
+      {
+        "competition": "УАХО",
+        "medal": "Хүрэл",
+        "year": "2024он"
+      }
+    ]
+  },
+  {
+    "id": "uom-131",
+    "name": "Ж.Номуун",
+    "scope": "national",
+    "photo": "https://www.famhall.school11.edu.mn/image/uom/131.jpg",
+    "medals": [
+      {
+        "competition": "УАХО",
+        "medal": "Хүрэл",
+        "year": "2024он"
+      }
+    ]
+  }
+]

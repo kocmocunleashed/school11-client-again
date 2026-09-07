@@ -1,0 +1,163 @@
+import type { AchievementYear, CourseSection, NewsArticle, SchoolSettings, Teacher } from "@/types/database";
+
+export const fallbackSettings: SchoolSettings = {
+  school_name_mn: "Нийслэлийн 11-р сургууль",
+  school_name_en: "11th School",
+  established: 1940,
+  student_count: 2000,
+  teacher_count: 80,
+  club_count: 40,
+  address_mn: "Партизаны гудамж, Сүхбаатар дүүрэг",
+  city: "Улаанбаатар",
+  phone: "+976 11 327226",
+  email: "School_11@edub.edu.mn",
+  facebook_url: null,
+  instagram_url: null,
+  youtube_url: null,
+  twitter_url: null,
+  hero_image_url: null,
+  application_guide_url: null,
+};
+
+const category = (id: string, name_mn: string, color: string, slug: string) => ({ id, name_mn, name_en: null, color, slug });
+
+export const fallbackNews: NewsArticle[] = [
+  {
+    id: "fallback-news-1",
+    title_mn: "Математикийн олимпиадад тэргүүн байр эзэллээ",
+    title_en: null,
+    excerpt_mn: "Манай сургуулийн сурагчид улсын олимпиадад өндөр амжилт үзүүллээ.",
+    body_mn: "Манай сургуулийн сурагчид улсын хэмжээний математикийн олимпиадад амжилттай оролцож, бодлогын гүнзгий ойлголт, багийн сахилга, тууштай бэлтгэлийн үр дүнгээ харууллаа. Энэхүү амжилт нь сурагч, багш, эцэг эхийн хамтын ажиллагааны тод жишээ боллоо.",
+    excerpt_en: null,
+    body_en: null,
+    cover_image_url: null,
+    category_id: "fallback-category-olympiad",
+    category: category("fallback-category-olympiad", "Олимпиад", "#0757A6", "olympiad"),
+    author_name: "Б. Оюунтуяа",
+    author_role: "Математикийн багш",
+    author_photo: null,
+    read_time_min: 5,
+    is_published: true,
+    is_featured: true,
+    tags: ["Олимпиад", "Математик", "Амжилт"],
+    published_at: "2026-05-12T08:00:00.000Z",
+    view_count: 0,
+  },
+  {
+    id: "fallback-news-2",
+    title_mn: "Сургуулийн түүхэн материал цуглуулах ажил эхэллээ",
+    title_en: null,
+    excerpt_mn: "Үе үеийн төгсөгчид, ахмад багш нарын дурсамж, гэрэл зургийг нэгтгэж байна.",
+    body_mn: "Нийслэлийн 11-р сургуулийн түүхэн замналыг баримтжуулах зорилгоор төгсөгчид, ахмад багш нар, сурагчдын дурсамж, гэрэл зураг, баримтат материалыг нэгтгэх ажил эхэллээ.",
+    excerpt_en: null,
+    body_en: null,
+    cover_image_url: null,
+    category_id: "fallback-category-event",
+    category: category("fallback-category-event", "Арга хэмжээ", "#F6B512", "event"),
+    author_name: "Сургалтын алба",
+    author_role: "Захиргаа",
+    author_photo: null,
+    read_time_min: 4,
+    is_published: true,
+    is_featured: false,
+    tags: ["Түүх", "Сургууль"],
+    published_at: "2026-05-08T08:00:00.000Z",
+    view_count: 0,
+  },
+  {
+    id: "fallback-news-3",
+    title_mn: "Шинжлэх ухаан, урлаг, спортын дугуйлан шинэ элсэлт авч байна",
+    title_en: null,
+    excerpt_mn: "Сурагчдын сонирхол, авьяасыг хөгжүүлэх олон төрлийн клубүүд бүртгэлээ нээлээ.",
+    body_mn: "Шинжлэх ухаан, урлаг, спорт, технологийн чиглэлийн дугуйлангууд шинэ гишүүдээ бүртгэж эхэллээ. Дугуйлан бүр сурагчдын өөрийгөө илэрхийлэх чадвар, багаар ажиллах соёл, бүтээлч сэтгэлгээг хөгжүүлнэ.",
+    excerpt_en: null,
+    body_en: null,
+    cover_image_url: null,
+    category_id: "fallback-category-club",
+    category: category("fallback-category-club", "Клуб", "#4B6B8B", "club"),
+    author_name: "Нийгмийн ажилтан",
+    author_role: "Хөгжлийн баг",
+    author_photo: null,
+    read_time_min: 3,
+    is_published: true,
+    is_featured: false,
+    tags: ["Клуб", "Сурагч", "Хөгжил"],
+    published_at: "2026-05-02T08:00:00.000Z",
+    view_count: 0,
+  },
+];
+
+export const fallbackTeachers: Teacher[] = [
+  ["Д. Наранцэцэг", "Математик", 18],
+  ["Б. Энхбаяр", "Физик", 12],
+  ["О. Мөнхзул", "Биологи", 9],
+  ["Г. Батбаяр", "Түүх", 15],
+  ["Х. Солонго", "Хими", 7],
+  ["Т. Оюун", "Англи хэл", 11],
+].map(([name, subject, years], index) => ({
+  id: `fallback-teacher-${index + 1}`,
+  name_mn: String(name),
+  name_en: null,
+  subject_mn: String(subject),
+  subject_en: null,
+  years_exp: Number(years),
+  bio_mn: null,
+  bio_en: null,
+  photo_url: null,
+  is_featured: true,
+  display_order: index + 1,
+}));
+
+export const fallbackAchievements: AchievementYear[] = [
+  { id: "fallback-year-1940", year: 1940, highlight_mn: "Үүсгэн байгуулагдсан", description_mn: "Нийслэлийн боловсролын салбарт математик, байгалийн ухааны чиглэлээр ялгарах сууриа тавьсан.", image_url: null, is_milestone: true, achievements: [] },
+  { id: "fallback-year-1989", year: 1989, highlight_mn: "Гүнзгийрүүлсэн сургалт", description_mn: "Математик, физикийн сонгон сургалт тогтмолжиж, олимпиадын багш-сурагчийн систем бүрэлдсэн.", image_url: null, is_milestone: true, achievements: [] },
+  { id: "fallback-year-2016", year: 2016, highlight_mn: "Шинэ хичээлийн байр", description_mn: "Орчин үеийн сургалтын орчинтой шинэ байр ашиглалтад орж, лаборатори, танхимын хүртээмж сайжирсан.", image_url: null, is_milestone: true, achievements: [] },
+  { id: "fallback-year-2026", year: 2026, highlight_mn: "Олон улсын гараа", description_mn: "Сурагчдын судалгааны төслүүд олон улсын уралдаанд шалгарч, ахлах ангийн академик соёл улам бэхжив.", image_url: null, is_milestone: false, achievements: [] },
+];
+
+const courseItems = (sectionId: string, rows: string[][]) => rows.map((row, index) => ({
+  id: `${sectionId}-${index + 1}`,
+  section_id: sectionId,
+  title_mn: row[0]!,
+  title_en: null,
+  short_desc_mn: row[1]!,
+  short_desc_en: null,
+  full_desc_mn: row[1]!,
+  full_desc_en: null,
+  teacher_name: row[2]!,
+  schedule_mn: row[3]!,
+  location_mn: null,
+  max_students: null,
+  current_students: null,
+  tags: [],
+}));
+
+export const fallbackCourses: CourseSection[] = [
+  {
+    id: "fallback-section-depth", slug: "section", title_mn: "Гүнзгийрүүлсэн сургалт", title_en: null,
+    description_mn: "Математик, физик, хэлний сонгон сургалт", description_en: null, icon: "book", display_order: 1,
+    items: courseItems("fallback-section-depth", [
+      ["Математикийн секц", "Бодлогын арга зүй, нотолгооны соёл.", "Э. Хүдэрбаатар", "Мягмар, Пүрэв 15:30"],
+      ["Физикийн секц", "Туршилт, хэмжилт, инженерчлэлийн суурь.", "Б. Эрдэнэ", "Даваа, Лхагва 16:00"],
+      ["Англи хэлний секц", "Академик уншлага, бичгийн чадвар.", "Т. Оюун", "Мягмар 15:00"],
+    ]),
+  },
+  {
+    id: "fallback-section-olympiad", slug: "olympiad", title_mn: "Олимпиадын бэлтгэл", title_en: null,
+    description_mn: "Сорил, бодлого, судалгааны дадлага", description_en: null, icon: "trophy", display_order: 2,
+    items: courseItems("fallback-section-olympiad", [
+      ["Математикийн олимпиад", "Ахисан түвшний бодлого, нотолгоо.", "Э. Хүдэрбаатар", "Мягмар, Пүрэв 15:30"],
+      ["Физикийн олимпиад", "Тооцоолол, туршилтын арга.", "Б. Эрдэнэ", "Даваа, Лхагва 16:00"],
+      ["Мэдээлэл зүйн бэлтгэл", "Алгоритм, өгөгдлийн бүтэц, бодлого.", "Д. Номин", "Баасан 15:30"],
+    ]),
+  },
+  {
+    id: "fallback-section-clubs", slug: "clubs", title_mn: "Клуб ба дугуйлан", title_en: null,
+    description_mn: "Сурагчдын сонирхол, авьяасын хөгжлийн орчин", description_en: null, icon: "users", display_order: 3,
+    items: courseItems("fallback-section-clubs", [
+      ["Роботик ба код", "Алгоритм, электроник, багийн төсөл.", "Д. Номин", "Баасан 15:00"],
+      ["Урлагийн студи", "Найрал дуу, хөгжим, тайзны соёл.", "О. Солонго", "Лхагва 15:30"],
+      ["Сагсан бөмбөг", "Багийн тоглолт, тэсвэр, сахилга.", "Г. Бат", "Мягмар, Баасан 17:00"],
+    ]),
+  },
+];

@@ -1,7 +1,0 @@
-.env
-.env.*
-.env.config
-node_modules
-dist
-coverage
-.codex

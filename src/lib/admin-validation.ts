@@ -1,14 +1,17 @@
+import { defaultSiteCopy } from "./site-copy";
 export const applicationStatuses = ["accepted", "pending", "waitlisted", "rejected", "incomplete"] as const;
 export type ApplicationStatus = typeof applicationStatuses[number];
 
 export const writableFieldNames = {
+  hallOfFame: ["name", "scope", "photo", "medals", "is_published", "is_featured", "display_order", "source_url"],
+  sections: ["slug", "title_mn", "title_en", "description_mn", "description_en", "icon", "display_order", "is_active"],
   news: ["title_mn", "title_en", "excerpt_mn", "excerpt_en", "body_mn", "body_en", "cover_image_url", "category_id", "author_name", "author_role", "author_photo", "read_time_min", "is_published", "is_featured", "tags", "published_at"],
   teachers: ["name_mn", "name_en", "subject_mn", "subject_en", "years_exp", "bio_mn", "bio_en", "photo_url", "is_featured", "display_order", "is_active"],
   years: ["year", "highlight_mn", "highlight_en", "description_mn", "description_en", "image_url", "is_milestone"],
   achievements: ["year_id", "category_id", "title_mn", "title_en", "description_mn", "description_en", "image_url", "is_published", "display_order"],
   courseItems: ["section_id", "title_mn", "title_en", "short_desc_mn", "short_desc_en", "full_desc_mn", "full_desc_en", "teacher_name", "schedule_mn", "location_mn", "max_students", "current_students", "tags", "is_active", "display_order"],
   applications: ["code", "student_name", "status", "message_mn", "academic_year", "grade_applying", "notes"],
-  settings: ["school_name_mn", "school_name_en", "established", "student_count", "teacher_count", "club_count", "address_mn", "city", "phone", "email", "facebook_url", "instagram_url", "youtube_url", "twitter_url", "hero_image_url", "application_guide_url"],
+  settings: ["site_copy", "logo_url", "school_name_mn", "school_name_en", "established", "student_count", "teacher_count", "club_count", "address_mn", "city", "phone", "email", "facebook_url", "instagram_url", "youtube_url", "twitter_url", "hero_image_url", "application_guide_url"],
 } as const;
 
 export type Resource = keyof typeof writableFieldNames;
@@ -23,7 +26,8 @@ const imageFields: Partial<Record<Resource, string[]>> = {
   teachers: ["photo_url"],
   years: ["image_url"],
   achievements: ["image_url"],
-  settings: ["hero_image_url"],
+  settings: ["hero_image_url", "logo_url"],
+  hallOfFame: ["photo", "source_url"],
 };
 const socialUrlFields = new Set(["facebook_url", "instagram_url", "youtube_url", "twitter_url"]);
 const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -149,6 +153,21 @@ export function sanitizeAdminRecord(resource: Resource, payload: unknown) {
   const uuid = (field: string, required = false) => setIfPresent(record, field, optionalUuid(payload[field], field, required));
 
   switch (resource) {
+    case "hallOfFame":
+      reqText("name", 160);
+      if (payload.scope !== "international" && payload.scope !== "national") throw new Error("Invalid medalist scope");
+      record.scope = payload.scope;
+      if (!Array.isArray(payload.medals) || !payload.medals.length || payload.medals.length > 100) throw new Error("Provide between 1 and 100 medals");
+      record.medals = payload.medals.map((medal: unknown) => {
+        if (!isObjectRecord(medal) || Object.keys(medal).some(key => !["competition", "medal", "year"].includes(key))) throw new Error("Invalid medal fields");
+        return { competition: requiredString(medal.competition, "competition", 200), medal: requiredString(medal.medal, "medal", 120), year: optionalString(medal.year, "year", 80) || "" };
+      });
+      bool("is_published"); bool("is_featured"); num("display_order", 0, 10000);
+      break;
+    case "sections":
+      reqText("slug", 80); if (!/^[a-z0-9-]+$/.test(String(record.slug))) throw new Error("Invalid section slug");
+      reqText("title_mn", 180); text("title_en", 180); text("description_mn", 1000); text("description_en", 1000); text("icon", 40); bool("is_active"); num("display_order", 0, 10000);
+      break;
     case "news":
       reqText("title_mn", 180); text("title_en", 180); text("excerpt_mn", 500); text("excerpt_en", 500); text("body_mn", 12000); text("body_en", 12000);
       uuid("category_id", true); reqText("author_name", 120); text("author_role", 120); num("read_time_min", 1, 120); bool("is_published"); bool("is_featured");
@@ -192,6 +211,15 @@ export function sanitizeAdminRecord(resource: Resource, payload: unknown) {
   }
 
   if (resource === "settings") {
+    if ("site_copy" in payload) {
+      if (!isObjectRecord(payload.site_copy)) throw new Error("site_copy must be an object");
+      const copy: Record<string, string> = {};
+      for (const [key, value] of Object.entries(payload.site_copy)) {
+        if (!Object.hasOwn(defaultSiteCopy, key)) throw new Error(`Unknown site copy field: ${key}`);
+        copy[key] = requiredString(value, key, key.startsWith("hero_line") ? 80 : 3000);
+      }
+      record.site_copy = copy;
+    }
     for (const field of socialUrlFields) {
       if (field in payload) record[field] = sanitizeHttpsUrl(payload[field], field, { empty: "null" });
     }

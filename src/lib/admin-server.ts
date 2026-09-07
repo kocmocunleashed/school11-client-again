@@ -15,6 +15,8 @@ const bucketRules = {
   "site-assets": { prefixes: new Set(["hero"]), mimeTypes: new Set(["image/jpeg", "image/png", "image/webp"]), extensions: new Set(["jpg", "jpeg", "png", "webp"]), maxSize: 5 * 1024 * 1024 },
 } as const;
 const tableMap: Record<Resource, string> = {
+  hallOfFame: "hall_of_fame",
+  sections: "course_sections",
   news: "news",
   teachers: "teachers",
   years: "achievement_years",
@@ -288,7 +290,7 @@ export async function adminBootstrap(req: Request) {
   if (!(await isAdminRequest(req))) return unauthorized();
   const adminClient = await getAdminClient();
 
-  const [news, categories, teachers, years, achievementCategories, achievements, sections, courseItems, applications, settings] = await Promise.all([
+  const [news, categories, teachers, years, achievementCategories, achievements, sections, courseItems, applications, settings, hallOfFame] = await Promise.all([
     adminClient.from("news").select("*, category:news_categories(*)").order("published_at", { ascending: false }),
     selectAll("news_categories", "name_mn"),
     adminClient.from("teachers").select("*").order("display_order", { ascending: true }),
@@ -299,9 +301,10 @@ export async function adminBootstrap(req: Request) {
     adminClient.from("course_items").select("*").order("display_order", { ascending: true }),
     adminClient.from("application_results").select("*").order("applied_at", { ascending: false }),
     adminClient.from("school_settings").select("*").limit(1).single(),
+    adminClient.from("hall_of_fame").select("*").order("display_order", { ascending: true }),
   ]);
 
-  const errors = [news.error, teachers.error, years.error, achievements.error, sections.error, courseItems.error, applications.error, settings.error].filter(Boolean);
+  const errors = [news.error, teachers.error, years.error, achievements.error, sections.error, courseItems.error, applications.error, settings.error, hallOfFame.error].filter(Boolean);
   if (errors[0]) throw errors[0];
 
   return json({
@@ -315,13 +318,14 @@ export async function adminBootstrap(req: Request) {
     courseItems: courseItems.data || [],
     applications: applications.data || [],
     settings: settings.data || null,
+    hallOfFame: hallOfFame.data || [],
   });
 }
 
 export async function adminSave(req: Request, resource: string) {
   if (!sameOrigin(req)) return forbidden();
   if (!(await isAdminRequest(req))) return unauthorized();
-  if (!(resource in tableMap)) return json({ error: "Unknown resource" }, { status: 404 });
+  if (!Object.hasOwn(tableMap, resource)) return json({ error: "Unknown resource" }, { status: 404 });
   const adminClient = await getAdminClient();
 
   let payload: Record<string, unknown>;
@@ -351,7 +355,7 @@ export async function adminSave(req: Request, resource: string) {
 export async function adminDelete(req: Request, resource: string, id: string) {
   if (!sameOrigin(req)) return forbidden();
   if (!(await isAdminRequest(req))) return unauthorized();
-  if (!(resource in tableMap)) return json({ error: "Unknown resource" }, { status: 404 });
+  if (!Object.hasOwn(tableMap, resource)) return json({ error: "Unknown resource" }, { status: 404 });
   const adminClient = await getAdminClient();
 
   const table = tableMap[resource as Resource];

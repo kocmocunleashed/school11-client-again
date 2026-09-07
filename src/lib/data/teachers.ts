@@ -14,7 +14,7 @@ export async function getAllTeachers(): Promise<Teacher[]> {
     return (data || []) as Teacher[];
   } catch (error) {
     console.error("Error fetching teachers:", error);
-    return [];
+    throw error;
   }
 }
 
@@ -32,6 +32,6 @@ export async function getFeaturedTeachers(): Promise<Teacher[]> {
     return (data || []) as Teacher[];
   } catch (error) {
     console.error("Error fetching featured teachers:", error);
-    return [];
+    throw error;
   }
 }

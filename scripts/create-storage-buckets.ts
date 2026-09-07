@@ -1,4 +1,7 @@
-import { adminClient } from "../src/lib/supabase/admin";
+import { createClient } from "@supabase/supabase-js";
+import { assertSupabaseAdminEnv, env } from "../src/lib/env";
+assertSupabaseAdminEnv();
+const adminClient = createClient(env.supabaseUrl, env.supabaseServiceRoleKey, { auth: { persistSession: false, autoRefreshToken: false } });
 
 const buckets = {
   "news-images": {

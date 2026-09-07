@@ -1,12 +1,13 @@
-import { createServerClient } from "@supabase/ssr";
+import "server-only";
+import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { assertSupabasePublicEnv, env } from "../env";
 
-export const createClient = () => {
+export function createClient() {
   assertSupabasePublicEnv();
-  return createServerClient(env.supabaseUrl, env.supabaseAnonKey, {
-    cookies: {
-      getAll: () => [],
-      setAll: () => undefined,
+  return createSupabaseClient(env.supabaseUrl, env.supabaseAnonKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
     },
   });
-};
+}

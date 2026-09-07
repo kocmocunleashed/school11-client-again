@@ -18,7 +18,7 @@ export async function getPublishedNews(limit = 6): Promise<NewsArticle[]> {
     return (data || []) as NewsArticle[];
   } catch (error) {
     console.error("Error fetching news:", error);
-    return [];
+    throw error;
   }
 }
 
@@ -36,7 +36,7 @@ export async function getFeaturedNews(): Promise<NewsArticle[]> {
     return (data || []) as NewsArticle[];
   } catch (error) {
     console.error("Error fetching featured news:", error);
-    return [];
+    throw error;
   }
 }
 
@@ -75,6 +75,6 @@ export async function getNewsByCategory(slug: string): Promise<NewsArticle[]> {
     return (data || []) as NewsArticle[];
   } catch (error) {
     console.error("Error fetching category news:", error);
-    return [];
+    throw error;
   }
 }

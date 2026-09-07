@@ -1,0 +1,567 @@
+"use client";
+
+/* eslint-disable @next/next/no-img-element */
+import {
+  Award,
+  BookOpen,
+  FileText,
+  Home,
+  LogOut,
+  Newspaper,
+  RotateCcw,
+  Save,
+  Settings,
+  Trash2,
+  Users,
+} from "lucide-react";
+import type { FormEvent, ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { defaultSiteCopy, siteCopyLabels, type SiteCopy } from "@/lib/site-copy";
+import type { HallRecord } from "@/types/database";
+import type { NewsCategory } from "@/types/database";
+import { adminApi as liveApi } from "@/lib/admin/api";
+import { emptyAdminData, type AdminData, type AdminRequest } from "@/lib/admin/contracts";
+import { createMockAdminRequest } from "@/lib/admin/mock-database";
+import { parseCsv, toCsv } from "@/lib/admin/csv";
+import { compressImageToWebp } from "@/lib/admin/upload";
+import { writableFieldNames, type Resource } from "@/lib/admin-validation";
+
+type AdminPage = "hall-of-fame" | "dashboard" | "news" | "teachers" | "achievements" | "courses" | "applications" | "settings";
+type Toast = { kind: "success" | "error"; text: string } | null;
+
+const nav = [
+  ["dashboard", Home, "Dashboard"],
+  ["news", Newspaper, "News Manager"],
+  ["teachers", Users, "Teachers Manager"],
+  ["achievements", Award, "Achievements"],
+  ["hall-of-fame", Award, "Хүндэт самбар"],
+  ["courses", BookOpen, "Courses"],
+  ["applications", FileText, "Application Codes"],
+  ["settings", Settings, "School Settings"],
+] as const;
+
+function cleanAdminRecord(resource: string, record: Record<string, unknown>) {
+  if (!(resource in writableFieldNames)) return record;
+  const allowed = new Set<string>(writableFieldNames[resource as Resource]);
+  const cleaned: Record<string, unknown> = {};
+  if (typeof record.id === "string") cleaned.id = record.id;
+  for (const [key, value] of Object.entries(record)) {
+    if (allowed.has(key)) cleaned[key] = value;
+  }
+  return cleaned;
+}
+
+function adminPageFromPath(pathname: string, mode: "live" | "mock"): AdminPage {
+  const slug = pathname.split("/")[mode === "mock" ? 3 : 2] as AdminPage | undefined;
+  return nav.some(([id]) => id === slug) ? slug! : "dashboard";
+}
+
+export function AdminApp({ mode = "live" }: { mode?: "live" | "mock" }) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const mockRequest = useMemo(() => mode === "mock" ? createMockAdminRequest() : null, [mode]);
+  const request: AdminRequest = mockRequest || liveApi;
+  const page = adminPageFromPath(pathname, mode);
+  const [data, setData] = useState<AdminData>(emptyAdminData);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
+  const [toast, setToast] = useState<Toast>(null);
+
+  const notify = (next: Toast) => {
+    setToast(next);
+    window.setTimeout(() => setToast(null), 2600);
+  };
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    setLoadError("");
+    try {
+      const session = await request<{ authenticated: boolean }>("/api/admin/me");
+      if (!session.authenticated) {
+        router.replace("/admin/login");
+        return;
+      }
+    } catch {
+      router.replace("/admin/login");
+      return;
+    }
+
+    try {
+      setData(await request<AdminData>("/api/admin/bootstrap"));
+    } catch (error) {
+      setLoadError(error instanceof Error ? error.message : "Admin data failed to load");
+    } finally {
+      setLoading(false);
+    }
+  }, [request, router]);
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => { void load(); });
+    return () => cancelAnimationFrame(frame);
+  }, [load]);
+
+  const go = (next: AdminPage) => {
+    const base = mode === "mock" ? "/admin/mock" : "/admin";
+    router.push(next === "dashboard" ? base : `${base}/${next}`);
+  };
+
+  const save = async (resource: string, record: Record<string, unknown>) => {
+    try {
+      await request(`/api/admin/save/${resource}`, { method: "POST", body: JSON.stringify(cleanAdminRecord(resource, record)) });
+    } catch (error) {
+      notify({ kind: "error", text: error instanceof Error ? error.message : "Save failed" });
+      throw error;
+    }
+    notify({ kind: "success", text: "Saved" });
+    await load();
+  };
+
+  const remove = async (resource: string, id: string) => {
+    if (!confirm("Delete this item?")) return;
+    await request(`/api/admin/delete/${resource}/${id}`, { method: "DELETE" });
+    notify({ kind: "success", text: "Deleted" });
+    await load();
+  };
+
+  const resetDemo = async () => {
+    if (!mockRequest || !confirm("Reset all demo records to their original sample data?")) return;
+    await mockRequest.reset();
+    router.replace("/admin/mock");
+    await load();
+    notify({ kind: "success", text: "Demo data reset" });
+  };
+
+  return (
+    <div className="admin-shell">
+      <aside className="admin-sidebar">
+        <div className="admin-brand"><img src="/school-logo.png" alt="11-р сургуулийн лого" /><span>11-р сургууль<br /><small>Удирдлагын систем</small></span></div>
+        <nav>
+          {nav.map(([id, Icon, label]) => (
+            <button key={id} className={page === id ? "active" : ""} onClick={() => go(id)}>
+              <Icon size={18} /> {label}
+            </button>
+          ))}
+        </nav>
+        <button className="admin-logout" onClick={async () => {
+          if (mode === "mock") { router.push("/"); return; }
+          await request("/api/admin/logout", { method: "POST" });
+          router.replace("/admin/login");
+        }}><LogOut size={18} /> {mode === "mock" ? "Exit Demo" : "Logout"}</button>
+      </aside>
+      <main className="admin-main">
+        {mode === "mock" ? <div className="admin-demo-bar" role="status"><span><strong>Demo mode</strong> Browser-local sample database · no backend connection</span><button type="button" onClick={resetDemo}><RotateCcw size={16} /> Reset demo data</button></div> : null}
+        {toast && <div className={`admin-toast ${toast.kind}`} role="status" aria-live="polite">{toast.text}</div>}
+        {loading && <div className="admin-loading">Loading...</div>}
+        {!loading && loadError && <div className="admin-loading">{loadError}</div>}
+        {!loading && !loadError && page === "dashboard" && <Dashboard go={go} />}
+        {!loading && !loadError && page === "news" && <NewsManager data={data} save={save} remove={remove} reload={load} notify={notify} request={request} />}
+        {!loading && !loadError && page === "teachers" && <TeachersManager data={data} save={save} remove={remove} notify={notify} request={request} />}
+        {!loading && !loadError && page === "achievements" && <AchievementsManager data={data} save={save} remove={remove} notify={notify} request={request} />}
+        {!loading && !loadError && page === "courses" && <CoursesManager data={data} save={save} remove={remove} />}
+        {!loading && !loadError && page === "applications" && <ApplicationsManager data={data} save={save} remove={remove} reload={load} notify={notify} request={request} />}
+        {!loading && !loadError && page === "hall-of-fame" && <HallManager data={data} save={save} remove={remove} notify={notify} request={request} />}
+        {!loading && !loadError && page === "settings" && <SettingsManager data={data} save={save} notify={notify} request={request} />}
+      </main>
+    </div>
+  );
+}
+
+export function AdminLogin() {
+  const router = useRouter();
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [saving, setSaving] = useState(false);
+  const handleLogin = async (password: string) => {
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: password.trim() }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        router.replace("/admin");
+      } else {
+        setError(data.error ?? "Wrong password");
+      }
+    } catch {
+      setError("Connection error");
+    }
+  };
+
+  const submit = async (event: FormEvent) => {
+    event.preventDefault();
+    setSaving(true);
+    setError("");
+    try {
+      await handleLogin(password);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <main className="admin-login">
+      <form className={`login-card ${error ? "shake" : ""}`} onSubmit={submit}>
+        <img className="login-logo" src="/school-logo.png" alt="11-р сургуулийн лого" />
+        <p className="login-kicker">Удирдлагын систем</p>
+        <h1>11-р сургууль</h1>
+        <label htmlFor="admin-password">Нууц үг</label>
+        <input id="admin-password" type="password" value={password} onChange={event => setPassword(event.target.value)} placeholder="Нууц үгээ оруулна уу" autoFocus />
+        {error && <p>{error === "Unauthorized" ? "Wrong password" : error}</p>}
+        <button disabled={saving}>{saving ? "Шалгаж байна…" : "Нэвтрэх"}</button>
+      </form>
+    </main>
+  );
+}
+
+function Dashboard({ go }: { go: (page: AdminPage) => void }) {
+  return (
+    <section>
+      <AdminTitle title="Dashboard" action={null} />
+      <div className="admin-card-grid">
+        {nav.slice(1).map(([id, Icon, label]) => (
+          <button className="admin-card-link" key={id} onClick={() => go(id)}>
+            <Icon /> <strong>{label}</strong><span>Manage content</span>
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function AdminTitle({ title, action }: { title: string; action: ReactNode }) {
+  return <div className="admin-title"><h1>{title}</h1>{action}</div>;
+}
+
+function Field({ label, children }: { label: string; children: ReactNode }) {
+  return <label className="admin-field"><span>{label}</span>{children}</label>;
+}
+
+function normalizeImageLink(value: string) {
+  const trimmed = value.trim();
+  if (!trimmed) return "";
+
+  try {
+    const url = new URL(trimmed);
+    if (url.protocol !== "https:") throw new Error("Only HTTPS image links are allowed");
+    return url.toString();
+  } catch {
+    throw new Error("Enter a valid HTTPS image link");
+  }
+}
+
+function UploadField({ bucket, prefix, value, circular, successMessage = "Uploaded", linkLabel = "Current file", onChange, onLinkChange, notify, request }: { bucket: string; prefix: string; value?: string | null; circular?: boolean; successMessage?: string | null; linkLabel?: string; onChange: (url: string) => void | Promise<void>; onLinkChange?: (url: string) => void | Promise<void>; notify: (toast: Toast) => void; request: AdminRequest }) {
+  const [preview, setPreview] = useState(value || "");
+  const [linkValue, setLinkValue] = useState(value || "");
+  const [uploading, setUploading] = useState(false);
+  const previewObjectUrl = useRef<string | null>(null);
+  const isDocumentBucket = bucket === "documents";
+  const allowLinkInput = !isDocumentBucket;
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      if (previewObjectUrl.current) {
+        URL.revokeObjectURL(previewObjectUrl.current);
+        previewObjectUrl.current = null;
+      }
+      setPreview(value || "");
+      setLinkValue(value || "");
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [value]);
+
+  useEffect(() => () => {
+    if (previewObjectUrl.current) URL.revokeObjectURL(previewObjectUrl.current);
+  }, []);
+
+  const setObjectPreview = (file: File) => {
+    if (previewObjectUrl.current) URL.revokeObjectURL(previewObjectUrl.current);
+    previewObjectUrl.current = URL.createObjectURL(file);
+    setPreview(previewObjectUrl.current);
+  };
+
+  const setRemotePreview = (url: string) => {
+    if (previewObjectUrl.current) {
+      URL.revokeObjectURL(previewObjectUrl.current);
+      previewObjectUrl.current = null;
+    }
+    setPreview(url);
+    setLinkValue(url);
+  };
+
+  const applyLink = async () => {
+    try {
+      const url = normalizeImageLink(linkValue);
+      if (previewObjectUrl.current) {
+        URL.revokeObjectURL(previewObjectUrl.current);
+        previewObjectUrl.current = null;
+      }
+      setPreview(url);
+      setLinkValue(url);
+      await (onLinkChange || onChange)(url);
+      notify({ kind: "success", text: url ? "Image link applied. Press Save to keep it." : "Image cleared. Press Save to keep it." });
+    } catch (error) {
+      notify({ kind: "error", text: error instanceof Error ? error.message : "Invalid image link" });
+    }
+  };
+
+  return (
+    <div className="upload-field">
+      {preview && (isDocumentBucket
+        ? <a href={preview} target="_blank" rel="noreferrer">{linkLabel}</a>
+        : <img className={circular ? "upload-preview circle" : "upload-preview"} src={preview} alt="Оруулсан файлын урьдчилсан харагдац" />)}
+      {allowLinkInput && (
+        <div className="upload-link-row">
+          <input type="url" value={linkValue} placeholder="https://example.com/photo.jpg" onChange={event => setLinkValue(event.target.value)} />
+          <button type="button" onClick={applyLink}>Use link</button>
+        </div>
+      )}
+      <input type="file" accept={isDocumentBucket ? "application/pdf" : "image/jpeg,image/png,image/webp"} onChange={async event => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+        setUploading(true);
+        try {
+          const uploadFile = isDocumentBucket ? file : await compressImageToWebp(file);
+          if (!isDocumentBucket) setObjectPreview(uploadFile);
+          const form = new FormData();
+          form.append("file", uploadFile);
+          form.append("prefix", prefix);
+          const result = await request<{ publicUrl: string }>(`/api/admin/upload/${bucket}`, { method: "POST", body: form });
+          await onChange(result.publicUrl);
+          setRemotePreview(result.publicUrl);
+          if (successMessage) notify({ kind: "success", text: successMessage });
+        } catch (error) {
+          notify({ kind: "error", text: error instanceof Error ? error.message : "Upload failed" });
+        } finally {
+          setUploading(false);
+        }
+      }} />
+      {uploading && <small>Uploading...</small>}
+    </div>
+  );
+}
+
+function NewsManager({ data, save, remove, reload, notify, request }: { data: AdminData; save: (r: string, v: Record<string, unknown>) => Promise<void>; remove: (r: string, id: string) => Promise<void>; reload: () => Promise<void>; notify: (toast: Toast) => void; request: AdminRequest }) {
+  const blank = { title_mn: "", category_id: data.categories[0]?.id || "", author_name: "Сургуулийн захиргаа", author_role: "Захиргаа", read_time_min: 3, cover_image_url: "", excerpt_mn: "", body_mn: "", tags: [], is_featured: false, is_published: false, published_at: new Date().toISOString() };
+  const [editing, setEditing] = useState<Record<string, unknown> | null>(null);
+  return (
+    <section>
+      <AdminTitle title="News Manager" action={<button className="admin-primary" onClick={() => setEditing(blank)}>Add New Article</button>} />
+      <table className="admin-table"><thead><tr><th>Title</th><th>Category</th><th>Status</th><th>Date</th><th /></tr></thead><tbody>
+        {data.news.map(item => <tr key={item.id}><td>{item.title_mn}</td><td>{item.category?.name_mn}</td><td><button className="mini" onClick={async () => { await request(`/api/admin/toggle-news/${item.id}`, { method: "POST", body: JSON.stringify({ is_published: !item.is_published }) }); await reload(); }}>{item.is_published ? "Published" : "Draft"}</button></td><td>{item.published_at?.slice(0, 10)}</td><td><button onClick={() => setEditing(item as unknown as Record<string, unknown>)}>Edit</button><button onClick={() => remove("news", item.id)}>Delete</button></td></tr>)}
+      </tbody></table>
+      {editing && <div className="admin-panel"><NewsForm record={editing} categories={data.categories} onCancel={() => setEditing(null)} onSave={async record => { await save("news", record); setEditing(null); }} notify={notify} request={request} /></div>}
+    </section>
+  );
+}
+
+function NewsForm({ record, categories, onSave, onCancel, notify, request }: { record: Record<string, unknown>; categories: NewsCategory[]; onSave: (record: Record<string, unknown>) => Promise<void>; onCancel: () => void; notify: (toast: Toast) => void; request: AdminRequest }) {
+  const [form, setForm] = useState(record);
+  const [saving, setSaving] = useState(false);
+  const set = (key: string, value: unknown) => setForm(prev => ({ ...prev, [key]: value }));
+  return <form className="admin-form" onSubmit={async event => { event.preventDefault(); setSaving(true); await onSave({ ...form, tags: String(form.tags || "").split(",").map(t => t.trim()).filter(Boolean) }); setSaving(false); }}>
+    <Field label="Title (Mongolian)"><input value={String(form.title_mn || "")} onChange={e => set("title_mn", e.target.value)} required /></Field>
+    <Field label="Category"><select value={String(form.category_id || "")} onChange={e => set("category_id", e.target.value)}>{categories.map(c => <option key={c.id} value={c.id}>{c.name_mn}</option>)}</select></Field>
+    <div className="admin-two"><Field label="Author name"><input value={String(form.author_name || "")} onChange={e => set("author_name", e.target.value)} /></Field><Field label="Author role"><input value={String(form.author_role || "")} onChange={e => set("author_role", e.target.value)} /></Field></div>
+    <Field label="Read time"><input type="number" value={Number(form.read_time_min || 3)} onChange={e => set("read_time_min", Number(e.target.value))} /></Field>
+    <Field label="Cover image"><UploadField bucket="news-images" prefix="news" value={String(form.cover_image_url || "")} onChange={url => set("cover_image_url", url)} notify={notify} request={request} /></Field>
+    <Field label="Excerpt"><textarea value={String(form.excerpt_mn || "")} onChange={e => set("excerpt_mn", e.target.value)} /></Field>
+    <Field label="Body"><textarea className="large" value={String(form.body_mn || "")} onChange={e => set("body_mn", e.target.value)} /></Field>
+    <Field label="Tags"><input value={Array.isArray(form.tags) ? form.tags.join(", ") : String(form.tags || "")} onChange={e => set("tags", e.target.value)} /></Field>
+    <label><input type="checkbox" checked={Boolean(form.is_featured)} onChange={e => set("is_featured", e.target.checked)} /> Featured</label>
+    <label><input type="checkbox" checked={Boolean(form.is_published)} onChange={e => set("is_published", e.target.checked)} /> Published</label>
+    <div className="admin-actions"><button type="button" onClick={onCancel}>Cancel</button><button className="admin-primary" disabled={saving}><Save size={16} /> {saving ? "Saving..." : "Save"}</button></div>
+  </form>;
+}
+
+function TeachersManager({ data, save, remove, notify, request }: { data: AdminData; save: (r: string, v: Record<string, unknown>) => Promise<void>; remove: (r: string, id: string) => Promise<void>; notify: (toast: Toast) => void; request: AdminRequest }) {
+  const blank = { name_mn: "", subject_mn: "", years_exp: 0, bio_mn: "", photo_url: "", is_featured: true, is_active: true, display_order: data.teachers.length + 1 };
+  const [editing, setEditing] = useState<Record<string, unknown> | null>(null);
+  return <section><AdminTitle title="Teachers Manager" action={<button className="admin-primary" onClick={() => setEditing(blank)}>Add Teacher</button>} />
+    <div className="teacher-admin-grid">{data.teachers.map(t => <button key={t.id} className="teacher-admin-card" onClick={() => setEditing(t as unknown as Record<string, unknown>)}><div>{t.photo_url ? <img src={t.photo_url} alt={`${t.name_mn} багшийн зураг`} /> : t.name_mn.slice(0, 2)}</div><strong>{t.name_mn}</strong><span>{t.subject_mn}</span></button>)}</div>
+    {editing && <div className="admin-panel"><TeacherForm record={editing} onCancel={() => setEditing(null)} onDelete={() => editing.id && remove("teachers", String(editing.id))} onSave={async record => { await save("teachers", record); setEditing(null); }} notify={notify} request={request} /></div>}
+  </section>;
+}
+
+function TeacherForm({ record, onSave, onCancel, onDelete, notify, request }: { record: Record<string, unknown>; onSave: (record: Record<string, unknown>) => Promise<void>; onCancel: () => void; onDelete: () => void; notify: (toast: Toast) => void; request: AdminRequest }) {
+  const [form, setForm] = useState<Record<string, unknown>>(record);
+  const set = (key: string, value: unknown) => setForm(prev => ({ ...prev, [key]: value }));
+  const savePhoto = async (url: string) => {
+    const next: Record<string, unknown> = { ...form, photo_url: url };
+    if (next.id) {
+      await request("/api/admin/save/teachers", { method: "POST", body: JSON.stringify(cleanAdminRecord("teachers", next)) });
+      notify({ kind: "success", text: "Photo saved" });
+    }
+    setForm(next);
+  };
+
+  return <form className="admin-form" onSubmit={async e => { e.preventDefault(); await onSave(form); }}>
+    <Field label="Full name"><input value={String(form.name_mn || "")} onChange={e => set("name_mn", e.target.value)} required /></Field>
+    <Field label="Subject"><input value={String(form.subject_mn || "")} onChange={e => set("subject_mn", e.target.value)} required /></Field>
+    <Field label="Years of experience"><input type="number" value={Number(form.years_exp || 0)} onChange={e => set("years_exp", Number(e.target.value))} /></Field>
+    <Field label="Bio"><textarea value={String(form.bio_mn || "")} onChange={e => set("bio_mn", e.target.value)} /></Field>
+    <Field label="Photo"><UploadField bucket="teacher-photos" prefix="teachers" circular value={String(form.photo_url || "")} successMessage={form.id ? null : "Uploaded. Press Save to keep it."} onChange={savePhoto} onLinkChange={url => set("photo_url", url)} notify={notify} request={request} /></Field>
+    <label><input type="checkbox" checked={Boolean(form.is_featured)} onChange={e => set("is_featured", e.target.checked)} /> Featured</label>
+    <label><input type="checkbox" checked={form.is_active !== false} onChange={e => set("is_active", e.target.checked)} /> Active</label>
+    <Field label="Display order"><input type="number" value={Number(form.display_order || 0)} onChange={e => set("display_order", Number(e.target.value))} /></Field>
+    <div className="admin-actions"><button type="button" onClick={onCancel}>Cancel</button>{Boolean(form.id) && <button type="button" onClick={onDelete}><Trash2 size={16} /> Delete</button>}<button className="admin-primary">Save</button></div>
+  </form>;
+}
+
+function AchievementsManager({ data, save, remove, notify, request }: { data: AdminData; save: (r: string, v: Record<string, unknown>) => Promise<void>; remove: (r: string, id: string) => Promise<void>; notify: (toast: Toast) => void; request: AdminRequest }) {
+  const [yearForm, setYearForm] = useState<Record<string, unknown>>({ year: new Date().getFullYear(), highlight_mn: "", description_mn: "", is_milestone: false });
+  const [selectedYear, setSelectedYear] = useState(data.years[0]?.id || "");
+  const [achievement, setAchievement] = useState<Record<string, unknown>>({ year_id: selectedYear, category_id: data.achievementCategories[0]?.id || "", title_mn: "", description_mn: "" });
+  const grouped = useMemo(() => {
+    const groups = new Map<string, Record<string, unknown>[]>();
+    for (const item of data.achievements.filter(a => a.year_id === selectedYear)) {
+      const category = (item.category as { name_mn?: string } | undefined)?.name_mn || "Ангилалгүй";
+      groups.set(category, [...(groups.get(category) || []), item]);
+    }
+    return Array.from(groups.entries());
+  }, [data.achievements, selectedYear]);
+  const newAchievement = () => setAchievement({ year_id: selectedYear, category_id: data.achievementCategories[0]?.id || "", title_mn: "", description_mn: "", is_published: true });
+
+  return <section><AdminTitle title="Achievements Manager" action={null} />
+    <div className="admin-split achievements-admin-split"><div><h2>Timeline Years</h2><button className="admin-primary" onClick={() => setYearForm({ year: new Date().getFullYear(), highlight_mn: "", description_mn: "", is_milestone: false })}>Add Year</button>
+      <div className="admin-list">{data.years.map(y => <button className={selectedYear === y.id ? "active" : ""} key={y.id} onClick={() => { setYearForm(y as unknown as Record<string, unknown>); setSelectedYear(y.id); setAchievement(a => ({ ...a, year_id: y.id })); }}>{y.year} · {y.highlight_mn}<span>Edit</span></button>)}</div>
+      <form className="admin-form" onSubmit={async e => { e.preventDefault(); await save("years", yearForm); }}>
+        <Field label="Year"><input type="number" min={1940} max={2030} value={Number(yearForm.year || "")} onChange={e => setYearForm(f => ({ ...f, year: Number(e.target.value) }))} /></Field>
+        <Field label="Highlight text (Mongolian)"><input value={String(yearForm.highlight_mn || "")} onChange={e => setYearForm(f => ({ ...f, highlight_mn: e.target.value }))} /></Field>
+        <Field label="Full description (Mongolian)"><textarea value={String(yearForm.description_mn || "")} onChange={e => setYearForm(f => ({ ...f, description_mn: e.target.value }))} /></Field>
+        <Field label="Image"><UploadField bucket="achievement-images" prefix="years" value={String(yearForm.image_url || "")} onChange={url => setYearForm(f => ({ ...f, image_url: url }))} notify={notify} request={request} /></Field>
+        <label><input type="checkbox" checked={Boolean(yearForm.is_milestone)} onChange={e => setYearForm(f => ({ ...f, is_milestone: e.target.checked }))} /> Milestone</label>
+        <button className="admin-primary">Save Year</button>
+      </form></div>
+      <div><h2>Achievements Per Year</h2><Field label="Selected year"><select value={selectedYear} onChange={e => { setSelectedYear(e.target.value); setAchievement(a => ({ ...a, year_id: e.target.value })); }}>{data.years.map(y => <option key={y.id} value={y.id}>{y.year}</option>)}</select></Field>
+      <button className="admin-primary" type="button" onClick={newAchievement}>Add Achievement</button>
+      <form className="admin-form" onSubmit={async e => { e.preventDefault(); await save("achievements", achievement); }}>
+        <Field label="Select category"><select value={String(achievement.category_id || "")} onChange={e => setAchievement(a => ({ ...a, category_id: e.target.value }))}>{data.achievementCategories.map(c => <option key={c.id} value={c.id}>{c.name_mn}</option>)}</select></Field>
+        <Field label="Title (Mongolian)"><input value={String(achievement.title_mn || "")} onChange={e => setAchievement(a => ({ ...a, title_mn: e.target.value }))} /></Field>
+        <Field label="Description (Mongolian)"><textarea value={String(achievement.description_mn || "")} onChange={e => setAchievement(a => ({ ...a, description_mn: e.target.value }))} /></Field>
+        <Field label="Image"><UploadField bucket="achievement-images" prefix="achievements" value={String(achievement.image_url || "")} onChange={url => setAchievement(a => ({ ...a, image_url: url }))} notify={notify} request={request} /></Field>
+        <label><input type="checkbox" checked={achievement.is_published !== false} onChange={event => setAchievement(value => ({ ...value, is_published: event.target.checked }))} /> Published</label>
+        <Field label="Display order"><input type="number" min="0" value={Number(achievement.display_order || 0)} onChange={event => setAchievement(value => ({ ...value, display_order: Number(event.target.value) }))} /></Field>
+        <button className="admin-primary">Save Achievement</button>
+      </form>
+      <div className="admin-list grouped-achievement-list">
+        {grouped.length ? grouped.map(([category, records]) => (
+          <section key={category}>
+            <h3>{category}</h3>
+            {records.map(a => <button key={String(a.id)} onClick={() => setAchievement(a)}>{String(a.title_mn)} <span onClick={e => { e.stopPropagation(); remove("achievements", String(a.id)); }}>Delete</span></button>)}
+          </section>
+        )) : <p>No achievements for this year yet.</p>}
+      </div></div></div>
+  </section>;
+}
+
+function CoursesManager({ data, save, remove }: { data: AdminData; save: (r: string, v: Record<string, unknown>) => Promise<void>; remove: (r: string, id: string) => Promise<void> }) {
+  const [sectionId, setSectionId] = useState(data.sections[0]?.id || "");
+  const [form, setForm] = useState<Record<string, unknown>>({ section_id: sectionId, title_mn: "", short_desc_mn: "", full_desc_mn: "", teacher_name: "", schedule_mn: "", location_mn: "", max_students: null, tags: "" });
+  const items = data.courseItems.filter(item => item.section_id === sectionId);
+  return <section><AdminTitle title="Courses Manager" action={<button className="admin-primary" onClick={() => setForm({ section_id: sectionId, title_mn: "" })}>Add Item</button>} />
+    <SectionsManager data={data} save={save} />
+    <div className="admin-tabs">{data.sections.map(s => <button key={s.id} className={sectionId === s.id ? "active" : ""} onClick={() => { setSectionId(s.id); setForm({ section_id: s.id, title_mn: "" }); }}>{s.title_mn}</button>)}</div>
+    <div className="admin-split"><div className="admin-list">{items.map(item => <button key={item.id} onClick={() => setForm(item as unknown as Record<string, unknown>)}>{item.title_mn}<span onClick={e => { e.stopPropagation(); remove("courseItems", item.id); }}>Delete</span></button>)}</div>
+    <form className="admin-form" onSubmit={async e => { e.preventDefault(); await save("courseItems", { ...form, section_id: sectionId, tags: String(form.tags || "").split(",").map(t => t.trim()).filter(Boolean) }); }}>
+      {["title_mn", "short_desc_mn", "full_desc_mn", "teacher_name", "schedule_mn", "location_mn"].map(key => <Field key={key} label={key}><textarea value={String(form[key] || "")} onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))} /></Field>)}
+      <Field label="Max students"><input type="number" value={Number(form.max_students || 0)} onChange={e => setForm(f => ({ ...f, max_students: Number(e.target.value) }))} /></Field>
+      <label><input type="checkbox" checked={form.is_active !== false} onChange={event => setForm(value => ({ ...value, is_active: event.target.checked }))} /> Active</label>
+      <Field label="Display order"><input type="number" min="0" value={Number(form.display_order || 0)} onChange={event => setForm(value => ({ ...value, display_order: Number(event.target.value) }))} /></Field>
+      <Field label="Tags"><input value={Array.isArray(form.tags) ? form.tags.join(", ") : String(form.tags || "")} onChange={e => setForm(f => ({ ...f, tags: e.target.value }))} /></Field>
+      <button className="admin-primary">Save</button>
+    </form></div>
+  </section>;
+}
+
+function ApplicationsManager({ data, save, remove, reload, notify, request }: { data: AdminData; save: (r: string, v: Record<string, unknown>) => Promise<void>; remove: (r: string, id: string) => Promise<void>; reload: () => Promise<void>; notify: (toast: Toast) => void; request: AdminRequest }) {
+  const [form, setForm] = useState<Record<string, unknown>>({ code: "", student_name: "", status: "pending", message_mn: "", academic_year: "2024-2025", grade_applying: "" });
+  const [year, setYear] = useState("");
+  const [status, setStatus] = useState("");
+  const [csvRows, setCsvRows] = useState<Record<string, unknown>[]>([]);
+  const rows = data.applications.filter(a => (!year || a.academic_year === year) && (!status || a.status === status));
+  const years = [...new Set(data.applications.map(a => a.academic_year))];
+  const exportRows = () => {
+    const blob = new Blob([toCsv(rows as unknown as Record<string, unknown>[])], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = "application-codes.csv"; a.click();
+    URL.revokeObjectURL(url);
+  };
+  return <section><AdminTitle title="Application Codes" action={<div><button onClick={exportRows}>Export CSV</button><button className="admin-primary" onClick={() => setForm({ code: "", status: "pending", academic_year: "2024-2025" })}>Add Single Code</button></div>} />
+    <div className="admin-filters"><select value={year} onChange={e => setYear(e.target.value)}><option value="">All years</option>{years.map(y => <option key={y} value={y}>{y}</option>)}</select><select value={status} onChange={e => setStatus(e.target.value)}><option value="">All statuses</option>{["accepted", "pending", "waitlisted", "rejected", "incomplete"].map(s => <option key={s}>{s}</option>)}</select></div>
+    <table className="admin-table"><thead><tr><th>Code</th><th>Student</th><th>Status</th><th>Year</th><th /></tr></thead><tbody>{rows.map(row => <tr key={row.id}><td>{row.code}</td><td>{row.student_name}</td><td>{row.status}</td><td>{row.academic_year}</td><td><button onClick={() => setForm(row as unknown as Record<string, unknown>)}>Edit</button><button onClick={() => remove("applications", row.id)}>Delete</button></td></tr>)}</tbody></table>
+    <div className="admin-split"><form className="admin-form" onSubmit={async e => { e.preventDefault(); await save("applications", { ...form, code: String(form.code || "").toUpperCase() }); }}>
+      <Field label="Code"><input maxLength={8} value={String(form.code || "")} onChange={e => setForm(f => ({ ...f, code: e.target.value.toUpperCase() }))} /></Field>
+      <Field label="Student name"><input value={String(form.student_name || "")} onChange={e => setForm(f => ({ ...f, student_name: e.target.value }))} /></Field>
+      <Field label="Status"><select value={String(form.status || "pending")} onChange={e => setForm(f => ({ ...f, status: e.target.value }))}>{["accepted", "pending", "waitlisted", "rejected", "incomplete"].map(s => <option key={s}>{s}</option>)}</select></Field>
+      <Field label="Message"><textarea value={String(form.message_mn || "")} onChange={e => setForm(f => ({ ...f, message_mn: e.target.value }))} /></Field>
+      <Field label="Academic year"><input value={String(form.academic_year || "")} onChange={e => setForm(f => ({ ...f, academic_year: e.target.value }))} /></Field>
+      <Field label="Grade applying"><input type="number" value={Number(form.grade_applying || 0)} onChange={e => setForm(f => ({ ...f, grade_applying: Number(e.target.value) }))} /></Field>
+      <button className="admin-primary">Save Code</button>
+    </form><div className="admin-form"><h2>Bulk Import</h2><textarea placeholder="code,student_name,status,message_mn,academic_year" onChange={e => setCsvRows(parseCsv(e.target.value))} /><input type="file" accept=".csv" onChange={async e => { const file = e.target.files?.[0]; if (file) setCsvRows(parseCsv(await file.text())); }} /> <small>{csvRows.length} rows ready</small><button className="admin-primary" onClick={async () => { await request("/api/admin/bulk-applications", { method: "POST", body: JSON.stringify({ rows: csvRows }) }); notify({ kind: "success", text: "Imported" }); await reload(); }}>Import</button></div></div>
+  </section>;
+}
+
+function SettingsManager({ data, save, notify, request }: { data: AdminData; save: (r: string, v: Record<string, unknown>) => Promise<void>; notify: (toast: Toast) => void; request: AdminRequest }) {
+  const [form, setForm] = useState<Record<string, unknown>>(data.settings as unknown as Record<string, unknown> || {});
+  const fields = [
+    ["school_name_mn", "Сургуулийн нэр (Монгол)"],
+    ["school_name_en", "School name (English)"],
+    ["established", "Байгуулагдсан он"],
+    ["student_count", "Сурагчдын тоо"],
+    ["teacher_count", "Багш, ажилтны тоо"],
+    ["club_count", "Клуб, дугуйлангийн тоо"],
+    ["address_mn", "Хаяг"],
+    ["city", "Хот"],
+    ["phone", "Утас"],
+    ["email", "И-мэйл"],
+    ["facebook_url", "Facebook холбоос"],
+    ["instagram_url", "Instagram холбоос"],
+    ["youtube_url", "YouTube холбоос"],
+    ["twitter_url", "X / Twitter холбоос"],
+  ] as const;
+  const numericFields = new Set(["established", "student_count", "teacher_count", "club_count"]);
+  return <section><AdminTitle title="School Settings" action={null} /><form className="admin-form wide" onSubmit={async e => { e.preventDefault(); await save("settings", form); }}>
+    {fields.map(([key, label]) => <Field key={key} label={label}><input type={numericFields.has(key) ? "number" : "text"} value={String(form[key] || "")} onChange={e => setForm(f => ({ ...f, [key]: numericFields.has(key) ? Number(e.target.value) : e.target.value }))} /></Field>)}
+    <Field label="Hero background image"><UploadField bucket="site-assets" prefix="hero" value={String(form.hero_image_url || "")} onChange={url => setForm(f => ({ ...f, hero_image_url: url }))} notify={notify} request={request} /></Field>
+    <Field label="Application guide PDF"><UploadField bucket="documents" prefix="documents" value={String(form.application_guide_url || "")} linkLabel="Current application guide PDF" onChange={url => setForm(f => ({ ...f, application_guide_url: url }))} notify={notify} request={request} /></Field>
+    <Field label="Сургуулийн лого"><UploadField bucket="site-assets" prefix="hero" value={String(form.logo_url || "")} onChange={url => setForm(f => ({ ...f, logo_url: url }))} notify={notify} request={request} /></Field>
+    <h2>Хуудасны бичвэр</h2>
+    {(Object.keys(defaultSiteCopy) as Array<keyof SiteCopy>).map(key => <Field key={key} label={siteCopyLabels[key]}><textarea value={String((form.site_copy as Partial<SiteCopy> | undefined)?.[key] ?? defaultSiteCopy[key])} onChange={event => setForm(previous => ({ ...previous, site_copy: { ...defaultSiteCopy, ...previous.site_copy as object, [key]: event.target.value } }))} /></Field>)}
+    <button className="admin-primary">Save Settings</button>
+  </form></section>;
+}
+
+function HallManager({ data, save, remove, notify, request }: { data: AdminData; save: (resource: string, value: Record<string, unknown>) => Promise<void>; remove: (resource: string, id: string) => Promise<void>; notify: (toast: Toast) => void; request: AdminRequest }) {
+  const blank = (): Omit<HallRecord, "id"> & { id?: string } => ({ name: "", scope: "international", photo: null, medals: [{ competition: "", medal: "Алт", year: "" }], is_published: false, is_featured: false, display_order: data.hallOfFame.length, source_url: null });
+  const [form, setForm] = useState(blank);
+  const [query, setQuery] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+  return <section><AdminTitle title="Хүндэт самбар" action={<button className="admin-primary" type="button" onClick={() => { setForm(blank()); setError(""); }}>Сурагч нэмэх</button>} />
+    <div className="admin-split"><div><Field label="Нэрээр хайх"><input value={query} onChange={event => setQuery(event.target.value)} /></Field><div className="admin-list cms-record-list">{data.hallOfFame.filter(item => item.name.toLowerCase().includes(query.toLowerCase())).map(item => <button key={item.id} onClick={() => { setForm(structuredClone(item)); setError(""); }} className={form.id === item.id ? "active" : ""}>{item.name}<small>{item.scope === "international" ? "Олон улс" : "Улс"} · {item.is_published ? "Нийтэлсэн" : "Ноорог"}</small></button>)}</div></div>
+    <form className="admin-form" onSubmit={async event => { event.preventDefault(); setBusy(true); setError(""); try { await save("hallOfFame", form as unknown as Record<string, unknown>); setForm(blank()); } catch (error) { setError(error instanceof Error ? error.message : "Хадгалж чадсангүй"); } finally { setBusy(false); } }}>
+      <Field label="Сурагчийн нэр"><input required maxLength={160} value={form.name} onChange={event => setForm(value => ({ ...value, name: event.target.value }))} /></Field>
+      <Field label="Олимпиадын түвшин"><select value={form.scope} onChange={event => setForm(value => ({ ...value, scope: event.target.value as HallRecord["scope"] }))}><option value="international">Олон улс</option><option value="national">Улс</option></select></Field>
+      <Field label="Сурагчийн зураг"><UploadField bucket="achievement-images" prefix="achievements" value={form.photo} onChange={photo => setForm(value => ({ ...value, photo }))} notify={notify} request={request} /></Field>
+      <h3>Медаль, амжилтууд</h3>{form.medals.map((medal, index) => <fieldset className="cms-medal-fields" key={index}><legend>Амжилт {index + 1}</legend>{(["competition", "medal", "year"] as const).map(key => <Field key={key} label={key === "competition" ? "Олимпиад" : key === "medal" ? "Медаль" : "Он"}><input required={key !== "year"} value={medal[key]} onChange={event => setForm(value => ({ ...value, medals: value.medals.map((item, i) => i === index ? { ...item, [key]: event.target.value } : item) }))} /></Field>)}<button type="button" disabled={form.medals.length === 1} onClick={() => setForm(value => ({ ...value, medals: value.medals.filter((_, i) => i !== index) }))}>Медаль хасах</button></fieldset>)}
+      <button type="button" onClick={() => setForm(value => ({ ...value, medals: [...value.medals, { competition: "", medal: "", year: "" }] }))}>Медаль нэмэх</button>
+      <Field label="Эх сурвалжийн холбоос"><input type="url" value={form.source_url || ""} onChange={event => setForm(value => ({ ...value, source_url: event.target.value }))} /></Field>
+      <Field label="Эрэмбэ"><input type="number" min="0" max="10000" value={form.display_order} onChange={event => setForm(value => ({ ...value, display_order: Number(event.target.value) }))} /></Field>
+      <label><input type="checkbox" checked={form.is_published} onChange={event => setForm(value => ({ ...value, is_published: event.target.checked }))} /> Нийтлэх</label>
+      <label><input type="checkbox" checked={form.is_featured} onChange={event => setForm(value => ({ ...value, is_featured: event.target.checked }))} /> Нүүр хуудсанд онцлох</label>
+      {error && <p role="alert">{error}</p>}<button className="admin-primary" disabled={busy}>{busy ? "Хадгалж байна…" : "Хадгалах"}</button>
+      {form.id && <button type="button" className="admin-danger" onClick={async () => { await remove("hallOfFame", form.id!); setForm(blank()); }}>Сурагч устгах</button>}
+    </form></div></section>;
+}
+
+function SectionsManager({ data, save }: { data: AdminData; save: (resource: string, value: Record<string, unknown>) => Promise<void> }) {
+  const [form, setForm] = useState<Record<string, unknown>>({ title_mn: "", slug: "", description_mn: "", icon: "book", display_order: 0, is_active: true });
+  return <details className="admin-panel"><summary>Сургалтын ангилал удирдах</summary><div className="admin-tabs">{data.sections.map(section => <button type="button" key={section.id} onClick={() => setForm(section as unknown as Record<string, unknown>)}>{section.title_mn}</button>)}<button type="button" onClick={() => setForm({ title_mn: "", slug: "", description_mn: "", icon: "book", display_order: data.sections.length, is_active: true })}>Ангилал нэмэх</button></div><form className="admin-form" onSubmit={async event => { event.preventDefault(); await save("sections", form); }}>{["title_mn", "slug", "description_mn", "icon"].map(key => <Field key={key} label={key}><input required={key === "title_mn" || key === "slug"} value={String(form[key] || "")} onChange={event => setForm(value => ({ ...value, [key]: event.target.value }))} /></Field>)}<Field label="Эрэмбэ"><input type="number" min="0" value={Number(form.display_order || 0)} onChange={event => setForm(value => ({ ...value, display_order: Number(event.target.value) }))} /></Field><label><input type="checkbox" checked={form.is_active !== false} onChange={event => setForm(value => ({ ...value, is_active: event.target.checked }))} /> Идэвхтэй</label><button className="admin-primary">Ангилал хадгалах</button></form></details>;
+}

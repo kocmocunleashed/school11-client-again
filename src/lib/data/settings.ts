@@ -29,6 +29,6 @@ export async function getSchoolSettings(): Promise<SchoolSettings> {
     return (data || defaultSchoolSettings) as SchoolSettings;
   } catch (error) {
     console.error("Error fetching school settings:", error);
-    return defaultSchoolSettings;
+    throw error;
   }
 }

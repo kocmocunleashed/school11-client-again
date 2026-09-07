@@ -1,4 +1,6 @@
+import type { SiteCopy } from "@/lib/site-copy";
 export interface Teacher {
+  is_active?: boolean;
   id: string;
   name_mn: string;
   name_en: string | null;
@@ -55,6 +57,8 @@ export interface AchievementYear {
 }
 
 export interface Achievement {
+  is_published?: boolean;
+  display_order?: number;
   id: string;
   year_id: string;
   category_id: string;
@@ -75,6 +79,7 @@ export interface AchievementCategory {
 }
 
 export interface CourseSection {
+  is_active?: boolean;
   id: string;
   slug: string;
   title_mn: string;
@@ -87,6 +92,8 @@ export interface CourseSection {
 }
 
 export interface CourseItem {
+  is_active?: boolean;
+  display_order?: number;
   id: string;
   section_id: string;
   title_mn: string;
@@ -125,9 +132,13 @@ export interface ApplicationResult {
   status: "accepted" | "pending" | "waitlisted" | "rejected" | "incomplete";
   message_mn: string | null;
   academic_year: string;
+  grade_applying?: number | null;
+  notes?: string | null;
 }
 
 export interface SchoolSettings {
+  site_copy?: Partial<SiteCopy>;
+  logo_url?: string | null;
   id?: string;
   school_name_mn: string;
   school_name_en: string;
@@ -145,4 +156,11 @@ export interface SchoolSettings {
   twitter_url?: string | null;
   hero_image_url?: string | null;
   application_guide_url?: string | null;
+}
+
+export interface HallRecord {
+  id: string; name: string; scope: "international" | "national"; photo: string | null;
+  medals: Array<{ competition: string; medal: string; year: string }>;
+  is_published: boolean; is_featured: boolean; display_order: number;
+  source_url: string | null; source_record_id?: string | null;
 }

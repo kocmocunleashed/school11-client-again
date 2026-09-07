@@ -1,4 +1,3 @@
-import { adminClient } from "../supabase/admin";
 import type { ApplicationResult } from "../../types/database";
 
 const applicationCodePattern = /^[A-Z0-9]{8}$/;
@@ -7,6 +6,8 @@ export async function checkApplicationCode(rawCode: string): Promise<Application
   const code = rawCode.trim().toUpperCase();
   if (!applicationCodePattern.test(code)) return null;
 
+  const { adminClient } = await import("../supabase/admin");
+
   const { data, error } = await adminClient
     .from("application_results")
     .select("code,status,message_mn,academic_year")
@@ -14,8 +15,8 @@ export async function checkApplicationCode(rawCode: string): Promise<Application
     .single();
 
   if (error) {
-    if (error.code !== "PGRST116") console.error("Error checking application code:", error);
-    return null;
+    if (error.code === "PGRST116") return null;
+    throw error;
   }
 
   return data as ApplicationResult;

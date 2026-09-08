@@ -2,12 +2,17 @@
 
 import Image from "next/image";
 import { CalendarDays, X } from "lucide-react";
-import { useEffect, useId, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
+import { useEffect, useId, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import { useSiteData } from "./site-data-provider";
 import type { NewsArticle } from "@/types/database";
 
 const focusable = "a[href],button:not([disabled]),input:not([disabled]),textarea:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex='-1'])";
 const mongolianMonths = ["нэгдүгээр", "хоёрдугаар", "гуравдугаар", "дөрөвдүгээр", "тавдугаар", "зургадугаар", "долдугаар", "наймдугаар", "есдүгээр", "аравдугаар", "арван нэгдүгээр", "арван хоёрдугаар"];
+type NewsSort = "newest" | "oldest" | "featured";
+
+function newsCategoryId(item: NewsArticle) {
+  return item.category?.id || "uncategorized";
+}
 
 function dateLabel(value: string) {
   const date = new Date(value);
@@ -24,11 +29,35 @@ export function NewsBrowser({ home = false }: { items?: NewsArticle[]; home?: bo
   const { news: feedItems } = useSiteData();
   const [selectedRecord, setSelected] = useState<NewsArticle | null>(null);
   const selected = feedItems.find(item => item.id === selectedRecord?.id) || null;
-  const [showAll, setShowAll] = useState(!home);
+  const [sort, setSort] = useState<NewsSort>("newest");
+  const [categoryId, setCategoryId] = useState("all");
+  const categories = useMemo(() => {
+    const names = new Map<string, string>();
+    for (const item of feedItems) names.set(newsCategoryId(item), item.category?.name_mn || "Ангилалгүй");
+    return Array.from(names, ([id, name]) => ({ id, name })).toSorted((first, second) => first.name.localeCompare(second.name, "mn"));
+  }, [feedItems]);
+  const activeCategory = categories.some(category => category.id === categoryId) ? categoryId : "all";
   const dialog = useRef<HTMLDivElement>(null);
   const opener = useRef<HTMLElement | null>(null);
   const titleId = useId();
-  const visible = showAll ? feedItems : feedItems.slice(0, 3);
+  const sortId = useId();
+  const categorySelectId = useId();
+  const listId = `${sortId}-list`;
+  const visible = useMemo(() => {
+    if (home) return feedItems.slice(0, 6);
+    const filtered = activeCategory === "all" ? feedItems : feedItems.filter(item => newsCategoryId(item) === activeCategory);
+    return filtered.toSorted((first, second) => {
+      const featuredOrder = Number(second.is_featured) - Number(first.is_featured);
+      if (sort === "featured" && featuredOrder) return featuredOrder;
+      const firstDate = Date.parse(first.published_at);
+      const secondDate = Date.parse(second.published_at);
+      const firstHasDate = Number.isFinite(firstDate);
+      const secondHasDate = Number.isFinite(secondDate);
+      if (firstHasDate !== secondHasDate) return firstHasDate ? -1 : 1;
+      const dateOrder = firstHasDate ? secondDate - firstDate : 0;
+      return (sort === "oldest" ? -dateOrder : dateOrder) || first.id.localeCompare(second.id);
+    });
+  }, [feedItems, home, sort, activeCategory]);
 
   const open = (item: NewsArticle, event: ReactMouseEvent<HTMLElement>) => {
     opener.current = event.currentTarget;
@@ -61,8 +90,28 @@ export function NewsBrowser({ home = false }: { items?: NewsArticle[]; home?: bo
 
   return (
     <>
+      {!home && feedItems.length > 0 && <div className="news-toolbar">
+        <p role="status">Нийт {visible.length} мэдээ</p>
+        <div className="news-filters">
+          <div className="news-filter">
+            <label htmlFor={categorySelectId}>Ангилал</label>
+            <select id={categorySelectId} value={activeCategory} aria-controls={listId} onChange={event => setCategoryId(event.target.value)}>
+              <option value="all">Бүх ангилал</option>
+              {categories.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
+            </select>
+          </div>
+          <div className="news-sort">
+            <label htmlFor={sortId}>Эрэмбэлэх</label>
+            <select id={sortId} value={sort} aria-controls={listId} onChange={event => setSort(event.target.value as NewsSort)}>
+              <option value="newest">Шинэ нь эхэндээ</option>
+              <option value="oldest">Хуучин нь эхэндээ</option>
+              <option value="featured">Онцлох нь эхэндээ</option>
+            </select>
+          </div>
+        </div>
+      </div>}
       {!feedItems.length && <p className="empty-state">Мэдээ хараахан нийтлэгдээгүй байна.</p>}
-      <div className={`news-layout ${home ? "is-home" : ""}`}>
+      <div id={listId} className={`news-layout ${home ? "is-home" : ""}`}>
         {visible.map((item, index) => <article className={`news-card ${index === 0 && home ? "is-featured" : ""}`} key={item.id}>
           <button type="button" className="news-cover" onClick={event => open(item, event)} aria-label={`${item.title_mn} мэдээг унших`}><Cover item={item} /></button>
           <div className="news-copy">
@@ -74,7 +123,6 @@ export function NewsBrowser({ home = false }: { items?: NewsArticle[]; home?: bo
           </div>
         </article>)}
       </div>
-      {home && feedItems.length > 3 ? <button className="secondary-button news-more mt-5" type="button" onClick={() => setShowAll(value => !value)}>{showAll ? "Хураах" : "Бүх мэдээг харах"}</button> : null}
       {selected ? <div className="dialog-backdrop" onMouseDown={event => event.target === event.currentTarget && setSelected(null)}>
         <div className="news-dialog" role="dialog" aria-modal="true" aria-labelledby={titleId} ref={dialog}>
           <button className="dialog-close" type="button" onClick={() => setSelected(null)} aria-label="Мэдээ хаах"><X /></button>

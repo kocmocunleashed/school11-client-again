@@ -116,6 +116,24 @@
 .section-heading > .text-action {
   @apply justify-self-end;
 }
+.news-toolbar {
+  @apply flex flex-wrap items-center justify-between gap-4 mb-6 text-sm;
+}
+.news-toolbar > p {
+  @apply text-school-muted;
+}
+.news-filters {
+  @apply flex flex-wrap items-center gap-4 max-w-full;
+}
+.news-filter, .news-sort {
+  @apply flex flex-wrap items-center gap-3 max-w-full;
+}
+.news-filter label, .news-sort label {
+  @apply font-semibold;
+}
+.news-filter select, .news-sort select {
+  @apply min-h-11 min-w-0 max-w-full border border-solid border-school-ink bg-transparent px-3 py-2 text-school-ink;
+}
 .news-layout {
   @apply [background:var(--line)] [border:1px_solid_var(--line)] grid gap-[1px] grid-cols-[repeat(3,_minmax(0,_1fr))];
 }
@@ -1188,7 +1206,7 @@
     @apply text-[7px];
   }
   .public-site .news-layout {
-    @apply gap-[18px];
+    @apply grid-cols-[repeat(2,minmax(0,1fr))] gap-[18px];
   }
   .join-mark {
     @apply text-[130px];

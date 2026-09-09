@@ -1,12 +1,13 @@
 import { createClient } from "../supabase/server";
 import type { Teacher } from "../../types/database";
+import { teachersPublicSelect } from "./public-selects";
 
 export async function getAllTeachers(): Promise<Teacher[]> {
   try {
     const supabase = createClient();
     const { data, error } = await supabase
       .from("teachers")
-      .select("*")
+      .select(teachersPublicSelect)
       .eq("is_active", true)
       .order("display_order", { ascending: true });
 

@@ -24,7 +24,7 @@ import { adminApi as liveApi } from "@/lib/admin/api";
 import { emptyAdminData, type AdminData, type AdminRequest } from "@/lib/admin/contracts";
 import { createMockAdminRequest } from "@/lib/admin/mock-database";
 import { parseCsv, toCsv } from "@/lib/admin/csv";
-import { compressImageToWebp } from "@/lib/admin/upload";
+import { compressImageToWebp, type ImageUploadKind } from "@/lib/admin/upload";
 import { writableFieldNames, type Resource } from "@/lib/admin-validation";
 
 type AdminPage = "hall-of-fame" | "dashboard" | "news" | "teachers" | "achievements" | "courses" | "applications" | "settings";
@@ -255,7 +255,7 @@ function normalizeImageLink(value: string) {
   }
 }
 
-function UploadField({ bucket, prefix, value, circular, successMessage = "Uploaded", linkLabel = "Current file", onChange, onLinkChange, notify, request }: { bucket: string; prefix: string; value?: string | null; circular?: boolean; successMessage?: string | null; linkLabel?: string; onChange: (url: string) => void | Promise<void>; onLinkChange?: (url: string) => void | Promise<void>; notify: (toast: Toast) => void; request: AdminRequest }) {
+function UploadField({ bucket, prefix, value, circular, imageKind = bucket === "teacher-photos" ? "portrait" : bucket === "site-assets" ? "hero" : "image", successMessage = "Uploaded", linkLabel = "Current file", onChange, onLinkChange, notify, request }: { bucket: string; prefix: string; value?: string | null; circular?: boolean; imageKind?: ImageUploadKind; successMessage?: string | null; linkLabel?: string; onChange: (url: string) => void | Promise<void>; onLinkChange?: (url: string) => void | Promise<void>; notify: (toast: Toast) => void; request: AdminRequest }) {
   const [preview, setPreview] = useState(value || "");
   const [linkValue, setLinkValue] = useState(value || "");
   const [uploading, setUploading] = useState(false);
@@ -326,7 +326,7 @@ function UploadField({ bucket, prefix, value, circular, successMessage = "Upload
         if (!file) return;
         setUploading(true);
         try {
-          const uploadFile = isDocumentBucket ? file : await compressImageToWebp(file);
+          const uploadFile = isDocumentBucket ? file : await compressImageToWebp(file, imageKind);
           if (!isDocumentBucket) setObjectPreview(uploadFile);
           const form = new FormData();
           form.append("file", uploadFile);
@@ -531,7 +531,7 @@ function SettingsManager({ data, save, notify, request }: { data: AdminData; sav
     {fields.map(([key, label]) => <Field key={key} label={label}><input type={numericFields.has(key) ? "number" : "text"} value={String(form[key] || "")} onChange={e => setForm(f => ({ ...f, [key]: numericFields.has(key) ? Number(e.target.value) : e.target.value }))} /></Field>)}
     <Field label="Hero background image"><UploadField bucket="site-assets" prefix="hero" value={String(form.hero_image_url || "")} onChange={url => setForm(f => ({ ...f, hero_image_url: url }))} notify={notify} request={request} /></Field>
     <Field label="Application guide PDF"><UploadField bucket="documents" prefix="documents" value={String(form.application_guide_url || "")} linkLabel="Current application guide PDF" onChange={url => setForm(f => ({ ...f, application_guide_url: url }))} notify={notify} request={request} /></Field>
-    <Field label="Сургуулийн лого"><UploadField bucket="site-assets" prefix="hero" value={String(form.logo_url || "")} onChange={url => setForm(f => ({ ...f, logo_url: url }))} notify={notify} request={request} /></Field>
+    <Field label="Сургуулийн лого"><UploadField bucket="site-assets" prefix="hero" imageKind="logo" value={String(form.logo_url || "")} onChange={url => setForm(f => ({ ...f, logo_url: url }))} notify={notify} request={request} /></Field>
     <h2>Хуудасны бичвэр</h2>
     {(Object.keys(defaultSiteCopy) as Array<keyof SiteCopy>).map(key => <Field key={key} label={siteCopyLabels[key]}><textarea value={String((form.site_copy as Partial<SiteCopy> | undefined)?.[key] ?? defaultSiteCopy[key])} onChange={event => setForm(previous => ({ ...previous, site_copy: { ...defaultSiteCopy, ...previous.site_copy as object, [key]: event.target.value } }))} /></Field>)}
     <button className="admin-primary">Save Settings</button>
@@ -549,7 +549,7 @@ function HallManager({ data, save, remove, notify, request }: { data: AdminData;
     <form className="admin-form" onSubmit={async event => { event.preventDefault(); setBusy(true); setError(""); try { await save("hallOfFame", form as unknown as Record<string, unknown>); setForm(blank()); } catch (error) { setError(error instanceof Error ? error.message : "Хадгалж чадсангүй"); } finally { setBusy(false); } }}>
       <Field label="Сурагчийн нэр"><input required maxLength={160} value={form.name} onChange={event => setForm(value => ({ ...value, name: event.target.value }))} /></Field>
       <Field label="Олимпиадын түвшин"><select value={form.scope} onChange={event => setForm(value => ({ ...value, scope: event.target.value as HallRecord["scope"] }))}><option value="international">Олон улс</option><option value="national">Улс</option></select></Field>
-      <Field label="Сурагчийн зураг"><UploadField bucket="achievement-images" prefix="achievements" value={form.photo} onChange={photo => setForm(value => ({ ...value, photo }))} notify={notify} request={request} /></Field>
+      <Field label="Сурагчийн зураг"><UploadField bucket="achievement-images" prefix="achievements" imageKind="portrait" value={form.photo} onChange={photo => setForm(value => ({ ...value, photo }))} notify={notify} request={request} /></Field>
       <h3>Медаль, амжилтууд</h3>{form.medals.map((medal, index) => <fieldset className="cms-medal-fields" key={index}><legend>Амжилт {index + 1}</legend>{(["competition", "medal", "year"] as const).map(key => <Field key={key} label={key === "competition" ? "Олимпиад" : key === "medal" ? "Медаль" : "Он"}><input required={key !== "year"} value={medal[key]} onChange={event => setForm(value => ({ ...value, medals: value.medals.map((item, i) => i === index ? { ...item, [key]: event.target.value } : item) }))} /></Field>)}<button type="button" disabled={form.medals.length === 1} onClick={() => setForm(value => ({ ...value, medals: value.medals.filter((_, i) => i !== index) }))}>Медаль хасах</button></fieldset>)}
       <button type="button" onClick={() => setForm(value => ({ ...value, medals: [...value.medals, { competition: "", medal: "", year: "" }] }))}>Медаль нэмэх</button>
       <Field label="Эх сурвалжийн холбоос"><input type="url" value={form.source_url || ""} onChange={event => setForm(value => ({ ...value, source_url: event.target.value }))} /></Field>

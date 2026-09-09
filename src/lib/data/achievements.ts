@@ -1,14 +1,16 @@
 import { createClient } from "../supabase/server";
 import type { Achievement, AchievementCategory, AchievementYear } from "../../types/database";
+import { achievementsPublicSelect } from "./public-selects";
 
 export async function getAchievementYears(): Promise<AchievementYear[]> {
   try {
     const supabase = createClient();
     const { data, error } = await supabase
       .from("achievement_years")
-      .select("*, achievements(*, category:achievement_categories(*))")
+      .select(achievementsPublicSelect)
       .eq("achievements.is_published", true)
-      .order("year", { ascending: false });
+      .order("year", { ascending: false })
+      .overrideTypes<AchievementYear[], { merge: false }>();
 
     if (error) throw error;
     return (data || []) as AchievementYear[];

@@ -1,5 +1,6 @@
 import { createClient } from "../supabase/server";
 import type { NewsArticle } from "../../types/database";
+import { newsPublicSelect } from "./public-selects";
 
 const newsSelect = "*, category:news_categories(*)";
 const newsByCategorySelect = "*, category:news_categories!inner(*)";
@@ -9,10 +10,11 @@ export async function getPublishedNews(limit = 6): Promise<NewsArticle[]> {
     const supabase = createClient();
     const { data, error } = await supabase
       .from("news")
-      .select(newsSelect)
+      .select(newsPublicSelect)
       .eq("is_published", true)
       .order("published_at", { ascending: false })
-      .limit(limit);
+      .limit(limit)
+      .overrideTypes<NewsArticle[], { merge: false }>();
 
     if (error) throw error;
     return (data || []) as NewsArticle[];

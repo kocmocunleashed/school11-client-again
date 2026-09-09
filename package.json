@@ -9,6 +9,7 @@
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "bun test",
+    "test:cache": "bun run scripts/test-public-cache.ts",
     "check:secrets": "bun run scripts/check-no-secrets.ts",
     "check": "bun run check:secrets && bun run lint && bun run typecheck && bun test && bun run build",
     "supabase:storage": "bun scripts/create-storage-buckets.ts"

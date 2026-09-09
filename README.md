@@ -53,6 +53,55 @@ bun run check:secrets
 bun run build
 ```
 
+## Public data caching and upload compression
+
+The live Next.js app caches its shared public dataset for five minutes using
+Next's Data Cache. Server-rendered pages and `/api/site-data` reuse cached public
+data under the same invalidation tag (Next may emit separate entries per bundle).
+The key includes the Supabase project URL, and only successful public reads enter
+the cache. Database errors keep the existing 503 behavior; a missing optional
+Hall of Fame migration still permits the other content to load without caching
+that partial result. Unconfigured browser-local demos bypass this cache.
+
+Successful public CMS saves, deletes and publish toggles expire the data tag with
+`revalidateTag(tag, { expire: 0 })`. The next public read fetches fresh data. Browser
+refreshes and admin APIs retain `no-store`, so there is no second CDN/browser JSON
+cache delaying edits. The existing focus/navigation refresh and mock CMS remain
+unchanged. Application results, sessions, uploads and audit logs never enter the
+public cache. Changes made directly in Supabase are picked up by the five-minute
+background revalidation; prolonged upstream failures can retain the last successful
+cached value. A failed cache invalidation is logged without changing a successful
+database save into a reported failure.
+
+The public queries select explicit fields, preserving complete article bodies,
+translations, bios, filters, nested courses/achievements and attribution. Admin
+queries keep their full records. If adding a new public collection field, include it in
+`src/lib/data/public-selects.ts` as well as the public type/UI.
+
+Uploads use the existing browser WebP encoder at 88% quality with high-quality
+resizing: portraits up to 800px, news/achievement images up to 1600px, and hero
+images up to 2560px on their longest side (1600px if encoding exceeds 4 MiB).
+Images are never enlarged. Logos fitting the upload budget and all PDFs keep
+their original bytes; animated WebP and already suitably sized WebP are preserved.
+Oversized logos still use the resize path to retain their upload compatibility.
+If conversion is unavailable or larger, the original file is
+uploaded subject to the existing server limits. Transparent backgrounds are
+preserved. New images use one-year storage cache headers and new UUID filenames
+for every replacement; PDFs retain a one-hour TTL. Existing stored files and
+pasted external image links are not modified.
+
+Text compression remains provided by Next.js/Vercel (gzip/Brotli negotiation),
+without custom compression middleware or a new dependency. The existing Vercel
+request-size limit still applies to uploads; this change does not alter PDF limits
+or introduce a new upload transport.
+
+After building, run `bun run test:cache` for a production-server integration test
+against an ephemeral loopback Supabase fixture. It overrides database/auth settings,
+does not contact the real database, and checks cache reuse across SSR/API requests,
+all CMS invalidation paths, failure recovery, private results, and upload caching.
+Use a normal deployment/preview to verify Vercel-specific cache behavior and the
+negotiated `Content-Encoding` header; local integration does not emulate Vercel's CDN.
+
 ## Hall of Fame
 
 When configured, records come from the `hall_of_fame` CMS table. The bundled JSON is used only to seed the database or show an unconfigured preview. The homepage shows up to 12 featured named highlights; `/achievements#hall-of-fame` exposes all 172 source records (42 international, 130 national) with search by name, competition, medal or year and scope filters. One source record has no name and is imported as an unpublished draft. These are records, not a claim of 172 unique people: a student can appear in both source categories. Homepage highlights avoid repeating the same displayed name.

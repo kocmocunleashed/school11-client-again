@@ -408,6 +408,9 @@ export async function adminUpload(req: Request, bucket: string) {
   const path = `${prefix}/${crypto.randomUUID()}.${ext}`;
   const { data, error } = await adminClient.storage.from(bucket).upload(path, uploadFile, {
     contentType: uploadFile.type || undefined,
+    // Replacements always receive a new UUID path, so caching cannot hide edits.
+    // Keep documents shorter-lived in case an admissions guide is withdrawn.
+    cacheControl: bucket === "documents" ? "3600" : "31536000",
     upsert: false,
   });
   if (error) return json({ error: error.message }, { status: 400 });

@@ -7,6 +7,7 @@ export const MOCK_ADMIN_STORAGE_KEY = "school11-redesign:mock-admin:v1";
 export const MOCK_ADMIN_CHANGE_EVENT = "school11-redesign:mock-admin-change";
 const COLLECTIONS = {
   landingTimeline: "landingTimeline",
+  podcasts: "podcasts",
   events: "events",
   hallOfFame: "hallOfFame",
   sections: "sections",
@@ -55,6 +56,8 @@ export function createMockAdminDatabase(): AdminData {
 
   return clone({
     landingTimeline: fallbackLandingTimeline,
+    podcasts: [],
+    podcastsReady: true,
     landingTimelineReady: true,
     events: [],
     news: fallbackNews.map((item, index) => ({ ...item, id: `mock-news-${index + 1}` })),

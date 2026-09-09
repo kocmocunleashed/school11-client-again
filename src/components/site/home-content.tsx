@@ -8,6 +8,7 @@ import { SchoolSculpture } from "@/components/site/school-sculpture";
 import { NewsBrowser } from "@/components/site/news-browser";
 import { useSiteData } from "@/components/site/site-data-provider";
 import { LandingTimeline } from "@/components/site/landing-timeline";
+import { Podcasts } from "@/components/site/podcasts";
 
 export function HomeContent() {
   const { news, settings, courses } = useSiteData();
@@ -23,6 +24,7 @@ export function HomeContent() {
     <div className="school-ribbon" aria-label="Сургуулийн үнэт зүйл"><span>АСУУ.</span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 0v40M0 20h40M6 6l28 28M6 34L34 6" /></svg><span>ТУРШ.</span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 0v40M0 20h40M6 6l28 28M6 34L34 6" /></svg><span>БҮТЭЭ.</span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 0v40M0 20h40M6 6l28 28M6 34L34 6" /></svg><span>ӨӨРӨӨ БАЙ.</span></div>
     <section className="school-introduction shell mx-auto w-[var(--shell)]" id="discover"><div className="intro-symbol" aria-hidden="true">( x + y )<sup>∞</sup></div><div><h2>{copy.intro_title}</h2><p>{copy.intro_description}</p><Link href="/about" className="text-action">Бидний тухай <ArrowUpRight /></Link></div><div className="school-numbers"><p><strong>{settings.established}</strong><span>оноос эрдмийн замд</span></p><p><strong>{settings.student_count.toLocaleString("mn-MN")}<i>+</i></strong><span>сурагчийн хүсэл мөрөөдөл</span></p><p><strong>{settings.teacher_count}<i>+</i></strong><span>багшийн мэдлэг, туршлага</span></p><p><strong>{settings.club_count}<i>+</i></strong><span>клуб, дугуйлан</span></p></div></section>
     <LandingTimeline />
+    <Podcasts />
     <section className="learning-section"><div className="shell mx-auto w-[var(--shell)]"><div className="section-heading"><div><h2>Юунд дуртай вэ?</h2></div><Link className="text-action" href="/courses">Бүх хөтөлбөр <ArrowUpRight /></Link></div><div className="learning-grid">{courses.map((section, index) => {
       const styles = ["mathematics", "science", "clubs"];
       const Icon = index % 3 === 1 ? Atom : index % 3 === 2 ? Trophy : BookOpen;

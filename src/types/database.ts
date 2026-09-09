@@ -1,4 +1,15 @@
 import type { SiteCopy } from "@/lib/site-copy";
+export interface Podcast {
+  id: string;
+  title_mn: string;
+  channel_name: string;
+  youtube_url: string;
+  thumbnail_url: string | null;
+  channel_logo_url: string | null;
+  is_published: boolean;
+  display_order: number;
+}
+
 export interface Teacher {
   is_active?: boolean;
   id: string;

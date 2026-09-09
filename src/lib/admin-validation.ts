@@ -1,8 +1,10 @@
 import { defaultSiteCopy } from "./site-copy";
+import { youtubeVideoUrl } from "./podcast-data";
 export const applicationStatuses = ["accepted", "pending", "waitlisted", "rejected", "incomplete"] as const;
 export type ApplicationStatus = typeof applicationStatuses[number];
 
 export const writableFieldNames = {
+  podcasts: ["title_mn", "channel_name", "youtube_url", "thumbnail_url", "channel_logo_url", "is_published", "display_order"],
   landingTimeline: ["year", "highlight_mn", "description_mn", "image_url", "is_milestone", "is_published", "display_order"],
   events: ["title_mn", "description_mn", "event_type", "start_date", "end_date", "start_time", "end_time", "location_mn", "color", "is_all_day", "is_public"],
   hallOfFame: ["name", "scope", "photo", "medals", "is_published", "is_featured", "display_order", "source_url"],
@@ -24,6 +26,7 @@ const writableFields = Object.fromEntries(
 
 const applicationStatusSet = new Set<string>(applicationStatuses);
 const imageFields: Partial<Record<Resource, string[]>> = {
+  podcasts: ["thumbnail_url", "channel_logo_url"],
   landingTimeline: ["image_url"],
   news: ["cover_image_url", "author_photo"],
   teachers: ["photo_url"],
@@ -156,6 +159,14 @@ export function sanitizeAdminRecord(resource: Resource, payload: unknown) {
   const uuid = (field: string, required = false) => setIfPresent(record, field, optionalUuid(payload[field], field, required));
 
   switch (resource) {
+    case "podcasts": {
+      reqText("title_mn", 200); reqText("channel_name", 120);
+      const url = youtubeVideoUrl(requiredString(payload.youtube_url, "youtube_url", 2000));
+      if (!url) throw new Error("YouTube видеоны зөв HTTPS холбоос оруулна уу.");
+      record.youtube_url = url;
+      bool("is_published"); num("display_order", 0, 10000);
+      break;
+    }
     case "landingTimeline":
       num("year", 1900, 2200, true); reqText("highlight_mn", 200); text("description_mn", 3000);
       bool("is_milestone"); bool("is_published"); num("display_order", 0, 10000);

@@ -1,9 +1,12 @@
 import type { AdminData } from "./admin/contracts";
+import type { Podcast } from "@/types/database";
+import { youtubeVideoUrl } from "./podcast-data";
 import type { AchievementYear, CalendarEvent, CourseSection, HallRecord, LandingTimelineEntry, NewsArticle, SchoolSettings, Teacher } from "@/types/database";
 import { defaultSiteCopy } from "./site-copy";
 import { fallbackSettings } from "./content";
 
 export type PublicSiteData = {
+  podcasts?: Podcast[];
   landingTimeline?: LandingTimelineEntry[];
   events?: CalendarEvent[];
   news: NewsArticle[]; teachers: Teacher[]; settings: SchoolSettings;
@@ -15,6 +18,7 @@ export function publicSettings(settings: SchoolSettings | null): SchoolSettings 
 }
 export function publishableData(data: PublicSiteData): PublicSiteData {
   return { ...data, settings: publicSettings(data.settings),
+    podcasts: (data.podcasts || []).filter(item => item.is_published === true && youtubeVideoUrl(item.youtube_url)).toSorted((a, b) => a.display_order - b.display_order || a.id.localeCompare(b.id)),
     landingTimeline: (data.landingTimeline || []).filter(item => item.is_published === true).toSorted((a, b) => a.year - b.year || a.display_order - b.display_order),
     events: (data.events || []).filter(item => item.is_public === true).toSorted((a, b) => a.start_date.localeCompare(b.start_date)),
     news: data.news.filter(item => item.is_published).toSorted((a,b) => Number(b.is_featured) - Number(a.is_featured) || Date.parse(b.published_at) - Date.parse(a.published_at)),
@@ -28,6 +32,7 @@ export function publishableData(data: PublicSiteData): PublicSiteData {
 export function mockPublicData(data: AdminData): PublicSiteData {
   return publishableData({ preview: true, settings: publicSettings(data.settings), news: data.news, teachers: data.teachers,
     events: data.events,
+    podcasts: data.podcasts,
     landingTimeline: data.landingTimeline,
     achievements: data.years.map(year => ({ ...year, achievements: data.achievements.filter(item => item.year_id === year.id).map(item => ({ ...item, category: data.achievementCategories.find(category => category.id === item.category_id) })) as unknown as NonNullable<AchievementYear["achievements"]> })),
     courses: data.sections.map(section => ({ ...section, items: data.courseItems.filter(item => item.section_id === section.id) })),

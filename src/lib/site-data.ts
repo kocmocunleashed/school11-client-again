@@ -5,6 +5,7 @@ import { fallbackAchievements, fallbackCourses, fallbackNews, fallbackSettings, 
 import { hallSeed } from "./hall-seed";
 import { fallbackLandingTimeline, landingTimelineResult } from "./landing-timeline-data";
 import { hallDataResult } from "./hall-data-result";
+import { podcastResult } from "./podcast-data";
 import { env, hasSupabasePublicEnv } from "./env";
 import { getAchievementYears } from "./data/achievements";
 import { getCourseSections } from "./data/courses";
@@ -23,20 +24,22 @@ class UncacheableSiteData extends Error {
 }
 
 async function loadSiteData(): Promise<PublicSiteData> {
-  const [news, teachers, settings, achievements, courses, hall, calendar, landing] = await Promise.all([
+  const [news, teachers, settings, achievements, courses, hall, calendar, landing, podcastRows] = await Promise.all([
     getPublishedNews(1000), getAllTeachers(), getSchoolSettings(), getAchievementYears(), getCourseSections(),
     createClient().from("hall_of_fame").select(hallPublicSelect).eq("is_published", true).order("display_order", { ascending: true }),
     createClient().from("calendar_events").select("id,title_mn,description_mn,event_type,start_date,end_date,start_time,end_time,location_mn,color,is_all_day,is_public").eq("is_public", true).order("start_date", { ascending: true }),
     createClient().from("landing_timeline_entries").select("id,year,highlight_mn,description_mn,image_url,is_milestone,is_published,display_order").eq("is_published", true).order("year", { ascending: true }),
+    createClient().from("podcasts").select("id,title_mn,channel_name,youtube_url,thumbnail_url,channel_logo_url,is_published,display_order").eq("is_published", true).order("display_order", { ascending: true }),
   ]);
   const hallOfFame = hallDataResult(hall);
   const landingTimeline = landingTimelineResult(landing);
+  const podcasts = podcastResult(podcastRows);
   if (calendar.error) throw calendar.error;
   // Empty published collections are intentional. Never resurrect deleted/draft content as samples.
-  const data = publishableData({ news, teachers, settings, achievements, courses, hallOfFame, landingTimeline: landingTimeline.entries, events: calendar.data || [], preview: false });
+  const data = publishableData({ news, teachers, settings, achievements, courses, hallOfFame, podcasts: podcasts.entries, landingTimeline: landingTimeline.entries, events: calendar.data || [], preview: false });
   // Preserve the existing migration fallback, but do not persist partial data.
   // Other database errors throw above, so failures never become cache entries.
-  if (hall.error || !landingTimeline.ready) throw new UncacheableSiteData(data);
+  if (hall.error || !landingTimeline.ready || !podcasts.ready) throw new UncacheableSiteData(data);
   return data;
 }
 

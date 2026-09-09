@@ -11,9 +11,12 @@ import type {
   HallRecord,
   CalendarEvent,
   LandingTimelineEntry,
+  Podcast,
 } from "@/types/database";
 
 export type AdminData = {
+  podcasts: Podcast[];
+  podcastsReady?: boolean;
   landingTimeline: LandingTimelineEntry[];
   landingTimelineReady?: boolean;
   events: CalendarEvent[];
@@ -33,6 +36,7 @@ export type AdminData = {
 export type AdminRequest = <T = unknown>(path: string, init?: RequestInit) => Promise<T>;
 
 export const emptyAdminData: AdminData = {
+  podcasts: [],
   landingTimeline: [],
   events: [],
   news: [],

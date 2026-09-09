@@ -27,8 +27,9 @@ import { parseCsv, toCsv } from "@/lib/admin/csv";
 import { compressImageToWebp, type ImageUploadKind } from "@/lib/admin/upload";
 import { writableFieldNames, type Resource } from "@/lib/admin-validation";
 import { CalendarManager } from "./calendar-manager";
+import { youtubeVideoUrl } from "@/lib/podcast-data";
 
-type AdminPage = "landing-timeline" | "calendar" | "hall-of-fame" | "dashboard" | "news" | "teachers" | "achievements" | "courses" | "applications" | "settings";
+type AdminPage = "podcasts" | "landing-timeline" | "calendar" | "hall-of-fame" | "dashboard" | "news" | "teachers" | "achievements" | "courses" | "applications" | "settings";
 type Toast = { kind: "success" | "error"; text: string } | null;
 
 const nav = [
@@ -37,6 +38,7 @@ const nav = [
   ["teachers", Users, "Удирдлагын баг"],
   ["calendar", BookOpen, "Календар"],
   ["landing-timeline", BookOpen, "Нүүр хуудасны түүх"],
+  ["podcasts", BookOpen, "Подкаст"],
   ["achievements", Award, "Achievements"],
   ["hall-of-fame", Award, "Хүндэт самбар"],
   ["courses", BookOpen, "Courses"],
@@ -162,6 +164,7 @@ export function AdminApp({ mode = "live" }: { mode?: "live" | "mock" }) {
         {!loading && !loadError && page === "teachers" && <TeachersManager data={data} save={save} remove={remove} notify={notify} request={request} />}
         {!loading && !loadError && page === "calendar" && <CalendarManager events={data.events || []} save={save} remove={remove} />}
         {!loading && !loadError && page === "landing-timeline" && <LandingTimelineManager data={data} save={save} remove={remove} notify={notify} request={request} />}
+        {!loading && !loadError && page === "podcasts" && <PodcastManager data={data} save={save} request={request} notify={notify} reload={load} />}
         {!loading && !loadError && page === "achievements" && <AchievementsManager data={data} save={save} remove={remove} notify={notify} request={request} />}
         {!loading && !loadError && page === "courses" && <CoursesManager data={data} save={save} remove={remove} />}
         {!loading && !loadError && page === "applications" && <ApplicationsManager data={data} save={save} remove={remove} reload={load} notify={notify} request={request} />}
@@ -382,6 +385,52 @@ function NewsForm({ record, categories, onSave, onCancel, notify, request }: { r
     <label><input type="checkbox" checked={Boolean(form.is_published)} onChange={e => set("is_published", e.target.checked)} /> Published</label>
     <div className="admin-actions flex flex-wrap justify-end gap-[.6rem]"><button type="button" onClick={onCancel}>Cancel</button><button className="admin-primary" disabled={saving}><Save size={16} /> {saving ? "Saving..." : "Save"}</button></div>
   </form>;
+}
+
+function PodcastManager({ data, save, request, notify, reload }: { data: AdminData; save: (r: string, v: Record<string, unknown>) => Promise<void>; request: AdminRequest; notify: (toast: Toast) => void; reload: () => Promise<void> }) {
+  const [form, setForm] = useState<Record<string, unknown> | null>(null);
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+  const set = (key: string, value: unknown) => setForm(previous => ({ ...previous, [key]: value }));
+  if (data.podcastsReady === false) return <section><AdminTitle title="Подкаст" action={null} /><p role="alert">Supabase SQL Editor дээр 20260909010000_podcasts.sql шинэчлэлийг ажиллуулаад хуудсыг дахин ачаална уу.</p></section>;
+  return <section>
+    <AdminTitle title="Подкаст" action={<button className="admin-primary" disabled={busy} onClick={() => { setError(""); setForm({ title_mn: "", channel_name: "", youtube_url: "", thumbnail_url: "", channel_logo_url: "", display_order: 0, is_published: false }); }}>Подкаст нэмэх</button>} />
+    <p>Нүүр хуудасны түүхийн доор харагдана. Карт дээр дарахад YouTube шинэ цонхонд нээгдэнэ.</p>
+    <div className="admin-list">{data.podcasts.toSorted((a, b) => a.display_order - b.display_order).map(item => <button type="button" disabled={busy} key={item.id} onClick={() => { setError(""); setForm({ ...item }); }}><strong>{item.title_mn}</strong><span>{item.channel_name} · {item.is_published ? "Нийтлэгдсэн" : "Ноорог"} · {item.display_order}</span></button>)}</div>
+    {!data.podcasts.length && <p>Подкаст хараахан нэмэгдээгүй байна. Эхний дугаараа нэмээрэй.</p>}
+    {form && <form className="admin-form" onSubmit={async event => {
+      event.preventDefault(); setError("");
+      const url = youtubeVideoUrl(String(form.youtube_url || ""));
+      if (!url) { setError("YouTube видеоны зөв HTTPS холбоос оруулна уу."); return; }
+      setBusy(true);
+      try { await save("podcasts", { ...form, youtube_url: url }); setForm(null); }
+      catch (cause) { setError(cause instanceof Error ? cause.message : "Хадгалж чадсангүй."); }
+      finally { setBusy(false); }
+    }}>
+      <fieldset disabled={busy} style={{ border: 0, padding: 0, margin: 0, display: "grid", gap: "1rem" }}>
+        <Field label="Дугаарын гарчиг"><input required maxLength={200} value={String(form.title_mn || "")} onChange={event => set("title_mn", event.target.value)} /></Field>
+        <Field label="Сувгийн нэр"><input required maxLength={120} value={String(form.channel_name || "")} onChange={event => set("channel_name", event.target.value)} /></Field>
+        <Field label="YouTube холбоос"><input required type="url" maxLength={2000} placeholder="https://www.youtube.com/watch?v=…" value={String(form.youtube_url || "")} onChange={event => set("youtube_url", event.target.value)} /></Field>
+        <Field label="Нүүр зураг (заавал биш)"><UploadField bucket="news-images" prefix="news" value={String(form.thumbnail_url || "")} onChange={url => set("thumbnail_url", url)} notify={notify} request={request} /></Field>
+        <p>Зураг оруулаагүй бол YouTube видеоны нүүр зургийг ашиглана.</p>
+        <Field label="Сувгийн лого (заавал биш)"><UploadField bucket="news-images" prefix="news" circular value={String(form.channel_logo_url || "")} onChange={url => set("channel_logo_url", url)} notify={notify} request={request} /></Field>
+        <Field label="Харагдах дараалал (бага тоо эхэнд)"><input required type="number" min={0} max={10000} value={Number(form.display_order || 0)} onChange={event => set("display_order", Number(event.target.value))} /></Field>
+        <label><input type="checkbox" checked={Boolean(form.is_published)} onChange={event => set("is_published", event.target.checked)} /> Нийтлэх</label>
+        {error && <p role="alert">{error}</p>}
+        <div className="admin-actions flex flex-wrap justify-end gap-[.6rem]">
+          <button type="button" onClick={() => setForm(null)}>Болих</button>
+          {Boolean(form.id) && <button type="button" onClick={async () => {
+            if (!confirm("Энэ подкастыг устгах уу?")) return;
+            setBusy(true); setError("");
+            try { await request(`/api/admin/delete/podcasts/${form.id}`, { method: "DELETE" }); setForm(null); await reload(); notify({ kind: "success", text: "Устгалаа" }); }
+            catch (cause) { setError(cause instanceof Error ? cause.message : "Устгаж чадсангүй."); }
+            finally { setBusy(false); }
+          }}>Устгах</button>}
+          <button className="admin-primary">{busy ? "Хадгалж байна…" : "Хадгалах"}</button>
+        </div>
+      </fieldset>
+    </form>}
+  </section>;
 }
 
 function LandingTimelineManager({ data, save, remove, notify, request }: { data: AdminData; save: (r: string, v: Record<string, unknown>) => Promise<void>; remove: (r: string, id: string) => Promise<void>; notify: (toast: Toast) => void; request: AdminRequest }) {

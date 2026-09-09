@@ -3,6 +3,7 @@ import { Golos_Text, PT_Serif } from "next/font/google";
 import "./globals.css";
 import "@/styles/calendar.css";
 import "@/styles/management-notes.css";
+import "@/styles/landing-timeline.css";
 
 const inter = Golos_Text({
   variable: "--font-sans",

@@ -16,6 +16,7 @@ const bucketRules = {
   "site-assets": { prefixes: new Set(["hero"]), mimeTypes: new Set(["image/jpeg", "image/png", "image/webp"]), extensions: new Set(["jpg", "jpeg", "png", "webp"]), maxSize: 5 * 1024 * 1024 },
 } as const;
 const tableMap: Record<Resource, string> = {
+  events: "calendar_events",
   hallOfFame: "hall_of_fame",
   sections: "course_sections",
   news: "news",
@@ -291,7 +292,7 @@ export async function adminBootstrap(req: Request) {
   if (!(await isAdminRequest(req))) return unauthorized();
   const adminClient = await getAdminClient();
 
-  const [news, categories, teachers, years, achievementCategories, achievements, sections, courseItems, applications, settings, hallOfFame] = await Promise.all([
+  const [news, categories, teachers, years, achievementCategories, achievements, sections, courseItems, applications, settings, hallOfFame, events] = await Promise.all([
     adminClient.from("news").select("*, category:news_categories(*)").order("published_at", { ascending: false }),
     selectAll("news_categories", "name_mn"),
     adminClient.from("teachers").select("*").order("display_order", { ascending: true }),
@@ -303,6 +304,7 @@ export async function adminBootstrap(req: Request) {
     adminClient.from("application_results").select("*").order("applied_at", { ascending: false }),
     adminClient.from("school_settings").select("*").limit(1).single(),
     adminClient.from("hall_of_fame").select("*").order("display_order", { ascending: true }),
+    selectAll("calendar_events", "start_date"),
   ]);
 
   const hallRecords = hallDataResult(hallOfFame);
@@ -310,6 +312,7 @@ export async function adminBootstrap(req: Request) {
   if (errors[0]) throw errors[0];
 
   return json({
+    events,
     news: news.data || [],
     categories: categories || [],
     teachers: teachers.data || [],

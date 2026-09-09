@@ -9,12 +9,12 @@ afterAll(() => expire.mockRestore());
 
 describe("public cache invalidation", () => {
   test("all public CMS resources immediately expire the shared data cache", () => {
-    for (const resource of ["news", "teachers", "years", "achievements", "sections", "courseItems", "settings", "hallOfFame"]) {
+    for (const resource of ["news", "teachers", "years", "achievements", "sections", "courseItems", "settings", "hallOfFame", "events"]) {
       const response = Response.json({ ok: true });
       expect(refreshPublicContent(response, resource)).toBe(response);
       expect(expire).toHaveBeenLastCalledWith(PUBLIC_CONTENT_CACHE_TAG, { expire: 0 });
     }
-    expect(expire).toHaveBeenCalledTimes(8);
+    expect(expire).toHaveBeenCalledTimes(9);
     expect(PUBLIC_CONTENT_CACHE_SECONDS).toBe(300);
   });
   test("failed, unauthorized and private mutations never expire public content", () => {

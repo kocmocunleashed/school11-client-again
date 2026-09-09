@@ -3,6 +3,7 @@ export const applicationStatuses = ["accepted", "pending", "waitlisted", "reject
 export type ApplicationStatus = typeof applicationStatuses[number];
 
 export const writableFieldNames = {
+  events: ["title_mn", "description_mn", "event_type", "start_date", "end_date", "start_time", "end_time", "location_mn", "color", "is_all_day", "is_public"],
   hallOfFame: ["name", "scope", "photo", "medals", "is_published", "is_featured", "display_order", "source_url"],
   sections: ["slug", "title_mn", "title_en", "description_mn", "description_en", "icon", "display_order", "is_active"],
   news: ["title_mn", "title_en", "excerpt_mn", "excerpt_en", "body_mn", "body_en", "cover_image_url", "category_id", "author_name", "author_role", "author_photo", "read_time_min", "is_published", "is_featured", "tags", "published_at"],
@@ -153,6 +154,28 @@ export function sanitizeAdminRecord(resource: Resource, payload: unknown) {
   const uuid = (field: string, required = false) => setIfPresent(record, field, optionalUuid(payload[field], field, required));
 
   switch (resource) {
+    case "events": {
+      reqText("title_mn", 180); text("description_mn", 3000); text("location_mn", 200);
+      if (!["exam", "olympiad", "holiday", "ceremony", "sport", "cultural", "other"].includes(String(payload.event_type))) throw new Error("Invalid event type");
+      record.event_type = payload.event_type;
+      for (const field of ["start_date", "end_date"]) {
+        const value = payload[field];
+        if (field === "end_date" && (value == null || value === "")) { record[field] = null; continue; }
+        if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value) || !Number.isFinite(Date.parse(value)) || new Date(value).toISOString().slice(0, 10) !== value) throw new Error("Огноо буруу байна");
+        record[field] = value;
+      }
+      if (record.end_date && String(record.end_date) < String(record.start_date)) throw new Error("Дуусах огноо эхлэх огнооноос өмнө байна");
+      for (const field of ["start_time", "end_time"]) {
+        const value = payload[field];
+        if (value == null || value === "" || payload.is_all_day === true) { record[field] = null; continue; }
+        if (typeof value !== "string" || !/^([01]\d|2[0-3]):[0-5]\d(:[0-5]\d)?$/.test(value)) throw new Error("Цаг буруу байна");
+        record[field] = value.slice(0, 5);
+      }
+      if ((!record.end_date || record.end_date === record.start_date) && record.start_time && record.end_time && String(record.end_time) <= String(record.start_time)) throw new Error("Дуусах цаг эхлэх цагаас хойш байх ёстой");
+      if (typeof payload.color !== "string" || !/^#[0-9a-f]{6}$/i.test(payload.color)) throw new Error("Invalid event color");
+      record.color = payload.color; bool("is_all_day"); bool("is_public");
+      break;
+    }
     case "hallOfFame":
       reqText("name", 160);
       if (payload.scope !== "international" && payload.scope !== "national") throw new Error("Invalid medalist scope");

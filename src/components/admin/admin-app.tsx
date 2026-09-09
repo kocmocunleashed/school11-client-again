@@ -26,14 +26,16 @@ import { createMockAdminRequest } from "@/lib/admin/mock-database";
 import { parseCsv, toCsv } from "@/lib/admin/csv";
 import { compressImageToWebp, type ImageUploadKind } from "@/lib/admin/upload";
 import { writableFieldNames, type Resource } from "@/lib/admin-validation";
+import { CalendarManager } from "./calendar-manager";
 
-type AdminPage = "hall-of-fame" | "dashboard" | "news" | "teachers" | "achievements" | "courses" | "applications" | "settings";
+type AdminPage = "calendar" | "hall-of-fame" | "dashboard" | "news" | "teachers" | "achievements" | "courses" | "applications" | "settings";
 type Toast = { kind: "success" | "error"; text: string } | null;
 
 const nav = [
   ["dashboard", Home, "Dashboard"],
   ["news", Newspaper, "News Manager"],
-  ["teachers", Users, "Teachers Manager"],
+  ["teachers", Users, "Удирдлагын баг"],
+  ["calendar", BookOpen, "Календар"],
   ["achievements", Award, "Achievements"],
   ["hall-of-fame", Award, "Хүндэт самбар"],
   ["courses", BookOpen, "Courses"],
@@ -157,6 +159,7 @@ export function AdminApp({ mode = "live" }: { mode?: "live" | "mock" }) {
         {!loading && !loadError && page === "dashboard" && <Dashboard go={go} />}
         {!loading && !loadError && page === "news" && <NewsManager data={data} save={save} remove={remove} reload={load} notify={notify} request={request} />}
         {!loading && !loadError && page === "teachers" && <TeachersManager data={data} save={save} remove={remove} notify={notify} request={request} />}
+        {!loading && !loadError && page === "calendar" && <CalendarManager events={data.events || []} save={save} remove={remove} />}
         {!loading && !loadError && page === "achievements" && <AchievementsManager data={data} save={save} remove={remove} notify={notify} request={request} />}
         {!loading && !loadError && page === "courses" && <CoursesManager data={data} save={save} remove={remove} />}
         {!loading && !loadError && page === "applications" && <ApplicationsManager data={data} save={save} remove={remove} reload={load} notify={notify} request={request} />}
@@ -382,7 +385,7 @@ function NewsForm({ record, categories, onSave, onCancel, notify, request }: { r
 function TeachersManager({ data, save, remove, notify, request }: { data: AdminData; save: (r: string, v: Record<string, unknown>) => Promise<void>; remove: (r: string, id: string) => Promise<void>; notify: (toast: Toast) => void; request: AdminRequest }) {
   const blank = { name_mn: "", subject_mn: "", years_exp: 0, bio_mn: "", photo_url: "", is_featured: true, is_active: true, display_order: data.teachers.length + 1 };
   const [editing, setEditing] = useState<Record<string, unknown> | null>(null);
-  return <section><AdminTitle title="Teachers Manager" action={<button className="admin-primary" onClick={() => setEditing(blank)}>Add Teacher</button>} />
+  return <section><AdminTitle title="Удирдлагын баг" action={<button className="admin-primary" onClick={() => setEditing(blank)}>Гишүүн нэмэх</button>} /><p>Албан тушаалд захирал, сургалтын менежер, нийгмийн ажилтан эсвэл захиргааны менежер гэж оруулна. Эдгээр албан тушаалтай идэвхтэй гишүүд удирдлагын хэсэгт харагдана.</p>
     <div className="teacher-admin-grid grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-px border border-solid border-school-line bg-school-line">{data.teachers.map(t => <button key={t.id} className="teacher-admin-card" onClick={() => setEditing(t as unknown as Record<string, unknown>)}><div>{t.photo_url ? <img src={t.photo_url} alt={`${t.name_mn} багшийн зураг`} /> : t.name_mn.slice(0, 2)}</div><strong>{t.name_mn}</strong><span>{t.subject_mn}</span></button>)}</div>
     {editing && <div className="admin-panel"><TeacherForm record={editing} onCancel={() => setEditing(null)} onDelete={() => editing.id && remove("teachers", String(editing.id))} onSave={async record => { await save("teachers", record); setEditing(null); }} notify={notify} request={request} /></div>}
   </section>;
@@ -402,7 +405,7 @@ function TeacherForm({ record, onSave, onCancel, onDelete, notify, request }: { 
 
   return <form className="admin-form" onSubmit={async e => { e.preventDefault(); await onSave(form); }}>
     <Field label="Full name"><input value={String(form.name_mn || "")} onChange={e => set("name_mn", e.target.value)} required /></Field>
-    <Field label="Subject"><input value={String(form.subject_mn || "")} onChange={e => set("subject_mn", e.target.value)} required /></Field>
+    <Field label="Албан тушаал"><input list="management-roles" value={String(form.subject_mn || "")} onChange={e => set("subject_mn", e.target.value)} required /><datalist id="management-roles"><option value="Захирал" /><option value="Сургалтын менежер" /><option value="Нийгмийн ажилтан" /><option value="Захиргаа, аж ахуйн менежер" /></datalist></Field>
     <Field label="Years of experience"><input type="number" value={Number(form.years_exp || 0)} onChange={e => set("years_exp", Number(e.target.value))} /></Field>
     <Field label="Bio"><textarea value={String(form.bio_mn || "")} onChange={e => set("bio_mn", e.target.value)} /></Field>
     <Field label="Photo"><UploadField bucket="teacher-photos" prefix="teachers" circular value={String(form.photo_url || "")} successMessage={form.id ? null : "Uploaded. Press Save to keep it."} onChange={savePhoto} onLinkChange={url => set("photo_url", url)} notify={notify} request={request} /></Field>

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Golos_Text, PT_Serif } from "next/font/google";
 import "./globals.css";
+import "@/styles/calendar.css";
 
 const inter = Golos_Text({
   variable: "--font-sans",

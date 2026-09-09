@@ -9,9 +9,11 @@ import type {
   SchoolSettings,
   Teacher,
   HallRecord,
+  CalendarEvent,
 } from "@/types/database";
 
 export type AdminData = {
+  events: CalendarEvent[];
   news: NewsArticle[];
   categories: NewsCategory[];
   teachers: Teacher[];
@@ -28,6 +30,7 @@ export type AdminData = {
 export type AdminRequest = <T = unknown>(path: string, init?: RequestInit) => Promise<T>;
 
 export const emptyAdminData: AdminData = {
+  events: [],
   news: [],
   categories: [],
   teachers: [],

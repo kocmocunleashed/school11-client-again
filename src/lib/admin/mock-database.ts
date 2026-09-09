@@ -5,6 +5,7 @@ import type { AdminData, AdminRequest } from "./contracts";
 export const MOCK_ADMIN_STORAGE_KEY = "school11-redesign:mock-admin:v1";
 export const MOCK_ADMIN_CHANGE_EVENT = "school11-redesign:mock-admin-change";
 const COLLECTIONS = {
+  events: "events",
   hallOfFame: "hallOfFame",
   sections: "sections",
   news: "news",
@@ -51,6 +52,7 @@ export function createMockAdminDatabase(): AdminData {
   const courseItems = fallbackCourses.flatMap(section => section.items || []);
 
   return clone({
+    events: [],
     news: fallbackNews.map((item, index) => ({ ...item, id: `mock-news-${index + 1}` })),
     hallOfFame: hallSeed,
     categories,

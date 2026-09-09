@@ -111,6 +111,7 @@ export interface CourseItem {
 }
 
 export interface CalendarEvent {
+  is_public: boolean;
   id: string;
   title_mn: string;
   title_en?: string | null;

@@ -1,5 +1,6 @@
 "use client";
 import { useSiteData } from "./site-data-provider";
+import { SchoolCalendar } from "./school-calendar";
 
 import { BookOpen, Clock3, MapPin, Trophy, Users } from "lucide-react";
 import { useState } from "react";
@@ -12,14 +13,19 @@ function SectionIcon({ icon }: { icon: string | null }) {
 
 export function CourseCatalog() {
   const { courses: sections } = useSiteData();
+  const calendarSection = sections.find(section => section.slug === "calendar" || /календар|хуанли/i.test(section.title_mn));
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   return (
     <div className="course-catalog [border-top:1px_solid_var(--line)] pt-school-3">
+      <div className="course-sections">
+        <section id={`course-${calendarSection?.slug || "calendar"}`}><header><p>Сургалтын хуваарь</p><h2>Календар</h2><span>Сорил, тэмцээн, хичээлийн үйл ажиллагаа</span></header><SchoolCalendar /></section>
+      </div>
       <nav className="course-index" aria-label="Сургалтын ангилал">
         {sections.map(section => <a href={`#course-${section.slug}`} key={section.id}><SectionIcon icon={section.icon} /><span><strong>{section.title_mn}</strong><small>{section.description_mn}</small></span></a>)}
       </nav>
       <div className="course-sections">
         {sections.map(section => {
+          if (section.slug === "calendar" || /календар|хуанли/i.test(section.title_mn)) return null;
           const open = expanded[section.id];
           const items = open ? section.items || [] : (section.items || []).slice(0, 3);
           return <section id={`course-${section.slug}`} key={section.id}>

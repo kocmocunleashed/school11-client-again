@@ -1,6 +1,7 @@
 import { clearSharedRateLimit, consumeSharedRateLimit, getClientIp, loginRateLimit, makeRateLimitKey, type RateLimitBucket } from "./api-handlers/rate-limit";
 import { noStoreHeaders } from "./api-handlers/http";
 import { hallDataResult } from "./hall-data-result";
+import { landingTimelineResult } from "./landing-timeline-data";
 import { sanitizeAdminRecord, sanitizeBulkApplicationRows, validateToggleNewsPayload, type Resource } from "./admin-validation";
 
 const COOKIE_NAME = "school11_admin";
@@ -16,6 +17,7 @@ const bucketRules = {
   "site-assets": { prefixes: new Set(["hero"]), mimeTypes: new Set(["image/jpeg", "image/png", "image/webp"]), extensions: new Set(["jpg", "jpeg", "png", "webp"]), maxSize: 5 * 1024 * 1024 },
 } as const;
 const tableMap: Record<Resource, string> = {
+  landingTimeline: "landing_timeline_entries",
   events: "calendar_events",
   hallOfFame: "hall_of_fame",
   sections: "course_sections",
@@ -292,7 +294,7 @@ export async function adminBootstrap(req: Request) {
   if (!(await isAdminRequest(req))) return unauthorized();
   const adminClient = await getAdminClient();
 
-  const [news, categories, teachers, years, achievementCategories, achievements, sections, courseItems, applications, settings, hallOfFame, events] = await Promise.all([
+  const [news, categories, teachers, years, achievementCategories, achievements, sections, courseItems, applications, settings, hallOfFame, events, landing] = await Promise.all([
     adminClient.from("news").select("*, category:news_categories(*)").order("published_at", { ascending: false }),
     selectAll("news_categories", "name_mn"),
     adminClient.from("teachers").select("*").order("display_order", { ascending: true }),
@@ -305,13 +307,17 @@ export async function adminBootstrap(req: Request) {
     adminClient.from("school_settings").select("*").limit(1).single(),
     adminClient.from("hall_of_fame").select("*").order("display_order", { ascending: true }),
     selectAll("calendar_events", "start_date"),
+    adminClient.from("landing_timeline_entries").select("*").order("year", { ascending: true }),
   ]);
 
   const hallRecords = hallDataResult(hallOfFame);
+  const landingTimeline = landingTimelineResult(landing);
   const errors = [news.error, teachers.error, years.error, achievements.error, sections.error, courseItems.error, applications.error, settings.error].filter(Boolean);
   if (errors[0]) throw errors[0];
 
   return json({
+    landingTimeline: landingTimeline.entries,
+    landingTimelineReady: landingTimeline.ready,
     events,
     news: news.data || [],
     categories: categories || [],

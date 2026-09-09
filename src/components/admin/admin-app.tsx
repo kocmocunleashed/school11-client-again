@@ -28,7 +28,7 @@ import { compressImageToWebp, type ImageUploadKind } from "@/lib/admin/upload";
 import { writableFieldNames, type Resource } from "@/lib/admin-validation";
 import { CalendarManager } from "./calendar-manager";
 
-type AdminPage = "calendar" | "hall-of-fame" | "dashboard" | "news" | "teachers" | "achievements" | "courses" | "applications" | "settings";
+type AdminPage = "landing-timeline" | "calendar" | "hall-of-fame" | "dashboard" | "news" | "teachers" | "achievements" | "courses" | "applications" | "settings";
 type Toast = { kind: "success" | "error"; text: string } | null;
 
 const nav = [
@@ -36,6 +36,7 @@ const nav = [
   ["news", Newspaper, "News Manager"],
   ["teachers", Users, "Удирдлагын баг"],
   ["calendar", BookOpen, "Календар"],
+  ["landing-timeline", BookOpen, "Нүүр хуудасны түүх"],
   ["achievements", Award, "Achievements"],
   ["hall-of-fame", Award, "Хүндэт самбар"],
   ["courses", BookOpen, "Courses"],
@@ -160,6 +161,7 @@ export function AdminApp({ mode = "live" }: { mode?: "live" | "mock" }) {
         {!loading && !loadError && page === "news" && <NewsManager data={data} save={save} remove={remove} reload={load} notify={notify} request={request} />}
         {!loading && !loadError && page === "teachers" && <TeachersManager data={data} save={save} remove={remove} notify={notify} request={request} />}
         {!loading && !loadError && page === "calendar" && <CalendarManager events={data.events || []} save={save} remove={remove} />}
+        {!loading && !loadError && page === "landing-timeline" && <LandingTimelineManager data={data} save={save} remove={remove} notify={notify} request={request} />}
         {!loading && !loadError && page === "achievements" && <AchievementsManager data={data} save={save} remove={remove} notify={notify} request={request} />}
         {!loading && !loadError && page === "courses" && <CoursesManager data={data} save={save} remove={remove} />}
         {!loading && !loadError && page === "applications" && <ApplicationsManager data={data} save={save} remove={remove} reload={load} notify={notify} request={request} />}
@@ -380,6 +382,30 @@ function NewsForm({ record, categories, onSave, onCancel, notify, request }: { r
     <label><input type="checkbox" checked={Boolean(form.is_published)} onChange={e => set("is_published", e.target.checked)} /> Published</label>
     <div className="admin-actions flex flex-wrap justify-end gap-[.6rem]"><button type="button" onClick={onCancel}>Cancel</button><button className="admin-primary" disabled={saving}><Save size={16} /> {saving ? "Saving..." : "Save"}</button></div>
   </form>;
+}
+
+function LandingTimelineManager({ data, save, remove, notify, request }: { data: AdminData; save: (r: string, v: Record<string, unknown>) => Promise<void>; remove: (r: string, id: string) => Promise<void>; notify: (toast: Toast) => void; request: AdminRequest }) {
+  const [form, setForm] = useState<Record<string, unknown> | null>(null);
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+  const set = (key: string, value: unknown) => setForm(previous => ({ ...previous, [key]: value }));
+  if (data.landingTimelineReady === false) return <section><AdminTitle title="Нүүр хуудасны түүх" action={null} /><p role="alert">Энэ хэсгийг ашиглахын өмнө 20260909000000_independent_landing_timeline.sql өгөгдлийн сангийн шинэчлэлийг ажиллуулна уу.</p></section>;
+  return <section><AdminTitle title="Нүүр хуудасны түүх" action={<button className="admin-primary" onClick={() => { setError(""); setForm({ year: new Date().getFullYear(), highlight_mn: "", description_mn: "", image_url: "", is_milestone: true, is_published: false, display_order: 0 }); }}>Үйл явдал нэмэх</button>} />
+    <p>Зөвхөн нүүр хуудасны он жилийн хэсгийг удирдана. Амжилтын хуудасны түүхээс тусдаа мэдээлэлтэй.</p>
+    <div className="admin-list">{data.landingTimeline.map(item => <button type="button" key={item.id} onClick={() => { setError(""); setForm({ ...item }); }}><strong>{item.year} · {item.highlight_mn}</strong><span>{item.is_published ? "Нийтлэгдсэн" : "Ноорог"}</span></button>)}</div>
+    {!data.landingTimeline.length && <p>Үйл явдал хараахан нэмэгдээгүй байна.</p>}
+    {form && <form className="admin-form" onSubmit={async event => { event.preventDefault(); setBusy(true); setError(""); try { await save("landingTimeline", form); setForm(null); } catch (cause) { setError(cause instanceof Error ? cause.message : "Хадгалж чадсангүй."); } finally { setBusy(false); } }}>
+      <Field label="Он"><input required type="number" min={1900} max={2200} value={Number(form.year)} onChange={event => set("year", Number(event.target.value))} /></Field>
+      <Field label="Гарчиг"><input required maxLength={200} value={String(form.highlight_mn || "")} onChange={event => set("highlight_mn", event.target.value)} /></Field>
+      <Field label="Тайлбар"><textarea maxLength={3000} value={String(form.description_mn || "")} onChange={event => set("description_mn", event.target.value)} /></Field>
+      <Field label="Зураг"><UploadField bucket="achievement-images" prefix="years" value={String(form.image_url || "")} onChange={url => set("image_url", url)} notify={notify} request={request} /></Field>
+      <Field label="Ижил онтой үйл явдлын эрэмбэ"><input type="number" min={0} max={10000} value={Number(form.display_order || 0)} onChange={event => set("display_order", Number(event.target.value))} /></Field>
+      <label><input type="checkbox" checked={Boolean(form.is_milestone)} onChange={event => set("is_milestone", event.target.checked)} /> Түүхэн үйл явдал</label>
+      <label><input type="checkbox" checked={Boolean(form.is_published)} onChange={event => set("is_published", event.target.checked)} /> Нийтлэх</label>
+      {error && <p role="alert">{error}</p>}
+      <div className="admin-actions flex flex-wrap justify-end gap-[.6rem]"><button type="button" disabled={busy} onClick={() => setForm(null)}>Болих</button>{Boolean(form.id) && <button type="button" disabled={busy} onClick={async () => { setBusy(true); try { await remove("landingTimeline", String(form.id)); } catch { setError("Устгаж чадсангүй."); } finally { setBusy(false); } }}>Устгах</button>}<button className="admin-primary" disabled={busy}>{busy ? "Хадгалж байна…" : "Хадгалах"}</button></div>
+    </form>}
+  </section>;
 }
 
 function TeachersManager({ data, save, remove, notify, request }: { data: AdminData; save: (r: string, v: Record<string, unknown>) => Promise<void>; remove: (r: string, id: string) => Promise<void>; notify: (toast: Toast) => void; request: AdminRequest }) {

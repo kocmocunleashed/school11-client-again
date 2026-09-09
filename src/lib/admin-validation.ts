@@ -3,6 +3,7 @@ export const applicationStatuses = ["accepted", "pending", "waitlisted", "reject
 export type ApplicationStatus = typeof applicationStatuses[number];
 
 export const writableFieldNames = {
+  landingTimeline: ["year", "highlight_mn", "description_mn", "image_url", "is_milestone", "is_published", "display_order"],
   events: ["title_mn", "description_mn", "event_type", "start_date", "end_date", "start_time", "end_time", "location_mn", "color", "is_all_day", "is_public"],
   hallOfFame: ["name", "scope", "photo", "medals", "is_published", "is_featured", "display_order", "source_url"],
   sections: ["slug", "title_mn", "title_en", "description_mn", "description_en", "icon", "display_order", "is_active"],
@@ -23,6 +24,7 @@ const writableFields = Object.fromEntries(
 
 const applicationStatusSet = new Set<string>(applicationStatuses);
 const imageFields: Partial<Record<Resource, string[]>> = {
+  landingTimeline: ["image_url"],
   news: ["cover_image_url", "author_photo"],
   teachers: ["photo_url"],
   years: ["image_url"],
@@ -154,6 +156,10 @@ export function sanitizeAdminRecord(resource: Resource, payload: unknown) {
   const uuid = (field: string, required = false) => setIfPresent(record, field, optionalUuid(payload[field], field, required));
 
   switch (resource) {
+    case "landingTimeline":
+      num("year", 1900, 2200, true); reqText("highlight_mn", 200); text("description_mn", 3000);
+      bool("is_milestone"); bool("is_published"); num("display_order", 0, 10000);
+      break;
     case "events": {
       reqText("title_mn", 180); text("description_mn", 3000); text("location_mn", 200);
       if (!["exam", "olympiad", "holiday", "ceremony", "sport", "cultural", "other"].includes(String(payload.event_type))) throw new Error("Invalid event type");

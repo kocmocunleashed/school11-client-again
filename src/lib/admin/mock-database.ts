@@ -1,10 +1,12 @@
 import { hallSeed } from "../hall-seed";
+import { fallbackLandingTimeline } from "../landing-timeline-data";
 import { fallbackAchievements, fallbackCourses, fallbackNews, fallbackSettings, fallbackTeachers } from "../content";
 import type { AdminData, AdminRequest } from "./contracts";
 
 export const MOCK_ADMIN_STORAGE_KEY = "school11-redesign:mock-admin:v1";
 export const MOCK_ADMIN_CHANGE_EVENT = "school11-redesign:mock-admin-change";
 const COLLECTIONS = {
+  landingTimeline: "landingTimeline",
   events: "events",
   hallOfFame: "hallOfFame",
   sections: "sections",
@@ -52,6 +54,8 @@ export function createMockAdminDatabase(): AdminData {
   const courseItems = fallbackCourses.flatMap(section => section.items || []);
 
   return clone({
+    landingTimeline: fallbackLandingTimeline,
+    landingTimelineReady: true,
     events: [],
     news: fallbackNews.map((item, index) => ({ ...item, id: `mock-news-${index + 1}` })),
     hallOfFame: hallSeed,

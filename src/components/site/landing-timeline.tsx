@@ -10,8 +10,8 @@ const colors = ["#fec541", "#36d484", "#32ccf4"];
 
 /** Homepage-only presentation; the detailed achievements browser is independent. */
 export function LandingTimeline() {
-  const { achievements } = useSiteData();
-  const records = useMemo(() => [...achievements].sort((a, b) => a.year - b.year), [achievements]);
+  const { landingTimeline } = useSiteData();
+  const records = useMemo(() => [...(landingTimeline || [])].sort((a, b) => a.year - b.year || a.display_order - b.display_order), [landingTimeline]);
   const periods = useMemo(() => Array.from(new Set(records.map(record => Math.floor(record.year / 10) * 10))), [records]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [animate, setAnimate] = useState(false);

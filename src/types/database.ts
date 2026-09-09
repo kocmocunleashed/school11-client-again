@@ -56,6 +56,17 @@ export interface AchievementYear {
   achievements?: Achievement[];
 }
 
+export interface LandingTimelineEntry {
+  id: string;
+  year: number;
+  highlight_mn: string;
+  description_mn: string | null;
+  image_url: string | null;
+  is_milestone: boolean;
+  is_published: boolean;
+  display_order: number;
+}
+
 export interface Achievement {
   is_published?: boolean;
   display_order?: number;

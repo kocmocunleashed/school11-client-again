@@ -12,9 +12,16 @@ const tables: Record<string, Row[]> = {
   achievements: seed.achievements, course_sections: seed.sections as unknown as Row[],
   course_items: seed.courseItems as unknown as Row[], hall_of_fame: seed.hallOfFame as unknown as Row[],
   news_categories: seed.categories as unknown as Row[], achievement_categories: seed.achievementCategories as unknown as Row[],
+  calendar_events: seed.events as unknown as Row[], landing_timeline_entries: seed.landingTimeline as unknown as Row[],
+  podcasts: seed.podcasts as unknown as Row[],
   application_results: [], rate_limits: [], admin_audit_logs: [],
 };
 for (const row of tables.school_settings) row.id = randomUUID();
+const publicTables = [
+  "news", "teachers", "school_settings", "achievement_years", "course_sections", "hall_of_fame",
+  "calendar_events", "landing_timeline_entries", "podcasts",
+] as const;
+const readsPerLoad = publicTables.length;
 let publicReads = 0;
 let failingTable = "";
 let hallMissing = false;
@@ -110,14 +117,14 @@ try {
   }
   assert.ok(ready, "Production server did not start; run bun run build first");
   await snapshot();
-  assert.equal(publicReads, 6);
+  assert.equal(publicReads, readsPerLoad);
   for (let i = 0; i < 10; i++) await snapshot();
-  assert.equal(publicReads, 6, "Repeated public refreshes should reuse the shared cache");
+  assert.equal(publicReads, readsPerLoad, "Repeated public refreshes should reuse the shared cache");
   // Next may compile the loader separately for RSC and Route Handlers. Each
   // bundle gets a stable entry; both must reuse it and share invalidation.
   const page = await request("/"); assert.equal(page.status, 200); await page.text();
   const warmedReads: number = publicReads;
-  assert.ok(warmedReads <= 12, "At most one load per compiled server bundle");
+  assert.ok(warmedReads <= readsPerLoad * 2, "At most one load per compiled server bundle");
   for (const path of ["/", "/about", "/news", "/courses", "/achievements", "/apply"]) {
     const response = await request(path); assert.equal(response.status, 200, path); await response.text();
   }
@@ -147,18 +154,21 @@ try {
     ["sections", { slug: "cache-section", title_mn: "Cache section", is_active: true }],
     ["courseItems", { section_id: randomUUID(), title_mn: "Cache course", is_active: true }],
     ["hallOfFame", { name: "Cache medalist", scope: "national", medals: [{ competition: "Math", medal: "Gold", year: "2026" }], is_published: true }],
+    ["events", { title_mn: "Cache event", event_type: "other", start_date: "2026-09-15", color: "#334455", is_all_day: true, is_public: true }],
+    ["landingTimeline", { year: 2026, highlight_mn: "Cache timeline", is_published: true }],
+    ["podcasts", { title_mn: "Cache podcast", channel_name: "School 11", youtube_url: "https://www.youtube.com/watch?v=abcdefghijk", is_published: true }],
     ["settings", { ...tables.school_settings[0], school_name_mn: "Cache test school" }],
   ];
   for (const [resource, body] of resources) {
     const before: number = publicReads;
     const row = await save(resource, body);
     current = await snapshot();
-    assert.equal(publicReads, before + 6, `${resource} save must expire public data`);
+    assert.equal(publicReads, before + readsPerLoad, `${resource} save must expire public data`);
     if (resource === "settings") assert.equal(current.settings.school_name_mn, "Cache test school");
     else {
       assert.equal((await request(`/api/admin/delete/${resource}/${row.id}`, { method: "DELETE" })).status, 200);
       await snapshot();
-      assert.equal(publicReads, before + 12, `${resource} delete must expire public data`);
+      assert.equal(publicReads, before + readsPerLoad * 2, `${resource} delete must expire public data`);
     }
   }
   pass("every public CMS resource invalidates on save/delete, including nested content and settings");
@@ -183,7 +193,7 @@ try {
 
   // Clear the cache through a real authorized mutation, then simulate failure.
   const expire = () => save("news", { ...news, is_published: false });
-  for (const table of ["news", "teachers", "school_settings", "achievement_years", "course_sections", "hall_of_fame"]) {
+  for (const table of publicTables) {
     await expire(); failingTable = table;
     const failure = await request("/api/site-data");
     assert.equal(failure.status, 503, table);
@@ -191,13 +201,13 @@ try {
     failingTable = "";
     await snapshot(); readsBefore = publicReads; await snapshot(); assert.equal(publicReads, readsBefore);
   }
-  pass("failures in each of the six queries return uncached 503 and recover immediately");
+  pass(`failures in each of the ${readsPerLoad} queries return uncached 503 and recover immediately`);
 
   await expire(); hallMissing = true;
   assert.deepEqual((await snapshot()).hallOfFame, []);
   readsBefore = publicReads; hallMissing = false;
   assert.ok((await snapshot()).hallOfFame.length > 0);
-  assert.equal(publicReads, readsBefore + 6);
+  assert.equal(publicReads, readsBefore + readsPerLoad);
   pass("missing optional migration remains available without caching its empty fallback");
 
   await expire(); tables.news = [];

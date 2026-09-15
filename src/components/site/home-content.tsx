@@ -21,7 +21,6 @@ export function HomeContent() {
       </div>
       <div className="arrival-bottom shell mx-auto w-[var(--shell)]"><span>МЭДЛЭГ + СОНИУЧ ЗАН + ЧИ</span><a href="#discover">Цааш нээх <ArrowDown /></a></div>
     </section>
-    <div className="school-ribbon" aria-label="Сургуулийн үнэт зүйл"><span>АСУУ.</span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 0v40M0 20h40M6 6l28 28M6 34L34 6" /></svg><span>ТУРШ.</span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 0v40M0 20h40M6 6l28 28M6 34L34 6" /></svg><span>БҮТЭЭ.</span><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 0v40M0 20h40M6 6l28 28M6 34L34 6" /></svg><span>ӨӨРӨӨ БАЙ.</span></div>
     <section className="school-introduction shell mx-auto w-[var(--shell)]" id="discover"><div className="intro-symbol" aria-hidden="true">( x + y )<sup>∞</sup></div><div><h2>{copy.intro_title}</h2><p>{copy.intro_description}</p><Link href="/about" className="text-action">Бидний тухай <ArrowUpRight /></Link></div><div className="school-numbers"><p><strong>{settings.established}</strong><span>оноос эрдмийн замд</span></p><p><strong>{settings.student_count.toLocaleString("mn-MN")}<i>+</i></strong><span>сурагчийн хүсэл мөрөөдөл</span></p><p><strong>{settings.teacher_count}<i>+</i></strong><span>багшийн мэдлэг, туршлага</span></p><p><strong>{settings.club_count}<i>+</i></strong><span>клуб, дугуйлан</span></p></div></section>
     <LandingTimeline />
     <Podcasts />

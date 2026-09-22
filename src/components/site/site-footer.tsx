@@ -1,7 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
-import { MapPin } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import type { SchoolSettings } from "@/types/database";
+import styles from "./site-footer.module.css";
 
 const socialIcons = {
   Facebook: <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.095 10.125 24v-8.437H7.078v-3.49h3.047v-2.66c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.931-1.956 1.887v2.264h3.328l-.532 3.49h-2.796V24C19.612 23.095 24 18.1 24 12.073Z" />,
@@ -12,13 +12,46 @@ const socialIcons = {
 
 export function SiteFooter({ settings }: { settings: SchoolSettings }) {
   const socials = ([[settings.facebook_url, "Facebook"], [settings.instagram_url, "Instagram"], [settings.youtube_url, "YouTube"], [settings.twitter_url, "X"]] as const).filter(([url]) => url);
-  return <footer className="site-footer">
-    <div className="footer-grid">
-      <div className="footer-identity"><Image src={settings.logo_url || "/school-logo.png"} unoptimized={Boolean(settings.logo_url)} alt="" width={66} height={66} /><strong>{settings.school_name_mn}</strong><p>Эрдэм. Хүмүүжил. Ирээдүй.</p>{socials.length > 0 && <div className="footer-socials">{socials.map(([url,label]) => <a href={url!} key={label} target="_blank" rel="noreferrer" aria-label={label} title={label}><svg viewBox="0 0 24 24" width={20} height={20} fill="currentColor" aria-hidden="true" focusable="false" className="shrink-0">{socialIcons[label]}</svg></a>)}</div>}</div>
-      <div><h2>Сургуультай танилцах</h2><Link href="/about">Бидний тухай</Link><Link href="/courses">Сургалт</Link><Link href="/achievements">Амжилт</Link><Link href="/news">Мэдээ</Link><Link href="/apply">Элсэлт</Link></div>
-      <div><h2>Холбоо барих</h2><a href={`tel:${settings.phone.replace(/\s/g, "")}`}>{settings.phone}</a><a href={`mailto:${settings.email}`}>{settings.email}</a><a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${settings.address_mn}, ${settings.city}`)}`} target="_blank" rel="noreferrer"><MapPin size={16} /> {settings.address_mn}, {settings.city}</a></div>
-    </div>
-    <div className="footer-signature" aria-hidden="true">Ирээдүйг хамтдаа.</div>
-    <div className="footer-bottom"><p>© {new Date().getFullYear()} {settings.school_name_mn}</p><span>{settings.city}, Монгол Улс</span></div>
-  </footer>;
+  return (
+    <footer className={styles.footer}>
+      <div className={styles.inner}>
+        <div className={styles.grid}>
+          <div className={styles.identity}>
+            <strong>{settings.school_name_mn}</strong>
+            <p>Эрдэм. Хүмүүжил. Ирээдүй.</p>
+            {socials.length > 0 && (
+              <div className={styles.socials}>
+                {socials.map(([url, label]) => (
+                  <a href={url!} key={label} target="_blank" rel="noreferrer" aria-label={label} title={label}>
+                    <svg viewBox="0 0 24 24" width={18} height={18} fill="currentColor" aria-hidden="true" focusable="false">{socialIcons[label]}</svg>
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+          <nav className={styles.column} aria-label="Сургуулийн хөтөлбөрүүд">
+            <h2>Хөтөлбөрүүд</h2>
+            <Link href="/courses">Сургалт</Link>
+            <Link href="/courses#course-olympiad">Олимпиадын бэлтгэл</Link>
+            <Link href="/courses#course-club">Клуб ба дугуйлан</Link>
+            <Link href="/achievements">Амжилт</Link>
+          </nav>
+          <div className={styles.column}>
+            <h2>Холбоо барих</h2>
+            <a href={`tel:${settings.phone.replace(/\s/g, "")}`}><Phone size={16} aria-hidden="true" /><span>{settings.phone}</span></a>
+            <a href={`mailto:${settings.email}`}><Mail size={16} aria-hidden="true" /><span>{settings.email}</span></a>
+            <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${settings.address_mn}, ${settings.city}`)}`} target="_blank" rel="noreferrer"><MapPin size={16} aria-hidden="true" /><span>{settings.address_mn}, {settings.city}</span></a>
+          </div>
+        </div>
+        <div className={styles.bottom}>
+          <p>© {new Date().getFullYear()} {settings.school_name_mn}.</p>
+          <nav aria-label="Нэмэлт холбоосууд">
+            <Link href="/about">Бидний тухай</Link>
+            <Link href="/apply">Элсэх</Link>
+            <Link href="/news">Мэдээ</Link>
+          </nav>
+        </div>
+      </div>
+    </footer>
+  );
 }

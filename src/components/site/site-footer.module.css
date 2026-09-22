@@ -1,6 +1,6 @@
 .footer {
-  background: #0e1410;
-  color: #aeb3af;
+  background: #2344df;
+  color: #fff;
   padding: 48px 0 22px;
   font-family: var(--font-sans), sans-serif;
   font-size: 14px;
@@ -21,7 +21,7 @@
 
 .identity strong {
   display: block;
-  color: #e0e2e0;
+  color: #fff;
   font-size: 20px;
   font-weight: 650;
   line-height: 1.35;
@@ -40,7 +40,7 @@
 
 .column h2 {
   margin: 0 0 2px;
-  color: #e0e2e0;
+  color: #ffda45;
   font-family: inherit;
   font-size: 14px;
   font-weight: 600;
@@ -56,11 +56,11 @@
 }
 
 .footer a:hover {
-  color: #fff;
+  color: #ffda45;
 }
 
 .footer a:focus-visible {
-  outline: 2px solid #e0e2e0;
+  outline: 2px solid #fff;
   outline-offset: 5px;
 }
 
@@ -99,7 +99,7 @@
   justify-content: space-between;
   gap: 24px;
   margin-top: 60px;
-  color: #a0a6a1;
+  color: #e0e9f5;
 }
 
 .bottom p {

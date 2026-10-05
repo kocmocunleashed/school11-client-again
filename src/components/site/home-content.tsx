@@ -16,7 +16,7 @@ export function HomeContent() {
   return <main id="main-content">
     <section className="arrival">
       <div className="arrival-grid shell mx-auto w-[var(--shell)]">
-        <div className="arrival-copy"><div className="school-tag">{settings.city}, МОНГОЛ · {settings.school_name_mn}</div><h1>{copy.hero_line_1}<br /><span>{copy.hero_line_2}</span><br />{copy.hero_line_3}</h1><p className="arrival-lead">{copy.hero_description}</p><div className="arrival-actions"><Link href="/about" className="primary-button">Манай ертөнцөөр аялаарай <ArrowUpRight /></Link><Link href="/apply" className="text-action">Элсэлт <ArrowRight /></Link></div></div>
+        <div className="arrival-copy"><h1>{copy.hero_line_1}<br /><span>{copy.hero_line_2}</span><br />{copy.hero_line_3}</h1><div className="arrival-actions"><Link href="/about" className="primary-button">Манай ертөнцөөр аялаарай <ArrowUpRight /></Link><Link href="/apply" className="text-action">Элсэлт <ArrowRight /></Link></div></div>
         <div className="arrival-collage"><SchoolSculpture /><Link href="/about" className="campus-postcard"><div className="postcard-photo"><Image src={settings.hero_image_url || "/school-bg.jpg"} alt="Улаанбаатар хотын 11-р сургуулийн хичээлийн байр" fill sizes="(max-width: 700px) 80vw, 32vw" loading="eager" fetchPriority="high" unoptimized={Boolean(settings.hero_image_url)} /></div><div className="postcard-caption"><span>Бидний өдөр бүрийн эхлэл.</span><ArrowUpRight /></div></Link></div>
       </div>
       <div className="arrival-bottom shell mx-auto w-[var(--shell)]"><span>МЭДЛЭГ + СОНИУЧ ЗАН + ЧИ</span><a href="#discover">Цааш нээх <ArrowDown /></a></div>

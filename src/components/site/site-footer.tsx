@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import type { SchoolSettings } from "@/types/database";
@@ -17,13 +18,18 @@ export function SiteFooter({ settings }: { settings: SchoolSettings }) {
       <div className={styles.inner}>
         <div className={styles.grid}>
           <div className={styles.identity}>
-            <strong>{settings.school_name_mn}</strong>
-            <p>Эрдэм. Хүмүүжил. Ирээдүй.</p>
+            <Link className={styles.brand} href="/" aria-label="Нүүр хуудас">
+              <Image src={settings.logo_url || "/school-logo.png"} unoptimized={Boolean(settings.logo_url)} alt="" width={76} height={76} />
+              <span>
+                <strong>{settings.school_name_mn}</strong>
+                <span className={styles.motto}>Эрдэм. Хүмүүжил. Ирээдүй.</span>
+              </span>
+            </Link>
             {socials.length > 0 && (
               <div className={styles.socials}>
                 {socials.map(([url, label]) => (
                   <a href={url!} key={label} target="_blank" rel="noreferrer" aria-label={label} title={label}>
-                    <svg viewBox="0 0 24 24" width={18} height={18} fill="currentColor" aria-hidden="true" focusable="false">{socialIcons[label]}</svg>
+                    <svg viewBox="0 0 24 24" width={20} height={20} fill="currentColor" aria-hidden="true" focusable="false">{socialIcons[label]}</svg>
                   </a>
                 ))}
               </div>
@@ -38,9 +44,9 @@ export function SiteFooter({ settings }: { settings: SchoolSettings }) {
           </nav>
           <div className={styles.column}>
             <h2>Холбоо барих</h2>
-            <a href={`tel:${settings.phone.replace(/\s/g, "")}`}><Phone size={16} aria-hidden="true" /><span>{settings.phone}</span></a>
-            <a href={`mailto:${settings.email}`}><Mail size={16} aria-hidden="true" /><span>{settings.email}</span></a>
-            <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${settings.address_mn}, ${settings.city}`)}`} target="_blank" rel="noreferrer"><MapPin size={16} aria-hidden="true" /><span>{settings.address_mn}, {settings.city}</span></a>
+            <a href={`tel:${settings.phone.replace(/\s/g, "")}`}><Phone size={18} aria-hidden="true" /><span>{settings.phone}</span></a>
+            <a href={`mailto:${settings.email}`}><Mail size={18} aria-hidden="true" /><span>{settings.email}</span></a>
+            <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${settings.address_mn}, ${settings.city}`)}`} target="_blank" rel="noreferrer"><MapPin size={18} aria-hidden="true" /><span>{settings.address_mn}, {settings.city}</span></a>
           </div>
         </div>
         <div className={styles.bottom}>

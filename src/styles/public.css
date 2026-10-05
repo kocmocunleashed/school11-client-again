@@ -235,52 +235,6 @@
 .tag-list span {
   @apply [background:var(--blue-soft)] text-school-deep text-[.72rem] font-bold [padding:.4rem_.6rem];
 }
-.site-footer {
-  @apply [background:var(--ink)] text-white overflow-hidden p-[var(--space-4)_max(20px,_calc((100vw_-_1180px)_/_2))] relative;
-}
-.footer-grid {
-  @apply grid gap-8 grid-cols-[1.25fr_.6fr_1fr_.45fr] relative z-[1];
-}
-.footer-grid > div:not(.footer-identity) {
-  align-content: start;
-  @apply grid gap-[.6rem];
-}
-.footer-grid h2 {
-  @apply text-school-gold;
-  font-family: var(--font-sans), sans-serif;
-  @apply text-[.7rem] tracking-[.12em] mb-2 uppercase;
-}
-.footer-grid a {
-  @apply items-start text-[#d3dae3] flex text-[.84rem] gap-[.35rem] leading-[1.5];
-}
-.footer-grid a:hover {
-  @apply text-white;
-}
-.footer-identity {
-  @apply grid gap-[.65rem];
-}
-.footer-identity strong {
-  font-family: var(--font-display), serif;
-  @apply text-[1.35rem];
-}
-.footer-identity p {
-  @apply text-[#abb6c4] text-[.84rem];
-}
-.footer-socials {
-  @apply flex gap-2;
-}
-.footer-socials a {
-  @apply items-center [border:1px_solid_#435064] h-[42px] justify-center w-[42px];
-}
-.footer-bottom {
-  @apply items-center [border-top:1px_solid_#344154] flex justify-between mt-12 pt-4 relative z-[1];
-}
-.footer-bottom p {
-  @apply text-[#95a2b3] text-[.74rem];
-}
-.footer-bottom button {
-  @apply [background:transparent] [border:0] text-[#95a2b3] text-[.7rem];
-}
 .inner-page {
   @apply pb-school-5;
 }
@@ -666,9 +620,6 @@
   .value-grid {
     @apply grid-cols-[repeat(2,_1fr)];
   }
-  .footer-grid {
-    @apply grid-cols-[1fr_1fr];
-  }
   .achievement-panel {
     @apply grid-cols-[.42fr_.58fr];
   }
@@ -710,7 +661,7 @@
   .dialog-image {
     @apply min-h-[240px];
   }
-  .footer-grid, .page-intro, .story-grid, .value-grid, .achievement-panel {
+  .page-intro, .story-grid, .value-grid, .achievement-panel {
     @apply grid-cols-[1fr];
   }
   .page-intro > p, .page-intro h1, .page-intro > span {
@@ -793,16 +744,6 @@
 }
 .public-site .site-header {
   @apply relative [border-bottom:0] [background:#fff];
-}
-.utility-bar {
-  background: #f2f5f9;
-  @apply text-[#53657e] text-[10px] tracking-[.02em];
-}
-.utility-bar>div {
-  @apply w-[var(--shell)] m-auto flex gap-[26px] items-center min-h-[32px];
-}
-.utility-bar>div>span:first-child {
-  @apply mr-auto;
 }
 .public-site .header-inner {
   @apply h-[96px] gap-[26px];
@@ -1027,33 +968,6 @@
 .join-mark>span {
   @apply text-[120px] ml-[20px] tracking-[0] text-school-blue;
 }
-.public-site .site-footer {
-  background: #142d51;
-  @apply [padding:60px_max(48px,calc((100%_-_1320px)/2))_0] text-white overflow-hidden;
-}
-.public-site .footer-grid {
-  @apply w-full [padding:0_0_48px] gap-[40px] grid-cols-[1.5fr_.7fr_1.1fr];
-}
-.public-site .footer-identity strong {
-  font-family: var(--font-sans),sans-serif;
-  @apply text-[19px];
-}
-.public-site .footer-identity p {
-  @apply text-[12px] text-[#a7bbd8];
-}
-.public-site .footer-grid h2 {
-  font-family: var(--font-sans),sans-serif;
-  @apply text-[11px] tracking-[.04em] text-[#b1c8e8];
-}
-.public-site .footer-grid a {
-  @apply text-[12px] text-[#e0e9f5];
-}
-.public-site .footer-bottom {
-  @apply w-full text-[10px] m-0 [padding:22px_0];
-}
-.footer-signature {
-  @apply text-[clamp(60px,13vw,190px)] tracking-[-.07em] font-[650] leading-[1] text-[#294467] mb-[20px];
-}
 .public-site .inner-page {
   @apply pt-[52px] pb-[90px];
 }
@@ -1205,9 +1119,6 @@
   .learning-card h3 {
     @apply text-[28px];
   }
-  .public-site .site-footer {
-    @apply px-[28px];
-  }
 }
 @media (max-width:980px) {
   .public-site .desktop-nav {
@@ -1234,22 +1145,10 @@
   .join-mark>span {
     @apply text-[90px];
   }
-  .public-site .footer-grid {
-    @apply grid-cols-[1.2fr_1fr];
-  }
 }
 @media (max-width:700px) {
   .public-site {
     --shell: calc(100% - 36px);
-  }
-  .utility-bar>div {
-    @apply min-h-[29px] text-[8px] gap-[14px];
-  }
-  .utility-bar>div>span:first-child {
-    @apply max-w-[215px];
-  }
-  .utility-bar>div>span:last-child {
-    @apply hidden;
   }
   .public-site .header-inner {
     @apply h-[79px];
@@ -1365,15 +1264,6 @@
   .join-mark>span {
     @apply hidden;
   }
-  .public-site .site-footer {
-    @apply [padding:45px_22px_0];
-  }
-  .public-site .footer-grid {
-    @apply grid-cols-[1fr] gap-[30px];
-  }
-  .public-site .footer-bottom {
-    @apply text-[9px];
-  }
   .public-site .inner-page {
     @apply pt-[20px] pb-[55px];
   }
@@ -1435,9 +1325,6 @@
 .public-site .year-index button {
   @apply rounded-[5px_5px_0_0];
 }
-.public-site .footer-bottom>span {
-  @apply text-[#b0c3dd];
-}
 .news-art {
   @apply absolute inset-0;
   background: #e6edf8;
@@ -1485,9 +1372,6 @@
   .public-site .mission-grid, .public-site .contact-grid, .public-site .course-index {
     @apply grid-cols-[1fr];
   }
-  .public-site .footer-bottom {
-    @apply gap-[12px] flex-wrap;
-  }
 }
 /* The student yearbook: sunflower, ultramarine, ink, and pink paper. */
 .public-site {
@@ -1516,13 +1400,6 @@
 }
 .public-site .site-header {
   background: #ffda45;
-}
-.public-site .utility-bar {
-  background: #ffda45;
-  @apply text-[#3c3d36];
-}
-.public-site .utility-bar>div {
-  @apply [border-bottom:1px_solid_#19233b22] min-h-[30px];
 }
 .public-site .header-inner {
   @apply h-[91px];
@@ -1883,28 +1760,6 @@
 .public-site .join-section .primary-button {
   @apply mt-[30px];
 }
-.public-site .site-footer {
-  background: #2344df;
-  @apply text-[white] pt-[65px];
-}
-.public-site .footer-grid h2 {
-  @apply text-[#ffda45];
-}
-.public-site .footer-grid a {
-  @apply text-[14px] text-white;
-}
-.public-site .footer-identity p {
-  @apply text-white;
-}
-.public-site .footer-signature {
-  @apply text-[clamp(55px,10vw,150px)] text-[#ffda45] font-[750] tracking-[-.04em] leading-[1.1] [margin-block:10px_35px] max-w-[1100px];
-}
-.public-site .footer-bottom {
-  @apply border-[#ffffff40];
-}
-.public-site .footer-bottom>span {
-  @apply text-white;
-}
 .public-site .inner-page {
   @apply pt-[36px];
 }
@@ -2134,9 +1989,6 @@
   .public-site .site-brand small {
     @apply text-[8px];
   }
-  .public-site .utility-bar>div {
-    @apply text-[8px];
-  }
   .public-site .preview-notice {
     @apply text-[8px];
   }
@@ -2280,15 +2132,6 @@
   }
   .public-site .join-mark>svg {
     @apply w-[180px] h-[180px];
-  }
-  .public-site .footer-signature {
-    @apply text-[56px] leading-[1.08] tracking-[-.04em] mb-[30px];
-  }
-  .public-site .site-footer {
-    @apply pt-[45px];
-  }
-  .public-site .footer-grid a {
-    @apply text-[13px];
   }
   .public-site .page-intro h1 {
     @apply text-[43px];

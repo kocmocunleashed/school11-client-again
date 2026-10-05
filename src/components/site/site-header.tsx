@@ -13,7 +13,7 @@ const navItems = [
   ["/news", "Мэдээ"],
 ] as const;
 
-export function SiteHeader({ schoolName, logo, city }: { schoolName: string; logo?: string | null; city: string }) {
+export function SiteHeader({ schoolName, logo }: { schoolName: string; logo?: string | null; city: string }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const closeButton = useRef<HTMLButtonElement>(null);
@@ -45,7 +45,6 @@ export function SiteHeader({ schoolName, logo, city }: { schoolName: string; log
 
   return (
     <header className="site-header">
-      <div className="utility-bar"><div><span>{city} · Нийслэлийн ерөнхий боловсролын сургууль</span><Link href="/about#contact">Холбоо барих ↗</Link><span>МОН</span></div></div>
       <div className="header-inner">
         <Link className="site-brand" href="/" aria-label="Нүүр хуудас">
           <Image src={logo || "/school-logo.png"} unoptimized={Boolean(logo)} alt="" width={54} height={54} loading="eager" />

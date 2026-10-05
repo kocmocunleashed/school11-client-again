@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Golos_Text, PT_Serif } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import "@/styles/calendar.css";
 import "@/styles/management-notes.css";
@@ -36,7 +37,10 @@ export const viewport: Viewport = { themeColor: "#0757A6", colorScheme: "light" 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="mn" className={`${inter.variable} ${ptSerif.variable}`} data-scroll-behavior="smooth">
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

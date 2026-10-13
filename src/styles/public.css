@@ -517,7 +517,7 @@
   @apply text-school-blue h-[17px] w-[17px];
 }
 .apply-layout {
-  @apply items-start [background:var(--line)] [border:1px_solid_var(--line)] grid gap-[1px] grid-cols-[.85fr_1.15fr];
+  @apply items-start [background:var(--line)] [border:1px_solid_var(--line)] grid gap-[1px] grid-cols-1;
 }
 .application-checker, .guide-card {
   @apply [background:var(--white)] p-[clamp(1.5rem,_4vw,_3rem)];

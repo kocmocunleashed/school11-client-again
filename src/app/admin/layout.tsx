@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "@/styles/admin.css";
 
 export const metadata: Metadata = { title: "Удирдлагын систем", robots: { index: false, follow: false } };
 

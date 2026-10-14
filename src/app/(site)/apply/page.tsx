@@ -1,4 +1,5 @@
+import { SitePage } from "@/components/site/site-page";
 import { ApplyContent } from "@/components/site/apply-content";
 import type { Metadata } from "next";
-export const metadata: Metadata = { title: "Элсэлт", description: "Элсэлтийн гарын авлага татах, өргөдлийн үр дүн шалгах." };
-export default function Page() { return <ApplyContent />; }
+export const metadata: Metadata = { title: "Элсэлт", description: "Элсэлтийн гарын авлага, бүртгэлийн мэдээлэл." };
+export default function Page() { return <SitePage page="apply"><ApplyContent /></SitePage>; }

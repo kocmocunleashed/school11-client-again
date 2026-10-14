@@ -2,6 +2,7 @@
 import { useSiteData } from "./site-data-provider";
 
 import Image from "next/image";
+import { unoptimizedPublicImage } from "@/lib/image-policy";
 import { Award, GraduationCap, Medal, Microscope, Star, Users, Pause, Play } from "lucide-react";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import type { AchievementYear } from "@/types/database";
@@ -82,8 +83,8 @@ export function AchievementBrowser() {
       <article className="achievement-panel" id="achievement-panel" role="tabpanel" aria-labelledby={`year-tab-${active.id}`}>
         <div className="achievement-year"><span>{active.year}</span>{active.is_milestone ? <b><Star size={16} /> Түүхэн үйл явдал</b> : <b><Award size={16} /> Онцлох жил</b>}</div>
         <div className="achievement-summary"><p>Тухайн жилийн онцлох үйл явдал</p><h2>{active.highlight_mn || "Амжилтын жил"}</h2><span>{active.description_mn}</span></div>
-        {active.image_url ? <div className="achievement-image"><Image src={active.image_url} alt={active.highlight_mn || `${active.year} оны амжилт`} fill sizes="(max-width: 760px) 100vw, 50vw" unoptimized /></div> : null}
-        {groups.length ? <div className="achievement-groups">{groups.map(([name, records]) => <section key={name}><h3><CategoryIcon name={name} /> {name}</h3>{records.map(record => <article key={record.id}><div><h4>{record.title_mn}</h4><p>{record.description_mn}</p></div>{record.image_url ? <Image src={record.image_url} alt="" width={120} height={90} unoptimized /> : null}</article>)}</section>)}</div> : <p className="empty-state">Энэ жилийн дэлгэрэнгүй бүртгэл удахгүй нэмэгдэнэ.</p>}
+        {active.image_url ? <div className="achievement-image"><Image src={active.image_url} alt={active.highlight_mn || `${active.year} оны амжилт`} fill sizes="(max-width: 760px) 100vw, 50vw" unoptimized={unoptimizedPublicImage(active.image_url)} /></div> : null}
+        {groups.length ? <div className="achievement-groups">{groups.map(([name, records]) => <section key={name}><h3><CategoryIcon name={name} /> {name}</h3>{records.map(record => <article key={record.id}><div><h4>{record.title_mn}</h4><p>{record.description_mn}</p></div>{record.image_url ? <Image src={record.image_url} alt="" width={120} height={90} unoptimized={unoptimizedPublicImage(record.image_url)} /> : null}</article>)}</section>)}</div> : <p className="empty-state">Энэ жилийн дэлгэрэнгүй бүртгэл удахгүй нэмэгдэнэ.</p>}
       </article>
     </div>
   );

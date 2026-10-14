@@ -24,11 +24,5 @@
 .calendar-agenda article p { display: flex; align-items: center; gap: .4rem; font-size: .8rem; }
 .calendar-agenda article div { font-size: .85rem; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; }
 .calendar-empty { font-size: .85rem; line-height: 1.7; color: #505873; }
-.management-intro { max-width: 650px; margin-bottom: 2rem; line-height: 1.7; }
-.calendar-admin .admin-title { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
-.calendar-admin .admin-form > label { display: block; font-size: .85rem; }
-.calendar-admin .admin-form label > input:not([type="checkbox"]), .calendar-admin .admin-form select, .calendar-admin .admin-form textarea { display: block; width: 100%; min-height: 44px; margin-top: .4rem; border: 1px solid #b9c5d2; padding: .65rem .75rem; background: white; font: inherit; }
-.calendar-admin .admin-form label > input[type="color"] { max-width: 100px; }
-.calendar-admin .admin-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: .6rem; }
 @media (max-width: 900px) { .calendar-layout { grid-template-columns: 1fr; } .calendar-agenda { border-top: 1px solid var(--line); } }
 @media (max-width: 600px) { .calendar-toolbar { padding: .8rem; } .calendar-toolbar h3 { font-size: 1.1rem; } .calendar-day, .calendar-blank { min-height: 74px; padding: .25rem; } .calendar-week span { padding: .6rem .2rem; } .calendar-day-events { display: none; } .calendar-mobile-count { display: block; font-size: .55rem; margin-top: .4rem; color: #304ffe; } }

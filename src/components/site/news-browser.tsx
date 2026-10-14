@@ -1,16 +1,18 @@
 "use client";
 
 import Image from "next/image";
+import { unoptimizedPublicImage } from "@/lib/image-policy";
 import { CalendarDays, X } from "lucide-react";
 import { useEffect, useId, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import { useSiteData } from "./site-data-provider";
-import type { NewsArticle } from "@/types/database";
+import type { NewsSummary } from "@/lib/public-page-data";
+import { NewsArticleBody } from "./news-article-body";
 
 const focusable = "a[href],button:not([disabled]),input:not([disabled]),textarea:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex='-1'])";
 const mongolianMonths = ["нэгдүгээр", "хоёрдугаар", "гуравдугаар", "дөрөвдүгээр", "тавдугаар", "зургадугаар", "долдугаар", "наймдугаар", "есдүгээр", "аравдугаар", "арван нэгдүгээр", "арван хоёрдугаар"];
 type NewsSort = "newest" | "oldest" | "featured";
 
-function newsCategoryId(item: NewsArticle) {
+function newsCategoryId(item: NewsSummary) {
   return item.category?.id || "uncategorized";
 }
 
@@ -20,15 +22,15 @@ function dateLabel(value: string) {
   return `${date.getUTCFullYear()} оны ${mongolianMonths[date.getUTCMonth()]} сарын ${date.getUTCDate()}`;
 }
 
-function Cover({ item }: { item: NewsArticle }) {
+function Cover({ item }: { item: NewsSummary }) {
   if (!item.cover_image_url) return <div className={`news-art news-art-${item.category?.slug || "event"}`} aria-hidden="true"><span>{item.category?.slug === "olympiad" ? "∑" : item.category?.slug === "club" ? "✳" : "11"}</span><small>11-Р СУРГУУЛЬ</small></div>;
-  return <Image src={item.cover_image_url} alt={item.cover_image_url ? item.title_mn : "Нийслэлийн 11-р сургуулийн байр"} fill sizes="(max-width: 760px) 100vw, 50vw" unoptimized={Boolean(item.cover_image_url)} />;
+  return <Image src={item.cover_image_url} alt={item.cover_image_url ? item.title_mn : "Нийслэлийн 11-р сургуулийн байр"} fill sizes="(max-width: 760px) 100vw, 50vw" unoptimized={unoptimizedPublicImage(item.cover_image_url)} />;
 }
 
-export function NewsBrowser({ home = false }: { items?: NewsArticle[]; home?: boolean }) {
-  const { news: feedItems } = useSiteData();
-  const [selectedRecord, setSelected] = useState<NewsArticle | null>(null);
-  const selected = feedItems.find(item => item.id === selectedRecord?.id) || null;
+export function NewsBrowser({ home = false }: { home?: boolean }) {
+  const { news: feedItems, preview } = useSiteData();
+  const [selectedId, setSelected] = useState<string | null>(null);
+  const selected = feedItems.find(item => item.id === selectedId) || null;
   const [sort, setSort] = useState<NewsSort>("newest");
   const [categoryId, setCategoryId] = useState("all");
   const categories = useMemo(() => {
@@ -59,13 +61,14 @@ export function NewsBrowser({ home = false }: { items?: NewsArticle[]; home?: bo
     });
   }, [feedItems, home, sort, activeCategory]);
 
-  const open = (item: NewsArticle, event: ReactMouseEvent<HTMLElement>) => {
+  const open = (item: NewsSummary, event: ReactMouseEvent<HTMLElement>) => {
     opener.current = event.currentTarget;
-    setSelected(item);
+    setSelected(item.id);
   };
 
+  const dialogId = selected?.id;
   useEffect(() => {
-    if (!selected) return;
+    if (!dialogId) return;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const node = dialog.current;
@@ -86,7 +89,7 @@ export function NewsBrowser({ home = false }: { items?: NewsArticle[]; home?: bo
       document.removeEventListener("keydown", onKey);
       opener.current?.focus();
     };
-  }, [selected]);
+  }, [dialogId]);
 
   return (
     <>
@@ -132,7 +135,7 @@ export function NewsBrowser({ home = false }: { items?: NewsArticle[]; home?: bo
             <p className="news-date">{dateLabel(selected.published_at)} · {selected.read_time_min || 3} минут</p>
             <h2 id={titleId}>{selected.title_mn}</h2>
             <p className="dialog-author [border-bottom:1px_solid_var(--line)] text-school-muted text-[.86rem] mt-5 pb-5">{selected.author_name}{selected.author_role ? ` · ${selected.author_role}` : ""}</p>
-            <div className="article-body"><p>{selected.body_mn || selected.excerpt_mn}</p></div>
+            <NewsArticleBody summary={selected} preview={preview} />
             <div className="tag-list">{selected.tags.map(tag => <span key={tag}>{tag}</span>)}</div>
           </div>
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { unoptimizedPublicImage } from "@/lib/image-policy";
 import { Mic, Play, ArrowUpRight } from "lucide-react";
 import { useState } from "react";
 import { useSiteData } from "./site-data-provider";
@@ -16,11 +17,11 @@ function PodcastCard({ item }: { item: Podcast }) {
   const image = item.thumbnail_url || `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
   return <li><a className="podcast-card" href={href} target="_blank" rel="noopener noreferrer" aria-label={`${item.title_mn} — YouTube дээр үзэх (шинэ цонх)`}>
     <div className="podcast-thumbnail">
-      {failedImage !== image ? <Image src={image} alt="" fill sizes="(max-width: 600px) 90vw, (max-width: 1000px) 45vw, 23vw" unoptimized onError={() => setFailedImage(image)} /> : <Mic size={48} aria-hidden="true" />}
+      {failedImage !== image ? <Image src={image} alt="" fill sizes="(max-width: 600px) 90vw, (max-width: 1000px) 45vw, 23vw" unoptimized={unoptimizedPublicImage(image)} onError={() => setFailedImage(image)} /> : <Mic size={48} aria-hidden="true" />}
       <span className="podcast-play" aria-hidden="true"><Play size={18} fill="currentColor" /></span>
     </div>
     <div className="podcast-details">
-      <span className="podcast-logo">{item.channel_logo_url && failedLogo !== item.channel_logo_url ? <Image src={item.channel_logo_url} alt="" width={36} height={36} unoptimized onError={() => setFailedLogo(item.channel_logo_url)} /> : <Mic size={20} aria-hidden="true" />}</span>
+      <span className="podcast-logo">{item.channel_logo_url && failedLogo !== item.channel_logo_url ? <Image src={item.channel_logo_url} alt="" width={36} height={36} unoptimized={unoptimizedPublicImage(item.channel_logo_url)} onError={() => setFailedLogo(item.channel_logo_url)} /> : <Mic size={20} aria-hidden="true" />}</span>
       <div><h3>{item.title_mn}</h3><p>{item.channel_name}</p></div>
       <ArrowUpRight className="podcast-external" size={16} aria-hidden="true" />
     </div>

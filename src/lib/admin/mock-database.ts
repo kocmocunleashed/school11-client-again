@@ -3,8 +3,8 @@ import { fallbackLandingTimeline } from "../landing-timeline-data";
 import { fallbackAchievements, fallbackCourses, fallbackNews, fallbackSettings, fallbackTeachers } from "../content";
 import type { AdminData, AdminRequest } from "./contracts";
 
-export const MOCK_ADMIN_STORAGE_KEY = "school11-redesign:mock-admin:v1";
-export const MOCK_ADMIN_CHANGE_EVENT = "school11-redesign:mock-admin-change";
+import { MOCK_ADMIN_STORAGE_KEY, MOCK_ADMIN_CHANGE_EVENT } from "./mock-events";
+export { MOCK_ADMIN_STORAGE_KEY, MOCK_ADMIN_CHANGE_EVENT } from "./mock-events";
 const COLLECTIONS = {
   landingTimeline: "landingTimeline",
   podcasts: "podcasts",
@@ -118,12 +118,6 @@ export function readStoredMockAdminDatabase(explicitStorage?: MockStorage): Admi
   } catch {
     return null;
   }
-}
-
-export function getPublishedMockNews(data: AdminData) {
-  return data.news
-    .filter(item => item.is_published)
-    .toSorted((first, second) => Date.parse(second.published_at) - Date.parse(first.published_at));
 }
 
 function bodyAsRecord(init?: RequestInit) {

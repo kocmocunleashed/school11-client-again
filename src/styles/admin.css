@@ -1,5 +1,7 @@
 @reference "./theme.css";
 
+@layer components {
+
 /* Shared CMS controls and states use Tailwind's component layer; individual
    page layouts live beside their markup in admin-app.tsx. */
 .admin-brand img { @apply size-[46px] object-contain; }
@@ -76,4 +78,11 @@
 
 @media (max-width: 430px) {
   .admin-sidebar nav { @apply grid-cols-1; }
+}
+
+.calendar-admin .admin-title { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.calendar-admin .admin-form > label { display: block; font-size: .85rem; }
+.calendar-admin .admin-form label > input:not([type="checkbox"]), .calendar-admin .admin-form select, .calendar-admin .admin-form textarea { display: block; width: 100%; min-height: 44px; margin-top: .4rem; border: 1px solid #b9c5d2; padding: .65rem .75rem; background: white; font: inherit; }
+.calendar-admin .admin-form label > input[type="color"] { max-width: 100px; }
+.calendar-admin .admin-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: .6rem; }
 }

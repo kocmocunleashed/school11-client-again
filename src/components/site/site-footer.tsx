@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { unoptimizedPublicImage } from "@/lib/image-policy";
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import type { SchoolSettings } from "@/types/database";
@@ -19,7 +20,7 @@ export function SiteFooter({ settings }: { settings: SchoolSettings }) {
         <div className={styles.grid}>
           <div className={styles.identity}>
             <Link className={styles.brand} href="/" aria-label="Нүүр хуудас">
-              <Image src={settings.logo_url || "/school-logo.png"} unoptimized={Boolean(settings.logo_url)} alt="" width={76} height={76} />
+              <Image src={settings.logo_url || "/school-logo.png"} unoptimized={unoptimizedPublicImage(settings.logo_url || "/school-logo.png")} alt="" width={76} height={76} />
               <span>
                 <strong>{settings.school_name_mn}</strong>
                 <span className={styles.motto}>Эрдэм. Хүмүүжил. Ирээдүй.</span>

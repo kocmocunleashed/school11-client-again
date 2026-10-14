@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { unoptimizedPublicImage } from "@/lib/image-policy";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -13,7 +14,7 @@ const navItems = [
   ["/news", "Мэдээ"],
 ] as const;
 
-export function SiteHeader({ schoolName, logo }: { schoolName: string; logo?: string | null; city: string }) {
+export function SiteHeader({ schoolName, logo }: { schoolName: string; logo?: string | null }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const closeButton = useRef<HTMLButtonElement>(null);
@@ -47,7 +48,7 @@ export function SiteHeader({ schoolName, logo }: { schoolName: string; logo?: st
     <header className="site-header">
       <div className="header-inner">
         <Link className="site-brand" href="/" aria-label="Нүүр хуудас">
-          <Image src={logo || "/school-logo.png"} unoptimized={Boolean(logo)} alt="" width={54} height={54} loading="eager" />
+          <Image src={logo || "/school-logo.png"} unoptimized={unoptimizedPublicImage(logo || "/school-logo.png")} alt="" width={54} height={54} loading="eager" />
           <span><strong>{schoolName}</strong><small>Эрдэм. Хүмүүжил. Ирээдүй.</small></span>
         </Link>
         <nav className="desktop-nav" aria-label="Үндсэн цэс">

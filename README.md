@@ -17,11 +17,11 @@ Open http://localhost:3011. Production: `bun run build`, then `bun run start --p
 
 ## Styling
 
-Tailwind CSS v4 runs through `@tailwindcss/postcss`. `src/app/globals.css` is the single stylesheet entry point, with explicit theme, base, components, and utilities layers. Utilities in JSX override the shared component styles.
+Tailwind CSS v4 runs through `@tailwindcss/postcss`. `src/app/globals.css` loads the shared theme, base, public components, and utilities layers. Admin styles load under the admin layout; calendar, management-card, and homepage timeline styles load with their components. Utilities in JSX override the shared component styles.
 
 - `src/styles/theme.css` maps the school's colors, fonts, and fluid spacing to Tailwind tokens, such as `text-school-ink`, `font-ui`, and `pt-school-3`.
 - `src/styles/base.css` keeps the existing reset and CSS variables. Tailwind Preflight is intentionally omitted to preserve the current typography and native form controls.
-- `src/styles/public.css` and `src/styles/admin.css` use `@apply` for shared styles. Each references the theme so Next.js can compile imported stylesheets independently. One-off layouts also use utilities directly in JSX.
+- `src/styles/public.css` and `src/styles/admin.css` use `@apply` for shared styles. Each references the theme so Next.js can compile imported stylesheets independently, and admin rules stay in the components layer. One-off layouts also use utilities directly in JSX.
 - Custom CSS remains for the dimensional “11”, orbital artwork, gradients, and keyframe animations. Existing media queries retain their exact breakpoints, including reduced-motion behavior.
 
 Use literal Tailwind class names so source detection can find them. For conditional styling, select complete class strings instead of constructing utility names dynamically.
@@ -66,8 +66,12 @@ that partial result. Unconfigured browser-local demos bypass this cache.
 Successful public CMS saves, deletes and publish toggles expire the data tag with
 `revalidateTag(tag, { expire: 0 })`. The next public read fetches fresh data. Browser
 refreshes and admin APIs retain `no-store`, so there is no second CDN/browser JSON
-cache delaying edits. The existing focus/navigation refresh and mock CMS remain
-unchanged. Application results, sessions, uploads and audit logs never enter the
+cache delaying edits. Each public page receives only its own content projection. Navigation brings a
+new server-rendered projection; window focus refreshes the same page with
+`/api/site-data?page=home|about|courses|achievements|news|apply`, with overlapping
+requests sharing one fetch. Live pages use their server-delivered content on
+mount instead of immediately downloading the dataset again. Preview pages load browser-local
+CMS support on demand and continue to reflect local edits. Application results, sessions, uploads and audit logs never enter the
 public cache. Changes made directly in Supabase are picked up by the five-minute
 background revalidation; prolonged upstream failures can retain the last successful
 cached value. A failed cache invalidation is logged without changing a successful
@@ -109,3 +113,44 @@ When configured, records come from the `hall_of_fame` CMS table. The bundled JSO
 `src/lib/data/hall-of-fame.json` is the original attributed seed snapshot retrieved on 2026-09-05 from the public school Hall of Fame's `ouom.json` and `uom.json` at https://www.famhall.school11.edu.mn/. Its medal records currently extend through 2024. Names and medal facts come from that source, not sample generation. Portrait URLs follow the source site's rendered paths; failed images become initials. Years omitted by the source are explicitly labeled as unspecified. No live data synchronization is implied.
 
 The original React implementation provides horizontal touch/trackpad and keyboard scrolling, previous/next controls, and automatic scrolling while visible. Hovering or focusing pauses motion; manual navigation pauses autoplay. A pause/resume control is available, and reduced-motion preference disables autoplay. Autoplay stops at the end rather than duplicating accessible content. Additional medals expand on demand.
+
+## Cleanup and performance report
+
+[Open the standalone HTML report](./PERFORMANCE_REPORT.html) for the implemented
+cleanup, before-and-after asset sizes, live-site observations, validation, and
+remaining performance opportunities. The report uses embedded styles and works
+without an internet connection. Measurements come from local production builds;
+production deployment has not been verified by this report.
+
+After a production build, start the app on port 3017 and run
+`bun scripts/measure-route-assets.ts http://localhost:3017` in a second terminal
+to measure each route's initially linked JavaScript and CSS. The script reports
+raw sizes and gzip estimates; it does not measure browser load times.
+
+## Page payloads, article loading, and image delivery
+
+The shared server cache still holds the complete published dataset. Route
+projections trim the data passed to the public browser provider: admissions uses
+settings; courses uses courses/events; About uses management and year summaries;
+achievements uses years and medalists; news uses summaries; home uses six news
+summaries, course counts, its timeline/podcasts and twelve distinct highlights.
+The legacy `/api/site-data` response remains available for compatibility.
+
+Public article bodies load from `/api/news/[id]` when opening a news dialog.
+Responses use `no-store` and the same public cache invalidation tag. Unpublished
+or deleted articles return 404; backend failures return 503. Browser-local CMS
+previews read their own stored articles and do not resurrect deleted seed records.
+Dialogs retain focus trapping, Escape handling, loading/error states and retry.
+
+Next's image optimizer now resizes images from public storage under the configured
+Supabase URL, YouTube `/vi/` thumbnails, and the school's Hall of Fame `/image/`
+archive. Unknown CMS origins, data/blob previews, and GIF/SVG files stay direct.
+The remote allowlist in `next.config.ts` matches the browser policy. Fixed-width
+Hall of Fame portraits use Next-generated 2x sources without repeating a long
+srcset in each of the 172 archive records. Other approved images keep responsive
+srcsets. Image failures retain the existing portrait/podcast fallbacks.
+
+Hall of Fame scrolling schedules no animation frames while off-screen, the tab
+is hidden, or hover/focus pauses it. Returning to visibility resets the elapsed
+clock, preserves the scroll position and avoids a catch-up jump. Manual navigation,
+end-of-list stopping and reduced-motion behavior remain available.

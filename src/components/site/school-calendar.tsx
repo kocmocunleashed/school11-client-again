@@ -1,4 +1,5 @@
 "use client";
+import "@/styles/calendar.css";
 
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, Clock3, MapPin } from "lucide-react";

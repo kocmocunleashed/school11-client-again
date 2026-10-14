@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { publicImagePatterns } from "./src/lib/image-policy";
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
@@ -6,7 +7,7 @@ const nextConfig: NextConfig = {
     root: process.cwd(),
   },
   images: {
-    remotePatterns: [{ protocol: "https", hostname: "**" }],
+    remotePatterns: publicImagePatterns(),
   },
   async headers() {
     return [

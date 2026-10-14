@@ -2,10 +2,10 @@ import { beforeEach, describe, expect, test } from "bun:test";
 import {
   createMockAdminDatabase,
   createMockAdminRequest,
-  getPublishedMockNews,
   readStoredMockAdminDatabase,
   type MockStorage,
 } from "../src/lib/admin/mock-database";
+import { mockPublicData } from "../src/lib/public-data";
 import type { AdminData } from "../src/lib/admin/contracts";
 
 function memoryStorage(): MockStorage {
@@ -67,7 +67,7 @@ describe("mock admin database", () => {
     expect(second.news.length).toBeGreaterThan(first.news.length);
   });
 
-  test("exposes published mock news for the alternative frontend", async () => {
+  test("exposes published mock news through the public site projection", async () => {
     const storage = memoryStorage();
     const localRequest = createMockAdminRequest(storage);
     const draft = await localRequest<{ id: string }>("/api/admin/save/news", {
@@ -85,7 +85,7 @@ describe("mock admin database", () => {
 
     let stored = readStoredMockAdminDatabase(storage);
     expect(stored).not.toBeNull();
-    expect(getPublishedMockNews(stored!).some(item => item.id === draft.id)).toBe(false);
+    expect(mockPublicData(stored!).news.some(item => item.id === draft.id)).toBe(false);
 
     await localRequest(`/api/admin/toggle-news/${draft.id}`, {
       method: "POST",
@@ -93,6 +93,6 @@ describe("mock admin database", () => {
     });
     stored = readStoredMockAdminDatabase(storage);
 
-    expect(getPublishedMockNews(stored!)[0]?.title_mn).toBe("Frontend preview article");
+    expect(mockPublicData(stored!).news.find(item => item.id === draft.id)?.title_mn).toBe("Frontend preview article");
   });
 });

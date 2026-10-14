@@ -131,20 +131,52 @@ try {
   assert.equal(publicReads, warmedReads, "All server-rendered pages should reuse cached public data");
   pass(`10 API refreshes and all six SSR pages reuse cached data (${warmedReads} total database queries)`);
 
+  const pageScopes = ["home", "about", "news", "courses", "achievements", "apply"];
+  for (const scope of pageScopes) {
+    const response = await request(`/api/site-data?page=${scope}`);
+    assert.equal(response.status, 200);
+    assert.match(response.headers.get("cache-control") || "", /no-store/);
+    const projected = await response.json();
+    assert.equal(projected.page, scope);
+    assert.ok(!JSON.stringify(projected).includes('"body_mn"'));
+    if (scope === "apply") {
+      assert.deepEqual(projected.hallOfFame, []);
+      assert.deepEqual(projected.news, []);
+      assert.deepEqual(projected.courses, []);
+      assert.ok(!projected.settings.site_copy);
+    }
+  }
+  assert.equal((await request("/api/site-data?page=admin")).status, 400);
+  assert.equal(publicReads, warmedReads, "Page-scoped refreshes must reuse existing public cache");
+  pass("all six page-scoped payloads omit article bodies, preserve page identity and reuse cached data");
+
   const categoryId = randomUUID();
   const news = { title_mn: "Cache test story", category_id: categoryId, author_name: "Test editor", is_published: true, is_featured: true, body_mn: "Complete article body", published_at: new Date().toISOString(), tags: [] };
   const created = await save("news", news);
   let current = await snapshot();
   assert.ok(current.news.some((row: Row) => row.id === created.id && row.body_mn === news.body_mn));
-  await save("news", { ...news, id: created.id, title_mn: "Edited title" });
+  const detailUrl = `/api/news/${created.id}`;
+  const detail = await request(detailUrl);
+  assert.equal(detail.status, 200);
+  assert.match(detail.headers.get("cache-control") || "", /no-store/);
+  assert.equal((await detail.json()).body_mn, news.body_mn);
+  for (const path of ["/", "/news", "/apply"]) {
+    assert.ok(!(await (await request(path)).text()).includes(news.body_mn), `${path} SSR must omit article bodies`);
+  }
+  await save("news", { ...news, id: created.id, title_mn: "Edited title", body_mn: "Updated complete article body" });
+  assert.equal((await (await request(detailUrl)).json()).body_mn, "Updated complete article body");
   assert.ok((await snapshot()).news.some((row: Row) => row.id === created.id && row.title_mn === "Edited title"));
   assert.ok((await (await request("/news")).text()).includes("Edited title"), "SSR must also show the edit immediately");
   assert.equal((await request(`/api/admin/toggle-news/${created.id}`, { method: "POST", body: JSON.stringify({ is_published: false }) })).status, 200);
   assert.ok(!(await snapshot()).news.some((row: Row) => row.id === created.id));
+  assert.equal((await request(detailUrl)).status, 404, "Unpublished bodies must not be readable");
   assert.equal((await request(`/api/admin/toggle-news/${created.id}`, { method: "POST", body: JSON.stringify({ is_published: true }) })).status, 200);
   assert.ok((await snapshot()).news.some((row: Row) => row.id === created.id));
   assert.equal((await request(`/api/admin/delete/news/${created.id}`, { method: "DELETE" })).status, 200);
   assert.ok(!(await snapshot()).news.some((row: Row) => row.id === created.id));
+  assert.equal((await request(detailUrl)).status, 404, "Deleted bodies must not be readable");
+  assert.equal((await request("/api/news/unknown-article")).status, 404);
+  pass("news bodies load on demand, update after edits, stay out of SSR, and disappear after unpublish/delete");
   pass("news create/edit/unpublish/republish/delete are visible on the very next public request");
 
   const resources: Array<[string, Row]> = [

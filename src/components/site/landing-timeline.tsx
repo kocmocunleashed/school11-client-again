@@ -1,6 +1,8 @@
 "use client";
+import "@/styles/landing-timeline.css";
 
 import Image from "next/image";
+import { unoptimizedPublicImage } from "@/lib/image-policy";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { useEffect, useId, useMemo, useRef, useState, type CSSProperties } from "react";
@@ -65,7 +67,7 @@ export function LandingTimeline() {
         <button type="button" className="landing-timeline-neighbor" disabled={!previous} aria-label={previous ? `${previous.year} оны үйл явдлыг харах` : "Өмнөх жил байхгүй"} aria-controls={panelId} onClick={event => select(activeIndex - 1, event.detail !== 0)}>{previous && <><span>{previous.year}</span><span className="landing-timeline-neighbor-title">{previous.highlight_mn || "Онцлох үйл явдал"}</span></>}</button>
         <article key={active.id} id={panelId} className="landing-timeline-card" data-animate={animate} data-direction={direction} role="tabpanel" aria-labelledby={`${id}-node-${active.id}`} tabIndex={0}>
           <div className="landing-timeline-card-copy"><div className="landing-timeline-card-meta"><span>{active.is_milestone ? "ТҮҮХЭН ҮЙЛ ЯВДАЛ" : "ОНЦЛОХ ЖИЛ"}</span><span>{String(activeIndex + 1).padStart(2, "0")} / {String(records.length).padStart(2, "0")}</span></div><p className="landing-timeline-year">{active.year}</p><h3>{active.highlight_mn || "Онцлох үйл явдал"}</h3>{active.description_mn && <p className="landing-timeline-description">{active.description_mn}</p>}</div>
-          {active.image_url && <div className="landing-timeline-image"><Image src={active.image_url} alt={active.highlight_mn || `${active.year} он`} fill sizes="(max-width: 700px) 90vw, 55vw" unoptimized /></div>}
+          {active.image_url && <div className="landing-timeline-image"><Image src={active.image_url} alt={active.highlight_mn || `${active.year} он`} fill sizes="(max-width: 700px) 90vw, 55vw" unoptimized={unoptimizedPublicImage(active.image_url)} /></div>}
         </article>
         <button type="button" className="landing-timeline-neighbor" disabled={!next} aria-label={next ? `${next.year} оны үйл явдлыг харах` : "Дараах жил байхгүй"} aria-controls={panelId} onClick={event => select(activeIndex + 1, event.detail !== 0)}>{next && <><span>{next.year}</span><span className="landing-timeline-neighbor-title">{next.highlight_mn || "Онцлох үйл явдал"}</span></>}</button>
       </div>

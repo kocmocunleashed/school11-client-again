@@ -1,18 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Golos_Text, PT_Serif } from "next/font/google";
+import { Roboto_Condensed } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
-const inter = Golos_Text({
+const robotoCondensed = Roboto_Condensed({
   variable: "--font-sans",
-  subsets: ["latin", "cyrillic"],
-  display: "swap",
-});
-
-const ptSerif = PT_Serif({
-  variable: "--font-display",
-  subsets: ["latin", "cyrillic"],
-  weight: ["400", "700"],
+  subsets: ["latin", "cyrillic", "cyrillic-ext"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -29,11 +23,11 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = { themeColor: "#0757A6", colorScheme: "light" };
+export const viewport: Viewport = { themeColor: "#2149C6", colorScheme: "light" };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="mn" className={`${inter.variable} ${ptSerif.variable}`} data-scroll-behavior="smooth">
+    <html lang="mn" className={`${robotoCondensed.variable} ${robotoCondensed.className}`} data-scroll-behavior="smooth">
       <body>
         {children}
         <Analytics />

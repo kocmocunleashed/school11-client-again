@@ -1,6 +1,7 @@
 @reference "./theme.css";
 
 :root {
+  --font-display: var(--font-sans);
   --blue: #0757a6;
   --blue-deep: #063f79;
   --blue-soft: #eaf2fa;
@@ -29,9 +30,10 @@ html {
 body {
   @apply [background:var(--white)] text-school-ink;
   font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 18px;
   @apply m-0 min-w-[320px];
 }
-body, button, input, select, textarea {
+button, input, select, textarea {
   font: inherit;
 }
 button, a {

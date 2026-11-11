@@ -32,6 +32,6 @@ export function HomeContent() {
     })}</div>{!courses.length && <p className="empty-state">Сургалтын мэдээлэл хараахан нийтлэгдээгүй байна.</p>}</div></section>
     <HallOfFame home />
     <section className="section shell mx-auto w-[var(--shell)] home-news" id="news"><div className="section-heading"><div><h2>Манай сургуулийн хэмнэл.</h2></div><Link href="/news" className="text-action">Бүх мэдээ <ArrowUpRight /></Link></div><NewsBrowser home /></section>
-    <section className="join-section shell mx-auto w-[var(--shell)]"><div><h2>{copy.join_title}</h2><Link className="primary-button" href="/apply">Элсэлттэй танилцах <ArrowRight /></Link></div><span className="join-mark" aria-hidden="true"><ArrowUpRight /></span></section>
+    <section className="join-section shell mx-auto w-[var(--shell)]"><Link className="join-link" href="/apply"><h2>{copy.join_title}</h2><ArrowUpRight aria-hidden="true" /></Link></section>
   </main>;
 }

@@ -1,5 +1,5 @@
 .footer {
-  background: #2344df;
+  background: #2149c6;
   color: #fff;
   padding: 56px 0 0;
   font-family: var(--font-sans), sans-serif;
@@ -33,14 +33,14 @@
 .brand strong {
   display: block;
   font-family: var(--font-sans), sans-serif;
-  font-size: 20px;
+  font-size: 23px;
   font-weight: 750;
   line-height: 1.35;
 }
 .motto {
   display: block;
   margin-top: 8px;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.6;
 }
 .column {
@@ -50,9 +50,9 @@
 }
 .grid h2 {
   margin: 0 0 8px;
-  color: #ffda45;
+  color: #ffdd2d;
   font-family: var(--font-sans), sans-serif;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 750;
   line-height: 1.5;
   letter-spacing: .06em;
@@ -60,7 +60,7 @@
 }
 .grid a {
   color: inherit;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.6;
 }
 .column a {
@@ -90,14 +90,14 @@
   border-radius: 50%;
 }
 .grid a:hover {
-  color: #ffda45;
+  color: #ffdd2d;
 }
 .column a:hover {
   text-decoration: underline;
   text-underline-offset: 4px;
 }
 .footer :focus-visible {
-  outline-color: #ffda45;
+  outline-color: #ffdd2d;
 }
 .bottom {
   display: flex;
@@ -107,7 +107,7 @@
   gap: 12px 24px;
   border-top: 1px solid #ffffff40;
   padding: 22px 0;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.6;
 }
 .bottom p {
@@ -139,7 +139,7 @@
     height: 64px;
   }
   .brand strong {
-    font-size: 18px;
+    font-size: 21px;
   }
   .socials {
     padding-left: 78px;
@@ -160,5 +160,5 @@
   color: inherit;
 }
 .bottom a:hover {
-  color: #ffda45;
+  color: #ffdd2d;
 }

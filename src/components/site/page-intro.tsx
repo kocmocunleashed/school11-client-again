@@ -1,3 +1,15 @@
-export function PageIntro({ eyebrow, title, description }: { eyebrow: string; title: string; description: string }) {
-  return <header className="page-intro"><p>{eyebrow}</p><h1>{title}</h1><div className="intro-rule" aria-hidden="true" /><span>{description}</span></header>;
+import { BookOpen, GraduationCap, Megaphone, School, Trophy } from "lucide-react";
+
+const symbols = { about: School, courses: BookOpen, achievements: Trophy, news: Megaphone, apply: GraduationCap };
+
+export function PageIntro({ page, title, description }: {
+  page: keyof typeof symbols;
+  title: string;
+  description?: string;
+}) {
+  const Symbol = symbols[page];
+  return <header className="page-intro notebook-cover">
+    <h1>{title}</h1>{description && <p className="intro-description">{description}</p>}
+    <div className="chapter-symbol" aria-hidden="true"><Symbol /></div>
+  </header>;
 }

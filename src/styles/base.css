@@ -1,6 +1,7 @@
 @reference "./theme.css";
 
 :root {
+  --font-sans: "Roboto Condensed Variable", Arial, sans-serif;
   --font-display: var(--font-sans);
   --blue: #0757a6;
   --blue-deep: #063f79;

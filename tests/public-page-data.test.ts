@@ -16,6 +16,24 @@ test("admissions sends settings without unrelated collections, article bodies or
   expect(JSON.stringify(apply).length).toBeLessThan(JSON.stringify(data).length / 10);
 });
 
+test("admissions sends a published summary without sending unrelated school copy", () => {
+  const settings = { ...data.settings, site_copy: { ...data.settings.site_copy, admissions_summary: "Бүртгэл есдүгээр сард эхэлнэ." } };
+  const apply = publicPageData({ ...data, settings }, "apply");
+  expect(apply.settings.site_copy).toEqual({ admissions_summary: settings.site_copy.admissions_summary });
+});
+
+test("admissions includes only tagged or categorized notices, newest first, without article bodies", () => {
+  const item = data.news[0]!;
+  const notices = [
+    { ...item, id: "tagged", tags: [" Элсэлт "], published_at: "2026-01-01" },
+    { ...item, id: "categorized", category: { ...item.category!, slug: "admissions" }, published_at: "2026-02-01" },
+    { ...item, id: "unrelated", tags: [], category: null },
+  ];
+  const projected = publicPageData({ ...data, news: notices }, "apply");
+  expect(projected.news.map(notice => notice.id)).toEqual(["categorized", "tagged"]);
+  expect(projected.news[0]).not.toHaveProperty("body_mn");
+});
+
 test("news summaries preserve filters and attribution but never serialize article bodies", () => {
   const news = publicPageData(data, "news");
   expect(news.news.length).toBe(data.news.length);
@@ -35,6 +53,7 @@ test("homepage retains the same highlights, course counts and news previews", ()
   expect(home.hallOfFame.length).toBeLessThanOrEqual(12);
   expect(new Set(home.hallOfFame.map(item => item.name)).size).toBe(home.hallOfFame.length);
   expect(home.settings.site_copy?.hero_line_1).toBe(data.settings.site_copy?.hero_line_1);
+  expect(home.settings.site_copy?.hero_description).toBe(data.settings.site_copy?.hero_description);
   expect(home.settings.site_copy).not.toHaveProperty("principal_message");
   expect(home.news.map(item => item.id)).toEqual(data.news.slice(0, 6).map(item => item.id));
   expect(home.courses[0]).not.toHaveProperty("items");

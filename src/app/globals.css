@@ -3,6 +3,7 @@
 @import "tailwindcss/utilities.css" layer(utilities);
 @import "../styles/base.css" layer(base);
 @import "../styles/public.css" layer(components);
+@import "../styles/notebook.css" layer(components);
 
 /* Keep our existing reset instead of Preflight so school content and native
    form controls retain their established rendering during the migration. */

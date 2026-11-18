@@ -19,7 +19,7 @@ export function SiteFooter({ settings }: { settings: SchoolSettings }) {
       <div className={styles.inner}>
         <div className={styles.grid}>
           <div className={styles.identity}>
-            <Link className={styles.brand} href="/" aria-label="Нүүр хуудас">
+            <Link className={styles.brand} href="/">
               <Image src={settings.logo_url || "/school-logo.png"} unoptimized={unoptimizedPublicImage(settings.logo_url || "/school-logo.png")} alt="" width={76} height={76} />
               <span>
                 <strong>{settings.school_name_mn}</strong>

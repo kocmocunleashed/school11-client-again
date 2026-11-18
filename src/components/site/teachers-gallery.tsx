@@ -35,7 +35,6 @@ export function TeachersGallery() {
   };
   return <section className="cms-teachers section" aria-label="Удирдлагын баг"><div>
     <div className="section-heading"><h2>Удирдлагын баг</h2></div>
-    <div className="management-intro"><h3>Сургуулийн хөгжлийг чиглүүлэгчид</h3><p>Сургалтын чанар, сурагчдын хөгжил, сургуулийн өдөр тутмын үйл ажиллагааг хариуцан ажилладаг манай удирдлагын багтай танилцаарай.</p></div>
     {visible.length > 1 && <p className="management-note-hint">Дээд бариулаас чирж байрлалыг өөрчлөөрэй.</p>}
     <div className="cms-teacher-grid management-note-board" ref={board}>{arranged.map((person, index) => <div className="management-note-slot" data-note-id={person.id} data-drop-target={target === person.id && dragging !== person.id} key={person.id}>
       <article className="management-note" data-dragging={dragging === person.id}>

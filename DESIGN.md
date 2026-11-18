@@ -1,10 +1,10 @@
 # School 11 field notebook
 
-Families can reach the calendar, programs, admissions and school contacts from the first screen. The school crest, Mongolian wordmark and current page indicator anchor the navigation. The campus photograph comes from the school's CMS and appears on an ink-blue field with an angled crop and fine orbital lines.
+Families can reach the calendar, programs, admissions and school contacts from the first screen. The school crest, Mongolian wordmark and current page indicator anchor the navigation. The campus photograph comes from the school's CMS and appears on the same squared paper as the other page headers.
 
 ## Colour and type
 
-Ink (#17274B) and blue (#2449B4) carry headings and actions. Blue Lucide icons identify the family quick links. Yellow accents the headline, and a mint 11 identifies the campus photograph. Golos Text is self-hosted and includes Mongolian Cyrillic. The caption names the city and founding year.
+Ink (#17274B) and blue (#2449B4) carry headings and actions. Blue Lucide icons identify the family quick links. Page titles and outline illustrations use the same ink colour on squared paper. Golos Text is self-hosted and includes Mongolian Cyrillic. The caption names the city and founding year.
 
 ## Page structure
 

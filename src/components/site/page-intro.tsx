@@ -8,7 +8,7 @@ export function PageIntro({ page, title, description }: {
   description?: string;
 }) {
   const Symbol = symbols[page];
-  return <header className="page-intro">
+  return <header className="page-intro notebook-cover">
     <h1>{title}</h1>{description && <p className="intro-description">{description}</p>}
     <div className="chapter-symbol" aria-hidden="true"><Symbol /></div>
   </header>;

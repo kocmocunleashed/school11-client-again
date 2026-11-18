@@ -29,8 +29,8 @@ export function HomeContent() {
   ];
 
   return <main id="main-content">
-    <section className="notebook-hero">
-      <div className="hero-spread shell">
+    <section className="notebook-hero notebook-cover shell">
+      <div className="hero-spread">
         <div className="hero-story">
           <h1>{copy.hero_line_1} <span>{copy.hero_line_2} {copy.hero_line_3}</span></h1>
           <p className="hero-description">{copy.hero_description}</p>
@@ -39,13 +39,10 @@ export function HomeContent() {
             <Link className="secondary-button" href="/courses">Сургалт</Link>
           </div>
         </div>
-        <div className="campus-board">
-          <figure className="campus-print">
-            <div className="campus-photo"><Image src={campus} alt="Нийслэлийн 11-р сургуулийн хичээлийн байр" fill sizes="(max-width: 740px) 85vw, (max-width: 1280px) 40vw, 490px" loading="eager" fetchPriority="high" unoptimized={unoptimizedPublicImage(campus)} /></div>
-            <figcaption><span><MapPin size={16} aria-hidden="true" />{settings.city}</span>{settings.established > 0 && <span>{settings.established} онд байгуулагдсан</span>}</figcaption>
-          </figure>
-          <span className="campus-mark" aria-hidden="true">11</span>
-        </div>
+        <figure className="campus-print">
+          <div className="campus-photo"><Image src={campus} alt="Нийслэлийн 11-р сургуулийн хичээлийн байр" fill sizes="(max-width: 740px) 85vw, (max-width: 1280px) 40vw, 490px" loading="eager" fetchPriority="high" unoptimized={unoptimizedPublicImage(campus)} /></div>
+          <figcaption><span><MapPin size={16} aria-hidden="true" />{settings.city}</span>{settings.established > 0 && <span>{settings.established} онд байгуулагдсан</span>}</figcaption>
+        </figure>
       </div>
     </section>
     <nav className="shortcuts shell" aria-label="Шуурхай холбоос">

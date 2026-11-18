@@ -5,10 +5,9 @@ import Image from "next/image";
 import { unoptimizedPublicImage } from "@/lib/image-policy";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
-import { useEffect, useId, useMemo, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { useSiteData } from "./site-data-provider";
 
-const colors = ["#ffdd2d", "#36d484", "#32ccf4"];
 
 /** Homepage-only presentation; the detailed achievements browser is independent. */
 export function LandingTimeline() {
@@ -54,8 +53,7 @@ export function LandingTimeline() {
   if (!active) return null;
   const previous = records[activeIndex - 1];
   const next = records[activeIndex + 1];
-  const accent = colors[periodIndex % colors.length];
-  return <section className="landing-timeline" id="school-history" aria-labelledby={`${id}-heading`} style={{ "--timeline-accent": accent } as CSSProperties}>
+  return <section className="landing-timeline" id="school-history" aria-labelledby={`${id}-heading`}>
     <div className="shell mx-auto w-[var(--shell)]">
       <header className="landing-timeline-heading"><h2 id={`${id}-heading`}>Сургуулийн түүх</h2><Link href="/achievements" className="text-action">Бүх амжилт <ArrowUpRight /></Link></header>
       <div className="landing-timeline-periods" aria-label="Түүхийн үе сонгох">
@@ -74,7 +72,7 @@ export function LandingTimeline() {
       <div className="landing-timeline-navigation">
         <button className="landing-timeline-arrow" type="button" aria-label="Өмнөх үйл явдал" disabled={activeIndex === 0} onClick={() => select(activeIndex - 1)}><ArrowLeft size={22} /></button>
         <div className="landing-timeline-rail" ref={rail} role="tablist" aria-label="Он жилээр аялах">
-          {records.map((record, index) => <button type="button" className="landing-timeline-node" role="tab" key={record.id} id={`${id}-node-${record.id}`} aria-label={`${record.year}: ${record.highlight_mn || "Онцлох үйл явдал"}`} aria-selected={index === activeIndex} aria-controls={panelId} tabIndex={index === activeIndex ? 0 : -1} style={{ "--node-accent": colors[periods.indexOf(Math.floor(record.year / 10) * 10) % colors.length] } as CSSProperties} onClick={() => select(index)} onKeyDown={event => {
+          {records.map((record, index) => <button type="button" className="landing-timeline-node" role="tab" key={record.id} id={`${id}-node-${record.id}`} aria-label={`${record.year}: ${record.highlight_mn || "Онцлох үйл явдал"}`} aria-selected={index === activeIndex} aria-controls={panelId} tabIndex={index === activeIndex ? 0 : -1} onClick={() => select(index)} onKeyDown={event => {
             const destination = event.key === "ArrowRight" ? Math.min(index + 1, records.length - 1) : event.key === "ArrowLeft" ? Math.max(index - 1, 0) : event.key === "Home" ? 0 : event.key === "End" ? records.length - 1 : -1;
             if (destination < 0) return;
             event.preventDefault(); select(destination, false);

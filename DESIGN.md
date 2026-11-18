@@ -4,7 +4,7 @@ Families can reach the calendar, programs, admissions and school contacts from t
 
 ## Colour and type
 
-Ink (#17274B) and blue (#2449B4) carry headings and actions. Blue Lucide icons identify the family quick links. Page titles and outline illustrations use the same ink colour on squared paper. Golos Text is self-hosted and includes Mongolian Cyrillic. The caption names the city and founding year.
+Public reading surfaces use warm paper (#FAF9F2) and white. Headings use ink (#17274B), actions use blue (#2449B4), and selected controls use a pale blue tint (#E9EFFC). Blue Lucide icons identify the family quick links. Page titles and outline illustrations use the same ink colour on squared paper. Golos Text is self-hosted and includes Mongolian Cyrillic. The caption names the city and founding year.
 
 ## Page structure
 

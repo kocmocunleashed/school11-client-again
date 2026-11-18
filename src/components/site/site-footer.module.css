@@ -1,7 +1,7 @@
 .footer {
-  background: var(--ink);
-  border-top: 5px solid var(--gold);
-  color: #fff;
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+  color: var(--ink);
   padding: 56px 0 0;
   font-family: var(--font-sans), sans-serif;
 }
@@ -51,7 +51,7 @@
 }
 .grid h2 {
   margin: 0 0 8px;
-  color: var(--gold);
+  color: var(--blue);
   font-family: var(--font-sans), sans-serif;
   font-size: 15px;
   font-weight: 750;
@@ -87,18 +87,18 @@
   place-items: center;
   width: 44px;
   height: 44px;
-  border: 1px solid #ffffff66;
+  border: 1px solid var(--line);
   border-radius: 50%;
 }
 .grid a:hover {
-  color: var(--gold);
+  color: var(--blue);
 }
 .column a:hover {
   text-decoration: underline;
   text-underline-offset: 4px;
 }
 .footer :focus-visible {
-  outline-color: var(--gold);
+  outline-color: var(--blue);
 }
 .bottom {
   display: flex;
@@ -106,7 +106,7 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 12px 24px;
-  border-top: 1px solid #ffffff40;
+  border-top: 1px solid var(--line);
   padding: 22px 0;
   font-size: 15px;
   line-height: 1.6;
@@ -161,5 +161,5 @@
   color: inherit;
 }
 .bottom a:hover {
-  color: var(--gold);
+  color: var(--blue);
 }

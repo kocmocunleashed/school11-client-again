@@ -1,15 +1,15 @@
 @reference "./theme.css";
-.podcasts-section { background: #eeedff; padding: clamp(2.5rem, 5vw, 5rem) 0; color: var(--ink); }
+.podcasts-section { background: var(--paper); padding: clamp(2.5rem, 5vw, 5rem) 0; color: var(--ink); }
 .podcast-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.25rem; padding: 0; margin: 0; list-style: none; }
 .podcast-grid > li { min-width: 0; }
 .podcast-card { display: block; height: 100%; padding: 8px; background: var(--paper); border-radius: 24px; border: 1px solid rgba(25,35,59,.08); transition: box-shadow .18s ease; }
 .podcast-card:hover { box-shadow: 0 8px 24px rgba(25,35,59,.12); }
 .podcast-card:focus-visible { outline: 3px solid var(--blue); outline-offset: 5px; }
-.podcast-thumbnail { position: relative; display: grid; place-items: center; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 18px; background: #deddf6; color: var(--blue); }
+.podcast-thumbnail { position: relative; display: grid; place-items: center; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 18px; background: var(--paper); color: var(--blue); }
 .podcast-thumbnail img { object-fit: cover; }
 .podcast-play { position: absolute; right: 12px; bottom: 12px; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; background: var(--blue); color: white; }
 .podcast-details { display: grid; grid-template-columns: 36px minmax(0, 1fr) 16px; gap: 9px; padding: 16px 6px 8px; align-items: start; }
-.podcast-logo { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #eeedff; color: var(--blue); overflow: hidden; }
+.podcast-logo { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--paper); color: var(--blue); overflow: hidden; }
 .podcast-logo img { width: 100%; height: 100%; object-fit: cover; }
 .podcast-details h3 { font-family: inherit; font-size: 1.035rem; line-height: 1.4; font-weight: 650; margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
 .podcast-details p { margin: 8px 0 0; font-size: 0.862rem; color: var(--slate); overflow-wrap: anywhere; }
@@ -90,7 +90,7 @@
   @apply items-center [background:var(--gold)] flex text-[0.943rem] font-black min-h-[44px] px-[1.1rem];
 }
 .header-apply:hover, .header-apply[aria-current="page"] {
-  background: #e8a600;
+  background: var(--blue-deep);
 }
 .menu-button {
   @apply items-center [background:transparent] [border:1px_solid_var(--line)] hidden h-[46px] justify-center w-[46px];
@@ -222,7 +222,7 @@
   @apply text-[clamp(2.3rem,_4.025vw,_3.795rem)] font-normal leading-[1.08] mt-4;
 }
 .story-grid > div:last-child {
-  @apply text-[#465568] grid;
+  @apply text-[var(--slate)] grid;
   font-family: var(--font-display), serif;
   @apply text-[1.242rem] gap-4;
 }
@@ -230,11 +230,7 @@
   @apply [background:var(--line)] grid gap-[1px] grid-cols-[1fr_1fr] mt-school-4;
 }
 .mission-grid article {
-  @apply [background:var(--blue)] text-white min-h-[340px] p-[clamp(1.5rem,_4vw,_3rem)];
-}
-.mission-grid article:last-child {
-  background: var(--gold-soft);
-  @apply text-school-ink;
+  @apply [background:var(--paper)] text-school-ink border border-school-line min-h-[340px] p-[clamp(1.5rem,_4vw,_3rem)];
 }
 .mission-grid svg {
   @apply h-[30px] w-[30px];
@@ -336,10 +332,10 @@
   @apply grid grid-cols-[.34fr_.66fr] mt-school-3;
 }
 .achievement-year {
-  @apply [background:var(--blue)] text-white flex flex-col justify-between min-h-[330px] p-[1.8rem];
+  @apply [background:var(--paper)] text-school-ink flex flex-col justify-between min-h-[330px] p-[1.8rem];
 }
 .achievement-year > span {
-  @apply text-school-gold;
+  @apply text-school-ink;
   font-family: var(--font-display), serif;
   @apply text-[clamp(4.6rem,_9.2vw,_8.05rem)];
 }
@@ -463,7 +459,7 @@
   @apply [background:var(--paper)] grid gap-6 grid-cols-[1fr_1fr] mb-4 p-6;
 }
 .course-list details > div > p {
-  @apply text-[#465568];
+  @apply text-[var(--slate)];
 }
 .course-list ul {
   @apply grid gap-[.6rem];
@@ -604,8 +600,8 @@
 /* Public, attributed medalist records; motion yields to the reader. */
 .hall-section {
   @apply [padding:85px_0];
-  background: #19233b;
-  @apply text-white overflow-hidden;
+  background: var(--paper);
+  @apply text-school-ink overflow-hidden;
 }
 .hall-full {
   @apply mt-[10px] p-[40px] rounded-[12px];
@@ -617,10 +613,10 @@
   @apply text-[clamp(44px,4.6vw,67px)] font-bold leading-[1.06];
 }
 .public-site .hall-heading .text-action {
-  @apply text-white;
+  @apply text-school-blue;
 }
 .hall-heading>p {
-  @apply max-w-[290px] text-[#d4d9e3] text-[16px];
+  @apply max-w-[290px] text-school-muted text-[16px];
 }
 .hall-controls {
   @apply flex items-center justify-end gap-[15px] mb-[20px];
@@ -629,11 +625,11 @@
   @apply flex gap-[8px];
 }
 .hall-controls button {
-  @apply [border:1px_solid_#79849a] [background:transparent] text-white flex items-center justify-center gap-[8px] min-w-[40px] h-[40px] rounded-[50%];
+  @apply [border:1px_solid_var(--slate)] [background:transparent] text-school-ink flex items-center justify-center gap-[8px] min-w-[40px] h-[40px] rounded-[50%];
 }
 .hall-controls button:hover {
-  background: #ffdd2d;
-  @apply text-[#19233b] border-[#ffdd2d];
+  background: var(--blue-soft);
+  @apply text-school-ink border-school-blue;
 }
 .hall-controls .hall-pause {
   @apply rounded-[24px] [padding:0_15px] text-[13px];
@@ -641,18 +637,18 @@
 .honoree-rail {
   @apply flex items-start gap-[22px] overflow-x-auto [padding:4px_2px_22px];
   scrollbar-width: thin;
-  scrollbar-color: #ffdd2d #37425b;
+  scrollbar-color: var(--slate) var(--paper);
   overscroll-behavior-x: contain;
   scroll-behavior: auto;
 }
 .honoree-card {
   @apply [flex:0_0_282px] min-w-0;
-  background: #fffdf8;
-  @apply text-[#19233b] rounded-[4px] overflow-hidden;
+  background: var(--white);
+  @apply text-school-ink rounded-[4px] overflow-hidden;
 }
 .honoree-photo {
   @apply h-[250px] relative;
-  background: #e5e5f4;
+  background: var(--paper);
   @apply overflow-hidden;
 }
 .honoree-photo img {
@@ -662,17 +658,17 @@
 .honoree-initials {
   @apply h-full grid;
   place-items: center;
-  @apply text-[98px] font-bold text-[#2149c6];
+  @apply text-[98px] font-bold text-school-blue;
 }
 .honoree-level {
   @apply absolute left-[14px] top-[14px] rounded-[20px];
-  background: #19233b;
-  @apply text-white [padding:7px_12px] text-[12px];
+  background: var(--paper);
+  @apply text-school-ink [padding:7px_12px] text-[12px];
 }
 .honoree-year {
   @apply absolute right-[12px] bottom-[12px];
-  background: #ffdd2d;
-  @apply text-[#19233b] [padding:7px_10px] text-[18px] font-bold;
+  background: var(--blue-soft);
+  @apply text-school-ink [padding:7px_10px] text-[18px] font-bold;
   transform: rotate(-4deg);
 }
 .honoree-copy {
@@ -696,7 +692,7 @@
   @apply text-[14px] leading-[1.4] font-[550];
 }
 .honoree-copy small {
-  @apply text-[13px] text-[#606273];
+  @apply text-[13px] text-school-muted;
 }
 .medal-gold {
   @apply text-[#946900];
@@ -708,13 +704,13 @@
   @apply text-[#98603f];
 }
 .hall-source {
-  @apply flex items-center flex-wrap gap-[5px] mt-[18px] text-[12px] text-[#cbd3e5];
+  @apply flex items-center flex-wrap gap-[5px] mt-[18px] text-[12px] text-school-muted;
 }
 .hall-source a {
   @apply inline-flex items-center gap-[3px];
   text-decoration: underline;
   text-underline-offset: 3px;
-  @apply text-white;
+  @apply text-school-ink;
 }
 .hall-source>span {
   @apply block w-full mt-[4px];
@@ -726,25 +722,25 @@
   @apply flex gap-[5px];
 }
 .hall-filters button {
-  @apply [padding:11px_17px] rounded-[24px] [background:transparent] text-white [border:1px_solid_#79849a] text-[14px];
+  @apply [padding:11px_17px] rounded-[24px] [background:transparent] text-school-ink [border:1px_solid_var(--slate)] text-[14px];
 }
 .hall-filters button[aria-pressed=true] {
-  background: #ffdd2d;
-  @apply border-[#ffdd2d] text-[#19233b];
+  background: var(--blue-soft);
+  @apply border-school-blue text-school-ink;
 }
 .hall-search {
-  @apply flex items-center gap-[10px] [flex:1] min-w-[200px] [border:1px_solid_#79849a] rounded-[24px] [padding:10px_15px];
+  @apply flex items-center gap-[10px] [flex:1] min-w-[200px] [border:1px_solid_var(--slate)] rounded-[24px] [padding:10px_15px];
 }
 .public-site .hall-search input {
-  @apply w-full min-w-0 text-white [background:transparent] [border:0];
+  @apply w-full min-w-0 text-school-ink [background:transparent] [border:0];
   outline-offset: 4px;
   @apply text-[15px];
 }
 .hall-search input::placeholder {
-  @apply text-[#cbd3e5];
+  @apply text-school-muted;
 }
 .hall-count {
-  @apply text-[13px] text-[#cbd3e5];
+  @apply text-[13px] text-school-muted;
 }
 #hall-of-fame {
   scroll-margin-top: 25px;
@@ -815,14 +811,14 @@
   @apply whitespace-pre-line;
 }
 .cms-teachers {
-  background: #eeedff;
+  background: var(--paper);
 }
 .cms-teacher-grid {
   @apply grid grid-cols-[repeat(4,minmax(0,1fr))] gap-[24px];
 }
 .cms-teacher-photo {
   @apply relative h-[255px];
-  background: #ffdd2d;
+  background: var(--paper);
   @apply grid;
   place-items: center;
   @apply overflow-hidden;
@@ -878,7 +874,7 @@
 }
 .principal-section {
   @apply grid grid-cols-[.7fr_1.3fr] gap-[clamp(30px,_6vw,_100px)] p-[clamp(28px,_5vw,_70px)];
-  background: #ffdd2d;
+  background: var(--paper);
   @apply mb-[65px];
 }
 .principal-section h2 {

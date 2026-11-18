@@ -36,7 +36,7 @@ export function HomeContent() {
           <p className="hero-description">{copy.hero_description}</p>
         </div>
         <figure className="campus-print">
-          <div className="campus-photo"><Image src={campus} alt="Нийслэлийн 11-р сургуулийн хичээлийн байр" fill sizes="(max-width: 740px) 85vw, (max-width: 1280px) 40vw, 490px" loading="eager" fetchPriority="high" unoptimized={unoptimizedPublicImage(campus)} /></div>
+          <div className="campus-photo"><Image src={campus} alt="Нийслэлийн 11-р сургуулийн хичээлийн байр" fill sizes="(max-width: 740px) calc(100vw - 70px), (min-width: 1920px) calc(50vw - 105px), 45vw" loading="eager" fetchPriority="high" unoptimized={unoptimizedPublicImage(campus)} /></div>
           <figcaption>
             <span><MapPin size={16} aria-hidden="true" />{settings.city}</span>
             <Link className="hero-about text-action" href="/about">Сургуулийн тухай <ArrowRight size={18} aria-hidden="true" /></Link>

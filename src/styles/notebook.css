@@ -8,7 +8,7 @@
   --slate: #536177;
   --line: #d5dbe1;
   --paper: #faf9f2;
-  --shell: min(1440px, calc(100% - clamp(36px, 8vw, 128px)));
+  --shell: calc(100% - clamp(36px, 5vw, 96px));
   --graph: linear-gradient(to right, #526cb51a 1px, transparent 1px), linear-gradient(to bottom, #526cb51a 1px, transparent 1px);
   color: var(--ink);
   background: #fff;
@@ -52,7 +52,7 @@
 .hero-story h1 span { display: block; }
 .hero-description { color: var(--slate); font-size: clamp(16px,1.25vw,19px); white-space: pre-line; line-height: 1.55; max-width: 44ch; }
 .campus-print { min-width: 0; margin: 0; }
-.campus-photo { position: relative; aspect-ratio: 2.65; overflow: hidden; border: 1px solid var(--line); border-radius: 6px; }
+.campus-photo { position: relative; width: 100%; max-height: 280px; aspect-ratio: 2.65; overflow: hidden; border: 1px solid var(--line); border-radius: 6px; }
 .campus-photo img { object-fit: cover; }
 .campus-print figcaption { display: flex; justify-content: space-between; gap: 6px 12px; flex-wrap: wrap; align-items: center; padding-top: 2px; font-size: 14px; color: var(--slate); }
 .campus-print figcaption span { display: inline-flex; align-items: center; gap: 5px; }

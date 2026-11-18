@@ -267,7 +267,7 @@
   .hero-description { font-size: 16px; }
   .campus-photo { aspect-ratio: 2.7; }
   .campus-print figcaption { font-size: 14px; padding-top: 0; }
-  .home-section#news { padding-top: 32px; }
+  .home-section#news { padding-top: 16px; }
   .public-site .header-inner { grid-template-columns: minmax(0,1fr) auto; padding-block: 4px 0; gap: 2px 8px; }
   .public-site .desktop-nav, .brand-full { display: none; }
   .brand-short { display: inline; }

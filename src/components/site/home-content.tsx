@@ -34,11 +34,13 @@ export function HomeContent() {
         <div className="hero-story">
           <h1>{copy.hero_line_1} <span>{copy.hero_line_2} {copy.hero_line_3}</span></h1>
           <p className="hero-description">{copy.hero_description}</p>
-          <Link className="hero-about text-action" href="/about">Сургуулийн тухай <ArrowRight size={18} aria-hidden="true" /></Link>
         </div>
         <figure className="campus-print">
           <div className="campus-photo"><Image src={campus} alt="Нийслэлийн 11-р сургуулийн хичээлийн байр" fill sizes="(max-width: 740px) 85vw, (max-width: 1280px) 40vw, 490px" loading="eager" fetchPriority="high" unoptimized={unoptimizedPublicImage(campus)} /></div>
-          <figcaption><span><MapPin size={16} aria-hidden="true" />{settings.city}</span></figcaption>
+          <figcaption>
+            <span><MapPin size={16} aria-hidden="true" />{settings.city}</span>
+            <Link className="hero-about text-action" href="/about">Сургуулийн тухай <ArrowRight size={18} aria-hidden="true" /></Link>
+          </figcaption>
         </figure>
       </div>
       <nav className="shortcuts" aria-label="Шуурхай холбоос">

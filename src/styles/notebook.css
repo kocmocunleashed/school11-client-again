@@ -8,7 +8,7 @@
   --slate: #536177;
   --line: #d5dbe1;
   --paper: #faf9f2;
-  --shell: min(1264px, calc(100% - clamp(36px, 8vw, 120px)));
+  --shell: min(1440px, calc(100% - clamp(36px, 8vw, 128px)));
   --graph: linear-gradient(to right, #526cb51a 1px, transparent 1px), linear-gradient(to bottom, #526cb51a 1px, transparent 1px);
   color: var(--ink);
   background: #fff;
@@ -41,25 +41,30 @@
   border: 1px solid var(--line);
   border-radius: 14px;
 }
+.public-site[data-page="home"] {
+  --home-gutter: clamp(24px, 2.6vw, 40px);
+  --cover-inset: clamp(20px, 2.4vw, 36px);
+}
 .notebook-hero { margin-top: 24px; overflow: hidden; }
-.hero-spread { padding: clamp(25px,4.1vw,62px); display: grid; grid-template-columns: 1.08fr 1fr; gap: clamp(24px,4vw,72px); align-items: center; }
+.hero-spread { padding: clamp(24px, 2.1vw, 32px) var(--cover-inset); display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--home-gutter); align-items: center; }
 .hero-story { min-width: 0; }
-.hero-story h1 { font-size: clamp(46px,4.7vw,70px); font-weight: 660; line-height: 1.05; margin: 0 0 18px; overflow-wrap: anywhere; }
+.hero-story h1 { font-size: clamp(46px,4.7vw,70px); font-weight: 660; line-height: 1.05; margin: 0 0 12px; overflow-wrap: anywhere; }
 .hero-story h1 span { display: block; }
 .hero-description { color: var(--slate); font-size: clamp(16px,1.25vw,19px); white-space: pre-line; line-height: 1.55; max-width: 44ch; }
-.hero-about { margin-top: 6px; }
 .campus-print { min-width: 0; margin: 0; }
-.campus-photo { position: relative; aspect-ratio: 2.25; overflow: hidden; border: 1px solid var(--line); border-radius: 6px; }
+.campus-photo { position: relative; aspect-ratio: 2.65; overflow: hidden; border: 1px solid var(--line); border-radius: 6px; }
 .campus-photo img { object-fit: cover; }
-.campus-print figcaption { display: flex; justify-content: space-between; gap: 6px 12px; flex-wrap: wrap; align-items: center; padding-top: 10px; font-size: 14px; color: var(--slate); }
+.campus-print figcaption { display: flex; justify-content: space-between; gap: 6px 12px; flex-wrap: wrap; align-items: center; padding-top: 2px; font-size: 14px; color: var(--slate); }
 .campus-print figcaption span { display: inline-flex; align-items: center; gap: 5px; }
 .shortcuts { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 1px; background: var(--line); border-top: 1px solid var(--line); }
-.shortcuts a { display: flex; align-items: center; gap: 10px; padding: 12px clamp(12px,2.2vw,32px); min-height: 48px; background: var(--white); }
+.shortcuts a { display: flex; align-items: center; gap: 10px; padding: 12px var(--cover-inset); min-height: 48px; background: var(--white); }
 .shortcuts a:hover, .shortcuts a:focus-visible { background: var(--blue-soft); color: var(--blue-deep); }
 .shortcuts svg { color: var(--blue); stroke-width: 1.75; }
 .shortcuts a:focus-visible { outline-offset: -4px; }
 .shortcuts strong { font-size: clamp(14px, 1.12vw, 16px); font-weight: 580; line-height: 1.4; }
-.home-section#news { padding-top: clamp(24px, 2vw, 36px); }
+.home-section#news { padding-top: clamp(24px, 2vw, 32px); }
+#news .section-heading { align-items: center; margin-bottom: 16px; }
+#news .section-heading h2 { font-size: clamp(30px, 2.8vw, 44px); }
 .home-section, .school-profile, .hall-home, .public-site .landing-timeline, .podcasts-section { padding-block: clamp(48px, 5.5vw, 84px); }
 .public-site:is([data-page="courses"], [data-page="apply"]) .page-intro { padding: clamp(20px, 2.2vw, 32px); padding-right: 20%; margin-bottom: 20px; }
 .public-site:is([data-page="courses"], [data-page="apply"]) .page-intro h1 { font-size: clamp(36px, 3.5vw, 52px); }
@@ -201,7 +206,7 @@
 .podcasts-section { background: var(--paper); }
 .podcast-card, .podcast-thumbnail { border-radius: 10px; }
 .guide-status { border-top: 1px solid var(--line); padding-top: 12px; margin-top: 10px; font-size: 15px; color: var(--slate); }
-.bulletin { display: grid; grid-template-columns: minmax(0,1.08fr) minmax(0,1fr); align-items: start; gap: clamp(24px,4vw,60px); }
+.bulletin { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); align-items: start; gap: var(--home-gutter); }
 .bulletin-lead .news-cover { position: relative; display: block; width: 100%; aspect-ratio: 2; border-radius: 7px; overflow: hidden; }
 .bulletin-lead h3 { font-size: clamp(24px,2.2vw,34px); margin: 6px 0; }
 .bulletin-lead h3 button { font: inherit; }
@@ -241,7 +246,7 @@
   .public-site .desktop-nav a[aria-current] { border-radius: 0; background: transparent; box-shadow: inset 0 -3px var(--blue); }
   .study-overview { grid-template-columns: minmax(0, 1fr) minmax(330px, .85fr); gap: 20px; }
   .shortcuts { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .hero-spread { gap: 20px; }
+  .public-site[data-page="home"] { --home-gutter: 20px; }
   .hero-story h1 { font-size: clamp(44px, 5.5vw, 58px); }
   .shortcuts a { min-height: 48px; }
 }
@@ -257,11 +262,12 @@
   .public-site .site-brand strong { font-size: 15px; }
 
   .notebook-hero { margin-top: 16px; }
-  .hero-spread { grid-template-columns: 1fr; gap: 12px; padding: 20px; }
-  .hero-story h1 { font-size: clamp(42px,8.3vw,62px); margin-block: 0 16px; }
+  .hero-spread { grid-template-columns: 1fr; gap: 12px; padding: 18px 16px 6px; }
+  .hero-story h1 { font-size: clamp(32px,9.5vw,48px); margin-block: 0 10px; }
   .hero-description { font-size: 16px; }
   .campus-photo { aspect-ratio: 2.7; }
-  .campus-print figcaption { font-size: 13px; padding-top: 6px; }
+  .campus-print figcaption { font-size: 14px; padding-top: 0; }
+  .home-section#news { padding-top: 32px; }
   .public-site .header-inner { grid-template-columns: minmax(0,1fr) auto; padding-block: 4px 0; gap: 2px 8px; }
   .public-site .desktop-nav, .brand-full { display: none; }
   .brand-short { display: inline; }
@@ -293,7 +299,7 @@
   .chapter-symbol { display: none; }
   .public-site .section-heading h2 { font-size: 30px; }
   .section-heading { margin-bottom: 12px; }
-  #news .section-heading { align-items: center; }
+  #news .section-heading { margin-bottom: 12px; }
   #news .section-heading h2 { font-size: clamp(23px, 6vw, 29px); }
   .course-list details { padding-inline: 12px; }
   .news-dialog { max-height: 86dvh; }

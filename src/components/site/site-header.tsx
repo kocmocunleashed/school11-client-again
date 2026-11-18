@@ -14,6 +14,7 @@ const navItems = [
 
 export function SiteHeader({ schoolName, logo }: { schoolName: string; logo?: string | null }) {
   const pathname = usePathname();
+  const compactName = schoolName.replace(/^Нийслэлийн (?:ерөнхий боловсролын )?(?=\d)/iu, "");
   const drawer = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
   useEffect(() => {
@@ -28,7 +29,10 @@ export function SiteHeader({ schoolName, logo }: { schoolName: string; logo?: st
     <div className="header-inner">
       <Link className="site-brand" href="/">
         <Image src={logo || "/school-logo.png"} unoptimized={unoptimizedPublicImage(logo || "/school-logo.png")} alt="" width={52} height={52} loading="eager" />
-        <span><strong>{schoolName}</strong></span>
+        <span>
+          <strong className="school-name-full">{schoolName}</strong>
+          <strong className="school-name-compact">{compactName}</strong>
+        </span>
       </Link>
       <nav className="desktop-nav" aria-label="Үндсэн цэс">
         {navItems.map(([href, label]) => <Link aria-current={pathname === href ? "page" : undefined} key={href} href={href}>{label}</Link>)}

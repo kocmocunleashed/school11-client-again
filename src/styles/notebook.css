@@ -26,6 +26,7 @@
 .public-site .site-brand img { width: 48px; height: 48px; }
 .public-site .site-brand strong { font-size: clamp(1rem, 1.42vw, 1.26rem); letter-spacing: -.04em; line-height: 1.15; }
 
+.school-name-compact { display: none; }
 .desktop-nav a { align-self: center; min-height: 42px; border: 0; border-radius: 6px; padding-inline: clamp(10px, 1.2vw, 19px); font-size: 14px; font-weight: 650; }
 .desktop-nav a:hover, .desktop-nav a[aria-current="page"] { background: var(--blue-soft); color: var(--blue-deep); }
 .header-apply, .public-site .primary-button, .public-site .secondary-button {
@@ -47,7 +48,7 @@
 .school-drawer a { font-size: 20px; font-weight: 650; padding: 16px 6px; border-bottom: 1px solid var(--line); }
 .school-drawer a[aria-current] { color: var(--blue); }
 html:has(.school-drawer[open]) { overflow: hidden; }
-.preview-notice { margin: 0; padding: 4px 16px; text-align: center; color: #414e67; background: #edf1f8; font-size: 11px; }
+.preview-notice { margin: 0; padding: 6px 16px; text-align: center; color: #36445b; background: #edf1f8; font-size: 13px; }
 .notebook-hero { background: var(--graph), var(--paper); background-size: 26px 26px; border-bottom: 1px solid var(--line); overflow: hidden; }
 .hero-spread { display: grid; grid-template-columns: 1fr .93fr; gap: clamp(30px, 4vw, 86px); align-items: center; padding-block: clamp(48px, 5.3vw, 84px); }
 .hero-story { min-width: 0; }
@@ -73,6 +74,9 @@ html:has(.school-drawer[open]) { overflow: hidden; }
 .shortcuts svg { color: var(--blue); stroke-width: 1.75; }
 .shortcuts strong { font-size: clamp(14px, 1.12vw, 16px); font-weight: 580; line-height: 1.4; }
 .home-section, .school-profile, .hall-home, .public-site .landing-timeline, .podcasts-section { padding-block: clamp(48px, 5.5vw, 84px); }
+.public-site:is([data-page="courses"], [data-page="apply"]) .page-intro { padding: clamp(20px, 2.2vw, 32px); padding-right: 20%; margin-bottom: 20px; }
+.public-site:is([data-page="courses"], [data-page="apply"]) .page-intro h1 { font-size: clamp(36px, 3.5vw, 52px); }
+.public-site:is([data-page="courses"], [data-page="apply"]) .chapter-symbol { width: clamp(64px, 7vw, 98px); }
 .section-heading { display: flex; align-items: end; justify-content: space-between; flex-wrap: wrap; gap: 12px; border: 0; padding: 0; margin: 0 0 24px; }
 .public-site .section-heading h2, .school-profile h2, .public-site .landing-timeline h2, .public-site .hall-heading h2 { margin: 0; font-size: clamp(31px, 3.45vw, 51px); font-weight: 640; }
 .public-site :is(.text-action, .primary-button, .secondary-button, .header-apply) svg { width: 18px; height: 18px; stroke-width: 1.75; }
@@ -131,11 +135,13 @@ html:has(.school-drawer[open]) { overflow: hidden; }
 .inner-page .cms-teachers { border-radius: 14px; background: var(--blue-soft); }
 .cms-teacher-photo { background: #d5e4fa; border-radius: 10px; }
 .course-catalog { border-top: 0; padding-top: 0; }
-.course-index { margin-top: 35px; }
-.course-index a { background: var(--blue-soft); min-height: 95px; }
+.course-index { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.course-index a { align-items: center; gap: 8px; background: white; min-height: 44px; padding: 8px 12px; }
+.course-index strong { font-size: 14px; }
+.course-index svg { width: 18px; height: 18px; }
 .course-index a:hover { border-color: var(--blue); }
 .course-sections > section { padding-top: 35px; }
-.course-sections:first-child > section { padding-top: 0; }
+.course-index + .course-sections > section { padding-top: 0; }
 .course-sections header { display: block; margin: 0 0 20px; }
 .course-sections header h2 { margin: 6px 0; }
 .course-sections header > span { font-size: 15px; }
@@ -152,10 +158,16 @@ html:has(.school-drawer[open]) { overflow: hidden; }
 .public-site .calendar-agenda { background: #f5f8fe; }
 .public-site .calendar-day[aria-pressed="true"] { background: #ffedbd; box-shadow: inset 0 0 0 2px var(--blue); }
 .public-site .calendar-day[aria-current="date"] .calendar-date { background: var(--blue); }
-.apply-layout { border: none; background: transparent; }
-.guide-card { border-radius: 12px; border: 1px solid var(--line); background: white; }
-.guide-card > div > svg { padding: 10px; height: 52px; width: 52px; background: #ffe8a9; color: var(--ink); border-radius: 9px; }
-.guide-card object { border-radius: 8px; }
+.guide-card { max-width: 840px; padding: clamp(20px, 3vw, 36px); border-radius: 12px; border: 1px solid var(--line); background: white; }
+.admissions-summary { max-width: 70ch; margin-block: 24px; }
+.admissions-summary h2 { font-size: clamp(22px, 2vw, 30px); margin-bottom: 8px; }
+.admissions-summary p { white-space: pre-line; overflow-wrap: anywhere; }
+.admissions-contact { margin-top: 12px; }
+.guide-file { display: flex; gap: 16px; align-items: center; }
+.guide-file p { color: var(--slate); font-size: 14px; margin-top: 6px; }
+.public-site .guide-file h2 { margin: 0; font-size: clamp(22px, 2.4vw, 32px); }
+.guide-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 20px; border-top: 1px solid var(--line); margin-top: 20px; padding-top: 16px; }
+.guide-file > svg { flex-shrink: 0; margin: 0; padding: 10px; height: 52px; width: 52px; background: #ffe8a9; color: var(--ink); border-radius: 9px; }
 
 .achievement-panel { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
 .achievement-year > span { font-weight: 680; letter-spacing: -.075em; }
@@ -195,16 +207,21 @@ html:has(.school-drawer[open]) { overflow: hidden; }
   .shortcuts a { min-height: 48px; }
 }
 @media (max-width: 740px) {
-  .public-site .header-inner { height: 66px; gap: 12px; }
+  .public-site .header-inner { min-height: 64px; height: auto; padding-block: 8px; gap: 8px; }
+  .public-site .header-apply { display: inline-flex; padding: 8px 12px; min-height: 44px; flex-shrink: 0; }
+  .header-apply svg { display: none; }
+  .public-site .menu-button, .public-site .site-brand img { flex-shrink: 0; }
   .public-site .site-brand { gap: 9px; }
   .public-site .site-brand img { width: 40px; height: 40px; }
   .public-site .site-brand strong { font-size: 15px; }
+  .school-name-full { display: none; }
+  .school-name-compact { display: inline; }
 
-  .hero-spread { grid-template-columns: 1fr; gap: 16px; padding-block: 30px 24px; }
+  .hero-spread { grid-template-columns: 1fr; gap: 12px; padding-block: 24px 16px; }
   .hero-story h1 { font-size: clamp(42px,8.3vw,62px); margin-block: 0 16px; }
   .hero-description { font-size: 16px; }
   .hero-actions { margin-top: 18px; }
-  .campus-board { width: min(90%, 410px); margin-inline: auto; padding: 5% 3%; }
+  .campus-board { width: min(80%, 344px); margin-inline: auto; padding: 4% 3%; }
   .campus-photo { aspect-ratio: 1.56; }
   .campus-print { padding: 6px 6px 0; }
   .campus-print figcaption { padding: 5px; font-size: 11px; }
@@ -213,7 +230,7 @@ html:has(.school-drawer[open]) { overflow: hidden; }
 
   .profile-layout { grid-template-columns: 1fr; gap: 26px; }
 
-  .public-site .page-intro { padding: 23px; }
+  .public-site .page-intro, .public-site:is([data-page="courses"], [data-page="apply"]) .page-intro { padding: 20px; }
   .chapter-symbol { display: none; }
   .public-site .section-heading h2 { font-size: 30px; }
   .section-heading { margin-bottom: 18px; }

@@ -16,6 +16,12 @@ test("admissions sends settings without unrelated collections, article bodies or
   expect(JSON.stringify(apply).length).toBeLessThan(JSON.stringify(data).length / 10);
 });
 
+test("admissions sends a published summary without sending unrelated school copy", () => {
+  const settings = { ...data.settings, site_copy: { ...data.settings.site_copy, admissions_summary: "Бүртгэл есдүгээр сард эхэлнэ." } };
+  const apply = publicPageData({ ...data, settings }, "apply");
+  expect(apply.settings.site_copy).toEqual({ admissions_summary: settings.site_copy.admissions_summary });
+});
+
 test("news summaries preserve filters and attribution but never serialize article bodies", () => {
   const news = publicPageData(data, "news");
   expect(news.news.length).toBe(data.news.length);

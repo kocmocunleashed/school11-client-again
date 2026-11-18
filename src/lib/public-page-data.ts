@@ -30,7 +30,9 @@ export function publicPageData(data: PublicSiteData, page: PublicPage): PublicPa
     ? ["hero_line_1", "hero_line_2", "hero_line_3", "hero_description", "intro_title", "intro_description", "join_title"]
     : page === "about"
       ? ["about_title", "about_description", "principal_name", "principal_message", "story_title", "story_description", "vision", "mission"]
-      : [];
+      : page === "apply" && data.settings.site_copy?.admissions_summary?.trim()
+        ? ["admissions_summary"]
+        : [];
   const copy = data.settings.site_copy;
   const scopedSettings = copy && copyKeys.length
     ? { ...settings, site_copy: Object.fromEntries(copyKeys.filter(key => typeof copy[key] === "string").map(key => [key, copy[key]])) }

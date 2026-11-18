@@ -6,7 +6,7 @@
 .management-note-slot:nth-child(even) .management-note { transform: rotate(.7deg); }
 .management-note::after { content: ""; position: absolute; bottom: 0; right: 0; width: 19px; height: 19px; background: linear-gradient(135deg, #d7b72f 50%, #eeedff 51%); pointer-events: none; }
 .management-note[data-dragging="true"] { z-index: 20; transition: none; box-shadow: 0 22px 35px -12px #1b254050; user-select: none; pointer-events: none; }
-.management-note-grip { display: flex; align-items: center; justify-content: center; width: 100%; height: 44px; border: 0; border-bottom: 1px solid #1b254010; background: #efcc351f; color: #76631b; cursor: grab; touch-action: none; }
+.management-note-grip { display: flex; align-items: center; justify-content: center; width: 100%; height: 44px; border: 0; border-bottom: 1px solid #1b254010; background: #efcc351f; color: #685611; cursor: grab; touch-action: none; }
 .management-note[data-dragging="true"] .management-note-grip { cursor: grabbing; pointer-events: auto; }
 .management-note .cms-teacher-photo { height: 210px; background: transparent; margin: 0 14px; }
 .management-note .cms-teacher-photo > span { text-align: center; font-size: 1.15rem; }
@@ -15,7 +15,7 @@
 .management-note-copy p { line-height: 1.65; }
 .management-note-role { font-weight: 600; }
 .management-note-actions { display: flex; align-items: center; gap: 4px; margin-top: auto; padding: 0 20px 14px; }
-.management-note-actions > span { flex: 1; font-size: .75rem; color: #76631b; }
+.management-note-actions > span { flex: 1; font-size: .75rem; color: #685611; }
 .management-note-actions button { display: grid; place-items: center; width: 36px; height: 36px; background: transparent; border: 1px solid #1b254025; color: inherit; cursor: pointer; }
 .management-note-actions button:disabled { opacity: .3; cursor: default; }
 .management-note button:focus-visible { outline: 2px solid #304ffe; outline-offset: 3px; }

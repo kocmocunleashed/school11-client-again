@@ -50,5 +50,5 @@ export function SiteDataProvider({ initial, children }: { initial: PublicPageDat
       window.removeEventListener("storage", onStorage);
     };
   }, [initial]);
-  return <Context.Provider value={data}><div className="public-site"><a className="skip-link" href="#main-content">Үндсэн агуулга руу очих</a><SiteHeader schoolName={data.settings.school_name_mn} logo={data.settings.logo_url} />{data.preview && <p className="preview-notice">Танилцуулгын хувилбар · Жишээ мэдээлэл. Удирдлагын туршилтын өөрчлөлт энэ хөтөчид харагдана.</p>}{children}<SiteFooter settings={data.settings} /></div></Context.Provider>;
+  return <Context.Provider value={data}><div className="public-site" data-page={data.page}><a className="skip-link" href="#main-content">Үндсэн агуулга руу очих</a><SiteHeader schoolName={data.settings.school_name_mn} logo={data.settings.logo_url} />{data.preview && <p className="preview-notice">Танилцуулгын хувилбар · Жишээ мэдээлэл. Удирдлагын туршилтын өөрчлөлт энэ хөтөчид харагдана.</p>}{children}<SiteFooter settings={data.settings} /></div></Context.Provider>;
 }

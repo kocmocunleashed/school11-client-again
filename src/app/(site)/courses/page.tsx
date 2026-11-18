@@ -6,5 +6,5 @@ import { PageIntro } from "@/components/site/page-intro";
 export const metadata: Metadata = { title: "Сургалт", description: "Нийслэлийн 11-р сургуулийн гүнзгийрүүлсэн сургалт, олимпиад, клуб, дугуйлан." };
 
 export default async function CoursesPage() {
-  return <SitePage page="courses"><main id="main-content" className="inner-page shell mx-auto w-[var(--shell)]"><PageIntro eyebrow="Сургалтын орчин" title="Мэдлэгийг туршлага болгох хөтөлбөрүүд" description="Гүнзгийрүүлсэн хичээл, лаборатори, олимпиад, сонирхлын клубүүд нэг сургалтын системд ажиллана." /><CourseCatalog /></main></SitePage>;
+  return <SitePage page="courses"><main id="main-content" className="inner-page shell mx-auto w-[var(--shell)]"><PageIntro page="courses" eyebrow="Сургалтын орчин" title="Мэдлэгийг туршлага болгох хөтөлбөрүүд" description="Гүнзгийрүүлсэн хичээл, лаборатори, олимпиад, сонирхлын клубүүд нэг сургалтын системд ажиллана." /><CourseCatalog /></main></SitePage>;
 }

@@ -35,6 +35,7 @@ test("homepage retains the same highlights, course counts and news previews", ()
   expect(home.hallOfFame.length).toBeLessThanOrEqual(12);
   expect(new Set(home.hallOfFame.map(item => item.name)).size).toBe(home.hallOfFame.length);
   expect(home.settings.site_copy?.hero_line_1).toBe(data.settings.site_copy?.hero_line_1);
+  expect(home.settings.site_copy?.hero_description).toBe(data.settings.site_copy?.hero_description);
   expect(home.settings.site_copy).not.toHaveProperty("principal_message");
   expect(home.news.map(item => item.id)).toEqual(data.news.slice(0, 6).map(item => item.id));
   expect(home.courses[0]).not.toHaveProperty("items");

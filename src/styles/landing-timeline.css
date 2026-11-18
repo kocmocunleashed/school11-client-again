@@ -1,3 +1,4 @@
+@layer components {
 .landing-timeline { padding: clamp(48px, 7vw, 100px) 0; background: #eeedff; color: #1b2540; overflow: hidden; }
 .landing-timeline-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
 .landing-timeline-eyebrow { margin: 0 0 16px; color: #2149c6; font-size: 14px; font-weight: 800; letter-spacing: .1em; }
@@ -19,7 +20,7 @@
 .landing-timeline-description { margin: 20px 0 0; color: #505873; line-height: 1.8; font-size: 17px; white-space: pre-line; overflow-wrap: anywhere; }
 .landing-timeline-image { position: relative; aspect-ratio: 16 / 8; }
 .landing-timeline-image img { object-fit: cover; }
-.landing-timeline-neighbor { min-width: 0; min-height: 48px; border: 0; border-top: 2px solid #1b25401a; padding: 24px 0; color: #697089; background: transparent; text-align: left; font: inherit; cursor: pointer; }
+.landing-timeline-neighbor { min-width: 0; min-height: 48px; border: 0; border-top: 2px solid #1b25401a; padding: 24px 0; color: #546078; background: transparent; text-align: left; font: inherit; cursor: pointer; }
 .landing-timeline-neighbor:disabled { visibility: hidden; cursor: default; }
 .landing-timeline-neighbor > span:first-child { display: block; font-size: clamp(30px, 3.45vw, 46px); font-weight: 700; letter-spacing: -.05em; }
 .landing-timeline-neighbor-title { display: block; margin-top: 8px; font-size: 15px; line-height: 1.6; overflow-wrap: anywhere; }
@@ -37,3 +38,4 @@
 @media (hover: hover) { .landing-timeline-arrow:not(:disabled):hover { background: var(--timeline-accent); border-color: var(--timeline-accent); } .landing-timeline-node:hover .landing-timeline-dot { background: var(--node-accent); } .landing-timeline-neighbor:not(:disabled):hover { color: #1b2540; border-top-color: var(--timeline-accent); } }
 @media (prefers-reduced-motion: no-preference) { .landing-timeline-card[data-animate="true"] { animation: landing-timeline-enter 280ms cubic-bezier(.23,1,.32,1); } .landing-timeline-card[data-direction="previous"] { --timeline-slide-from: -40px; } @keyframes landing-timeline-enter { from { opacity: .3; transform: translateX(var(--timeline-slide-from, 40px)); } to { opacity: 1; transform: translateX(0); } } }
 @media (max-width: 700px) { .landing-timeline-heading { align-items: flex-start; flex-direction: column; gap: 20px; } .landing-timeline-periods { gap: 12px; margin: 32px auto 24px; } .landing-timeline-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } .landing-timeline-card { grid-column: 1 / -1; grid-row: 1; } .landing-timeline-neighbor { grid-row: 2; padding: 16px 0; } .landing-timeline-neighbor:last-child { text-align: right; } .landing-timeline-navigation { gap: 8px; } .landing-timeline-node { flex-basis: 110px; } .landing-timeline-rail { padding-inline: calc(50% - 55px); } .landing-timeline-description { font-size: 16px; } }
+}

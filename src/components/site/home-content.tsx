@@ -1,37 +1,79 @@
 "use client";
+
 import Image from "next/image";
-import { unoptimizedPublicImage } from "@/lib/image-policy";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, ArrowDown, BookOpen, Atom, Trophy } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Atom, BookOpen, CalendarDays, Compass, GraduationCap, MapPin, Music2, Phone, School, Trophy } from "lucide-react";
+import { unoptimizedPublicImage } from "@/lib/image-policy";
 import { defaultSiteCopy } from "@/lib/site-copy";
-import { HallOfFame } from "@/components/site/hall-of-fame";
-import { SchoolSculpture } from "@/components/site/school-sculpture";
-import { NewsBrowser } from "@/components/site/news-browser";
-import { useSiteData } from "@/components/site/site-data-provider";
-import { LandingTimeline } from "@/components/site/landing-timeline";
-import { Podcasts } from "@/components/site/podcasts";
+import { HallOfFame } from "./hall-of-fame";
+import { LandingTimeline } from "./landing-timeline";
+import { NewsBrowser } from "./news-browser";
+import { Podcasts } from "./podcasts";
+import { useSiteData } from "./site-data-provider";
 
 export function HomeContent() {
   const { settings, courses, courseCounts } = useSiteData();
   const copy = { ...defaultSiteCopy, ...settings.site_copy };
+  const campus = settings.hero_image_url || "/school-bg.jpg";
+  const shortcuts = [
+    { href: "/courses#school-calendar", label: "Хичээлийн хуанли", Icon: CalendarDays },
+    { href: "/courses#programs", label: "Сургалтын хөтөлбөр", Icon: BookOpen },
+    { href: "/apply", label: "Элсэлтийн мэдээлэл", Icon: GraduationCap },
+    { href: "/about#contact", label: "Холбоо барих", Icon: Phone },
+  ];
+  const facts = [
+    [settings.established, "Үүсгэн байгуулагдсан он"],
+    [settings.student_count.toLocaleString("mn-MN"), "Сурагч"],
+    [settings.teacher_count, "Багш"],
+    [settings.club_count, "Клуб, дугуйлан"],
+  ];
+
   return <main id="main-content">
-    <section className="arrival">
-      <div className="arrival-grid shell mx-auto w-[var(--shell)]">
-        <div className="arrival-copy"><h1>{copy.hero_line_1}<br /><span>{copy.hero_line_2}</span><br />{copy.hero_line_3}</h1><div className="arrival-actions"><Link href="/about" className="primary-button">Манай ертөнцөөр аялаарай <ArrowUpRight /></Link><Link href="/apply" className="text-action">Элсэлт <ArrowRight /></Link></div></div>
-        <div className="arrival-collage"><SchoolSculpture /><Link href="/about" className="campus-postcard"><div className="postcard-photo"><Image src={settings.hero_image_url || "/school-bg.jpg"} alt="Улаанбаатар хотын 11-р сургуулийн хичээлийн байр" fill sizes="(max-width: 700px) 80vw, 32vw" loading="eager" fetchPriority="high" unoptimized={unoptimizedPublicImage(settings.hero_image_url || "/school-bg.jpg")} /></div><div className="postcard-caption"><span>Бидний өдөр бүрийн эхлэл.</span><ArrowUpRight /></div></Link></div>
+    <section className="notebook-hero">
+      <div className="hero-spread shell">
+        <div className="hero-story">
+          <p className="campus-location"><MapPin size={16} aria-hidden="true" />{settings.city} <i aria-hidden="true" /> {settings.established} оноос</p>
+          <h1>{copy.hero_line_1} <span>{copy.hero_line_2} {copy.hero_line_3}</span></h1>
+          <p className="hero-description">{copy.hero_description}</p>
+          <div className="hero-actions">
+            <Link className="primary-button" href="/about">Сургуулийн тухай <ArrowRight size={18} /></Link>
+            <Link className="secondary-button" href="/courses">Сургалт <ArrowUpRight size={17} /></Link>
+          </div>
+        </div>
+        <div className="campus-board">
+          <figure className="campus-print">
+            <div className="campus-photo"><Image src={campus} alt="Нийслэлийн 11-р сургуулийн хичээлийн байр" fill sizes="(max-width: 740px) 85vw, (max-width: 1280px) 40vw, 490px" loading="eager" fetchPriority="high" unoptimized={unoptimizedPublicImage(campus)} /></div>
+            <figcaption><School size={17} aria-hidden="true" /> Манай сургууль <span aria-hidden="true">№ 11</span></figcaption>
+          </figure>
+          <span className="math-seal" aria-hidden="true">π</span>
+        </div>
       </div>
-      <div className="arrival-bottom shell mx-auto w-[var(--shell)]"><a href="#discover" className="ml-auto">Цааш нээх <ArrowDown /></a></div>
     </section>
-    <section className="school-introduction shell mx-auto w-[var(--shell)]" id="discover"><div className="intro-symbol" aria-hidden="true">( x + y )<sup>∞</sup></div><div><h2>{copy.intro_title}</h2><p>{copy.intro_description}</p><Link href="/about" className="text-action">Бидний тухай <ArrowUpRight /></Link></div><div className="school-numbers"><p><strong>{settings.established}</strong><span>оноос эрдмийн замд</span></p><p><strong>{settings.student_count.toLocaleString("mn-MN")}<i>+</i></strong><span>сурагчийн хүсэл мөрөөдөл</span></p><p><strong>{settings.teacher_count}<i>+</i></strong><span>багшийн мэдлэг, туршлага</span></p><p><strong>{settings.club_count}<i>+</i></strong><span>клуб, дугуйлан</span></p></div></section>
+    <nav className="shortcuts shell" aria-label="Шуурхай холбоос">
+      {shortcuts.map(({ href, label, Icon }) => <Link href={href} key={href}><span className="shortcut-icon"><Icon size={22} aria-hidden="true" /></span><strong>{label}</strong><ArrowUpRight className="shortcut-arrow" size={16} aria-hidden="true" /></Link>)}
+    </nav>
+    <section className="home-section shell" id="news">
+      <div className="section-heading"><h2>Сургуулийн мэдээ</h2><Link href="/news" className="text-action">Бүх мэдээ <ArrowRight /></Link></div>
+      <NewsBrowser home />
+    </section>
+    <section className="school-profile"><div className="shell profile-layout">
+      <div><h2>{copy.intro_title}</h2><p>{copy.intro_description}</p><Link href="/about" className="text-action">Бидний тухай <ArrowRight /></Link></div>
+      <dl className="school-facts">{facts.map(([value, label]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
+    </div></section>
+    <section className="home-section shell">
+      <div className="section-heading"><h2>Сургалтын чиглэлүүд</h2><Link className="text-action" href="/courses">Бүх хөтөлбөр <ArrowRight /></Link></div>
+      <div className="subject-grid">{courses.map(section => {
+        const Icon = section.icon === "trophy" ? Trophy : section.icon === "users" ? Music2 : section.slug === "calendar" ? CalendarDays : Atom;
+        return <Link href={`/courses#course-${section.slug}`} className="subject-card" key={section.id}>
+          <Icon className="subject-symbol" aria-hidden="true" /><small>{courseCounts?.[section.id] || 0} хөтөлбөр</small>
+          <h3>{section.title_mn}</h3><p>{section.description_mn}</p><ArrowUpRight className="subject-arrow" size={19} aria-hidden="true" />
+        </Link>;
+      })}</div>
+      {!courses.length && <p className="empty-state">Сургалтын мэдээлэл хараахан нийтлэгдээгүй байна.</p>}
+    </section>
+    <HallOfFame home />
     <LandingTimeline />
     <Podcasts />
-    <section className="learning-section"><div className="shell mx-auto w-[var(--shell)]"><div className="section-heading"><div><h2>Юунд дуртай вэ?</h2></div><Link className="text-action" href="/courses">Бүх хөтөлбөр <ArrowUpRight /></Link></div><div className="learning-grid">{courses.map((section, index) => {
-      const styles = ["mathematics", "science", "clubs"];
-      const Icon = index % 3 === 1 ? Atom : index % 3 === 2 ? Trophy : BookOpen;
-      return <Link href={`/courses#course-${section.slug}`} className={`learning-card ${styles[index % 3]}`} key={section.id}>{index % 3 === 0 ? <div className="subject-art" aria-hidden="true"><span>ƒ</span><i>（x）</i></div> : index % 3 === 1 ? <div className="subject-art orbital" aria-hidden="true"><i /><i /><i /><b /></div> : <div className="subject-art club-art" aria-hidden="true">✳</div>}<div className="learning-label"><Icon /><span>{courseCounts?.[section.id] || 0} ХӨТӨЛБӨР</span></div><h3>{section.title_mn}</h3><p>{section.description_mn}</p><span className="learning-arrow"><ArrowUpRight /></span></Link>;
-    })}</div>{!courses.length && <p className="empty-state">Сургалтын мэдээлэл хараахан нийтлэгдээгүй байна.</p>}</div></section>
-    <HallOfFame home />
-    <section className="section shell mx-auto w-[var(--shell)] home-news" id="news"><div className="section-heading"><div><h2>Манай сургуулийн хэмнэл.</h2></div><Link href="/news" className="text-action">Бүх мэдээ <ArrowUpRight /></Link></div><NewsBrowser home /></section>
-    <section className="join-section shell mx-auto w-[var(--shell)]"><Link className="join-link" href="/apply"><h2>{copy.join_title}</h2><ArrowUpRight aria-hidden="true" /></Link></section>
+    <section className="enrol-strip shell"><Link href="/apply"><Compass aria-hidden="true" /><h2>{copy.join_title}</h2><ArrowUpRight aria-hidden="true" /></Link></section>
   </main>;
 }

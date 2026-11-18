@@ -1,3 +1,4 @@
+@layer components {
 .school-calendar { border: 1px solid var(--line); }
 .calendar-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.3rem; border-bottom: 1px solid var(--line); }
 .calendar-toolbar h3 { margin: 0; font-size: 1.35rem; }
@@ -26,3 +27,4 @@
 .calendar-empty { font-size: .85rem; line-height: 1.7; color: #505873; }
 @media (max-width: 900px) { .calendar-layout { grid-template-columns: 1fr; } .calendar-agenda { border-top: 1px solid var(--line); } }
 @media (max-width: 600px) { .calendar-toolbar { padding: .8rem; } .calendar-toolbar h3 { font-size: 1.1rem; } .calendar-day, .calendar-blank { min-height: 74px; padding: .25rem; } .calendar-week span { padding: .6rem .2rem; } .calendar-day-events { display: none; } .calendar-mobile-count { display: block; font-size: .55rem; margin-top: .4rem; color: #304ffe; } }
+}

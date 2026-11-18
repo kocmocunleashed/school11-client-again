@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { unoptimizedPublicImage } from "@/lib/image-policy";
-import { CalendarDays, X } from "lucide-react";
+import { CalendarDays, DraftingCompass, Music2, NotebookPen, X } from "lucide-react";
 import { useEffect, useId, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import { useSiteData } from "./site-data-provider";
 import type { NewsSummary } from "@/lib/public-page-data";
@@ -23,7 +23,11 @@ function dateLabel(value: string) {
 }
 
 function Cover({ item }: { item: NewsSummary }) {
-  if (!item.cover_image_url) return <div className={`news-art news-art-${item.category?.slug || "event"}`} aria-hidden="true"><span>{item.category?.slug === "olympiad" ? "∑" : item.category?.slug === "club" ? "✳" : "11"}</span><small>11-Р СУРГУУЛЬ</small></div>;
+  if (!item.cover_image_url) {
+    const category = item.category?.slug || "event";
+    const Icon = category === "olympiad" ? DraftingCompass : category === "club" ? Music2 : NotebookPen;
+    return <div className={`news-art news-art-${category}`} aria-hidden="true"><Icon /></div>;
+  }
   return <Image src={item.cover_image_url} alt={item.cover_image_url ? item.title_mn : "Нийслэлийн 11-р сургуулийн байр"} fill sizes="(max-width: 760px) 100vw, 50vw" unoptimized={unoptimizedPublicImage(item.cover_image_url)} />;
 }
 

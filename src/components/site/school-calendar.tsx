@@ -31,8 +31,8 @@ export function SchoolCalendar() {
           {days.map((day, index) => {
             if (!day) return <div className="calendar-blank" key={`blank-${index}`} />;
             const entries = eventsOnDate(events, day);
-            return <button type="button" className="calendar-day" key={day} aria-pressed={selected === day} aria-current={today === day ? "date" : undefined} aria-label={`${day}, ${entries.length} үйл ажиллагаа`} onClick={() => setSelected(day)}>
-              <span className="calendar-date">{Number(day.slice(-2))}</span>
+            return <button type="button" className="calendar-day" key={day} aria-pressed={selected === day} aria-current={today === day ? "date" : undefined} onClick={() => setSelected(day)}>
+              <span className="sr-only">{year} оны {monthNumber}-р сарын </span><span className="calendar-date">{Number(day.slice(-2))}</span>
               <span className="calendar-day-events">{entries.slice(0, 2).map(event => <span className="calendar-event-label" key={event.id}><i style={{ backgroundColor: /^#[0-9a-f]{6}$/i.test(event.color) ? event.color : "#304ffe" }} />{event.title_mn}</span>)}{entries.length > 2 && <small>+{entries.length - 2}</small>}</span>
               {entries.length > 0 && <span className="calendar-mobile-count">{entries.length} үйл явдал</span>}
             </button>;

@@ -22,6 +22,18 @@ test("admissions sends a published summary without sending unrelated school copy
   expect(apply.settings.site_copy).toEqual({ admissions_summary: settings.site_copy.admissions_summary });
 });
 
+test("admissions includes only tagged or categorized notices, newest first, without article bodies", () => {
+  const item = data.news[0]!;
+  const notices = [
+    { ...item, id: "tagged", tags: [" Элсэлт "], published_at: "2026-01-01" },
+    { ...item, id: "categorized", category: { ...item.category!, slug: "admissions" }, published_at: "2026-02-01" },
+    { ...item, id: "unrelated", tags: [], category: null },
+  ];
+  const projected = publicPageData({ ...data, news: notices }, "apply");
+  expect(projected.news.map(notice => notice.id)).toEqual(["categorized", "tagged"]);
+  expect(projected.news[0]).not.toHaveProperty("body_mn");
+});
+
 test("news summaries preserve filters and attribution but never serialize article bodies", () => {
   const news = publicPageData(data, "news");
   expect(news.news.length).toBe(data.news.length);

@@ -16,9 +16,9 @@ export function HomeContent() {
   const copy = { ...defaultSiteCopy, ...settings.site_copy };
   const campus = settings.hero_image_url || "/school-bg.jpg";
   const shortcuts = [
-    { href: "/courses#school-calendar", label: "Хичээлийн хуанли", Icon: CalendarDays },
-    { href: "/courses#programs", label: "Сургалтын хөтөлбөр", Icon: BookOpen },
-    { href: "/apply", label: "Элсэлтийн мэдээлэл", Icon: GraduationCap },
+    { href: "/courses#school-calendar", label: "Хуанли", Icon: CalendarDays },
+    { href: "/courses#programs", label: "Хөтөлбөрүүд", Icon: BookOpen },
+    { href: "/apply", label: "Элсэлт", Icon: GraduationCap },
     { href: "/about#contact", label: "Холбоо барих", Icon: Phone },
   ];
   const facts = [

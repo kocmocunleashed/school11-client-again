@@ -31,11 +31,11 @@ Use literal Tailwind class names so source detection can find them. For conditio
 - Original responsive Mongolian homepage, school information, academic catalog, achievement timeline, news index and reader, admissions interface, navigation and footer.
 - The field notebook pairs a CMS campus photograph and graph paper with quick links for families. Public pages use self-hosted Golos Text with Cyrillic support.
 - Existing Supabase adapters, API routes, PDF guide, admin screens, and local admin demo retained. No environment secrets copied from the source.
-- Mobile menu traps keyboard focus, closes with Escape, and restores focus. News dialogs have equivalent keyboard behavior. Achievement years support arrow keys, Home and End.
+- Mobile navigation exposes the public sections directly. News dialogs trap keyboard focus, close with Escape, and restore focus. Achievement years support arrow keys, Home and End.
 
 ## Content and inspiration
 
-The homepage quick links take inspiration from [Delegate Public School](https://delegate-p.schools.nsw.gov.au/). The mobile menu follows the native dialog pattern in [Modern Web Guidance](https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/navigation-drawer.md).
+The homepage quick links take inspiration from [Delegate Public School](https://delegate-p.schools.nsw.gov.au/).
 
 The logo and campus photograph were inherited from the source project. The photograph carries an iKon watermark; retain its attribution and confirm publication permission or replace it with a school-owned photograph before launch. It has not been represented as newly commissioned photography.
 

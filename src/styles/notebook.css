@@ -18,42 +18,33 @@
   font: 400 1rem/1.55 var(--font-sans);
 }
 .public-site .shell { width: var(--shell); margin-inline: auto; }
-.public-site h1, .public-site h2, .public-site h3 { letter-spacing: -.045em; line-height: 1.1; }
+.public-site h1, .public-site h2, .public-site h3 { letter-spacing: -.022em; line-height: 1.18; }
 .public-site ::selection { color: var(--ink); background: var(--gold); }
 .public-site :focus-visible { outline: 3px solid #2a65dd; outline-offset: 3px; box-shadow: 0 0 0 3px #fff; }
 .public-site .site-header { background: white; position: relative; border-top: 4px solid var(--blue); border-bottom: 1px solid var(--line); }
 .public-site .header-inner { height: 78px; gap: clamp(12px, 2vw, 30px); }
 .public-site .site-brand img { width: 48px; height: 48px; }
-.public-site .site-brand strong { font-size: clamp(1rem, 1.42vw, 1.26rem); letter-spacing: -.04em; line-height: 1.15; }
+.public-site .site-brand strong { font-size: clamp(1rem, 1.42vw, 1.26rem); letter-spacing: -.02em; line-height: 1.2; }
 
-.school-name-compact { display: none; }
+.school-name-compact, .nav-short { display: none; }
 .desktop-nav a { align-self: center; min-height: 42px; border: 0; border-radius: 6px; padding-inline: clamp(10px, 1.2vw, 19px); font-size: 14px; font-weight: 650; }
 .desktop-nav a:hover, .desktop-nav a[aria-current="page"] { background: var(--blue-soft); color: var(--blue-deep); }
 .header-apply, .public-site .primary-button, .public-site .secondary-button {
   gap: 14px; border-radius: 8px; font-size: 14px; font-weight: 650; padding: 12px 19px; min-height: 46px;
 }
 .header-apply { color: var(--ink); background: var(--gold); }
-.header-apply:hover, .header-apply[aria-current="page"] { background: #f1b824; }
+.header-apply:hover { background: #f1b824; }
+.public-site .header-apply[aria-current="page"] { background: var(--ink); color: white; }
 .public-site .primary-button { background: var(--blue); }
 .public-site .primary-button:hover { background: var(--blue-deep); }
 .public-site .secondary-button { color: var(--ink); border: 1px solid #a2acbb; background: #fff; }
 .public-site .secondary-button:hover { background: var(--blue-soft); }
-.menu-button, .school-drawer button { border: 1px solid var(--line); border-radius: 8px; background: white; color: var(--ink); }
-.school-drawer { position: fixed; inset: 0 0 0 auto; width: min(380px, 88vw); max-width: 100%; height: 100dvh; max-height: 100%; margin: 0 0 0 auto; padding: 0; color: var(--ink); border: 0; }
-.school-drawer::backdrop { background: #10224785; }
-.school-drawer > div { min-height: 100%; padding: 20px; background: var(--paper); border-top: 6px solid var(--blue); }
-.school-drawer header, .school-drawer a { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
-.school-drawer button { display: grid; place-items: center; width: 44px; height: 44px; flex-shrink: 0; }
-.school-drawer nav { margin-top: 28px; }
-.school-drawer a { font-size: 20px; font-weight: 650; padding: 16px 6px; border-bottom: 1px solid var(--line); }
-.school-drawer a[aria-current] { color: var(--blue); }
-html:has(.school-drawer[open]) { overflow: hidden; }
 .preview-notice { margin: 0; padding: 6px 16px; text-align: center; color: #36445b; background: #edf1f8; font-size: 13px; }
 .notebook-hero { background: var(--graph), var(--paper); background-size: 26px 26px; border-bottom: 1px solid var(--line); overflow: hidden; }
-.hero-spread { display: grid; grid-template-columns: 1fr .93fr; gap: clamp(30px, 4vw, 86px); align-items: center; padding-block: clamp(48px, 5.3vw, 84px); }
+.hero-spread { display: grid; grid-template-columns: 1fr .93fr; gap: clamp(30px, 4vw, 86px); align-items: center; padding-block: clamp(32px, 3.5vw, 60px); }
 .hero-story { min-width: 0; }
 
-.hero-story h1 { font-size: clamp(48px, 5.5vw, 84px); font-weight: 660; line-height: 1.06; letter-spacing: -.044em; margin: 0 0 20px; overflow-wrap: anywhere; }
+.hero-story h1 { font-size: clamp(48px, 5.5vw, 84px); font-weight: 660; line-height: 1.06; letter-spacing: -.032em; margin: 0 0 20px; overflow-wrap: anywhere; }
 .hero-story h1 span { display: block; width: fit-content; position: relative; isolation: isolate; color: var(--blue); }
 .hero-story h1 span::after { content: ""; display: block; position: absolute; z-index: -1; background: var(--gold); width: 84%; height: .12em; bottom: -.035em; left: .035em; transform: rotate(-1.3deg); border-radius: 55% 30% 60% 15%; }
 .hero-description { color: #41506b; font-size: clamp(16px, 1.35vw, 20px); white-space: pre-line; line-height: 1.6; max-width: 44ch; }
@@ -72,7 +63,9 @@ html:has(.school-drawer[open]) { overflow: hidden; }
 .shortcuts a { display: flex; align-items: center; gap: 12px; padding: 12px 16px; min-height: 48px; border-radius: 6px; }
 .shortcuts a:hover, .shortcuts a:focus-visible { background: var(--blue-soft); color: var(--blue-deep); }
 .shortcuts svg { color: var(--blue); stroke-width: 1.75; }
+.shortcuts a + a { border-inline-start: 1px solid var(--line); }
 .shortcuts strong { font-size: clamp(14px, 1.12vw, 16px); font-weight: 580; line-height: 1.4; }
+.home-section#news { padding-top: clamp(24px, 2vw, 36px); }
 .home-section, .school-profile, .hall-home, .public-site .landing-timeline, .podcasts-section { padding-block: clamp(48px, 5.5vw, 84px); }
 .public-site:is([data-page="courses"], [data-page="apply"]) .page-intro { padding: clamp(20px, 2.2vw, 32px); padding-right: 20%; margin-bottom: 20px; }
 .public-site:is([data-page="courses"], [data-page="apply"]) .page-intro h1 { font-size: clamp(36px, 3.5vw, 52px); }
@@ -135,13 +128,44 @@ html:has(.school-drawer[open]) { overflow: hidden; }
 .inner-page .cms-teachers { border-radius: 14px; background: var(--blue-soft); }
 .cms-teacher-photo { background: #d5e4fa; border-radius: 10px; }
 .course-catalog { border-top: 0; padding-top: 0; }
-.course-index { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
-.course-index a { align-items: center; gap: 8px; background: white; min-height: 44px; padding: 8px 12px; }
-.course-index strong { font-size: 14px; }
-.course-index svg { width: 18px; height: 18px; }
-.course-index a:hover { border-color: var(--blue); }
+.study-overview { display: grid; grid-template-columns: minmax(0, 1fr) minmax(350px, .78fr); align-items: start; gap: clamp(24px, 4vw, 56px); }
+.study-overview h2 { margin: 0 0 16px; font-size: clamp(24px, 2.4vw, 36px); }
+.study-index header { display: flex; gap: 12px; align-items: baseline; justify-content: space-between; }
+.study-index nav { border-block: 1px solid var(--line); }
+.study-index nav a { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 16px; padding: 18px 8px; }
+.study-index nav a + a { border-top: 1px solid var(--line); }
+.study-index nav a:hover { background: var(--paper); }
+.study-index strong { display: block; margin-bottom: 4px; font-size: clamp(18px, 1.5vw, 23px); line-height: 1.3; }
+.study-index strong + span { color: var(--slate); line-height: 1.5; font-size: 15px; }
+.study-icon { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 10px; background: #d8edde; }
+.study-index a:nth-child(3n+2) .study-icon { background: #ffe49b; }
+.study-index a:nth-child(3n) .study-icon { background: #dbe4fe; }
+.study-calendar-link { display: none; }
+.event-feature { display: grid; grid-template-columns: auto minmax(0,1fr); align-items: center; gap: clamp(14px,2vw,24px); padding: clamp(16px,2vw,28px); background: #fff7d9; border-top: 4px solid var(--gold); }
+.event-feature h3 { font-size: clamp(20px,2vw,30px); margin: 5px 0; overflow-wrap: anywhere; }
+.event-feature p { font-size: 14px; color: #584c2a; }
+.event-feature div > span { display: flex; align-items: baseline; gap: 5px; font-size: 15px; }
+.event-feature div > span svg { flex: none; align-self: center; }
+.event-feature .text-action { color: var(--blue-deep); min-height: 44px; }
+.event-date { display: grid; min-width: 75px; justify-items: center; align-content: center; gap: 3px; padding: 10px; background: white; color: var(--ink); border: 1px solid #dcc88b; border-top: 6px solid var(--ink); border-radius: 4px; font-variant-numeric: tabular-nums; }
+.event-date span { font-size: 14px; }
+.event-date strong { font-size: clamp(32px,3vw,48px); line-height: 1; }
+.calendar-disclosure summary { display: flex; gap: 10px; align-items: center; min-height: 56px; padding: 10px 16px; background: var(--blue-soft); color: var(--blue-deep); cursor: pointer; font-weight: 620; }
+.calendar-disclosure summary::-webkit-details-marker { display: none; }
+.calendar-disclosure summary svg { width: 20px; }
+.calendar-disclosure summary svg:last-child { margin-left: auto; }
+.calendar-disclosure[open] summary svg:last-child { transform: rotate(180deg); }
+.calendar-disclosure summary:focus-visible { outline-offset: -3px; }
+.study-calendar .calendar-layout { grid-template-columns: minmax(0, 1fr); }
+.study-calendar .calendar-agenda { border-top: 1px solid var(--line); padding: 16px 20px; }
+.study-calendar .calendar-agenda h3 { margin: 0 0 6px; }
+.study-calendar .calendar-day-events { display: none; }
+.study-calendar .calendar-mobile-count { display: block; font-size: 12px; }
+.study-calendar .calendar-day { text-align: center; padding: 4px; }
+.study-calendar .calendar-toolbar { padding: 8px 12px; }
+.study-calendar .calendar-toolbar h3 { font-size: 18px; }
 .course-sections > section { padding-top: 35px; }
-.course-index + .course-sections > section { padding-top: 0; }
+
 .course-sections header { display: block; margin: 0 0 20px; }
 .course-sections header h2 { margin: 6px 0; }
 .course-sections header > span { font-size: 15px; }
@@ -162,7 +186,18 @@ html:has(.school-drawer[open]) { overflow: hidden; }
 .admissions-summary { max-width: 70ch; margin-block: 24px; }
 .admissions-summary h2 { font-size: clamp(22px, 2vw, 30px); margin-bottom: 8px; }
 .admissions-summary p { white-space: pre-line; overflow-wrap: anywhere; }
-.admissions-contact { margin-top: 12px; }
+.admissions-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(230px, .4fr); gap: clamp(20px, 3vw, 40px); align-items: start; }
+.admissions-notices { margin-bottom: 24px; }
+.admissions-notices h2, .admissions-desk h2 { font-size: clamp(22px, 2vw, 30px); }
+.admissions-notices article { border-left: 4px solid var(--gold); padding: 4px 0 4px 18px; margin-top: 16px; }
+.admissions-notices time { font-size: 14px; color: var(--slate); font-variant-numeric: tabular-nums; }
+.admissions-notices h3 { font-size: clamp(20px, 1.8vw, 27px); margin: 8px 0; line-height: 1.25; }
+.admissions-notices p { line-height: 1.55; }
+.admissions-notices button[aria-expanded="true"] svg { transform: rotate(180deg); }
+.admissions-desk { display: grid; justify-items: start; padding: 24px; border-radius: 12px; border-top: 4px solid var(--mint); background: #eff7f1; }
+.admissions-desk > svg { color: #286953; margin-bottom: 12px; }
+.admissions-desk h2 { margin-bottom: 8px; }
+.admissions-desk a { overflow-wrap: anywhere; }
 .guide-file { display: flex; gap: 16px; align-items: center; }
 .guide-file p { color: var(--slate); font-size: 14px; margin-top: 6px; }
 .public-site .guide-file h2 { margin: 0; font-size: clamp(22px, 2.4vw, 32px); }
@@ -201,15 +236,29 @@ html:has(.school-drawer[open]) { overflow: hidden; }
 .article-body { font: inherit; white-space: pre-line; }
 .empty-state { border-radius: 8px; }
 @media (max-width: 980px) {
+  .public-site .header-inner { height: auto; padding-block: 8px 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; }
+  .public-site .desktop-nav { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); order: 3; grid-column: 1 / -1; border-top: 1px solid var(--line); }
+  .desktop-nav a[href="/"], .nav-long { display: none; }
+  .nav-short { display: inline; }
+  .public-site .desktop-nav a { justify-content: center; }
+  .public-site .desktop-nav a { padding: 6px 8px; min-height: 44px; font-size: 14px; }
+  .public-site .desktop-nav a[aria-current] { border-radius: 0; background: transparent; box-shadow: inset 0 -3px var(--blue); }
+  .study-overview { grid-template-columns: minmax(0, 1fr) minmax(330px, .85fr); gap: 20px; }
   .shortcuts { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .shortcuts a:nth-child(odd) { border-inline-start: 0; }
   .hero-spread { gap: 20px; }
   .hero-story h1 { font-size: clamp(44px, 5.5vw, 58px); }
   .shortcuts a { min-height: 48px; }
 }
 @media (max-width: 740px) {
-  .public-site .header-inner { min-height: 64px; height: auto; padding-block: 8px; gap: 8px; }
+  .public-site .header-inner { padding-block: 8px 0; gap: 6px 8px; }
+  .public-site .desktop-nav a { font-size: clamp(14px, 3.65vw, 16px); padding-inline: 2px; }
+  .study-overview { grid-template-columns: 1fr; }
+  .study-index nav a { padding: 12px 0; gap: 12px; }
+  .study-calendar-link { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; color: var(--blue); }
+  .study-icon { width: 40px; height: 40px; }
   .public-site .header-apply { display: inline-flex; padding: 8px 12px; min-height: 44px; flex-shrink: 0; }
-  .header-apply svg { display: none; }
+  .header-apply:not([aria-current]) svg { display: none; }
   .public-site .menu-button, .public-site .site-brand img { flex-shrink: 0; }
   .public-site .site-brand { gap: 9px; }
   .public-site .site-brand img { width: 40px; height: 40px; }
@@ -228,12 +277,16 @@ html:has(.school-drawer[open]) { overflow: hidden; }
   .shortcuts { gap: 4px; padding-block: 8px; }
   .shortcuts a { gap: 8px; padding: 8px; }
 
+  .admissions-layout { grid-template-columns: 1fr; }
+  .admissions-desk { padding: 18px; }
   .profile-layout { grid-template-columns: 1fr; gap: 26px; }
 
   .public-site .page-intro, .public-site:is([data-page="courses"], [data-page="apply"]) .page-intro { padding: 20px; }
   .chapter-symbol { display: none; }
   .public-site .section-heading h2 { font-size: 30px; }
-  .section-heading { margin-bottom: 18px; }
+  .section-heading { margin-bottom: 12px; }
+  #news .section-heading { align-items: center; }
+  #news .section-heading h2 { font-size: clamp(23px, 6vw, 29px); }
   .course-list details { padding-inline: 12px; }
   .news-dialog { max-height: 86dvh; }
 }

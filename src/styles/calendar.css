@@ -25,6 +25,10 @@
 .calendar-agenda h4 { margin: .5rem 0; overflow-wrap: anywhere; }
 .calendar-agenda article p { display: flex; align-items: center; gap: .4rem; font-size: .8rem; }
 .calendar-agenda article div { font-size: .85rem; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; }
+.calendar-nearby { position: relative; width: 100%; margin-top: 20px; padding: 14px 32px 14px 14px; display: grid; text-align: left; gap: 6px; color: var(--ink); background: #fff; border: 1px solid var(--line); border-left: 4px solid var(--blue); border-radius: 6px; }
+.calendar-nearby:hover { border-color: var(--blue); }
+.calendar-nearby span, .calendar-nearby time { font-size: 13px; color: var(--slate); }
+.calendar-nearby svg { position: absolute; top: 50%; right: 8px; transform: translateY(-50%); color: var(--blue); }
 .calendar-empty { font-size: 1rem; line-height: 1.6; color: var(--slate); }
 @media (max-width: 900px) { .calendar-layout { grid-template-columns: 1fr; } .calendar-agenda { border-top: 1px solid var(--line); } }
 @media (max-width: 600px) { .calendar-toolbar { padding: .8rem; } .calendar-toolbar h3 { font-size: 1.1rem; } .calendar-day, .calendar-blank { min-height: 48px; padding: .25rem; } .calendar-week span { padding: .6rem .2rem; } .calendar-day-events { display: none; } .calendar-mobile-count { display: block; font-size: .55rem; margin-top: .4rem; color: #304ffe; } }

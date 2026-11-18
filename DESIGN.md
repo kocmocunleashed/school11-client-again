@@ -12,4 +12,4 @@ The home page leads with everyday destinations and the news board. School facts,
 
 ## Implementation
 
-The public theme and responsive layouts live in `src/styles/notebook.css`. Shared component structure is in `src/styles/public.css`. CMS content, image settings, page projections and the separate admin interface support both published and local preview content. The mobile menu uses a native modal dialog. The typography and copy review follows [Unslop by Damir Sokolovsky](https://github.com/heydamir/unslop).
+The public theme and responsive layouts live in `src/styles/notebook.css`. Shared component structure is in `src/styles/public.css`. CMS content, image settings, page projections and the separate admin interface support both published and local preview content. Mobile navigation keeps the section links in view beneath the school crest. The typography and copy review follows [Unslop by Damir Sokolovsky](https://github.com/heydamir/unslop).

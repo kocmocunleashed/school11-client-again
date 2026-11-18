@@ -2,7 +2,7 @@
 import { useSiteData } from "./site-data-provider";
 import { SchoolCalendar } from "./school-calendar";
 
-import { BookOpen, ChevronDown, Clock3, MapPin, Trophy, Users } from "lucide-react";
+import { ArrowDownRight, BookOpen, ChevronDown, Clock3, MapPin, Trophy, Users } from "lucide-react";
 import { useState } from "react";
 
 function SectionIcon({ icon }: { icon: string | null }) {
@@ -14,18 +14,28 @@ function SectionIcon({ icon }: { icon: string | null }) {
 export function CourseCatalog() {
   const { courses: sections } = useSiteData();
   const calendarSection = sections.find(section => section.slug === "calendar" || /календар|хуанли/i.test(section.title_mn));
+  const programs = sections.filter(section => section.id !== calendarSection?.id);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   return (
     <div className="course-catalog">
-      <nav id="programs" className="course-index" aria-label="Сургалтын ангилал">
-        {sections.map(section => <a href={`#course-${section.slug}`} key={section.id}><SectionIcon icon={section.icon} /><span><strong>{section.title_mn}</strong></span></a>)}
-      </nav>
-      <div className="course-sections">
-        <section id={`course-${calendarSection?.slug || "calendar"}`}><header><h2>Хичээлийн хуанли</h2></header><div id="school-calendar"><SchoolCalendar /></div></section>
+      <div className="study-overview">
+        <section className="study-index" id="programs">
+          <header><h2>Сургалтын чиглэлүүд</h2><a href="#school-calendar" className="study-calendar-link">Хуанли <ArrowDownRight size={16} aria-hidden="true" /></a></header>
+          <nav aria-label="Сургалтын ангилал">
+            {programs.map(section => <a href={`#course-${section.slug}`} key={section.id}>
+              <span className="study-icon"><SectionIcon icon={section.icon} /></span>
+              <span><strong>{section.title_mn}</strong><span>{section.description_mn}</span></span>
+              <ArrowDownRight size={20} aria-hidden="true" />
+            </a>)}
+          </nav>
+          {!programs.length && <p className="empty-state">Сургалтын мэдээлэл хараахан нийтлэгдээгүй байна.</p>}
+        </section>
+        <section className="study-calendar" id={`course-${calendarSection?.slug || "calendar"}`}>
+          <h2>Хичээлийн хуанли</h2><div id="school-calendar"><SchoolCalendar /></div>
+        </section>
       </div>
       <div className="course-sections">
-        {sections.map(section => {
-          if (section.slug === "calendar" || /календар|хуанли/i.test(section.title_mn)) return null;
+        {programs.map(section => {
           const open = expanded[section.id];
           const items = open ? section.items || [] : (section.items || []).slice(0, 3);
           return <section id={`course-${section.slug}`} key={section.id}>

@@ -63,6 +63,12 @@ export function publicPageData(data: PublicSiteData, page: PublicPage): PublicPa
       projected.achievements = data.achievements;
       projected.hallOfFame = data.hallOfFame;
       break;
+    case "apply":
+      projected.news = data.news
+        .filter(item => item.category?.slug === "admissions" || item.tags.some(tag => tag.trim().toLowerCase() === "элсэлт"))
+        .toSorted((a, b) => Date.parse(b.published_at) - Date.parse(a.published_at))
+        .slice(0, 3).map(newsSummary);
+      break;
     case "news":
       projected.news = data.news.map(newsSummary);
       break;

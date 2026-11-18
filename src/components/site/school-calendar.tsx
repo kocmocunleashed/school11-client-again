@@ -1,8 +1,8 @@
 "use client";
 import "@/styles/calendar.css";
 
-import { useState } from "react";
-import { ChevronLeft, ChevronRight, Clock3, MapPin } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { CalendarDays, ChevronDown, ChevronLeft, ChevronRight, Clock3, MapPin } from "lucide-react";
 import { dateKey, eventsOnDate, eventTypes, monthDays, schoolToday } from "@/lib/calendar";
 import { useSiteData } from "./site-data-provider";
 
@@ -18,13 +18,47 @@ export function SchoolCalendar() {
   const hasMonthEvents = events.some(event =>
     event.start_date <= monthEnd && (event.end_date || event.start_date) >= `${month}-01`
   );
+  const nextEvent = events.find(event => event.start_date > monthEnd);
+  const nearby = nextEvent || events.at(-1);
+  const disclosure = useRef<HTMLDetailsElement>(null);
+  const upcoming = events.find(event => (event.end_date || event.start_date) >= today);
+  const featured = upcoming || events.at(-1);
+  useEffect(() => {
+    const revealLinkedCalendar = () => {
+      if (window.location.hash === "#school-calendar" && disclosure.current) disclosure.current.open = true;
+    };
+    revealLinkedCalendar();
+    window.addEventListener("hashchange", revealLinkedCalendar);
+    return () => window.removeEventListener("hashchange", revealLinkedCalendar);
+  }, []);
   const moveMonth = (offset: number) => {
     const next = new Date(year, monthNumber - 1 + offset, 1);
     const key = dateKey(next.getFullYear(), next.getMonth(), 1);
     setMonth(key.slice(0, 7)); setSelected(key);
   };
 
-  return <div className="school-calendar">
+  return <div className="calendar-sheet">
+    {featured && <article className="event-feature">
+      <time className="event-date" dateTime={featured.start_date}>
+        <span>{featured.start_date.slice(0, 4)} он</span>
+        <strong>{Number(featured.start_date.slice(8))}</strong>
+        <span>{Number(featured.start_date.slice(5, 7))}-р сар</span>
+      </time>
+      <div><p>{upcoming ? (featured.start_date <= today ? "Өнөөдрийн үйл ажиллагаа" : "Удахгүй болох үйл ажиллагаа") : "Сүүлд болсон үйл ажиллагаа"}</p>
+        <h3>{featured.title_mn}</h3>
+        {featured.location_mn && <span><MapPin size={16} aria-hidden="true" />{featured.location_mn}</span>}
+        <button className="text-action" type="button" onClick={() => {
+          setMonth(featured.start_date.slice(0, 7)); setSelected(featured.start_date);
+          if (disclosure.current) {
+            disclosure.current.open = true;
+            disclosure.current.querySelector("summary")?.focus();
+          }
+        }}>Хуваарийг үзэх <ChevronRight size={16} aria-hidden="true" /></button>
+      </div>
+    </article>}
+    <details ref={disclosure} className="calendar-disclosure" open={featured ? undefined : true}>
+      <summary><CalendarDays aria-hidden="true" />Сарын хуанли<ChevronDown aria-hidden="true" /></summary>
+      <div className="school-calendar">
     <div className="calendar-toolbar">
       <h3 aria-live="polite">{year} оны {monthNumber}-р сар</h3>
       <div><button type="button" onClick={() => { setMonth(today.slice(0, 7)); setSelected(today); }}>Өнөөдөр</button><button type="button" aria-label="Өмнөх сар" onClick={() => moveMonth(-1)}><ChevronLeft size={20} /></button><button type="button" aria-label="Дараах сар" onClick={() => moveMonth(1)}><ChevronRight size={20} /></button></div>
@@ -46,7 +80,16 @@ export function SchoolCalendar() {
       <aside className="calendar-agenda" aria-live="polite"><h3>{Number(selected.slice(5, 7))}-р сарын {Number(selected.slice(-2))} · Хуваарь</h3>
         {selectedEvents.length ? selectedEvents.map(event => <article key={event.id}><span className="calendar-event-type">{eventTypes[event.event_type as keyof typeof eventTypes] || "Бусад"}</span><h4>{event.title_mn}</h4><p><Clock3 size={16} />{event.is_all_day ? "Бүтэн өдөр" : event.start_time?.slice(0, 5) || "Цаг товлоогүй"}{!event.is_all_day && event.end_time ? `–${event.end_time.slice(0, 5)}` : ""}</p>{event.end_date && event.end_date !== event.start_date && <p>{event.start_date} — {event.end_date}</p>}{event.location_mn && <p><MapPin size={16} />{event.location_mn}</p>}{event.description_mn && <div>{event.description_mn}</div>}</article>) : <p className="calendar-empty">{hasMonthEvents ? "Энэ өдөр товлосон үйл ажиллагаа байхгүй." : "Энэ сарын хуваарь хараахан нийтлэгдээгүй байна."}</p>}
 
+        {!hasMonthEvents && nearby && <button type="button" className="calendar-nearby" onClick={() => {
+          setMonth(nearby.start_date.slice(0, 7)); setSelected(nearby.start_date);
+        }}>
+          <span>{nextEvent ? "Дараагийн үйл ажиллагаа" : "Өмнөх үйл ажиллагаа"}</span>
+          <strong>{nearby.title_mn}</strong>
+          <time dateTime={nearby.start_date}>{nearby.start_date.replaceAll("-", ".")}</time><ChevronRight size={18} aria-hidden="true" />
+        </button>}
       </aside>
     </div>
+    </div>
+    </details>
   </div>;
 }

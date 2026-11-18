@@ -31,7 +31,7 @@ Use literal Tailwind class names so source detection can find them. For conditio
 - Original responsive Mongolian homepage, school information, academic catalog, achievement timeline, news index and reader, admissions interface, navigation and footer.
 - The homepage pairs a CMS campus photograph with a graph-paper cover and quick links for families. Public pages use self-hosted Golos Text with Cyrillic support.
 - Existing Supabase adapters, API routes, PDF guide, admin screens, and local admin demo retained. No environment secrets copied from the source.
-- Mobile navigation exposes the public sections directly. News dialogs trap keyboard focus, close with Escape, and restore focus. Achievement years support arrow keys, Home and End.
+- Mobile navigation links directly to courses, news and admissions. The menu includes all six public sections. News dialogs trap keyboard focus, close with Escape, and restore focus. Achievement years support arrow keys, Home and End.
 
 ## Content and inspiration
 

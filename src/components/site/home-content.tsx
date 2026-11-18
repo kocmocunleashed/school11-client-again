@@ -17,8 +17,8 @@ export function HomeContent() {
   const campus = settings.hero_image_url || "/school-bg.jpg";
   const shortcuts = [
     { href: "/courses#school-calendar", label: "Хуанли", Icon: CalendarDays },
-    { href: "/courses#programs", label: "Хөтөлбөрүүд", Icon: BookOpen },
-    { href: "/apply", label: "Элсэлт", Icon: GraduationCap },
+    { href: "/courses#programs", label: "Хөтөлбөр", Icon: BookOpen },
+    { href: "/achievements#hall-of-fame", label: "Хүндэт самбар", Icon: Trophy },
     { href: "/about#contact", label: "Холбоо барих", Icon: Phone },
   ];
   const facts = [
@@ -34,20 +34,17 @@ export function HomeContent() {
         <div className="hero-story">
           <h1>{copy.hero_line_1} <span>{copy.hero_line_2} {copy.hero_line_3}</span></h1>
           <p className="hero-description">{copy.hero_description}</p>
-          <div className="hero-actions">
-            <Link className="primary-button" href="/about">Сургуулийн тухай <ArrowRight size={18} /></Link>
-            <Link className="secondary-button" href="/courses">Сургалт</Link>
-          </div>
+          <Link className="hero-about text-action" href="/about">Сургуулийн тухай <ArrowRight size={18} aria-hidden="true" /></Link>
         </div>
         <figure className="campus-print">
           <div className="campus-photo"><Image src={campus} alt="Нийслэлийн 11-р сургуулийн хичээлийн байр" fill sizes="(max-width: 740px) 85vw, (max-width: 1280px) 40vw, 490px" loading="eager" fetchPriority="high" unoptimized={unoptimizedPublicImage(campus)} /></div>
-          <figcaption><span><MapPin size={16} aria-hidden="true" />{settings.city}</span>{settings.established > 0 && <span>{settings.established} онд байгуулагдсан</span>}</figcaption>
+          <figcaption><span><MapPin size={16} aria-hidden="true" />{settings.city}</span></figcaption>
         </figure>
       </div>
+      <nav className="shortcuts" aria-label="Шуурхай холбоос">
+        {shortcuts.map(({ href, label, Icon }) => <Link href={href} key={href}><Icon size={20} aria-hidden="true" /><strong>{label}</strong></Link>)}
+      </nav>
     </section>
-    <nav className="shortcuts shell" aria-label="Шуурхай холбоос">
-      {shortcuts.map(({ href, label, Icon }) => <Link href={href} key={href}><Icon size={20} aria-hidden="true" /><strong>{label}</strong></Link>)}
-    </nav>
     <section className="home-section shell" id="news">
       <div className="section-heading"><h2>Сургуулийн мэдээ</h2><Link href="/news" className="text-action">Бүх мэдээ <ArrowRight /></Link></div>
       <NewsBrowser home />

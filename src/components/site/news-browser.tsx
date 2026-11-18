@@ -132,8 +132,9 @@ export function NewsBrowser({ home = false }: { home?: boolean }) {
         </article>
         <ul className="bulletin-list">{visible.filter(item => item.id !== leadStory.id).map(item => <li key={item.id}>
           <button type="button" onClick={event => open(item, event)}>
-            <time dateTime={item.published_at}>{item.published_at.slice(0,10).replaceAll("-", ".")}</time>
-            <span>{item.title_mn}</span><ArrowRight aria-hidden="true" size={20} />
+            <span className="bulletin-title">{item.title_mn}</span>
+            <span className="bulletin-meta">{item.category?.name_mn && <>{item.category.name_mn} · </>}<time dateTime={item.published_at}>{item.published_at.slice(0, 10).replaceAll("-", ".")}</time></span>
+            <ArrowRight aria-hidden="true" size={20} />
           </button>
         </li>)}</ul>
       </div> : <div id={listId} className="news-layout">

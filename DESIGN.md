@@ -4,7 +4,7 @@ Families can reach the calendar, programs, admissions and school contacts from t
 
 ## Colour and type
 
-Public reading surfaces use warm paper (#FAF9F2) and white. Headings use ink (#17274B), actions use blue (#2449B4), and selected controls use a pale blue tint (#E9EFFC). Blue Lucide icons identify the family quick links. Page titles and outline illustrations use the same ink colour on squared paper. Golos Text is self-hosted and includes Mongolian Cyrillic. The caption names the city and founding year.
+Public reading surfaces use warm paper (#FAF9F2) and white. Headings use ink (#17274B), actions use blue (#2449B4), and selected controls use a pale blue tint (#E9EFFC). Blue Lucide icons identify the family quick links. Page titles and outline illustrations use the same ink colour on squared paper. Golos Text is self-hosted and includes Mongolian Cyrillic. The caption identifies the city.
 
 ## Page structure
 
@@ -12,4 +12,4 @@ The home page leads with everyday destinations and a news board pairing one illu
 
 ## Implementation
 
-The public theme and responsive layouts live in `src/styles/notebook.css`. Shared component structure is in `src/styles/public.css`. CMS content, image settings, page projections and the separate admin interface support both published and local preview content. On phones, five labeled Lucide tabs sit beneath the crest. The typography and copy review follows [Unslop by Damir Sokolovsky](https://github.com/heydamir/unslop).
+The public theme and responsive layouts live in `src/styles/notebook.css`. Shared component structure is in `src/styles/public.css`. CMS content, image settings, page projections and the separate admin interface support both published and local preview content. On phones, courses, news and admissions sit in one row beneath the crest. The labeled menu opens the full six-page directory. The typography and copy review follows [Unslop by Damir Sokolovsky](https://github.com/heydamir/unslop).

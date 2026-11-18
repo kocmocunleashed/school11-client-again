@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Atom, BookOpen, CalendarDays, Compass, GraduationCap, MapPin, Music2, Phone, School, Trophy } from "lucide-react";
+import { ArrowRight, Atom, BookOpen, CalendarDays, GraduationCap, MapPin, Music2, Phone, Trophy } from "lucide-react";
 import { unoptimizedPublicImage } from "@/lib/image-policy";
 import { defaultSiteCopy } from "@/lib/site-copy";
 import { HallOfFame } from "./hall-of-fame";
@@ -32,25 +32,24 @@ export function HomeContent() {
     <section className="notebook-hero">
       <div className="hero-spread shell">
         <div className="hero-story">
-          <p className="campus-location"><MapPin size={16} aria-hidden="true" />{settings.city} <i aria-hidden="true" /> {settings.established} оноос</p>
           <h1>{copy.hero_line_1} <span>{copy.hero_line_2} {copy.hero_line_3}</span></h1>
           <p className="hero-description">{copy.hero_description}</p>
           <div className="hero-actions">
             <Link className="primary-button" href="/about">Сургуулийн тухай <ArrowRight size={18} /></Link>
-            <Link className="secondary-button" href="/courses">Сургалт <ArrowUpRight size={17} /></Link>
+            <Link className="secondary-button" href="/courses">Сургалт</Link>
           </div>
         </div>
         <div className="campus-board">
           <figure className="campus-print">
             <div className="campus-photo"><Image src={campus} alt="Нийслэлийн 11-р сургуулийн хичээлийн байр" fill sizes="(max-width: 740px) 85vw, (max-width: 1280px) 40vw, 490px" loading="eager" fetchPriority="high" unoptimized={unoptimizedPublicImage(campus)} /></div>
-            <figcaption><School size={17} aria-hidden="true" /> Манай сургууль <span aria-hidden="true">№ 11</span></figcaption>
+            <figcaption><MapPin size={16} aria-hidden="true" />{settings.city}</figcaption>
           </figure>
           <span className="math-seal" aria-hidden="true">π</span>
         </div>
       </div>
     </section>
     <nav className="shortcuts shell" aria-label="Шуурхай холбоос">
-      {shortcuts.map(({ href, label, Icon }) => <Link href={href} key={href}><span className="shortcut-icon"><Icon size={22} aria-hidden="true" /></span><strong>{label}</strong><ArrowUpRight className="shortcut-arrow" size={16} aria-hidden="true" /></Link>)}
+      {shortcuts.map(({ href, label, Icon }) => <Link href={href} key={href}><Icon size={20} aria-hidden="true" /><strong>{label}</strong></Link>)}
     </nav>
     <section className="home-section shell" id="news">
       <div className="section-heading"><h2>Сургуулийн мэдээ</h2><Link href="/news" className="text-action">Бүх мэдээ <ArrowRight /></Link></div>
@@ -65,8 +64,8 @@ export function HomeContent() {
       <div className="subject-grid">{courses.map(section => {
         const Icon = section.icon === "trophy" ? Trophy : section.icon === "users" ? Music2 : section.slug === "calendar" ? CalendarDays : Atom;
         return <Link href={`/courses#course-${section.slug}`} className="subject-card" key={section.id}>
-          <Icon className="subject-symbol" aria-hidden="true" /><small>{courseCounts?.[section.id] || 0} хөтөлбөр</small>
-          <h3>{section.title_mn}</h3><p>{section.description_mn}</p><ArrowUpRight className="subject-arrow" size={19} aria-hidden="true" />
+          <Icon className="subject-symbol" aria-hidden="true" />
+          <h3>{section.title_mn}</h3><p>{section.description_mn}</p><small>{courseCounts?.[section.id] || 0} хөтөлбөр</small><ArrowRight className="subject-arrow" size={19} aria-hidden="true" />
         </Link>;
       })}</div>
       {!courses.length && <p className="empty-state">Сургалтын мэдээлэл хараахан нийтлэгдээгүй байна.</p>}
@@ -74,6 +73,6 @@ export function HomeContent() {
     <HallOfFame home />
     <LandingTimeline />
     <Podcasts />
-    <section className="enrol-strip shell"><Link href="/apply"><Compass aria-hidden="true" /><h2>{copy.join_title}</h2><ArrowUpRight aria-hidden="true" /></Link></section>
+    <section className="enrol-strip shell"><Link href="/apply"><GraduationCap aria-hidden="true" /><h2>{copy.join_title}</h2><ArrowRight aria-hidden="true" /></Link></section>
   </main>;
 }

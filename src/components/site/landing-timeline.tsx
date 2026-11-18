@@ -57,16 +57,16 @@ export function LandingTimeline() {
   const accent = colors[periodIndex % colors.length];
   return <section className="landing-timeline" id="school-history" aria-labelledby={`${id}-heading`} style={{ "--timeline-accent": accent } as CSSProperties}>
     <div className="shell mx-auto w-[var(--shell)]">
-      <header className="landing-timeline-heading"><div><p className="landing-timeline-eyebrow">БИДНИЙ ЗАМНАЛ</p><h2 id={`${id}-heading`}>Он жилүүдээр аялъя.</h2></div><Link href="/achievements" className="text-action">Бүх амжилт <ArrowUpRight /></Link></header>
+      <header className="landing-timeline-heading"><h2 id={`${id}-heading`}>Сургуулийн түүх</h2><Link href="/achievements" className="text-action">Бүх амжилт <ArrowUpRight /></Link></header>
       <div className="landing-timeline-periods" aria-label="Түүхийн үе сонгох">
         <button className="landing-timeline-arrow" type="button" aria-label="Өмнөх үе" disabled={periodIndex <= 0} onClick={() => selectPeriod(periodIndex - 1)}><ArrowLeft size={22} /></button>
-        <div className="landing-timeline-period-label"><span>ТҮҮХИЙН ҮЕ</span><strong aria-live="polite">{activePeriod}<i>—</i>{activePeriod + 9}</strong><span>{String(periodIndex + 1).padStart(2, "0")} / {String(periods.length).padStart(2, "0")}</span></div>
+        <div className="landing-timeline-period-label"><strong aria-live="polite">{activePeriod}<i>—</i>{activePeriod + 9}</strong></div>
         <button className="landing-timeline-arrow" type="button" aria-label="Дараах үе" disabled={periodIndex >= periods.length - 1} onClick={() => selectPeriod(periodIndex + 1)}><ArrowRight size={22} /></button>
       </div>
       <div className="landing-timeline-cards">
         <button type="button" className="landing-timeline-neighbor" disabled={!previous} aria-label={previous ? undefined : "Өмнөх жил байхгүй"} aria-controls={panelId} onClick={event => select(activeIndex - 1, event.detail !== 0)}>{previous && <><span>{previous.year}</span><span className="landing-timeline-neighbor-title">{previous.highlight_mn || "Онцлох үйл явдал"}</span></>}</button>
         <article key={active.id} id={panelId} className="landing-timeline-card" data-animate={animate} data-direction={direction} role="tabpanel" aria-labelledby={`${id}-node-${active.id}`} tabIndex={0}>
-          <div className="landing-timeline-card-copy"><div className="landing-timeline-card-meta"><span>{active.is_milestone ? "ТҮҮХЭН ҮЙЛ ЯВДАЛ" : "ОНЦЛОХ ЖИЛ"}</span><span>{String(activeIndex + 1).padStart(2, "0")} / {String(records.length).padStart(2, "0")}</span></div><p className="landing-timeline-year">{active.year}</p><h3>{active.highlight_mn || "Онцлох үйл явдал"}</h3>{active.description_mn && <p className="landing-timeline-description">{active.description_mn}</p>}</div>
+          <div className="landing-timeline-card-copy">{active.is_milestone && <p className="landing-timeline-card-meta">Түүхэн үйл явдал</p>}<p className="landing-timeline-year">{active.year}</p><h3>{active.highlight_mn || "Онцлох үйл явдал"}</h3>{active.description_mn && <p className="landing-timeline-description">{active.description_mn}</p>}</div>
           {active.image_url && <div className="landing-timeline-image"><Image src={active.image_url} alt={active.highlight_mn || `${active.year} он`} fill sizes="(max-width: 700px) 90vw, 55vw" unoptimized={unoptimizedPublicImage(active.image_url)} /></div>}
         </article>
         <button type="button" className="landing-timeline-neighbor" disabled={!next} aria-label={next ? undefined : "Дараах жил байхгүй"} aria-controls={panelId} onClick={event => select(activeIndex + 1, event.detail !== 0)}>{next && <><span>{next.year}</span><span className="landing-timeline-neighbor-title">{next.highlight_mn || "Онцлох үйл явдал"}</span></>}</button>
@@ -83,7 +83,6 @@ export function LandingTimeline() {
         </div>
         <button className="landing-timeline-arrow" type="button" aria-label="Дараах үйл явдал" disabled={activeIndex === records.length - 1} onClick={() => select(activeIndex + 1)}><ArrowRight size={22} /></button>
       </div>
-      <p className="landing-timeline-caption">Он сонгож сургуулийн түүхтэй танилцаарай.</p>
     </div>
   </section>;
 }

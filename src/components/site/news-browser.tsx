@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { unoptimizedPublicImage } from "@/lib/image-policy";
-import { CalendarDays, DraftingCompass, Music2, NotebookPen, X } from "lucide-react";
+import { ArrowRight, CalendarDays, DraftingCompass, Music2, NotebookPen, X } from "lucide-react";
 import { useEffect, useId, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import { useSiteData } from "./site-data-provider";
 import type { NewsSummary } from "@/lib/public-page-data";
@@ -126,7 +126,7 @@ export function NewsBrowser({ home = false }: { home?: boolean }) {
             <p className="news-date"><CalendarDays size={15} /> {dateLabel(item.published_at)}</p>
             <h3>{item.title_mn}</h3>
             <p>{item.excerpt_mn}</p>
-            <button type="button" className="text-action" onClick={event => open(item, event)}>Дэлгэрэнгүй унших <span aria-hidden="true">→</span></button>
+            <button type="button" className="text-action" onClick={event => open(item, event)}>Дэлгэрэнгүй унших <ArrowRight size={16} aria-hidden="true" /></button>
           </div>
         </article>)}
       </div>

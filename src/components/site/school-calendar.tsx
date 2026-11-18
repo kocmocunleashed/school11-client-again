@@ -39,7 +39,7 @@ export function SchoolCalendar() {
           })}
         </div>
       </div>
-      <aside className="calendar-agenda" aria-live="polite"><p className="calendar-eyebrow">Өдрийн хуваарь</p><h3>{Number(selected.slice(5, 7))}-р сарын {Number(selected.slice(-2))}</h3>
+      <aside className="calendar-agenda" aria-live="polite"><h3>{Number(selected.slice(5, 7))}-р сарын {Number(selected.slice(-2))} · Хуваарь</h3>
         {selectedEvents.length ? selectedEvents.map(event => <article key={event.id}><span className="calendar-event-type">{eventTypes[event.event_type as keyof typeof eventTypes] || "Бусад"}</span><h4>{event.title_mn}</h4><p><Clock3 size={16} />{event.is_all_day ? "Бүтэн өдөр" : event.start_time?.slice(0, 5) || "Цаг товлоогүй"}{!event.is_all_day && event.end_time ? `–${event.end_time.slice(0, 5)}` : ""}</p>{event.end_date && event.end_date !== event.start_date && <p>{event.start_date} — {event.end_date}</p>}{event.location_mn && <p><MapPin size={16} />{event.location_mn}</p>}{event.description_mn && <div>{event.description_mn}</div>}</article>) : <p className="calendar-empty">Энэ өдөр товлосон үйл ажиллагаа байхгүй.</p>}
         {!events.some(event => event.start_date <= dateKey(year, monthNumber - 1, new Date(year, monthNumber, 0).getDate()) && (event.end_date || event.start_date) >= `${month}-01`) && <p className="calendar-empty">Энэ сарын хуваарь хараахан нийтлэгдээгүй байна.</p>}
       </aside>

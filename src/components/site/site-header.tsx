@@ -28,7 +28,7 @@ export function SiteHeader({ schoolName, logo }: { schoolName: string; logo?: st
     <div className="header-inner">
       <Link className="site-brand" href="/">
         <Image src={logo || "/school-logo.png"} unoptimized={unoptimizedPublicImage(logo || "/school-logo.png")} alt="" width={52} height={52} loading="eager" />
-        <span><strong>{schoolName}</strong><small>Эрдэм. Хүмүүжил. Ирээдүй.</small></span>
+        <span><strong>{schoolName}</strong></span>
       </Link>
       <nav className="desktop-nav" aria-label="Үндсэн цэс">
         {navItems.map(([href, label]) => <Link aria-current={pathname === href ? "page" : undefined} key={href} href={href}>{label}</Link>)}

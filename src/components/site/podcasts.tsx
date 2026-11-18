@@ -32,7 +32,7 @@ export function Podcasts() {
   const { podcasts = [] } = useSiteData();
   return <section className="podcasts-section" id="podcasts" aria-labelledby="podcasts-title">
     <div className="shell mx-auto w-[var(--shell)]">
-      <div className="section-heading"><div><p>ҮЗЭХ · СОНСОХ · СЭТГЭХ</p><h2 id="podcasts-title">Подкаст</h2></div><span className="podcast-platform">YouTube <ArrowUpRight size={18} aria-hidden="true" /></span></div>
+      <div className="section-heading"><h2 id="podcasts-title">Подкаст</h2></div>
       {podcasts.length ? <ul className="podcast-grid">{podcasts.map(item => <PodcastCard item={item} key={item.id} />)}</ul> : <p className="podcast-empty">Шинэ дугаарууд удахгүй нэмэгдэнэ.</p>}
     </div>
   </section>;

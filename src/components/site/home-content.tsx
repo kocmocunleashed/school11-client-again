@@ -42,9 +42,9 @@ export function HomeContent() {
         <div className="campus-board">
           <figure className="campus-print">
             <div className="campus-photo"><Image src={campus} alt="Нийслэлийн 11-р сургуулийн хичээлийн байр" fill sizes="(max-width: 740px) 85vw, (max-width: 1280px) 40vw, 490px" loading="eager" fetchPriority="high" unoptimized={unoptimizedPublicImage(campus)} /></div>
-            <figcaption><MapPin size={16} aria-hidden="true" />{settings.city}</figcaption>
+            <figcaption><span><MapPin size={16} aria-hidden="true" />{settings.city}</span>{settings.established > 0 && <span>{settings.established} онд байгуулагдсан</span>}</figcaption>
           </figure>
-          <span className="math-seal" aria-hidden="true">π</span>
+          <span className="campus-mark" aria-hidden="true">11</span>
         </div>
       </div>
     </section>

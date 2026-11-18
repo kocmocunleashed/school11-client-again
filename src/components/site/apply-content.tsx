@@ -30,21 +30,22 @@ export function ApplyContent() {
             {openNotice === item.id && <NewsArticleBody summary={item} preview={preview} />}
           </article>)}
         </section>}
-        <section className="guide-card" aria-labelledby="guide-title">
+        {guide && <section className="guide-card" aria-labelledby="guide-title">
           <div className="guide-file">
             <FileText aria-hidden="true" />
-            <div><h2 id="guide-title">Элсэлтийн гарын авлага</h2>{guide && <p>PDF баримт бичиг</p>}</div>
+            <div><h2 id="guide-title">Элсэлтийн гарын авлага</h2><p>PDF баримт бичиг</p></div>
           </div>
-          {guide ? <div className="guide-actions">
+          <div className="guide-actions">
             <a className="primary-button" href={guide} download><Download aria-hidden="true" /> PDF татаж авах</a>
             <a className="text-action" href={guide} target="_blank" rel="noreferrer">Шинэ цонхонд нээх <ExternalLink aria-hidden="true" /></a>
-          </div> : <p className="empty-state">Элсэлтийн гарын авлага хараахан нийтлэгдээгүй байна.</p>}
-        </section>
+          </div>
+        </section>}
       </div>
       <aside className="admissions-desk">
         <BookOpen aria-hidden="true" /><h2>Сургуулиас лавлах</h2>
         {settings.phone && <a className="admissions-contact text-action" href={`tel:${settings.phone.replace(/\s/g, "")}`}><Phone aria-hidden="true" />{settings.phone}</a>}
         {settings.email && <a className="text-action" href={`mailto:${settings.email}`}><Mail aria-hidden="true" />{settings.email}</a>}
+        {!guide && <p className="guide-status">Элсэлтийн гарын авлага хараахан нийтлэгдээгүй байна.</p>}
       </aside>
     </div>
   </main>;

@@ -32,7 +32,7 @@ function Cover({ item }: { item: NewsSummary }) {
 }
 
 export function NewsBrowser({ home = false }: { home?: boolean }) {
-  const { news: feedItems, preview } = useSiteData();
+  const { news: feedItems, preview, settings } = useSiteData();
   const [selectedId, setSelected] = useState<string | null>(null);
   const selected = feedItems.find(item => item.id === selectedId) || null;
   const [sort, setSort] = useState<NewsSort>("newest");
@@ -70,6 +70,11 @@ export function NewsBrowser({ home = false }: { home?: boolean }) {
     setSelected(item.id);
   };
 
+  // Lead the school-life bulletin with an editorial photo. Keep every other
+  // published headline in its existing feed order alongside it.
+  const illustrated = home ? visible.filter(item => item.cover_image_url && item.cover_image_url !== settings.hero_image_url) : [];
+  const leadStory = illustrated.find(item => item.is_featured && ["sports", "club", "olympiad"].includes(item.category?.slug || ""))
+    || illustrated[0] || visible[0];
   const dialogId = selected?.id;
   useEffect(() => {
     if (!dialogId) return;
@@ -118,8 +123,21 @@ export function NewsBrowser({ home = false }: { home?: boolean }) {
         </div>
       </div>}
       {!feedItems.length && <p className="empty-state">Мэдээ хараахан нийтлэгдээгүй байна.</p>}
-      <div id={listId} className={`news-layout ${home ? "is-home" : ""}`}>
-        {visible.map((item, index) => <article className={`news-card ${index === 0 && home ? "is-featured" : ""}`} key={item.id}>
+      {home && leadStory ? <div className="bulletin" id={listId}>
+        <article className="bulletin-lead">
+          <button type="button" className="news-cover" onClick={event => open(leadStory, event)} aria-label={leadStory.title_mn}><Cover item={leadStory} /></button>
+          <time dateTime={leadStory.published_at}>{dateLabel(leadStory.published_at)}</time>
+          <h3><button type="button" onClick={event => open(leadStory, event)}>{leadStory.title_mn}</button></h3>
+          <p>{leadStory.excerpt_mn}</p>
+        </article>
+        <ul className="bulletin-list">{visible.filter(item => item.id !== leadStory.id).map(item => <li key={item.id}>
+          <button type="button" onClick={event => open(item, event)}>
+            <time dateTime={item.published_at}>{item.published_at.slice(0,10).replaceAll("-", ".")}</time>
+            <span>{item.title_mn}</span><ArrowRight aria-hidden="true" size={20} />
+          </button>
+        </li>)}</ul>
+      </div> : <div id={listId} className="news-layout">
+        {visible.map(item => <article className="news-card" key={item.id}>
           <button type="button" className="news-cover" onClick={event => open(item, event)} aria-label={`${item.title_mn} мэдээг унших`}><Cover item={item} /></button>
           <div className="news-copy">
             <p className="news-category">{item.category?.name_mn || "Мэдээ"}</p>
@@ -129,7 +147,7 @@ export function NewsBrowser({ home = false }: { home?: boolean }) {
             <button type="button" className="text-action" onClick={event => open(item, event)}>Дэлгэрэнгүй унших <ArrowRight size={16} aria-hidden="true" /></button>
           </div>
         </article>)}
-      </div>
+      </div>}
       {selected ? <div className="dialog-backdrop" onMouseDown={event => event.target === event.currentTarget && setSelected(null)}>
         <div className="news-dialog" role="dialog" aria-modal="true" aria-labelledby={titleId} ref={dialog}>
           <button className="dialog-close" type="button" onClick={() => setSelected(null)} aria-label="Мэдээ хаах"><X /></button>

@@ -22,14 +22,14 @@ Tailwind CSS v4 runs through `@tailwindcss/postcss`. `src/app/globals.css` loads
 - `src/styles/theme.css` maps the school's colors, fonts, and fluid spacing to Tailwind tokens, such as `text-school-ink`, `font-ui`, and `pt-school-3`.
 - `src/styles/base.css` keeps the existing reset and CSS variables. Tailwind Preflight is intentionally omitted to preserve the current typography and native form controls.
 - `src/styles/public.css` and `src/styles/admin.css` use `@apply` for shared styles. Each references the theme so Next.js can compile imported stylesheets independently, and admin rules stay in the components layer. One-off layouts also use utilities directly in JSX.
-- The public notebook theme in `src/styles/notebook.css` supplies the graph paper, photo frame, chapter covers and responsive layouts.
+- The public notebook theme in `src/styles/notebook.css` supplies the ink-blue campus poster, graph-paper chapter covers and responsive layouts.
 
 Use literal Tailwind class names so source detection can find them. For conditional styling, select complete class strings instead of constructing utility names dynamically.
 
 ## Scope
 
 - Original responsive Mongolian homepage, school information, academic catalog, achievement timeline, news index and reader, admissions interface, navigation and footer.
-- The field notebook pairs a CMS campus photograph and graph paper with quick links for families. Public pages use self-hosted Golos Text with Cyrillic support.
+- The homepage pairs a CMS campus photograph with an ink-blue poster and quick links for families. Public pages use self-hosted Golos Text with Cyrillic support.
 - Existing Supabase adapters, API routes, PDF guide, admin screens, and local admin demo retained. No environment secrets copied from the source.
 - Mobile navigation exposes the public sections directly. News dialogs trap keyboard focus, close with Escape, and restore focus. Achievement years support arrow keys, Home and End.
 

@@ -2,13 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Check } from "lucide-react";
+import { ArrowUpRight, BookOpen, House, Newspaper, School, Trophy } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { unoptimizedPublicImage } from "@/lib/image-policy";
 
 const navItems = [
-  ["/", "Нүүр"], ["/about", "Бидний тухай"], ["/courses", "Сургалт"],
-  ["/achievements", "Амжилт"], ["/news", "Мэдээ"],
+  ["/", "Нүүр", House], ["/about", "Сургууль", School], ["/courses", "Сургалт", BookOpen],
+  ["/achievements", "Амжилт", Trophy], ["/news", "Мэдээ", Newspaper],
 ] as const;
 
 export function SiteHeader({ schoolName, logo }: { schoolName: string; logo?: string | null }) {
@@ -24,9 +24,9 @@ export function SiteHeader({ schoolName, logo }: { schoolName: string; logo?: st
         </span>
       </Link>
       <nav className="desktop-nav" aria-label="Үндсэн цэс">
-        {navItems.map(([href, label]) => <Link aria-current={pathname === href ? "page" : undefined} key={href} href={href}>{href === "/about" ? <><span className="nav-long">{label}</span><span className="nav-short">Сургууль</span></> : label}</Link>)}
+        {navItems.map(([href, label, Icon]) => <Link aria-current={pathname === href ? "page" : undefined} key={href} href={href}><Icon size={20} aria-hidden="true" />{label}</Link>)}
       </nav>
-      <Link className="header-apply" aria-current={pathname === "/apply" ? "page" : undefined} href="/apply">Элсэлт {pathname === "/apply" ? <Check size={17} aria-hidden="true" /> : <ArrowUpRight size={17} aria-hidden="true" />}</Link>
+      <Link className="header-apply" aria-current={pathname === "/apply" ? "page" : undefined} href="/apply">Элсэлт {pathname !== "/apply" && <ArrowUpRight size={17} aria-hidden="true" />}</Link>
     </div>
   </header>;
 }

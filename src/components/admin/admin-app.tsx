@@ -14,6 +14,7 @@ import {
   Trash2,
   Users,
 } from "lucide-react";
+import Link from "next/link";
 import type { FormEvent, ReactNode } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
@@ -138,9 +139,9 @@ export function AdminApp({ mode = "live" }: { mode?: "live" | "mock" }) {
   };
 
   return (
-    <div className="admin-shell grid min-h-svh grid-cols-[260px_minmax(0,1fr)] bg-[#f4f6f8] text-school-ink [@media(max-width:980px)]:grid-cols-1">
-      <aside className="admin-sidebar sticky top-0 flex h-svh flex-col gap-[1.4rem] bg-school-deep px-4 py-[1.3rem] text-[#e6edf6] [@media(max-width:980px)]:static [@media(max-width:980px)]:h-auto">
-        <div className="admin-brand flex items-center gap-3 [border-bottom:1px_solid_rgba(255,255,255,.18)] pb-4 font-extrabold leading-[1.2]"><img src="/school-logo.png" alt="11-р сургуулийн лого" /><span>11-р сургууль<br /><small>Удирдлагын систем</small></span></div>
+    <div className="admin-shell grid min-h-svh grid-cols-[260px_minmax(0,1fr)] bg-school-paper text-school-ink [@media(max-width:980px)]:grid-cols-1">
+      <aside className="admin-sidebar sticky top-0 flex h-svh flex-col gap-[1.4rem] bg-school-ink px-4 py-[1.3rem] text-[#e6edf6] [@media(max-width:980px)]:static [@media(max-width:980px)]:h-auto">
+        <div className="admin-brand flex items-center gap-3 [border-bottom:1px_solid_rgba(255,255,255,.18)] pb-4 font-extrabold leading-[1.2]"><img src={data.settings?.logo_url || "/school-logo.png"} alt="" /><span>11-р сургууль<br /><small>Удирдлагын систем</small></span></div>
         <nav className="grid gap-[.3rem]">
           {nav.map(([id, Icon, label]) => (
             <button key={id} className={page === id ? "active" : ""} onClick={() => go(id)}>
@@ -148,6 +149,7 @@ export function AdminApp({ mode = "live" }: { mode?: "live" | "mock" }) {
             </button>
           ))}
         </nav>
+        {mode === "live" && <Link className="admin-public-link" href="/"><Home size={18} aria-hidden="true" /> Нүүр хуудас</Link>}
         <button className="admin-logout mt-auto [@media(max-width:980px)]:mt-0" onClick={async () => {
           if (mode === "mock") { router.push("/"); return; }
           await request("/api/admin/logout", { method: "POST" });
@@ -213,9 +215,11 @@ export function AdminLogin() {
   };
 
   return (
-    <main className="admin-login flex min-h-svh items-center justify-center bg-school-deep p-5">
+    <main className="admin-login flex min-h-svh items-center justify-center bg-school-soft p-5">
       <form className={`login-card ${error ? "shake" : ""}`} onSubmit={submit}>
-        <img className="login-logo mx-auto mb-2 size-[84px] object-contain" src="/school-logo.png" alt="11-р сургуулийн лого" />
+        <Link href="/" className="login-home" aria-label="Нүүр хуудас">
+          <img className="size-[76px] object-contain" src="/school-logo.png" alt="" />
+        </Link>
         <p className="login-kicker text-center text-[.7rem] font-extrabold tracking-[.12em] text-school-blue uppercase">Удирдлагын систем</p>
         <h1>11-р сургууль</h1>
         <label htmlFor="admin-password">Нууц үг</label>
@@ -231,10 +235,10 @@ function Dashboard({ go }: { go: (page: AdminPage) => void }) {
   return (
     <section>
       <AdminTitle title="Dashboard" action={null} />
-      <div className="admin-card-grid grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-px border border-solid border-school-line bg-school-line">
+      <div className="admin-card-grid grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
         {nav.slice(1).map(([id, Icon, label]) => (
           <button className="admin-card-link" key={id} onClick={() => go(id)}>
-            <Icon /> <strong>{label}</strong><span>Manage content</span>
+            <Icon /> <strong>{label}</strong>
           </button>
         ))}
       </div>

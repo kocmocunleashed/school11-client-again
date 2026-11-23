@@ -10,11 +10,11 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ## Public website design
 
-- Read [design.md](./design.md) before changing or reviewing public UI.
+- Read [design.md](./design.md) before changing or reviewing the site or admin UI.
 - Preserve its bold, playful, graceful school-yearbook direction. The reference
   cards inspire consistent details; they are not a template for every section.
 - Include `design.md` in every UI subagent brief and require agents to read it.
-- Reuse existing components and shared tokens; keep admin styles isolated.
+- Reuse existing components and shared tokens. Keep admin layout styles scoped.
 - Use Bun for packages and checks. Verify responsive layouts and interactions.
 - Save a baseline commit before a broad refresh and keep the refresh separately
   reversible. Do not reset or discard unrelated work.

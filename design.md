@@ -16,15 +16,24 @@ accordions, forms, and navigation retain familiar shapes and behavior.
 
 ## Scope and source of truth
 
-This file governs all public routes: home, about, courses, achievements, news,
-and admissions. It does not restyle the admin application. Read this file before
-any public UI change or review, and include it in every delegated design brief.
+This file governs the public routes, admin, and loading, error, and missing-page
+states. Admin uses the same palette, headings, controls, and paper surfaces. Keep
+tables, forms, and status messages easy to scan. Read this file before UI changes
+or reviews, and include it in every delegated design brief.
 User corrections take precedence; update this file when the direction changes.
 
-Public tokens live in `src/styles/public.css` under the student-yearbook block.
-Shared component rules also live there. Calendar, timeline, management portraits,
-and footer keep their existing stylesheets and consume the same tokens.
+Shared tokens live in `src/styles/base.css`. Public component rules live in
+`src/styles/public.css`. Admin, calendar, timeline, staff profiles, and footer
+use their own stylesheets with the same tokens.
 Reuse existing components before creating new ones. No new UI library is needed.
+
+## School marks and Home
+
+Use the updated school seal from the supplied school materials as the default
+logo and browser icon. The CMS can set the logo for the public header, footer,
+and signed-in admin. Use the supplied 1947–2027 mark beside the anniversary plan.
+Keep “Нүүр” visible in the public menus with a small campus photo that echoes the
+hero postcard. The masthead and footer seal also link home.
 
 ## Palette
 

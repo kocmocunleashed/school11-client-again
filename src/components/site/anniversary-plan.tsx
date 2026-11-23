@@ -1,4 +1,5 @@
 import { ArrowDown } from "lucide-react";
+import Image from "next/image";
 
 const anniversaryItems: { title: string; description: string; href?: string }[] = [
   {
@@ -70,8 +71,9 @@ export function AnniversaryPlan() {
   return (
     <section className="anniversary-plan" id="oin-ajil" aria-labelledby="anniversary-plan-title">
       <div className="shell mx-auto w-[var(--shell)] max-w-[1100px]">
-        <header className="section-heading">
+        <header className="section-heading anniversary-plan-header">
           <h2 id="anniversary-plan-title">80 жилийн ойн төлөвлөгөө</h2>
+          <Image className="anniversary-logo" src="/school-anniversary-logo.jpg" alt="11 дүгээр сургуулийн 80 жилийн ойн лого, 1947–2027" width={1056} height={824} sizes="(max-width: 700px) 104px, 156px" />
         </header>
         {planGroups.map(({ title, start, end }) => (
           <div className="anniversary-plan-group" key={title}>

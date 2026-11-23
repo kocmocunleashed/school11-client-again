@@ -14,7 +14,6 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_URL || "http://localhost:3000"),
   title: { default: "Нийслэлийн 11-р сургууль", template: "%s | Нийслэлийн 11-р сургууль" },
   description: "Нийслэлийн 11-р сургуулийн мэдээ, сургалт, багш нар, амжилт болон элсэлтийн мэдээлэл.",
-  icons: { icon: "/school-logo.png", apple: "/school-logo.png" },
   openGraph: {
     type: "website",
     locale: "mn_MN",

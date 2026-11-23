@@ -53,6 +53,7 @@ export function SiteFooter({ settings }: { settings: SchoolSettings }) {
         <div className={styles.bottom}>
           <p>© {new Date().getFullYear()} {settings.school_name_mn}.</p>
           <nav aria-label="Нэмэлт холбоосууд">
+            <Link href="/">Нүүр</Link>
             <Link href="/about">Бидний тухай</Link>
             <Link href="/apply">Элсэх</Link>
             <Link href="/news">Мэдээ</Link>

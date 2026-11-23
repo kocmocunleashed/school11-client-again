@@ -37,7 +37,7 @@ Use literal Tailwind class names so source detection can find them. For conditio
 
 Phillips Exeter Academy (https://exeter.edu/) and Highgate School (https://www.highgateschool.org.uk/) informed only the information hierarchy: school identity, academics, school life, news, and admissions. No school copy, branding, images or source code was taken from those sites. The visual composition and Mongolian homepage copy are original.
 
-The logo and campus photograph were inherited from the source project. The photograph carries an iKon watermark; retain its attribution and confirm publication permission or replace it with a school-owned photograph before launch. It has not been represented as newly commissioned photography.
+The school seal and the 1947–2027 anniversary logo come from the supplied anniversary materials. The campus photograph comes from the source project and carries an iKon watermark. Retain its attribution and confirm publication permission or replace it with a school-owned photograph before launch.
 
 Fallback news, teachers, timelines, statistics, contact information and the inherited admissions PDF are preview content and require school review. A Mongolian preview notice is displayed when fallback news is in use. Do not publish sample achievements as verified facts. Configure Supabase with the existing environment variables to use approved school content. The admissions result API requires its backend configuration; local preview does not fabricate admission decisions.
 

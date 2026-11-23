@@ -8,11 +8,16 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const navItems = [
+  ["/", "Нүүр"],
   ["/about", "Бидний тухай"],
   ["/courses", "Сургалт"],
   ["/achievements", "Амжилт"],
   ["/news", "Мэдээ"],
 ] as const;
+
+function NavLabel({ href, label }: { href: string; label: string }) {
+  return <>{href === "/" && <Image className="nav-campus-photo" src="/school-bg.jpg" alt="" width={36} height={32} />}{label}</>;
+}
 
 export function SiteHeader({ schoolName, logo }: { schoolName: string; logo?: string | null }) {
   const pathname = usePathname();
@@ -52,7 +57,7 @@ export function SiteHeader({ schoolName, logo }: { schoolName: string; logo?: st
           <span><strong>{schoolName}</strong><small>Эрдэм. Хүмүүжил. Ирээдүй.</small></span>
         </Link>
         <nav className="desktop-nav" aria-label="Үндсэн цэс">
-          {navItems.map(([href, label]) => <Link aria-current={pathname === href ? "page" : undefined} key={href} href={href}>{label}</Link>)}
+          {navItems.map(([href, label]) => <Link aria-current={pathname === href ? "page" : undefined} key={href} href={href}><NavLabel href={href} label={label} /></Link>)}
         </nav>
         <Link className="header-apply" aria-current={pathname === "/apply" ? "page" : undefined} href="/apply">Элсэлт <span aria-hidden="true">↗</span></Link>
         <button ref={menuButton} className="menu-button" type="button" onClick={() => setOpen(true)} aria-expanded={open} aria-controls="mobile-menu" aria-label="Цэс нээх"><Menu /></button>
@@ -60,7 +65,7 @@ export function SiteHeader({ schoolName, logo }: { schoolName: string; logo?: st
       <div ref={panel} role={open ? "dialog" : undefined} aria-modal={open || undefined} aria-label="Үндсэн цэс" inert={!open} className={`mobile-nav ${open ? "is-open" : ""}`} id="mobile-menu" aria-hidden={!open}>
         <button ref={closeButton} type="button" tabIndex={open ? 0 : -1} onClick={closeMenu} aria-label="Цэс хаах"><X /></button>
         <nav aria-label="Гар утасны үндсэн цэс">
-          {[...navItems, ["/apply", "Элсэлт"] as const].map(([href, label]) => <Link aria-current={pathname === href ? "page" : undefined} key={href} href={href} tabIndex={open ? 0 : -1} onClick={() => setOpen(false)}>{label}</Link>)}
+          {[...navItems, ["/apply", "Элсэлт"] as const].map(([href, label]) => <Link aria-current={pathname === href ? "page" : undefined} key={href} href={href} tabIndex={open ? 0 : -1} onClick={closeMenu}><NavLabel href={href} label={label} /></Link>)}
         </nav>
       </div>
     </header>

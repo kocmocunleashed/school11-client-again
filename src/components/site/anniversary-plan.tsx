@@ -82,7 +82,7 @@ export function AnniversaryPlan() {
             <h2 id="anniversary-plan-title">80 жилийн ойн төлөвлөгөө</h2>
             <p className="anniversary-motto">Бахдам түүхийн эзэд — Бидний 80 жил</p>
           </div>
-          <Image className="anniversary-logo" src="/school-anniversary-logo.jpg" alt="11 дүгээр сургуулийн 80 жилийн ойн лого, 1947–2027" width={1056} height={824} sizes="(max-width: 700px) 120px, 210px" />
+          <Image className="anniversary-logo" src="/school-anniversary-logo.jpg" alt="11 дүгээр сургуулийн 80 жилийн ойн лого, 1947–2027" width={1056} height={824} sizes="(max-width: 700px) 92px, 156px" />
         </header>
         {planGroups.map(({ title, start, end }) => (
           <div className="anniversary-plan-group" key={title}>

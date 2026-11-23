@@ -1509,6 +1509,7 @@
 .anniversary-card p,
 .anniversary-heading > p:not(.anniversary-kicker),
 .anniversary-memory blockquote,
+.reunion-preparation p,
 .reunion-details p {
   font-family: var(--font-reading);
   font-size: 1rem;
@@ -1617,107 +1618,145 @@
   max-inline-size: 56ch;
   margin-inline: auto;
 }
+.reunion-layout {
+  display: grid;
+  gap: clamp(20px, 3vw, 32px);
+  max-inline-size: 760px;
+  margin-inline: auto;
+}
 .reunion-panel {
-  padding: clamp(16px, 4vw, 40px);
+  min-inline-size: 0;
+  padding: clamp(14px, 3vw, 28px);
   border: 1px solid var(--ink);
   background: var(--paper);
-  box-shadow: 5px 5px var(--gold);
+  box-shadow: 5px 5px 0 var(--gold);
   color: var(--ink);
-}
-.reunion-schedule {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.reunion-schedule > li {
-  display: grid;
-  grid-template-columns: minmax(4.25rem, 16%) minmax(0, 1fr);
-  align-items: center;
-  gap: clamp(12px, 3vw, 24px);
-  padding-block: 16px;
-  border-block-end: 1px solid var(--line);
-}
-.reunion-schedule > li:first-child {
-  padding-block-start: 0;
-}
-.reunion-date {
-  display: grid;
-  justify-items: start;
-  gap: 4px;
-  color: var(--blue-deep);
-  font-size: 1.375rem;
-  font-weight: 750;
-  line-height: 1.15;
-  font-variant-numeric: tabular-nums;
-}
-.reunion-date > time:last-child {
-  padding: 3px 6px;
-  background: var(--gold);
-  color: var(--ink);
-  font-size: .9375rem;
-}
-.reunion-panel h3 {
-  font-size: 1.25rem;
-  font-weight: 750;
-  line-height: 1.2;
-}
-.reunion-schedule p,
-.reunion-details p {
-  color: var(--slate);
-  font-size: 1rem;
-  line-height: 1.55;
-}
-.reunion-schedule p {
-  margin-block-start: 4px;
 }
 .reunion-venue {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-block-start: 20px;
-  padding: 12px;
-  border-inline-start: 4px solid var(--gold);
+  margin-block-end: 18px;
+  padding: 10px 12px;
+  border-inline-start: 3px solid var(--gold);
   background: var(--blue-soft);
+  font-weight: 700;
+  line-height: 1.4;
 }
-.reunion-venue svg,
-.reunion-preparation li::marker {
+.reunion-venue svg {
   color: var(--blue-deep);
 }
-.reunion-details {
-  margin-block-start: 28px;
+.reunion-schedule {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
 }
-.reunion-preparation {
-  display: grid;
-  gap: 12px;
-  margin: 12px 0 0;
-  padding-inline-start: 1.375rem;
+.reunion-schedule :is(th, td) {
+  padding: 12px clamp(4px, 1vw, 12px);
+  border-block-end: 1px solid var(--line);
+  text-align: start;
+  vertical-align: top;
 }
-.reunion-preparation li::marker,
-.reunion-preparation h4 {
+.reunion-schedule :is(th, td):first-child { padding-inline-start: 0; }
+.reunion-schedule :is(th, td):last-child { padding-inline-end: 0; text-align: end; }
+.reunion-schedule thead th {
+  padding-block: 8px;
+  border-block-end-color: var(--ink);
+  color: var(--slate);
+  font-size: .875rem;
   font-weight: 700;
 }
-.reunion-preparation h4 {
+.reunion-schedule tbody th {
+  color: var(--blue-deep);
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  font-weight: 750;
+  white-space: nowrap;
+}
+.reunion-schedule td {
   font-size: 1rem;
+  font-weight: 700;
+}
+.reunion-schedule tbody tr:last-child > * { border-block-end: 0; }
+.reunion-schedule td span {
+  display: block;
+  margin-block-start: 3px;
+  color: var(--slate);
+  font-size: .875rem;
+  font-weight: 400;
+}
+.reunion-guide {
+  background: var(--blue-soft);
+}
+.reunion-guide h3,
+.reunion-details h3 {
+  font-size: clamp(1.5rem, 3vw, 1.875rem);
+  font-weight: 750;
+  line-height: 1.15;
+}
+.reunion-preparation {
+  margin: 10px 0 0;
+  padding-inline-start: 1.375rem;
+}
+.reunion-preparation li {
+  padding-block: 12px;
+  border-block-end: 1px solid var(--line);
+}
+.reunion-preparation li::marker {
+  color: var(--blue-deep);
+  font-weight: 750;
+}
+.reunion-preparation h4 {
+  margin-block-end: 4px;
+  font-size: 1.125rem;
+  line-height: 1.25;
+}
+.reunion-preparation p {
+  color: var(--slate);
+}
+.reunion-details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 32px;
+  padding-block: 18px;
+  border-block: 1px solid color-mix(in srgb, var(--paper) 45%, transparent);
+}
+.reunion-details p {
+  margin-block-start: 8px;
 }
 .reunion-contacts {
   display: flex;
   flex-wrap: wrap;
-  column-gap: 20px;
-  margin-block: 4px;
+  gap: 4px 16px;
 }
 .reunion-contacts a {
   display: inline-flex;
   align-items: center;
+  gap: 8px;
   min-block-size: 44px;
-  color: var(--blue-deep);
+  color: var(--paper);
   overflow-wrap: anywhere;
   text-decoration: underline;
+  text-decoration-color: var(--gold);
   text-underline-offset: .2em;
 }
-.reunion-details .reunion-signature {
-  margin-block-start: 16px;
-  color: var(--ink);
-  font-weight: 750;
+.reunion-contacts a:hover { color: var(--gold); }
+.public-site .reunion-contacts a:focus-visible {
+  outline-color: var(--gold);
+  box-shadow: none;
+}
+.reunion-signature {
+  margin-block-start: 24px;
+  text-align: center;
+  font-size: .9375rem;
+}
+@media (min-width: 960px) {
+  .reunion-layout {
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+    max-inline-size: none;
+  }
+  .reunion-details { grid-column: 1 / -1; }
 }
 .anniversary-portraits,
 .anniversary-memories {
@@ -2046,7 +2085,7 @@
   font-size: 1rem;
   line-height: 1.65;
 }
-.public-site :is(.section-heading > span, .reunion-schedule p) {
+.public-site .section-heading > span {
   font-family: var(--font-reading);
   line-height: 1.65;
 }

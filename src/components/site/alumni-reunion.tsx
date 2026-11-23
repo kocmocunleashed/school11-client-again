@@ -1,13 +1,13 @@
-import { MapPin } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 
 const reunionMeetings = [
-  { date: "--11-20", label: "XI/20", time: "17:00", weekday: "Баасан гараг", years: "1994–2002" },
-  { date: "--11-21", label: "XI/21", time: "10:00", weekday: "Бямба гараг", years: "1947–1980" },
-  { date: "--11-21", label: "XI/21", time: "14:00", weekday: "Бямба гараг", years: "2020–2023" },
-  { date: "--11-27", label: "XI/27", time: "17:00", weekday: "Баасан гараг", years: "2003–2011" },
-  { date: "--11-28", label: "XI/28", time: "10:00", weekday: "Бямба гараг", years: "1981–1993" },
-  { date: "--11-28", label: "XI/28", time: "14:00", weekday: "Бямба гараг", years: "2024–2026" },
-  { date: "--12-04", label: "XII/04", time: "12:00", weekday: "Баасан гараг", years: "2012–2019" },
+  { years: "1947–1980", date: "--11-21", day: "11 сарын 21", weekday: "Бямба", time: "10:00" },
+  { years: "1981–1993", date: "--11-28", day: "11 сарын 28", weekday: "Бямба", time: "10:00" },
+  { years: "1994–2002", date: "--11-20", day: "11 сарын 20", weekday: "Баасан", time: "17:00" },
+  { years: "2003–2011", date: "--11-27", day: "11 сарын 27", weekday: "Баасан", time: "17:00" },
+  { years: "2012–2019", date: "--12-04", day: "12 сарын 4", weekday: "Баасан", time: "12:00" },
+  { years: "2020–2023", date: "--11-21", day: "11 сарын 21", weekday: "Бямба", time: "14:00" },
+  { years: "2024–2026", date: "--11-28", day: "11 сарын 28", weekday: "Бямба", time: "14:00" },
 ];
 
 const preparation = [
@@ -32,29 +32,38 @@ const preparation = [
 export function AlumniReunion() {
   return (
     <section className="alumni-reunion" id="khutulbur" aria-labelledby="alumni-reunion-title">
-      <div className="shell mx-auto w-[var(--shell)] max-w-[760px]">
+      <div className="shell mx-auto w-[var(--shell)] max-w-[1100px]">
         <header className="anniversary-heading">
           <h2 id="alumni-reunion-title">Төгсөгчдийн уулзалтын хуваарь</h2>
           <p>Ирэх 80 жилийн түүхэн ойгоо угтан «11-р сургуулийн түүхийн ном» бүтээх болон түүхэн архивыг бүрдүүлэх зорилготой уулзалтад үе үеийн төгсөгч та бүхнийг урьж байна.</p>
         </header>
-        <div className="reunion-panel">
-          <ol className="reunion-schedule" aria-label="Уулзалтын хуваарь" role="list">
-            {reunionMeetings.map(({ date, label, time, weekday, years }) => (
-              <li key={years}>
-                <div className="reunion-date">
-                  <time dateTime={date}>{label}</time>
-                  <time dateTime={time}>{time}</time>
-                </div>
-                <div>
-                  <h3>{years} оны төгсөгчид</h3>
-                  <p>{weekday}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-          <p className="reunion-venue"><MapPin size={20} aria-hidden="true" /><span><strong>Хаана:</strong> 11 дүгээр сургуулийн хичээлийн байранд</span></p>
-          <div className="reunion-details">
-            <h3>Уулзалтад ирэхдээ бэлтгэж ирэх зүйлс</h3>
+        <div className="reunion-layout">
+          <div className="reunion-panel">
+            <p className="reunion-venue">
+              <MapPin size={20} aria-hidden="true" />
+              <span>11 дүгээр сургуулийн хичээлийн байр</span>
+            </p>
+            <table className="reunion-schedule" aria-labelledby="alumni-reunion-title">
+              <thead>
+                <tr>
+                  <th scope="col">Төгссөн он</th>
+                  <th scope="col">Уулзах өдөр</th>
+                  <th scope="col">Цаг</th>
+                </tr>
+              </thead>
+              <tbody>
+                {reunionMeetings.map(({ years, date, day, weekday, time }) => (
+                  <tr key={years}>
+                    <th scope="row">{years}</th>
+                    <td><time dateTime={date}>{day}</time><span>{weekday} гараг</span></td>
+                    <td><time dateTime={time}>{time}</time></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="reunion-panel reunion-guide">
+            <h3>Уулзалтад юу бэлдэх вэ?</h3>
             <ol className="reunion-preparation">
               {preparation.map(({ title, description }) => (
                 <li key={title}>
@@ -65,15 +74,17 @@ export function AlumniReunion() {
             </ol>
           </div>
           <div className="reunion-details">
-            <h3>Холбоо барих</h3>
-            <div className="reunion-contacts">
-              <a href="tel:+97699941199">9994 1199</a>
-              <a href="mailto:info@school11.edu.mn">info@school11.edu.mn</a>
+            <div>
+              <h3>Холбоо барих</h3>
+              <p>Биечлэн ирэх боломжгүй бол мэдээлэл, фото зургаа цахим шуудангаар илгээгээрэй.</p>
             </div>
-            <p>Хэрэв биечлэн ирэх боломжгүй бол дээрх мэдээлэл, фото зургуудыг сургуулийн цахим хаягаар илгээх боломжтой.</p>
-            <p className="reunion-signature">80 жилийн ойн уулзалт зохион байгуулах комисс</p>
+            <div className="reunion-contacts">
+              <a href="tel:+97699941199"><Phone size={16} aria-hidden="true" />9994 1199</a>
+              <a href="mailto:info@school11.edu.mn"><Mail size={16} aria-hidden="true" /><span>info@school11.edu.mn</span></a>
+            </div>
           </div>
         </div>
+        <p className="reunion-signature">80 жилийн ойн уулзалт зохион байгуулах комисс</p>
       </div>
     </section>
   );

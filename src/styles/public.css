@@ -25,7 +25,7 @@
 .skip-link:focus {
   @apply top-4;
 }
-.school-eyebrow, .section-heading > div > p, .page-intro > p, .achievement-summary > p, .course-sections header > p, .guide-card > div > p, .news-category {
+.school-eyebrow, .section-heading > div > p, .news-category {
   @apply text-school-blue text-[0.851rem] font-extrabold tracking-[.12em] leading-[1.3] uppercase;
 }
 .primary-button, .secondary-button {
@@ -242,19 +242,13 @@
   @apply pb-school-5;
 }
 .page-intro {
-  @apply grid grid-cols-[minmax(0,_.35fr)_minmax(0,_1fr)] py-[var(--space-5)_var(--space-4)];
-}
-.page-intro > p {
-  @apply [grid-column:1] pt-2;
+  @apply grid py-[var(--space-5)_var(--space-4)];
 }
 .page-intro h1 {
-  @apply text-[clamp(3.45rem,_7.475vw,_7.475rem)] font-normal [grid-column:2] tracking-[-.045em] leading-[.95];
+  @apply text-[clamp(3.45rem,_7.475vw,_7.475rem)] font-normal tracking-[-.045em] leading-[.95];
 }
-.intro-rule {
-  @apply self-end [border-top:1px_solid_var(--line)] [grid-column:1] mr-8;
-}
-.page-intro > span {
-  @apply text-school-muted text-[1.15rem] [grid-column:2] leading-[1.7] mt-6 max-w-[68ch];
+.page-intro > p {
+  @apply text-school-muted text-[1.15rem] leading-[1.7] mt-6 max-w-[68ch];
 }
 .story-grid {
   @apply [border-block:1px_solid_var(--line)] grid gap-school-4 grid-cols-[1fr_1fr] py-school-4;
@@ -425,7 +419,7 @@
   @apply [background:var(--paper)] flex flex-col justify-center p-[clamp(2rem,_5vw,_4rem)];
 }
 .achievement-summary h2 {
-  @apply text-[clamp(2.415rem,_5.175vw,_4.6rem)] font-normal mt-[.8rem];
+  @apply text-[clamp(2.415rem,_5.175vw,_4.6rem)] font-normal;
 }
 .achievement-summary > span {
   @apply text-school-muted leading-[1.7] mt-4;
@@ -491,16 +485,13 @@
   scroll-margin-top: 100px;
 }
 .course-sections header {
-  @apply grid grid-cols-[.35fr_1fr];
-}
-.course-sections header > p {
-  @apply [grid-column:1];
+  @apply grid;
 }
 .course-sections header h2 {
-  @apply text-[clamp(2.76rem,_5.75vw,_5.175rem)] font-normal [grid-column:2];
+  @apply text-[clamp(2.76rem,_5.75vw,_5.175rem)] font-normal;
 }
 .course-sections header > span {
-  @apply text-school-muted [grid-column:2] mt-3;
+  @apply text-school-muted mt-3;
 }
 .course-list {
   @apply [border-top:1px_solid_var(--line)] [margin:2rem_0_1rem];
@@ -682,17 +673,8 @@
   .dialog-image {
     @apply min-h-[240px];
   }
-  .page-intro, .story-grid, .value-grid, .achievement-panel {
+  .story-grid, .value-grid, .achievement-panel {
     @apply grid-cols-[1fr];
-  }
-  .page-intro > p, .page-intro h1, .page-intro > span {
-    @apply [grid-column:1];
-  }
-  .page-intro h1 {
-    @apply mt-4;
-  }
-  .intro-rule {
-    @apply hidden;
   }
   .value-grid article {
     @apply [border-right:1px_solid_var(--line)] min-h-[180px];
@@ -702,15 +684,6 @@
   }
   .achievement-year {
     @apply min-h-[220px];
-  }
-  .course-sections header {
-    @apply grid-cols-[1fr];
-  }
-  .course-sections header > p, .course-sections header h2, .course-sections header > span {
-    @apply [grid-column:1];
-  }
-  .course-sections header h2 {
-    @apply mt-[.7rem];
   }
   .course-list summary > span {
     @apply items-start grid-cols-[36px_1fr];
@@ -898,11 +871,8 @@
 .public-site .page-intro h1 {
   @apply text-[clamp(44px,5.29vw,76px)] font-semibold leading-[1.16] max-w-[930px];
 }
-.public-site .page-intro>span {
+.public-site .page-intro>p {
   @apply text-[16px] max-w-[600px] text-school-muted;
-}
-.public-site .intro-rule {
-  @apply [background:var(--blue)] [border:0];
 }
 .public-site .story-grid h2 {
   @apply text-[37px] font-semibold;
@@ -1139,7 +1109,7 @@
   .public-site .page-intro h1 {
     @apply text-[44px];
   }
-  .public-site .page-intro>span {
+  .public-site .page-intro>p {
     @apply text-[15px];
   }
   .public-site .mission-grid article {
@@ -1658,9 +1628,6 @@
   letter-spacing: .14em;
   text-transform: uppercase;
 }
-.alumni-reunion .anniversary-kicker {
-  color: var(--gold);
-}
 .anniversary-heading h2 {
   margin-block: 10px 16px;
   font-size: clamp(2.125rem, 4.5vw, 3.5rem);
@@ -1971,13 +1938,10 @@
 .public-site .page-intro {
   @apply [padding:34px_0_46px] border-[var(--ink)] mb-[45px];
 }
-.public-site .page-intro>p {
-  @apply tracking-[.05em] text-[14px] text-[var(--blue)];
-}
 .public-site .page-intro h1 {
   @apply text-[clamp(46px,5.75vw,83px)] font-[750] leading-[1.04];
 }
-.public-site .page-intro>span {
+.public-site .page-intro>p {
   @apply text-[18px];
 }
 .public-site .mission-grid article {
@@ -2094,7 +2058,7 @@
   @apply text-[var(--blue)];
 }
 /* Reading typography is shared; display type stays expressive and condensed. */
-.public-site :is(.page-intro > span, .story-grid p, .value-grid p,
+.public-site :is(.page-intro > p, .story-grid p, .value-grid p,
   .history-section li p, .course-sections header > span, .course-index small,
   .course-list details > div p, .achievement-summary > span,
   .news-copy > p:not(.news-category):not(.news-date), .dialog-copy > p,
@@ -2398,7 +2362,7 @@
   .public-site .page-intro h1 {
     @apply text-[49px];
   }
-  .public-site .page-intro>span {
+  .public-site .page-intro>p {
     @apply text-[16px];
   }
   .public-site .page-intro {

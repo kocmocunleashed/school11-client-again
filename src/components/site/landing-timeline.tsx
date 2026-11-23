@@ -57,10 +57,10 @@ export function LandingTimeline() {
   const accent = colors[periodIndex % colors.length];
   return <section className="landing-timeline" id="school-history" aria-labelledby={`${id}-heading`} style={{ "--timeline-accent": accent } as CSSProperties}>
     <div className="shell mx-auto w-[var(--shell)]">
-      <header className="landing-timeline-heading"><div><p className="landing-timeline-eyebrow">БИДНИЙ ЗАМНАЛ</p><h2 id={`${id}-heading`}>Он жилүүдээр аялъя.</h2></div><Link href="/achievements" className="text-action">Бүх амжилт <ArrowUpRight /></Link></header>
+      <header className="landing-timeline-heading"><div><h2 id={`${id}-heading`}>Он жилүүдээр аялъя.</h2></div><Link href="/achievements" className="text-action">Бүх амжилт <ArrowUpRight /></Link></header>
       <div className="landing-timeline-periods" aria-label="Түүхийн үе сонгох">
         <button className="landing-timeline-arrow" type="button" aria-label="Өмнөх үе" disabled={periodIndex <= 0} onClick={() => selectPeriod(periodIndex - 1)}><ArrowLeft size={22} /></button>
-        <div className="landing-timeline-period-label"><span>ТҮҮХИЙН ҮЕ</span><strong aria-live="polite">{activePeriod}<i>—</i>{activePeriod + 9}</strong><span>{String(periodIndex + 1).padStart(2, "0")} / {String(periods.length).padStart(2, "0")}</span></div>
+        <div className="landing-timeline-period-label"><strong aria-live="polite">{activePeriod}<i>—</i>{activePeriod + 9}</strong><span>{String(periodIndex + 1).padStart(2, "0")} / {String(periods.length).padStart(2, "0")}</span></div>
         <button className="landing-timeline-arrow" type="button" aria-label="Дараах үе" disabled={periodIndex >= periods.length - 1} onClick={() => selectPeriod(periodIndex + 1)}><ArrowRight size={22} /></button>
       </div>
       <div className="landing-timeline-cards">

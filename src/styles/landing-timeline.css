@@ -1,6 +1,5 @@
 .landing-timeline { padding: var(--section-space) 0; background: var(--blue-soft); color: var(--ink); overflow: hidden; }
 .landing-timeline-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
-.landing-timeline-eyebrow { margin: 0 0 16px; color: var(--blue); font-size: 14px; font-weight: 800; letter-spacing: .1em; }
 .landing-timeline-heading h2 { margin: 0; font-size: clamp(34px, 4.6vw, 62px); line-height: 1.1; letter-spacing: -.045em; }
 .landing-timeline-heading .text-action { flex-shrink: 0; }
 .landing-timeline-periods { display: grid; grid-template-columns: 48px minmax(0, 1fr) 48px; align-items: center; gap: 24px; max-width: 570px; margin: 48px auto 36px; }

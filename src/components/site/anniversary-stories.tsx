@@ -43,7 +43,6 @@ export function AnniversaryMemories() {
     <section className="anniversary-memories" id="dursamj" aria-labelledby="anniversary-memories-title">
       <div className="shell mx-auto w-[var(--shell)] max-w-[1100px]">
         <header className="anniversary-heading">
-          <p className="anniversary-kicker">Дурсамж</p>
           <h2 id="anniversary-memories-title">Төгсөгчдийн үг</h2>
           <p>Жишээ эшлэлүүд</p>
         </header>

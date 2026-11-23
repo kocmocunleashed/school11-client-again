@@ -34,7 +34,6 @@ export function AlumniReunion() {
     <section className="alumni-reunion" id="khutulbur" aria-labelledby="alumni-reunion-title">
       <div className="shell mx-auto w-[var(--shell)] max-w-[760px]">
         <header className="anniversary-heading">
-          <p className="anniversary-kicker">Урилга</p>
           <h2 id="alumni-reunion-title">Төгсөгчдийн уулзалтын хуваарь</h2>
           <p>Ирэх 80 жилийн түүхэн ойгоо угтан «11-р сургуулийн түүхийн ном» бүтээх болон түүхэн архивыг бүрдүүлэх зорилготой уулзалтад үе үеийн төгсөгч та бүхнийг урьж байна.</p>
         </header>

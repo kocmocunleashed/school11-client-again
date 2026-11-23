@@ -21,10 +21,7 @@ export function SiteFooter({ settings }: { settings: SchoolSettings }) {
           <div className={styles.identity}>
             <Link className={styles.brand} href="/" aria-label="Нүүр хуудас">
               <Image src={settings.logo_url || "/school-logo.png"} unoptimized={unoptimizedPublicImage(settings.logo_url || "/school-logo.png")} alt="" width={76} height={76} />
-              <span>
-                <strong>{settings.school_name_mn}</strong>
-                <span className={styles.motto}>Эрдэм. Хүмүүжил. Ирээдүй.</span>
-              </span>
+              <strong>{settings.school_name_mn}</strong>
             </Link>
             {socials.length > 0 && (
               <div className={styles.socials}>

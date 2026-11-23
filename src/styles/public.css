@@ -68,15 +68,9 @@
 .site-brand img {
   @apply h-[54px] object-contain w-[54px];
 }
-.site-brand span {
-  @apply grid gap-[.16rem];
-}
 .site-brand strong {
   font-family: var(--font-display), serif;
   @apply text-[1.15rem] leading-[1.1];
-}
-.site-brand small {
-  @apply text-school-muted text-[0.759rem] tracking-[.04em] uppercase;
 }
 .desktop-nav {
   @apply items-stretch flex h-full;
@@ -649,7 +643,7 @@
   .site-brand strong {
     @apply text-[0.989rem];
   }
-  .site-brand small, .header-apply {
+  .header-apply {
     @apply hidden;
   }
   .section-heading {
@@ -738,9 +732,6 @@
 }
 .public-site .site-brand strong {
   @apply text-[20px] font-extrabold tracking-[-.04em];
-}
-.public-site .site-brand small {
-  @apply text-[12px] tracking-[.06em] mt-[5px];
 }
 .public-site .desktop-nav a {
   @apply font-semibold text-[14px] px-[15px];
@@ -1028,9 +1019,6 @@
   .public-site .site-brand strong {
     @apply text-[16px];
   }
-  .public-site .site-brand small {
-    @apply block text-[12px];
-  }
   .public-site .site-brand img {
     @apply w-[46px] h-[46px];
   }
@@ -1233,9 +1221,6 @@
 .public-site .site-brand strong {
   @apply font-[750] text-[21px];
 }
-.public-site .site-brand small {
-  @apply text-[#424839];
-}
 .public-site .desktop-nav a {
   @apply text-[15px] font-semibold;
 }
@@ -1375,12 +1360,6 @@
 .postcard-photo img {
   @apply object-cover;
   object-position: center 40%;
-}
-.postcard-caption {
-  @apply flex items-center justify-between text-[14px] [padding:14px_7px] font-medium;
-}
-.postcard-caption svg {
-  @apply w-[19px] h-[19px];
 }
 .arrival-bottom {
   @apply flex justify-between items-center min-h-[82px] mt-[10px];
@@ -2217,9 +2196,6 @@
   .public-site .site-brand strong {
     @apply text-[17px];
   }
-  .public-site .site-brand small {
-    @apply text-[12px];
-  }
   .public-site .arrival {
     @apply pt-[24px];
   }
@@ -2269,9 +2245,6 @@
   }
   .postcard-photo {
     @apply h-[clamp(108px,32vw,145px)];
-  }
-  .postcard-caption {
-    @apply text-[12px] py-[12px];
   }
   .arrival-bottom {
     @apply min-h-[65px] mt-[20px];
@@ -2410,10 +2383,7 @@
   @apply max-w-[290px] text-[#d4d9e3] text-[16px];
 }
 .hall-controls {
-  @apply flex items-center justify-between gap-[15px] mb-[20px];
-}
-.hall-controls>span {
-  @apply text-[14px] text-[#cbd3e5];
+  @apply flex items-center justify-end gap-[15px] mb-[20px];
 }
 .hall-controls>div {
   @apply flex gap-[8px];
@@ -2497,18 +2467,6 @@
 .medal-bronze {
   @apply text-[#98603f];
 }
-.hall-source {
-  @apply flex items-center flex-wrap gap-[5px] mt-[18px] text-[12px] text-[#cbd3e5];
-}
-.hall-source a {
-  @apply inline-flex items-center gap-[3px];
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  @apply text-white;
-}
-.hall-source>span {
-  @apply block w-full mt-[4px];
-}
 .hall-tools {
   @apply flex flex-wrap items-center gap-[14px] [margin:26px_0];
 }
@@ -2566,9 +2524,6 @@
   }
   .hall-controls {
     @apply items-start;
-  }
-  .hall-controls>span {
-    @apply text-[12px] max-w-[115px] leading-[1.5];
   }
   .hall-controls .hall-pause {
     @apply px-[11px];
@@ -2711,9 +2666,6 @@
 .public-site .site-brand strong {
   @apply text-[clamp(22px,_1.495vw,_29px)];
 }
-.public-site .site-brand small {
-  @apply text-[14px];
-}
 .public-site .desktop-nav a {
   @apply text-[clamp(18px,_1.208vw,_23px)] px-[clamp(12px,_1.1vw,_24px)];
 }
@@ -2775,9 +2727,6 @@
   }
   .public-site .site-brand strong {
     @apply text-[17px];
-  }
-  .public-site .site-brand small {
-    @apply text-[12px];
   }
   .principal-section {
     @apply grid-cols-[1fr] gap-[18px] mb-[40px];

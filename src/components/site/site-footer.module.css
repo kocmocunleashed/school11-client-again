@@ -37,13 +37,6 @@
   font-weight: 750;
   line-height: 1.35;
 }
-.motto {
-  font-family: var(--font-reading);
-  display: block;
-  margin-top: 8px;
-  font-size: 16px;
-  line-height: 1.6;
-}
 .column {
   display: grid;
   align-content: start;

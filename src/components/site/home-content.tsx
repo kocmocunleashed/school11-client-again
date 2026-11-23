@@ -22,7 +22,7 @@ export function HomeContent({ children }: { children: ReactNode }) {
           <h1>{copy.hero_line_1}<br /><span>{copy.hero_line_2}</span><br />{copy.hero_line_3}</h1>
           <div className="arrival-actions"><Link href="/about" className="primary-button">Манай ертөнцөөр аялаарай <ArrowUpRight /></Link><Link href="/apply" className="text-action">Элсэлт <ArrowRight /></Link></div>
         </div>
-        <div className="arrival-collage"><SchoolSculpture /><Link href="/about" className="campus-postcard"><div className="postcard-photo"><Image src={settings.hero_image_url || "/school-bg.jpg"} alt="Улаанбаатар хотын 11-р сургуулийн хичээлийн байр" fill sizes="(max-width: 700px) 80vw, 32vw" loading="eager" fetchPriority="high" unoptimized={unoptimizedPublicImage(settings.hero_image_url || "/school-bg.jpg")} /></div><div className="postcard-caption"><span>Бидний өдөр бүрийн эхлэл.</span><ArrowUpRight /></div></Link></div>
+        <div className="arrival-collage"><SchoolSculpture /><Link href="/about" className="campus-postcard" aria-label="Сургуулийн тухай"><div className="postcard-photo"><Image src={settings.hero_image_url || "/school-bg.jpg"} alt="Улаанбаатар хотын 11-р сургуулийн хичээлийн байр" fill sizes="(max-width: 700px) 80vw, 32vw" loading="eager" fetchPriority="high" unoptimized={unoptimizedPublicImage(settings.hero_image_url || "/school-bg.jpg")} /></div></Link></div>
       </div>
       <div className="arrival-bottom shell mx-auto w-[var(--shell)]">
         <a href="#discover" className="ml-auto">Цааш нээх <ArrowDown aria-hidden="true" /></a>

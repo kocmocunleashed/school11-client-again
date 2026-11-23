@@ -83,7 +83,6 @@ export function LandingTimeline() {
         </div>
         <button className="landing-timeline-arrow" type="button" aria-label="Дараах үйл явдал" disabled={activeIndex === records.length - 1} onClick={() => select(activeIndex + 1)}><ArrowRight size={22} /></button>
       </div>
-      <p className="landing-timeline-caption">Он сонгож сургуулийн түүхтэй танилцаарай.</p>
     </div>
   </section>;
 }

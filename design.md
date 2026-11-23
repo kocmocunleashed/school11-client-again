@@ -69,10 +69,18 @@ Use tokens rather than slightly different hand-picked versions of these colors.
   Condensed headings are bold, with close but readable tracking and balanced wraps.
 - Major sections use `--section-space`. Headings have 28–40px separation from
   content. Cards use 20–28px internal space and 20–28px grid gaps.
-- Use a label above a heading only when it identifies the section or conveys
-  a status the heading does not already communicate.
 - Text stays straight. Restrained tilt belongs to decorative postcards/stickers,
   never reading paragraphs, schedule rows, forms, or navigation.
+
+## Eyebrows and supporting text
+
+An eyebrow is a short label above a heading. Start with the heading. Add an
+eyebrow only if it identifies something the heading leaves implicit, such as
+“Хүндэт самбар” on the medalists section, or communicates a meaningful status.
+Remove labels that repeat the heading, such as “Тухайн жилийн онцлох үйл явдал”
+above the event title. Leave out repeated school slogans and captions such as
+“Он сонгож сургуулийн түүхтэй танилцаарай.” when the controls already explain what to do.
+Keep useful dates, categories, error messages, and accessible control labels.
 
 ## Component language
 

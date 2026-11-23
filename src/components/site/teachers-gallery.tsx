@@ -3,7 +3,7 @@ import "@/styles/management-notes.css";
 import Image from "next/image";
 import { unoptimizedPublicImage } from "@/lib/image-policy";
 import { useRef, useState, type PointerEvent } from "react";
-import { ArrowLeft, ArrowRight, GripHorizontal } from "lucide-react";
+import { GripHorizontal } from "lucide-react";
 import { useSiteData } from "./site-data-provider";
 export function TeachersGallery() {
   const { teachers } = useSiteData();
@@ -39,7 +39,7 @@ export function TeachersGallery() {
     {visible.length > 1 && <p className="management-note-hint">Дээд бариулаас чирж байрлалыг өөрчлөөрэй.</p>}
     <div className="cms-teacher-grid management-note-board" ref={board}>{arranged.map((person, index) => <div className="management-note-slot" data-note-id={person.id} data-drop-target={target === person.id && dragging !== person.id} key={person.id}>
       <article className="management-note" data-dragging={dragging === person.id}>
-        <button type="button" className="management-note-grip" aria-label={`${person.name_mn}: чирж зөөх, эсвэл сумтай товч ашиглах`} onKeyDown={event => {
+        <button type="button" className="management-note-grip" aria-label={`${person.name_mn}: чирж зөөх, эсвэл гарын сум ашиглах`} onKeyDown={event => {
           if (event.key === "Escape" && drag.current) { drag.current.note.style.transform = ""; drag.current = null; setDragging(null); setTarget(null); }
           if (event.key === "ArrowLeft" || event.key === "ArrowRight") { event.preventDefault(); const next = arranged[index + (event.key === "ArrowLeft" ? -1 : 1)]; if (next) move(person.id, next.id); }
         }} onPointerDown={event => {
@@ -56,7 +56,6 @@ export function TeachersGallery() {
         }} onPointerUp={event => finishDrag(event)} onPointerCancel={event => finishDrag(event, true)} onLostPointerCapture={event => finishDrag(event, true)}><GripHorizontal size={22} aria-hidden="true" /></button>
         {person.photo_url && <div className="cms-teacher-photo"><Image src={person.photo_url} alt={person.name_mn} fill sizes="(max-width: 400px) 90vw, (max-width: 1000px) 45vw, 25vw" style={{ objectFit: "cover", objectPosition: "center 25%" }} draggable={false} unoptimized={unoptimizedPublicImage(person.photo_url)} /></div>}
         <div className="management-note-copy"><h3>{person.name_mn}</h3><p className="management-note-role">{person.subject_mn}</p>{person.bio_mn && <p>{person.bio_mn}</p>}</div>
-        <div className="management-note-actions"><span>{String(index + 1).padStart(2, "0")}</span><button type="button" disabled={index === 0} aria-label={`${person.name_mn}: өмнөх байрлалд`} onClick={() => move(person.id, arranged[index - 1].id)}><ArrowLeft size={16} /></button><button type="button" disabled={index === arranged.length - 1} aria-label={`${person.name_mn}: дараах байрлалд`} onClick={() => move(person.id, arranged[index + 1].id)}><ArrowRight size={16} /></button></div>
       </article>
     </div>)}</div>
     <span className="sr-only" role="status">{announcement}</span>

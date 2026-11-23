@@ -4,6 +4,7 @@ import { unoptimizedPublicImage } from "@/lib/image-policy";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, ArrowDown } from "lucide-react";
 import type { ReactNode } from "react";
+import anniversaryFacts from "@/lib/data/anniversary-facts.json";
 import { defaultSiteCopy } from "@/lib/site-copy";
 import { SchoolSculpture } from "@/components/site/school-sculpture";
 import { NewsBrowser } from "@/components/site/news-browser";
@@ -28,7 +29,24 @@ export function HomeContent({ children }: { children: ReactNode }) {
         <a href="#discover" className="ml-auto">Цааш нээх <ArrowDown aria-hidden="true" /></a>
       </div>
     </section>
-    <section className="school-introduction shell mx-auto w-[var(--shell)]" id="discover"><div className="intro-symbol" aria-hidden="true">( x + y )<sup>∞</sup></div><div><h2>{copy.intro_title}</h2><p>{copy.intro_description}</p><Link href="/about" className="text-action">Бидний тухай <ArrowUpRight /></Link></div><div className="school-numbers"><p><strong>{settings.established}</strong><span>Байгуулагдсан он</span></p><p><strong>{settings.student_count.toLocaleString("mn-MN")}</strong><span>6–12-р ангийн сурагч</span></p><p><strong>{settings.teacher_count}</strong><span>Багш</span></p><p><strong>{settings.club_count}</strong><span>Секц, дугуйлан</span></p></div></section>
+    <section className="school-introduction shell mx-auto w-[var(--shell)]" id="discover">
+      <div className="intro-symbol" aria-hidden="true">( x + y )<sup>∞</sup></div>
+      <div>
+        <h2>{copy.intro_title}</h2>
+        <p>{copy.intro_description}</p>
+        <Link href="/about" className="text-action">Бидний тухай <ArrowUpRight /></Link>
+      </div>
+      <div className="school-numbers">
+        <p><strong>{settings.student_count.toLocaleString("mn-MN")}</strong><span>6–12-р ангийн сурагч</span></p>
+        <p><strong>{settings.teacher_count}</strong><span>Багш</span></p>
+        {anniversaryFacts.medals.map(({ label, total, gold, silver, bronze }) => (
+          <p key={label}>
+            <strong>{total}</strong>
+            <span>{label}<br />{gold} алт · {silver} мөнгө · {bronze} хүрэл</span>
+          </p>
+        ))}
+      </div>
+    </section>
     <LandingTimeline />
     <Podcasts />
     {children}

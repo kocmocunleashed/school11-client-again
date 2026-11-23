@@ -66,7 +66,7 @@
   @apply items-center flex gap-[.8rem] mr-auto min-w-0;
 }
 .site-brand img {
-  @apply h-[54px] object-contain w-[54px];
+  @apply h-[54px] shrink-0 object-contain w-[54px];
 }
 .site-brand strong {
   font-family: var(--font-display), serif;

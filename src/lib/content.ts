@@ -1,17 +1,18 @@
 import type { AchievementYear, CourseSection, NewsArticle, SchoolSettings, Teacher } from "@/types/database";
+import anniversaryFacts from "./data/anniversary-facts.json";
 import anniversaryHistory from "./data/anniversary-history.json";
 
 export const fallbackSettings: SchoolSettings = {
-  school_name_mn: "Нийслэлийн ерөнхий боловсролын 11 дүгээр сургууль",
+  school_name_mn: anniversaryFacts.schoolName,
   school_name_en: "11th School",
-  established: 1947,
-  student_count: 987,
-  teacher_count: 55,
+  established: anniversaryFacts.established,
+  student_count: anniversaryFacts.students,
+  teacher_count: anniversaryFacts.teachers,
   club_count: 17,
   address_mn: "Сүхбаатар дүүрэг, 5 дугаар хороо, Партизаны гудамж, 11 дүгээр сургууль",
   city: "Улаанбаатар",
-  phone: "+976 11 327226",
-  email: "info@school11.edu.mn",
+  phone: anniversaryFacts.phone,
+  email: anniversaryFacts.email,
   facebook_url: null,
   instagram_url: null,
   youtube_url: null,

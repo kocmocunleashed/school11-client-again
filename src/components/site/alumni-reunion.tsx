@@ -1,4 +1,5 @@
 import { Mail, MapPin, Phone } from "lucide-react";
+import anniversaryFacts from "@/lib/data/anniversary-facts.json";
 
 const reunionMeetings = [
   { years: "1947–1980", date: "--11-21", day: "11 сарын 21", weekday: "Бямба", time: "10:00" },
@@ -79,8 +80,8 @@ export function AlumniReunion() {
               <p>Биечлэн ирэх боломжгүй бол мэдээлэл, фото зургаа цахим шуудангаар илгээгээрэй.</p>
             </div>
             <div className="reunion-contacts">
-              <a href="tel:+97699941199"><Phone size={16} aria-hidden="true" />9994 1199</a>
-              <a href="mailto:info@school11.edu.mn"><Mail size={16} aria-hidden="true" /><span>info@school11.edu.mn</span></a>
+              <a href={`tel:${anniversaryFacts.phone.replace(/\s/g, "")}`}><Phone size={16} aria-hidden="true" />{anniversaryFacts.phone.replace(/^\+976 /, "")}</a>
+              <a href={`mailto:${anniversaryFacts.email}`}><Mail size={16} aria-hidden="true" /><span>{anniversaryFacts.email}</span></a>
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { schoolSiteUrl } from "@/lib/school-site-url";
 import { Roboto_Condensed } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
@@ -11,7 +12,7 @@ const robotoCondensed = Roboto_Condensed({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.SITE_URL || "http://localhost:3000"),
+  metadataBase: new URL(schoolSiteUrl),
   title: { default: "Нийслэлийн 11-р сургууль", template: "%s | Нийслэлийн 11-р сургууль" },
   description: "Нийслэлийн 11-р сургуулийн мэдээ, сургалт, багш нар, амжилт болон элсэлтийн мэдээлэл.",
   openGraph: {

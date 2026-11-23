@@ -1455,13 +1455,70 @@
   gap: 16px 24px;
 }
 .anniversary-logo {
-  width: clamp(92px, 15vw, 156px);
+  width: clamp(108px, 18vw, 210px);
   height: auto;
   padding: 4px;
   background: var(--paper);
   border: 1px solid var(--ink);
   box-shadow: var(--card-shadow);
-  transform: rotate(3deg);
+  transform: rotate(2deg);
+}
+.anniversary-motto {
+  margin-top: 10px;
+  color: var(--blue-deep);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 700;
+}
+.anniversary-program {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: 24px;
+  margin-top: clamp(36px, 6vw, 64px);
+}
+.anniversary-program > section {
+  border-top: 2px solid var(--ink);
+  padding-top: 16px;
+}
+.anniversary-program h3,
+.anniversary-media h3 {
+  font-size: clamp(1.375rem, 3vw, 2rem);
+  font-weight: 750;
+}
+.anniversary-program ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+  gap: 10px 24px;
+  margin-bottom: 0;
+  padding-inline-start: 1.125rem;
+}
+.anniversary-program li::marker { color: var(--blue); }
+.anniversary-media {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px 28px;
+  margin-top: clamp(36px, 6vw, 64px);
+  padding: var(--card-padding);
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  box-shadow: var(--card-shadow);
+}
+.anniversary-media img { width: min(100%, 160px); height: auto; }
+.anniversary-media > div { flex: 1 1 16rem; min-width: 0; }
+.anniversary-media p {
+  margin-top: 6px;
+  font: 1rem/1.65 var(--font-reading);
+  color: var(--slate);
+}
+.anniversary-media-links {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 24px;
+  margin-top: 8px;
+}
+.anniversary-media-links a {
+  text-decoration: underline;
+  text-underline-offset: .2em;
 }
 .anniversary-plan-group + .anniversary-plan-group {
   margin-block-start: clamp(32px, 5vw, 56px);

@@ -1,4 +1,4 @@
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 
 const anniversaryItems: { title: string; description: string; href?: string }[] = [
@@ -67,13 +67,22 @@ const planGroups = [
   { title: "Бүтээн байгуулалт, хамтын оролцоо", start: 9, end: anniversaryItems.length },
 ];
 
+const anniversaryEvents = ["Ойн хурал", "Ойн концерт", "Ойн хүлээн авалт", "Ойн бэлэг дурсгал", "Бүтээлийн үзэсгэлэн"];
+const anniversaryCompetitions = [
+  "Гар зураг", "Фото зураг", "Шүлэг", "Эссэ", "Постер",
+  "Компьютер тоглоом", "Сурталчилгаа", "Анимейшн", "Видео контент", "Илтгэл",
+];
+
 export function AnniversaryPlan() {
   return (
     <section className="anniversary-plan" id="oin-ajil" aria-labelledby="anniversary-plan-title">
       <div className="shell mx-auto w-[var(--shell)] max-w-[1100px]">
         <header className="section-heading anniversary-plan-header">
-          <h2 id="anniversary-plan-title">80 жилийн ойн төлөвлөгөө</h2>
-          <Image className="anniversary-logo" src="/school-anniversary-logo.jpg" alt="11 дүгээр сургуулийн 80 жилийн ойн лого, 1947–2027" width={1056} height={824} sizes="(max-width: 700px) 104px, 156px" />
+          <div>
+            <h2 id="anniversary-plan-title">80 жилийн ойн төлөвлөгөө</h2>
+            <p className="anniversary-motto">Бахдам түүхийн эзэд — Бидний 80 жил</p>
+          </div>
+          <Image className="anniversary-logo" src="/school-anniversary-logo.jpg" alt="11 дүгээр сургуулийн 80 жилийн ойн лого, 1947–2027" width={1056} height={824} sizes="(max-width: 700px) 120px, 210px" />
         </header>
         {planGroups.map(({ title, start, end }) => (
           <div className="anniversary-plan-group" key={title}>
@@ -90,6 +99,27 @@ export function AnniversaryPlan() {
             </ol>
           </div>
         ))}
+        <div className="anniversary-program">
+          <section>
+            <h3>Ойн арга хэмжээ</h3>
+            <ul>{anniversaryEvents.map(event => <li key={event}>{event}</li>)}</ul>
+          </section>
+          <section>
+            <h3>Ойн уралдаанууд</h3>
+            <ul>{anniversaryCompetitions.map(competition => <li key={competition}>{competition}</li>)}</ul>
+          </section>
+        </div>
+        <section className="anniversary-media" aria-labelledby="anniversary-media-title">
+          <Image src="/school-anniversary-podcast.jpg" alt="" width={358} height={326} sizes="160px" />
+          <div>
+            <h3 id="anniversary-media-title">80 жил – 80 зочин</h3>
+            <p>Ойн танилцуулгад подкастын 11 дугаарыг бичиж, 9 дугаарыг цацсан гэж мэдээлжээ.</p>
+            <div className="anniversary-media-links">
+              <a className="text-action" href="https://prezi.com/craft/podcast/gJtnsPZk2fXEN3e4gkEhcB?t=presentation">Ойн танилцуулгыг сонсох <ArrowUpRight size={16} aria-hidden="true" /></a>
+              <a className="text-action" href="https://prezi.com/craft/video/gJtnsPZk2fXEN3e4gkEhcB?t=presentation">Ойн видеог үзэх <ArrowUpRight size={16} aria-hidden="true" /></a>
+            </div>
+          </div>
+        </section>
       </div>
     </section>
   );

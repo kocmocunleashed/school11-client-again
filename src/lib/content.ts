@@ -1,16 +1,17 @@
 import type { AchievementYear, CourseSection, NewsArticle, SchoolSettings, Teacher } from "@/types/database";
+import anniversaryHistory from "./data/anniversary-history.json";
 
 export const fallbackSettings: SchoolSettings = {
-  school_name_mn: "Нийслэлийн 11-р сургууль",
+  school_name_mn: "Нийслэлийн ерөнхий боловсролын 11 дүгээр сургууль",
   school_name_en: "11th School",
-  established: 1940,
-  student_count: 2000,
-  teacher_count: 80,
-  club_count: 40,
-  address_mn: "Партизаны гудамж, Сүхбаатар дүүрэг",
+  established: 1947,
+  student_count: 987,
+  teacher_count: 55,
+  club_count: 17,
+  address_mn: "Сүхбаатар дүүрэг, 5 дугаар хороо, Партизаны гудамж, 11 дүгээр сургууль",
   city: "Улаанбаатар",
   phone: "+976 11 327226",
-  email: "School_11@edub.edu.mn",
+  email: "info@school11.edu.mn",
   facebook_url: null,
   instagram_url: null,
   youtube_url: null,
@@ -106,12 +107,13 @@ export const fallbackTeachers: Teacher[] = [
   display_order: index + 1,
 }));
 
-export const fallbackAchievements: AchievementYear[] = [
-  { id: "fallback-year-1940", year: 1940, highlight_mn: "Үүсгэн байгуулагдсан", description_mn: "Нийслэлийн боловсролын салбарт математик, байгалийн ухааны чиглэлээр ялгарах сууриа тавьсан.", image_url: null, is_milestone: true, achievements: [] },
-  { id: "fallback-year-1989", year: 1989, highlight_mn: "Гүнзгийрүүлсэн сургалт", description_mn: "Математик, физикийн сонгон сургалт тогтмолжиж, олимпиадын багш-сурагчийн систем бүрэлдсэн.", image_url: null, is_milestone: true, achievements: [] },
-  { id: "fallback-year-2016", year: 2016, highlight_mn: "Шинэ хичээлийн байр", description_mn: "Орчин үеийн сургалтын орчинтой шинэ байр ашиглалтад орж, лаборатори, танхимын хүртээмж сайжирсан.", image_url: null, is_milestone: true, achievements: [] },
-  { id: "fallback-year-2026", year: 2026, highlight_mn: "Олон улсын гараа", description_mn: "Сурагчдын судалгааны төслүүд олон улсын уралдаанд шалгарч, ахлах ангийн академик соёл улам бэхжив.", image_url: null, is_milestone: false, achievements: [] },
-];
+export const fallbackAchievements: AchievementYear[] = anniversaryHistory.map(entry => ({
+  ...entry,
+  id: `fallback-year-${entry.year}`,
+  image_url: entry.image_url ?? null,
+  is_milestone: true,
+  achievements: [],
+}));
 
 const courseItems = (sectionId: string, rows: string[][]) => rows.map((row, index) => ({
   id: `${sectionId}-${index + 1}`,

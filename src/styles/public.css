@@ -25,7 +25,7 @@
 .skip-link:focus {
   @apply top-4;
 }
-.school-eyebrow, .section-heading > div > p, .page-intro > p, .course-sections header > p, .guide-card > div > p, .news-category {
+.school-eyebrow, .section-heading > div > p, .page-intro > p, .achievement-summary > p, .course-sections header > p, .guide-card > div > p, .news-category {
   @apply text-school-blue text-[0.851rem] font-extrabold tracking-[.12em] leading-[1.3] uppercase;
 }
 .primary-button, .secondary-button {
@@ -352,107 +352,48 @@
 .contact-grid strong {
   @apply text-[1.035rem] leading-[1.5];
 }
-.achievement-browser {
-  padding: clamp(16px, 4vw, 40px);
-  background: var(--blue);
-}
-.achievement-sheet {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 2.3fr);
-  align-items: start;
-  gap: clamp(20px, 4vw, 48px);
-  padding: var(--card-padding);
-  border: 1px solid var(--ink);
-  background: var(--paper);
-  box-shadow: 5px 5px 0 var(--gold);
-}
 .year-index {
-  display: grid;
-  border-block-start: 1px solid var(--line);
+  @apply flex gap-0 overflow-x-auto pb-4;
+  scroll-snap-type: x proximity;
 }
 .year-index button {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: baseline;
-  gap: 6px 12px;
-  min-height: 56px;
-  padding: 12px 8px;
-  border: 0;
-  border-block-end: 1px solid var(--line);
-  background: transparent;
-  color: var(--ink);
-  text-align: start;
-}
-.year-index button:hover,
-.year-index button[aria-selected="true"] {
-  background: var(--blue-soft);
+  @apply [background:var(--white)] [border:0];
+  @apply [border-bottom:3px_solid_var(--line)] text-school-muted grid [flex:0_0_190px] gap-[.3rem] min-h-[88px] p-4;
+  scroll-snap-align: start;
+  @apply text-left;
 }
 .year-index button[aria-selected="true"] {
-  box-shadow: inset 3px 0 var(--gold);
+  @apply [background:var(--blue-soft)] border-school-blue text-school-ink;
 }
 .year-index strong {
-  padding-inline: 5px;
-  color: var(--blue-deep);
-  font-size: 1.25rem;
-  font-variant-numeric: tabular-nums;
-}
-.year-index button[aria-selected="true"] strong,
-.achievement-year strong {
-  background: var(--gold);
-  color: var(--ink);
+  font-family: var(--font-display), serif;
+  @apply text-[1.897rem];
 }
 .year-index span {
-  font-size: .9375rem;
-  line-height: 1.35;
-  overflow-wrap: anywhere;
+  @apply text-[0.874rem];
 }
 .achievement-panel {
-  display: grid;
-  min-width: 0;
+  @apply grid grid-cols-[.34fr_.66fr] mt-school-3;
 }
 .achievement-year {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px 12px;
+  @apply [background:var(--blue)] text-white flex flex-col justify-between min-h-[330px] p-[1.8rem];
 }
-.achievement-year strong {
-  padding: 3px 8px;
-  font-size: 1.375rem;
+.achievement-year > span {
+  @apply text-school-gold;
+  font-family: var(--font-display), serif;
+  @apply text-[clamp(4.6rem,_9.2vw,_8.05rem)];
 }
-.achievement-year span {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--blue-deep);
-  font-size: .9375rem;
-  font-weight: 700;
+.achievement-year b {
+  @apply items-center flex text-[0.862rem] gap-2 uppercase;
 }
-.achievement-summary h3 {
-  margin-block: 12px;
-  font-size: clamp(1.75rem, 3vw, 2.75rem);
-  line-height: 1.1;
-  overflow-wrap: anywhere;
+.achievement-summary {
+  @apply [background:var(--paper)] flex flex-col justify-center p-[clamp(2rem,_5vw,_4rem)];
 }
-.achievement-summary > p,
-.achievement-groups article p {
-  font-family: var(--font-reading);
-  color: var(--slate);
+.achievement-summary h2 {
+  @apply text-[clamp(2.415rem,_5.175vw,_4.6rem)] font-normal mt-[.8rem];
 }
-.achievement-panel > * + * {
-  margin-top: 20px;
-}
-.achievement-panel > .empty-state {
-  padding: 16px 0 0;
-  border-top: 1px solid var(--line);
-  text-align: start;
-}
-@media (max-width: 700px) {
-  .achievement-sheet { grid-template-columns: minmax(0, 1fr); }
-  .year-index button { min-height: 44px; padding-block: 8px; }
-}
-.achievement-browser + #hall-of-fame {
-  margin-top: clamp(24px, 4vw, 48px);
+.achievement-summary > span {
+  @apply text-school-muted leading-[1.7] mt-4;
 }
 .achievement-image {
   @apply [grid-column:1_/_-1] min-h-[360px] relative;
@@ -665,6 +606,9 @@
   .value-grid {
     @apply grid-cols-[repeat(2,_1fr)];
   }
+  .achievement-panel {
+    @apply grid-cols-[.42fr_.58fr];
+  }
 }
 @media (max-width: 700px) {
   :root {
@@ -703,7 +647,7 @@
   .dialog-image {
     @apply min-h-[240px];
   }
-  .page-intro, .story-grid, .value-grid {
+  .page-intro, .story-grid, .value-grid, .achievement-panel {
     @apply grid-cols-[1fr];
   }
   .page-intro > p, .page-intro h1, .page-intro > span {
@@ -720,6 +664,9 @@
   }
   .history-section li {
     @apply gap-[.7rem] grid-cols-[1fr];
+  }
+  .achievement-year {
+    @apply min-h-[220px];
   }
   .course-sections header {
     @apply grid-cols-[1fr];
@@ -989,6 +936,12 @@
   font-family: var(--font-sans),sans-serif;
   @apply text-[20px];
 }
+.public-site .achievement-panel {
+  @apply rounded-[8px] overflow-hidden;
+}
+.public-site .achievement-year {
+  @apply [background:var(--blue)];
+}
 .public-site .guide-card {
   @apply rounded-[9px] overflow-hidden;
 }
@@ -1194,8 +1147,14 @@
 .public-site .mission-grid, .public-site .contact-grid, .public-site .course-index {
   @apply [background:transparent] [border:0];
 }
-.public-site .course-index strong {
+.public-site .course-index strong, .public-site .year-index strong, .public-site .achievement-year>span {
   font-family: var(--font-sans),sans-serif;
+}
+.public-site .achievement-year>span {
+  @apply text-[#d5e7ff];
+}
+.public-site .year-index button {
+  @apply rounded-[5px_5px_0_0];
 }
 .news-art {
   @apply absolute inset-0;
@@ -2044,6 +2003,23 @@
 .public-site .course-sections h2 {
   @apply font-bold;
 }
+.public-site .year-index button {
+  @apply rounded-[0];
+}
+.public-site .year-index button[aria-selected=true] {
+  background: var(--gold);
+}
+.public-site .achievement-panel {
+  @apply rounded-[0];
+  border: 1px solid var(--ink);
+  box-shadow: var(--card-shadow);
+}
+.public-site .achievement-summary {
+  background: var(--blue-soft);
+}
+.public-site .achievement-year>span {
+  @apply text-[var(--gold)];
+}
 .public-site .contact-grid a {
   @apply rounded-[0];
   background: var(--paper);
@@ -2094,7 +2070,7 @@
 /* Reading typography is shared; display type stays expressive and condensed. */
 .public-site :is(.page-intro > span, .story-grid p, .value-grid p,
   .history-section li p, .course-sections header > span, .course-index small,
-  .course-list details > div p,
+  .course-list details > div p, .achievement-summary > span,
   .news-copy > p:not(.news-category):not(.news-date), .dialog-copy > p,
   .school-introduction > div > p, .guide-card > div > span, .principal-message) {
   font-family: var(--font-reading);
@@ -2786,6 +2762,15 @@
 #school-history p, #school-journey li p {
   @apply whitespace-pre-line;
 }
+.year-playback {
+  @apply flex justify-between items-center gap-[20px] mb-[18px];
+}
+.year-playback span {
+  @apply text-[15px] text-school-muted;
+}
+.year-playback button {
+  @apply inline-flex items-center gap-[9px] [background:var(--ink)] text-[white] [border:0] rounded-[30px] [padding:13px_18px];
+}
 @media (max-width: 1100px) {
   .public-site .site-brand strong {
     @apply text-[21px];
@@ -2818,5 +2803,14 @@
   }
   .about-index a {
     @apply [padding:11px_15px] text-[15px];
+  }
+  .year-playback {
+    @apply items-start;
+  }
+  .year-playback span {
+    @apply max-w-[150px];
+  }
+  .year-playback button {
+    @apply whitespace-nowrap text-[14px];
   }
 }

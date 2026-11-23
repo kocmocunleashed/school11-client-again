@@ -89,7 +89,6 @@ Use tokens rather than slightly different hand-picked versions of these colors.
   target size, wrapping on narrow screens. Do not style noninteractive cards as links.
 - **Schedules and accordions** — quiet paper, clear dividers, yellow selected/open
   cues. Preserve all dates, descriptions, keyboard controls, and empty states.
-  The achievements year picker uses these ruled rows and changes year on selection.
 - **Photos** — authentic school media, correct aspect ratios and honest captions.
   Keep sample memories visibly labeled; never invent testimonial identities.
 

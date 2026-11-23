@@ -70,15 +70,17 @@ export function AchievementBrowser() {
 
   return (
     <div className="achievement-browser [border-top:1px_solid_var(--line)] pt-school-3" ref={container} onMouseEnter={() => { hovered.current = true; }} onMouseLeave={() => { hovered.current = false; }} onFocus={() => { focused.current = true; }} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) focused.current = false; }}>
-      {sorted.length > 1 && !reducedMotion && <div className="year-playback"><span>Он жилээр аялах · 8 секунд тутам</span><button type="button" onClick={() => setPlaying(value => !value)} aria-pressed={!playing} aria-label={playing ? "Он жилийн автомат гүйлгэлтийг түр зогсоох" : "Он жилийн автомат гүйлгэлтийг эхлүүлэх"}>{playing ? <Pause size={18} /> : <Play size={18} />}{playing ? "Түр зогсоох" : "Үргэлжлүүлэх"}</button></div>}
-      <div className="year-index" ref={rail} role="tablist" aria-label="Амжилтын он сонгох">
-        {sorted.map(year => <button type="button" role="tab" aria-selected={year.id === active.id} id={`year-tab-${year.id}`} tabIndex={year.id === active.id ? 0 : -1} onKeyDown={event => {
-          const index = sorted.findIndex(item => item.id === year.id);
-          const next = event.key === "ArrowRight" ? (index + 1) % sorted.length : event.key === "ArrowLeft" ? (index - 1 + sorted.length) % sorted.length : event.key === "Home" ? 0 : event.key === "End" ? sorted.length - 1 : -1;
-          if (next < 0) return;
-          event.preventDefault(); setPlaying(false); setActiveId(sorted[next].id);
-          document.getElementById(`year-tab-${sorted[next].id}`)?.focus();
-        }} aria-controls="achievement-panel" key={year.id} onClick={() => { setPlaying(false); setActiveId(year.id); }}><strong>{year.year}</strong><span>{year.highlight_mn || "Амжилт"}</span></button>)}
+      {sorted.length > 1 && !reducedMotion && <div className="year-playback"><button type="button" onClick={() => setPlaying(value => !value)} aria-pressed={!playing} aria-label={playing ? "Он жилийн автомат гүйлгэлтийг түр зогсоох" : "Он жилийн автомат гүйлгэлтийг эхлүүлэх"}>{playing ? <Pause size={18} /> : <Play size={18} />}{playing ? "Түр зогсоох" : "Үргэлжлүүлэх"}</button></div>}
+      <div className="year-index-frame">
+        <div className="year-index" ref={rail} role="tablist" aria-label="Амжилтын он сонгох">
+          {sorted.map(year => <button type="button" role="tab" aria-selected={year.id === active.id} id={`year-tab-${year.id}`} tabIndex={year.id === active.id ? 0 : -1} onKeyDown={event => {
+            const index = sorted.findIndex(item => item.id === year.id);
+            const next = event.key === "ArrowRight" ? (index + 1) % sorted.length : event.key === "ArrowLeft" ? (index - 1 + sorted.length) % sorted.length : event.key === "Home" ? 0 : event.key === "End" ? sorted.length - 1 : -1;
+            if (next < 0) return;
+            event.preventDefault(); setPlaying(false); setActiveId(sorted[next].id);
+            document.getElementById(`year-tab-${sorted[next].id}`)?.focus();
+          }} aria-controls="achievement-panel" key={year.id} onClick={() => { setPlaying(false); setActiveId(year.id); }}><strong>{year.year}</strong><span>{year.highlight_mn || "Амжилт"}</span></button>)}
+        </div>
       </div>
       <article className="achievement-panel" id="achievement-panel" role="tabpanel" aria-labelledby={`year-tab-${active.id}`}>
         <div className="achievement-year"><span>{active.year}</span>{active.is_milestone ? <b><Star size={16} /> Түүхэн үйл явдал</b> : <b><Award size={16} /> Онцлох жил</b>}</div>

@@ -352,25 +352,60 @@
 .contact-grid strong {
   @apply text-[1.035rem] leading-[1.5];
 }
+.year-index-frame {
+  padding: clamp(12px, 2vw, 20px);
+  background: var(--blue);
+}
 .year-index {
-  @apply flex gap-0 overflow-x-auto pb-4;
+  display: flex;
+  overflow-x: auto;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  box-shadow: 4px 4px 0 var(--gold);
   scroll-snap-type: x proximity;
 }
 .year-index button {
-  @apply [background:var(--white)] [border:0];
-  @apply [border-bottom:3px_solid_var(--line)] text-school-muted grid [flex:0_0_190px] gap-[.3rem] min-h-[88px] p-4;
+  display: grid;
+  flex: 1 0 165px;
+  align-content: start;
+  justify-items: start;
+  gap: 6px;
+  min-height: 72px;
+  padding: 12px 16px;
+  border: 0;
+  background: var(--paper);
+  color: var(--ink);
+  text-align: start;
   scroll-snap-align: start;
-  @apply text-left;
+}
+.year-index button + button {
+  border-inline-start: 1px solid var(--line);
+}
+.year-index button:hover,
+.year-index button[aria-selected="true"] {
+  background: var(--blue-soft);
 }
 .year-index button[aria-selected="true"] {
-  @apply [background:var(--blue-soft)] border-school-blue text-school-ink;
+  box-shadow: inset 0 -3px var(--gold);
+}
+.public-site .year-index button:focus-visible {
+  position: relative;
+  outline-offset: -4px;
+  box-shadow: none;
 }
 .year-index strong {
-  font-family: var(--font-display), serif;
-  @apply text-[1.897rem];
+  padding-inline: 5px;
+  color: var(--blue-deep);
+  font-size: 1.375rem;
+  line-height: 1.15;
+}
+.year-index button[aria-selected="true"] strong {
+  background: var(--gold);
+  color: var(--ink);
 }
 .year-index span {
-  @apply text-[0.874rem];
+  font-size: .9375rem;
+  line-height: 1.35;
 }
 .achievement-panel {
   @apply grid grid-cols-[.34fr_.66fr] mt-school-3;
@@ -1152,9 +1187,6 @@
 }
 .public-site .achievement-year>span {
   @apply text-[#d5e7ff];
-}
-.public-site .year-index button {
-  @apply rounded-[5px_5px_0_0];
 }
 .news-art {
   @apply absolute inset-0;
@@ -2003,12 +2035,6 @@
 .public-site .course-sections h2 {
   @apply font-bold;
 }
-.public-site .year-index button {
-  @apply rounded-[0];
-}
-.public-site .year-index button[aria-selected=true] {
-  background: var(--gold);
-}
 .public-site .achievement-panel {
   @apply rounded-[0];
   border: 1px solid var(--ink);
@@ -2763,10 +2789,7 @@
   @apply whitespace-pre-line;
 }
 .year-playback {
-  @apply flex justify-between items-center gap-[20px] mb-[18px];
-}
-.year-playback span {
-  @apply text-[15px] text-school-muted;
+  @apply flex justify-end mb-3;
 }
 .year-playback button {
   @apply inline-flex items-center gap-[9px] [background:var(--ink)] text-[white] [border:0] rounded-[30px] [padding:13px_18px];
@@ -2803,12 +2826,6 @@
   }
   .about-index a {
     @apply [padding:11px_15px] text-[15px];
-  }
-  .year-playback {
-    @apply items-start;
-  }
-  .year-playback span {
-    @apply max-w-[150px];
   }
   .year-playback button {
     @apply whitespace-nowrap text-[14px];

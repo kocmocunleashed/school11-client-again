@@ -16,7 +16,7 @@ export function CourseCatalog() {
   const calendarSection = sections.find(section => section.slug === "calendar" || /календар|хуанли/i.test(section.title_mn));
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   return (
-    <div className="course-catalog [border-top:1px_solid_var(--line)] pt-school-3">
+    <div className="course-catalog">
       <div className="course-sections">
         <section id={`course-${calendarSection?.slug || "calendar"}`}><header><p>Сургалтын хуваарь</p><h2>Календар</h2><span>Сорил, тэмцээн, хичээлийн үйл ажиллагаа</span></header><SchoolCalendar /></section>
       </div>

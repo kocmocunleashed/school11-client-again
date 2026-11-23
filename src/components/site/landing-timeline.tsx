@@ -8,7 +8,7 @@ import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { useEffect, useId, useMemo, useRef, useState, type CSSProperties } from "react";
 import { useSiteData } from "./site-data-provider";
 
-const colors = ["#ffdd2d", "#36d484", "#32ccf4"];
+const colors = ["var(--gold)", "var(--pink)", "var(--blue-soft)"];
 
 /** Homepage-only presentation; the detailed achievements browser is independent. */
 export function LandingTimeline() {

@@ -1,19 +1,19 @@
 @reference "./theme.css";
-.podcasts-section { background: #eeedff; padding: clamp(2.5rem, 5vw, 5rem) 0; color: var(--ink); }
+.podcasts-section { background: var(--blue-soft); padding: clamp(2.5rem, 5vw, 5rem) 0; color: var(--ink); }
 .podcast-platform { display: flex; align-items: center; gap: .4rem; font-size: 0.977rem; font-weight: 700; }
 .podcast-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.25rem; padding: 0; margin: 0; list-style: none; }
 .podcast-grid > li { min-width: 0; }
-.podcast-card { display: block; height: 100%; padding: 8px; background: var(--paper); border-radius: 24px; border: 1px solid rgba(25,35,59,.08); transition: box-shadow .18s ease; }
-.podcast-card:hover { box-shadow: 0 8px 24px rgba(25,35,59,.12); }
+.podcast-card { display: block; height: 100%; padding: 8px; background: var(--paper); border-radius: 0; border: 1px solid var(--ink); box-shadow: var(--card-shadow); transition: transform .18s ease, box-shadow .18s ease; }
+.podcast-card:hover { transform: translateY(-2px); box-shadow: 4px 6px 0 var(--blue); }
 .podcast-card:focus-visible { outline: 3px solid var(--blue); outline-offset: 5px; }
-.podcast-thumbnail { position: relative; display: grid; place-items: center; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 18px; background: #deddf6; color: var(--blue); }
+.podcast-thumbnail { position: relative; display: grid; place-items: center; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 0; background: var(--blue-soft); color: var(--blue); }
 .podcast-thumbnail img { object-fit: cover; }
 .podcast-play { position: absolute; right: 12px; bottom: 12px; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; background: var(--blue); color: white; }
 .podcast-details { display: grid; grid-template-columns: 36px minmax(0, 1fr) 16px; gap: 9px; padding: 16px 6px 8px; align-items: start; }
-.podcast-logo { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #eeedff; color: var(--blue); overflow: hidden; }
+.podcast-logo { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--blue-soft); color: var(--blue); overflow: hidden; }
 .podcast-logo img { width: 100%; height: 100%; object-fit: cover; }
-.podcast-details h3 { font-family: inherit; font-size: 1.035rem; line-height: 1.4; font-weight: 650; margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
-.podcast-details p { margin: 8px 0 0; font-size: 0.862rem; color: var(--slate); overflow-wrap: anywhere; }
+.podcast-details h3 { font-family: inherit; font-size: 1.25rem; line-height: 1.3; font-weight: 700; margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.podcast-details p { margin: 8px 0 0; font-size: .875rem; color: var(--slate); overflow-wrap: anywhere; }
 .podcast-external { color: var(--blue); margin-top: 2px; }
 .podcast-empty { padding: 1.5rem 0; color: var(--slate); border-top: 1px solid var(--line); }
 @media (max-width: 1000px) { .podcast-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -677,19 +677,10 @@
     transition-duration: .01ms !important;
   }
 }
-/* School 11: sky, ink, and an open page. Public-site styling is isolated from admin. */
+/* Public layout foundations; the yearbook tokens below govern the palette. */
 .public-site {
-  --blue: #214fc0;
-  --blue-deep: #173b94;
-  --blue-soft: #edf2fc;
-  --ink: #162d51;
-  --slate: #596779;
-  --line: #dce3eb;
-  --paper: #f4f7fb;
-  --gold: #c6f183;
-  --shell: min(1320px,calc(100% - 96px));
-  font-family: var(--font-sans),Arial,sans-serif;
-  @apply text-school-ink [background:#fff];
+  font-family: var(--font-sans), Arial, sans-serif;
+  @apply text-school-ink;
 }
 .public-site h1, .public-site h2, .public-site h3, .public-site .site-brand strong {
   font-family: var(--font-sans),Arial,sans-serif;
@@ -792,7 +783,7 @@
   @apply text-[41px] font-semibold mt-[14px] leading-[1.2];
 }
 .public-site .section {
-  @apply py-[90px];
+  padding-block: var(--section-space);
 }
 .public-site .news-layout {
   @apply [border:0] [background:transparent] gap-[24px] grid-cols-[repeat(3,minmax(0,1fr))];
@@ -1015,7 +1006,7 @@
     @apply w-[46px] h-[46px];
   }
   .public-site .menu-button {
-    @apply rounded-[50%] w-[40px] h-[40px];
+    @apply rounded-[50%] w-[44px] h-[44px] shrink-0;
   }
   .arrival {
     @apply pt-[26px];
@@ -1189,7 +1180,7 @@
     @apply grid-cols-[1fr];
   }
 }
-/* The student yearbook: sunflower, ultramarine, ink, and pink paper. */
+/* Public design tokens. Read design.md before changing this visual language. */
 .public-site {
   --blue: #2149c6;
   --blue-deep: #16349b;
@@ -1199,23 +1190,29 @@
   --line: #d5d2c9;
   --paper: #faf9f5;
   --gold: #ffdd2d;
+  --pink: #f5a1bd;
+  --font-reading: system-ui, sans-serif;
+  --card-shadow: 4px 4px 0 var(--blue);
+  --card-padding: clamp(20px, 2.5vw, 28px);
+  --section-space: clamp(52px, 7vw, 96px);
   --shell: calc(100% - clamp(88px,8vw,192px));
-  background: #faf9f5;
+  background: var(--paper);
   @apply text-school-ink;
 }
 .public-site ::selection {
-  background: #ff99ba;
-  @apply text-[#19233b];
+  background: var(--pink);
+  @apply text-[var(--ink)];
 }
 .public-site :focus-visible {
-  outline: 3px solid #f44770;
+  outline: 3px solid var(--blue);
+  box-shadow: 0 0 0 5px var(--paper);
   outline-offset: 5px;
 }
 .public-site h1, .public-site h2, .public-site h3 {
   @apply tracking-[-.035em];
 }
 .public-site .site-header {
-  background: #ffdd2d;
+  background: var(--gold);
 }
 .public-site .header-inner {
   @apply h-[91px];
@@ -1230,32 +1227,32 @@
   @apply text-[15px] font-semibold;
 }
 .public-site .desktop-nav a[aria-current=page] {
-  @apply text-[#19233b] border-[#19233b];
+  @apply text-[var(--ink)] border-[var(--ink)];
 }
 .public-site .header-apply {
   @apply rounded-[100px];
-  background: #19233b;
+  background: var(--ink);
   @apply text-white [padding:14px_24px] text-[15px];
 }
 .public-site .header-apply:hover {
-  background: #2149c6;
+  background: var(--blue);
 }
 .public-site .preview-notice {
   background: #f3ce24;
   @apply text-[#50441e] text-[13px] py-[6px];
 }
 .public-site .primary-button {
-  background: #2149c6;
-  @apply [border:1px_solid_#2149c6] rounded-[100px] font-semibold [padding:17px_25px] gap-[20px];
-  transition: background .2s,transform .25s;
+  background: var(--blue);
+  @apply [border:1px_solid_var(--blue)] rounded-[100px] font-semibold [padding:17px_25px] gap-[20px];
+  transition: background .18s ease, transform .18s ease;
 }
 .public-site .primary-button:hover {
-  background: #19233b;
-  @apply border-[#19233b];
-  transform: translateY(-3px);
+  background: var(--ink);
+  @apply border-[var(--ink)];
+  transform: translateY(-2px);
 }
 .public-site .secondary-button {
-  @apply [background:transparent] rounded-[100px] border-[#19233b];
+  @apply [background:transparent] rounded-[100px] border-[var(--ink)];
 }
 .public-site .text-action {
   @apply text-[16px] font-semibold;
@@ -1264,7 +1261,7 @@
   @apply w-[20px] h-[20px];
 }
 .public-site .arrival {
-  background: #ffdd2d;
+  background: var(--gold);
   @apply pt-[28px] relative overflow-hidden;
 }
 .arrival-grid {
@@ -1280,12 +1277,12 @@
   @apply text-[clamp(74px,7.705vw,116px)] leading-[.99] font-extrabold tracking-[-.045em];
 }
 .public-site .arrival h1>span {
-  @apply text-[#2149c6] relative inline-block z-[0];
+  @apply text-[var(--blue)] relative inline-block z-[0];
 }
 .public-site .arrival h1>span:after {
   content: "";
   @apply absolute left-[-10px] right-[-15px] bottom-[1px] h-[13px];
-  background: #f78bb0;
+  background: var(--pink);
   @apply z-[-1];
   transform: rotate(-2deg);
 }
@@ -1309,8 +1306,8 @@
 }
 .sculpture-number {
   --sculpture-scale: .84;
-  @apply absolute [inset:-35px_0_0] flex items-center justify-center text-[clamp(340px,30vw,660px)] leading-[1] font-[800] tracking-[-.025em] text-[#2149c6];
-  text-shadow: 1px 1px #16349b,2px 2px #16349b,3px 3px #16349b,4px 4px #16349b,5px 5px #16349b,6px 6px #16349b,7px 7px #16349b,8px 8px #16349b,9px 9px #16349b,10px 10px #16349b,0 16px 20px #94741524;
+  @apply absolute [inset:-35px_0_0] flex items-center justify-center text-[clamp(340px,30vw,660px)] leading-[1] font-[800] tracking-[-.025em] text-[var(--blue)];
+  text-shadow: 1px 1px var(--blue-deep),2px 2px var(--blue-deep),3px 3px var(--blue-deep),4px 4px var(--blue-deep),5px 5px var(--blue-deep),6px 6px var(--blue-deep),7px 7px var(--blue-deep),8px 8px var(--blue-deep),9px 9px var(--blue-deep),10px 10px var(--blue-deep),0 16px 20px #94741524;
   transform: translate3d(var(--shift-x,0px),var(--shift-y,0px),0) rotate(-8deg) rotateY(calc(-10deg + var(--turn-x,0deg))) rotateX(calc(5deg + var(--turn-y,0deg))) scaleX(var(--sculpture-scale));
   transition: transform .24s cubic-bezier(.22,1,.36,1);
   @apply select-none z-[1];
@@ -1325,14 +1322,14 @@
 }
 .curiosity-stamp {
   @apply absolute right-0 top-[40px] z-[3] flex flex-col items-center justify-center;
-  background: #ffa6c3;
+  background: var(--pink);
   @apply rounded-[50%] w-[132px] h-[132px] font-[750] text-[23px] leading-[1.08];
   transform: rotate(13deg);
-  @apply [border:1px_solid_#19233b];
+  @apply [border:1px_solid_var(--ink)];
 }
 .curiosity-stamp svg {
   @apply w-[25px] h-[25px];
-  stroke: #19233b;
+  stroke: var(--ink);
   stroke-width: 2;
   @apply mt-[7px];
 }
@@ -1342,7 +1339,7 @@
 }
 .campus-postcard {
   @apply absolute bottom-[8px] left-[14%] w-[82%] max-w-[420px];
-  background: #fffdf8;
+  background: var(--paper);
   @apply [padding:10px_10px_0];
   transform: rotate(5deg);
   box-shadow: 0 16px 30px #634d2426;
@@ -1398,7 +1395,7 @@
   @apply [border:1px_solid_#19233b60] rounded-[50%] p-[10px] w-[40px] h-[40px];
 }
 .school-ribbon {
-  background: #2149c6;
+  background: var(--blue);
   @apply text-white flex items-center;
   justify-content: space-around;
   @apply gap-[30px] [padding:23px_30px] overflow-hidden;
@@ -1407,7 +1404,7 @@
   @apply whitespace-nowrap text-[clamp(23px,3.22vw,46px)] font-[750] tracking-[-.02em];
 }
 .school-ribbon svg {
-  stroke: #ffdd2d;
+  stroke: var(--gold);
   stroke-width: 4;
   @apply w-[32px] h-[32px];
 }
@@ -1416,7 +1413,7 @@
 }
 .intro-symbol {
   font-family: var(--font-display),Georgia,serif;
-  @apply italic text-[#2149c6] text-[44px];
+  @apply italic text-[var(--blue)] text-[44px];
   transform: rotate(-9deg);
   @apply leading-[1] whitespace-nowrap;
 }
@@ -1427,25 +1424,25 @@
   @apply text-[52px] font-bold leading-[1.12];
 }
 .public-site .school-introduction h2 span {
-  @apply text-[#2149c6];
+  @apply text-[var(--blue)];
 }
 .public-site .school-introduction>div>p {
   @apply text-[17px] leading-[1.7];
 }
 .public-site .school-numbers {
-  @apply gap-[25px] [border-left:1px_solid_#d5d2c9];
+  @apply gap-[25px] [border-left:1px_solid_var(--line)];
 }
 .public-site .school-numbers p {
   @apply grid gap-[8px];
 }
 .public-site .school-numbers strong {
-  @apply text-[55px] font-bold text-[#19233b];
+  @apply text-[55px] font-bold text-[var(--ink)];
 }
 .public-site .school-numbers span {
   @apply text-[14px];
 }
 .public-site .school-numbers strong i {
-  @apply text-[#2149c6];
+  @apply text-[var(--blue)];
 }
 .public-site .section-heading {
   @apply items-center mb-[40px];
@@ -1454,7 +1451,7 @@
   @apply text-[clamp(40px,4.6vw,64px)] font-[750] leading-[1.08] m-0;
 }
 .anniversary-plan {
-  padding-block: clamp(52px, 7vw, 96px);
+  padding-block: var(--section-space);
   background: var(--blue-soft);
   color: var(--ink);
 }
@@ -1477,10 +1474,10 @@
   list-style: none;
 }
 .anniversary-card {
-  padding: 21px 22px;
+  padding: var(--card-padding);
   border: 1px solid var(--ink);
   background: var(--paper);
-  box-shadow: 3px 3px var(--blue);
+  box-shadow: var(--card-shadow);
 }
 .anniversary-card > span {
   display: inline-block;
@@ -1505,7 +1502,7 @@
 .anniversary-heading > p:not(.anniversary-kicker),
 .anniversary-memory blockquote,
 .reunion-details p {
-  font-family: system-ui, sans-serif;
+  font-family: var(--font-reading);
   font-size: 1rem;
   line-height: 1.65;
 }
@@ -1587,7 +1584,7 @@
   }
 }
 .alumni-reunion {
-  padding-block: clamp(52px, 7vw, 96px);
+  padding-block: var(--section-space);
   background: var(--blue);
   color: var(--paper);
 }
@@ -1719,7 +1716,7 @@
 }
 .anniversary-portraits,
 .anniversary-memories {
-  padding-block: clamp(52px, 7vw, 96px);
+  padding-block: var(--section-space);
   color: var(--ink);
 }
 .anniversary-portraits {
@@ -1754,7 +1751,7 @@
   padding: 8px;
   border: 1px solid var(--ink);
   background: #fff;
-  box-shadow: 4px 4px var(--blue);
+  box-shadow: var(--card-shadow);
 }
 .anniversary-archive-photo img {
   inline-size: 100%;
@@ -1779,10 +1776,10 @@
   gap: 16px;
   min-block-size: 100%;
   margin: 0;
-  padding: clamp(18px, 3vw, 28px);
+  padding: var(--card-padding);
   border: 1px solid var(--ink);
   background: var(--paper);
-  box-shadow: 4px 4px var(--blue);
+  box-shadow: var(--card-shadow);
 }
 .anniversary-quote-mark {
   display: grid;
@@ -1813,7 +1810,7 @@
   }
 }
 .public-site .home-news {
-  @apply py-[100px];
+  padding-block: var(--section-space);
 }
 .public-site .news-layout {
   @apply gap-[28px];
@@ -1822,16 +1819,22 @@
   @apply rounded-[0] min-h-[250px];
 }
 .public-site .news-card {
-  @apply [background:transparent];
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  box-shadow: var(--card-shadow);
+  grid-template-rows: auto 1fr;
+}
+.public-site .news-copy, .public-site .news-layout.is-home .news-card.is-featured .news-copy {
+  padding: var(--card-padding);
 }
 .public-site .news-copy h3, .public-site .news-layout.is-home .news-card.is-featured h3 {
-  @apply text-[28px] font-[650] leading-[1.25];
+  @apply text-[28px] font-bold leading-[1.2];
 }
 .public-site .news-category {
-  @apply text-[#2149c6] text-[12px];
+  @apply text-[var(--blue)] text-[14px];
 }
 .public-site .news-date {
-  @apply text-[13px];
+  @apply text-[14px];
 }
 .public-site .news-copy>p:not(.news-category):not(.news-date) {
   @apply text-[16px];
@@ -1843,19 +1846,19 @@
   @apply text-[#ce4478];
 }
 .public-site .news-art-olympiad {
-  background: #ffdd2d;
+  background: var(--gold);
 }
 .public-site .news-art-olympiad>span {
-  @apply text-[#2149c6];
+  @apply text-[var(--blue)];
 }
 .public-site .news-art-olympiad>small {
-  @apply text-[#19233b];
+  @apply text-[var(--ink)];
 }
 .public-site .news-art-club {
-  background: #2149c6;
+  background: var(--blue);
 }
 .public-site .news-art-club>span {
-  @apply text-[#f5a1bd];
+  @apply text-[var(--pink)];
 }
 .public-site .news-art-club>small {
   @apply text-white;
@@ -1864,7 +1867,7 @@
   @apply font-semibold;
 }
 .public-site .join-section {
-  background: #ffdd2d;
+  background: var(--gold);
   @apply rounded-[0] p-0 min-h-0 overflow-hidden relative mb-[100px];
 }
 .join-link {
@@ -1894,7 +1897,7 @@
 }
 .public-site .join-mark {
   transform: rotate(-12deg);
-  @apply opacity-[1] text-[#2149c6] relative right-auto bottom-auto;
+  @apply opacity-[1] text-[var(--blue)] relative right-auto bottom-auto;
 }
 .public-site .join-mark>svg {
   @apply h-[220px] w-[220px];
@@ -1907,10 +1910,10 @@
   @apply pt-[36px];
 }
 .public-site .page-intro {
-  @apply [padding:34px_0_46px] border-[#19233b] mb-[45px];
+  @apply [padding:34px_0_46px] border-[var(--ink)] mb-[45px];
 }
 .public-site .page-intro>p {
-  @apply tracking-[.05em] text-[14px] text-[#2149c6];
+  @apply tracking-[.05em] text-[14px] text-[var(--blue)];
 }
 .public-site .page-intro h1 {
   @apply text-[clamp(46px,5.75vw,83px)] font-[750] leading-[1.04];
@@ -1919,40 +1922,56 @@
   @apply text-[18px];
 }
 .public-site .mission-grid article {
-  background: #ffdd2d;
+  background: var(--gold);
+  border: 1px solid var(--ink);
+  box-shadow: var(--card-shadow);
   @apply rounded-[0];
 }
 .public-site .mission-grid article:nth-child(2) {
-  background: #2149c6;
+  background: var(--blue);
+  box-shadow: 4px 4px 0 var(--ink);
 }
 .public-site .value-grid article {
+  border: 1px solid var(--ink);
+  padding: var(--card-padding);
   @apply rounded-[0];
-  background: #eeedff;
+  background: var(--blue-soft);
 }
 .public-site .value-grid article:last-child {
-  @apply [border:0];
+  border: 1px solid var(--ink);
 }
 .public-site .value-grid article:nth-child(even) {
-  background: #ffe0eb;
+  background: var(--pink);
+}
+.public-site .value-grid p,
+.public-site .course-index small {
+  color: var(--ink);
 }
 .public-site .course-index a {
   @apply rounded-[0];
-  background: #eeedff;
+  background: var(--blue-soft);
+  border: 1px solid var(--ink);
+  box-shadow: var(--card-shadow);
+  transition: transform .18s ease;
+}
+.public-site .course-index a:hover {
+  transform: translateY(-2px);
 }
 .public-site .course-index a:nth-child(2) {
-  background: #ffdd2d;
+  background: var(--gold);
 }
 .public-site .course-index a:nth-child(3) {
-  background: #ffd2e2;
+  background: var(--pink);
 }
 .public-site .course-list details {
-  @apply rounded-[0] border-[#d5d2c9];
+  @apply rounded-[0] border-[var(--line)];
 }
 .public-site .course-list details[open] summary {
-  background: #ffed9f;
+  background: var(--blue-soft);
+  box-shadow: inset 4px 0 var(--gold);
 }
 .public-site .course-list details>div {
-  background: #fffdf8;
+  background: var(--paper);
 }
 .public-site .course-sections h2 {
   @apply font-bold;
@@ -1961,43 +1980,119 @@
   @apply rounded-[0];
 }
 .public-site .year-index button[aria-selected=true] {
-  background: #ffdd2d;
+  background: var(--gold);
 }
 .public-site .achievement-panel {
   @apply rounded-[0];
+  border: 1px solid var(--ink);
+  box-shadow: var(--card-shadow);
 }
 .public-site .achievement-summary {
-  background: #eeedff;
+  background: var(--blue-soft);
 }
 .public-site .achievement-year>span {
-  @apply text-[#ffdd2d];
+  @apply text-[var(--gold)];
 }
 .public-site .contact-grid a {
   @apply rounded-[0];
-  background: #eeedff;
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  box-shadow: var(--card-shadow);
+  overflow-wrap: anywhere;
+}
+.public-site .contact-grid a:hover {
+  background: var(--blue-soft);
 }
 .public-site .guide-card {
   @apply rounded-[0];
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  box-shadow: var(--card-shadow);
 }
 .public-site .news-dialog {
   @apply rounded-[0];
 }
 .public-site .mobile-nav {
-  background: #ffdd2d;
+  background: var(--gold);
 }
 .public-site .mobile-nav a {
   @apply font-bold border-[#19233b40];
 }
 .public-site .mobile-nav>button {
   @apply rounded-[50%];
-  background: #19233b;
-  @apply text-[#ffdd2d] [border:0];
+  background: var(--ink);
+  @apply text-[var(--gold)] [border:0];
 }
 .public-site .menu-button {
-  @apply border-[#19233b] [background:transparent];
+  @apply border-[var(--ink)] [background:transparent];
 }
 .public-site .school-eyebrow {
-  @apply text-[#2149c6];
+  @apply text-[var(--blue)];
+}
+/* Reading typography is shared; display type stays expressive and condensed. */
+.public-site :is(.page-intro > span, .story-grid p, .value-grid p,
+  .history-section li p, .course-sections header > span, .course-index small,
+  .course-list details > div p, .achievement-summary > span,
+  .news-copy > p:not(.news-category):not(.news-date), .dialog-copy > p,
+  .school-introduction > div > p, .guide-card > div > span, .principal-message) {
+  font-family: var(--font-reading);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+.public-site :is(.section-heading > span, .reunion-schedule p) {
+  font-family: var(--font-reading);
+  line-height: 1.65;
+}
+.public-site .course-catalog {
+  border-top: 0;
+  padding-top: 0;
+}
+.public-site .course-sections > section > header {
+  margin-bottom: 28px;
+}
+.public-site .course-index {
+  margin-top: 32px;
+}
+.public-site .news-copy .text-action {
+  font-size: 1rem;
+  min-height: 44px;
+}
+.public-site .school-numbers span {
+  font-size: .875rem;
+  line-height: 1.4;
+  color: var(--slate);
+}
+.public-site :is(.section-heading h2, .anniversary-heading h2,
+  .values-section > header h2, .history-section > header h2, .contact-section > header h2) {
+  font-size: clamp(34px, 4.4vw, 60px);
+  font-weight: 750;
+  line-height: 1.08;
+}
+.public-site :is(.values-section, .history-section, .contact-section) {
+  padding-top: var(--section-space);
+}
+.public-site .value-grid h3 {
+  margin-top: 28px;
+  font-weight: 750;
+}
+.public-site :is(.news-filter select, .news-sort select) {
+  background: var(--paper);
+  min-height: 44px;
+}
+.public-site :is(.hall-filters button, .hall-search, .hall-arrows button) {
+  min-height: 44px;
+}
+.public-site .hall-arrows button { min-width: 44px; }
+.public-site .honoree-card {
+  border: 1px solid var(--ink);
+  border-radius: 0;
+}
+.public-site .hall-section :focus-visible {
+  outline-color: var(--gold);
+  box-shadow: 0 0 0 5px var(--ink);
+}
+.public-site :is(.news-dialog, .mobile-nav) :focus-visible {
+  outline-offset: 3px;
 }
 @media (max-width:1100px) {
   .public-site {
@@ -2130,7 +2225,7 @@
   .sculpture-number {
     --sculpture-scale: .9;
     @apply text-[clamp(215px,63vw,285px)] [inset:-20px_8px_0_-8px];
-    text-shadow: 1px 1px #16349b,2px 2px #16349b,3px 3px #16349b,4px 4px #16349b,5px 5px #16349b,6px 6px #16349b,7px 7px #16349b,0 12px 16px #94741524;
+    text-shadow: 1px 1px var(--blue-deep),2px 2px var(--blue-deep),3px 3px var(--blue-deep),4px 4px var(--blue-deep),5px 5px var(--blue-deep),6px 6px var(--blue-deep),7px 7px var(--blue-deep),0 12px 16px #94741524;
   }
   .curiosity-stamp {
     @apply w-[84px] h-[84px] text-[16px] right-[3%] top-[24px];
@@ -2184,13 +2279,13 @@
     @apply text-[16px];
   }
   .public-site .school-numbers {
-    @apply grid-cols-[repeat(3,1fr)] gap-[12px] [border-left:0] [padding:26px_0_0] [border-top:1px_solid_#d5d2c9];
+    @apply grid-cols-[repeat(3,1fr)] gap-[12px] [border-left:0] [padding:26px_0_0] [border-top:1px_solid_var(--line)];
   }
   .public-site .school-numbers strong {
     @apply text-[38px];
   }
   .public-site .school-numbers span {
-    @apply text-[12px];
+    @apply text-[14px];
   }
   .public-site .section-heading h2 {
     @apply text-[44px];
@@ -2254,7 +2349,7 @@
 /* Public, attributed medalist records; motion yields to the reader. */
 .hall-section {
   @apply [padding:85px_0];
-  background: #19233b;
+  background: var(--ink);
   @apply text-white overflow-hidden;
 }
 .hall-full {
@@ -2264,13 +2359,13 @@
   @apply flex justify-between gap-[30px] items-end mb-[32px];
 }
 .hall-kicker {
-  @apply flex items-center gap-[9px] text-[#ffdd2d] text-[13px] font-semibold tracking-[.08em] mb-[20px];
+  @apply flex items-center gap-[9px] text-[var(--gold)] text-[13px] font-semibold tracking-[.08em] mb-[20px];
 }
 .public-site .hall-heading h2 {
   @apply text-[clamp(44px,4.6vw,67px)] font-bold leading-[1.06];
 }
 .hall-heading h2 span {
-  @apply text-[#ffdd2d];
+  @apply text-[var(--gold)];
 }
 .public-site .hall-heading .text-action {
   @apply text-white;
@@ -2291,8 +2386,8 @@
   @apply [border:1px_solid_#79849a] [background:transparent] text-white flex items-center justify-center gap-[8px] min-w-[40px] h-[40px] rounded-[50%];
 }
 .hall-controls button:hover {
-  background: #ffdd2d;
-  @apply text-[#19233b] border-[#ffdd2d];
+  background: var(--gold);
+  @apply text-[var(--ink)] border-[var(--gold)];
 }
 .hall-controls .hall-pause {
   @apply rounded-[24px] [padding:0_15px] text-[13px];
@@ -2300,14 +2395,14 @@
 .honoree-rail {
   @apply flex items-start gap-[22px] overflow-x-auto [padding:4px_2px_22px];
   scrollbar-width: thin;
-  scrollbar-color: #ffdd2d #37425b;
+  scrollbar-color: var(--gold) #37425b;
   overscroll-behavior-x: contain;
   scroll-behavior: auto;
 }
 .honoree-card {
   @apply [flex:0_0_282px] min-w-0;
-  background: #fffdf8;
-  @apply text-[#19233b] rounded-[4px] overflow-hidden;
+  background: var(--paper);
+  @apply text-[var(--ink)] rounded-[4px] overflow-hidden;
 }
 .honoree-photo {
   @apply h-[250px] relative;
@@ -2321,17 +2416,17 @@
 .honoree-initials {
   @apply h-full grid;
   place-items: center;
-  @apply text-[98px] font-bold text-[#2149c6];
+  @apply text-[98px] font-bold text-[var(--blue)];
 }
 .honoree-level {
   @apply absolute left-[14px] top-[14px] rounded-[20px];
-  background: #19233b;
+  background: var(--ink);
   @apply text-white [padding:7px_12px] text-[12px];
 }
 .honoree-year {
   @apply absolute right-[12px] bottom-[12px];
-  background: #ffdd2d;
-  @apply text-[#19233b] [padding:7px_10px] text-[18px] font-bold;
+  background: var(--gold);
+  @apply text-[var(--ink)] [padding:7px_10px] text-[18px] font-bold;
   transform: rotate(-4deg);
 }
 .honoree-copy {
@@ -2388,8 +2483,8 @@
   @apply [padding:11px_17px] rounded-[24px] [background:transparent] text-white [border:1px_solid_#79849a] text-[14px];
 }
 .hall-filters button[aria-pressed=true] {
-  background: #ffdd2d;
-  @apply border-[#ffdd2d] text-[#19233b];
+  background: var(--gold);
+  @apply border-[var(--gold)] text-[var(--ink)];
 }
 .hall-search {
   @apply flex items-center gap-[10px] [flex:1] min-w-[200px] [border:1px_solid_#79849a] rounded-[24px] [padding:10px_15px];
@@ -2474,10 +2569,10 @@
   }
 }
 .honoree-more {
-  @apply mt-[16px] [border-top:1px_solid_#d5d2c9] pt-[12px];
+  @apply mt-[16px] [border-top:1px_solid_var(--line)] pt-[12px];
 }
 .honoree-more summary {
-  @apply text-[14px] text-[#2149c6] cursor-pointer font-semibold;
+  @apply text-[14px] text-[var(--blue)] cursor-pointer font-semibold;
 }
 .honoree-more ul {
   @apply mt-[14px];
@@ -2489,14 +2584,14 @@
   @apply whitespace-pre-line;
 }
 .cms-teachers {
-  background: #eeedff;
+  background: var(--blue-soft);
 }
 .cms-teacher-grid {
   @apply grid grid-cols-[repeat(4,minmax(0,1fr))] gap-[24px];
 }
 .cms-teacher-photo {
   @apply relative h-[255px];
-  background: #ffdd2d;
+  background: var(--gold);
   @apply grid;
   place-items: center;
   @apply overflow-hidden;
@@ -2600,7 +2695,7 @@
 }
 .principal-section {
   @apply grid grid-cols-[.7fr_1.3fr] gap-[clamp(30px,_6vw,_100px)] p-[clamp(28px,_5vw,_70px)];
-  background: #ffdd2d;
+  background: var(--gold);
   @apply mb-[65px];
 }
 .principal-section h2 {

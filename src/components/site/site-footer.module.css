@@ -1,11 +1,11 @@
 .footer {
-  background: #2149c6;
+  background: var(--blue);
   color: #fff;
-  padding: 56px 0 0;
+  padding: clamp(40px, 5vw, 64px) 0 0;
   font-family: var(--font-sans), sans-serif;
 }
 .inner {
-  width: min(100% - 48px, 1160px);
+  width: var(--shell);
   margin-inline: auto;
 }
 .grid {
@@ -38,6 +38,7 @@
   line-height: 1.35;
 }
 .motto {
+  font-family: var(--font-reading);
   display: block;
   margin-top: 8px;
   font-size: 16px;
@@ -46,11 +47,11 @@
 .column {
   display: grid;
   align-content: start;
-  gap: 12px;
+  gap: 4px;
 }
 .grid h2 {
   margin: 0 0 8px;
-  color: #ffdd2d;
+  color: var(--gold);
   font-family: var(--font-sans), sans-serif;
   font-size: 15px;
   font-weight: 750;
@@ -59,14 +60,15 @@
   text-transform: uppercase;
 }
 .grid a {
+  font-family: var(--font-reading);
   color: inherit;
   font-size: 16px;
   line-height: 1.6;
 }
 .column a {
   width: fit-content;
-}
-.column a {
+  min-height: 44px;
+  padding-block: 8px;
   display: flex;
   align-items: flex-start;
   gap: 12px;
@@ -90,14 +92,14 @@
   border-radius: 50%;
 }
 .grid a:hover {
-  color: #ffdd2d;
+  color: var(--gold);
 }
 .column a:hover {
   text-decoration: underline;
   text-underline-offset: 4px;
 }
 .footer :focus-visible {
-  outline-color: #ffdd2d;
+  outline-color: var(--gold);
 }
 .bottom {
   display: flex;
@@ -107,7 +109,8 @@
   gap: 12px 24px;
   border-top: 1px solid #ffffff40;
   padding: 22px 0;
-  font-size: 15px;
+  font-family: var(--font-reading);
+  font-size: 14px;
   line-height: 1.6;
 }
 .bottom p {
@@ -157,8 +160,11 @@
   gap: 24px;
 }
 .bottom a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   color: inherit;
 }
 .bottom a:hover {
-  color: #ffdd2d;
+  color: var(--gold);
 }

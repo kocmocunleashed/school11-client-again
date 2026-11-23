@@ -782,10 +782,6 @@
 .school-numbers span {
   @apply text-[12px] text-[#627086];
 }
-.learning-section {
-  background: #f2f5fa;
-  @apply [padding:85px_0];
-}
 .public-site .section-heading {
   @apply [border:0] grid-cols-[1fr_auto] mb-[34px] p-0;
 }
@@ -794,93 +790,6 @@
 }
 .public-site .section-heading h2 {
   @apply text-[41px] font-semibold mt-[14px] leading-[1.2];
-}
-.learning-grid {
-  @apply grid grid-cols-[repeat(3,minmax(0,1fr))] gap-[18px];
-}
-.learning-card {
-  @apply rounded-[8px] relative overflow-hidden [padding:215px_30px_32px] min-h-[450px];
-  transition: transform .3s,box-shadow .3s;
-}
-.learning-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 15px 30px #17345516;
-}
-.mathematics {
-  background: #e1eafa;
-}
-.science {
-  background: #224fbd;
-  @apply text-white;
-}
-.clubs {
-  background: #e6ebde;
-}
-.learning-label {
-  @apply flex items-center gap-[8px] text-[12px] tracking-[.1em];
-}
-.learning-label svg {
-  @apply w-[14px] h-[14px];
-}
-.learning-card h3 {
-  @apply text-[37px] leading-[1.22] mt-[17px] font-semibold;
-}
-.learning-card p {
-  @apply text-[13px] mt-[16px] max-w-[210px] opacity-[.8];
-}
-.learning-arrow {
-  @apply absolute bottom-[30px] right-[27px] [border:1px_solid_#162d512b] w-[35px] h-[35px] grid;
-  place-items: center;
-  @apply rounded-[50%];
-}
-.learning-arrow svg {
-  @apply w-[18px];
-}
-.science .learning-arrow {
-  @apply border-[#ffffff50];
-}
-.subject-art {
-  @apply absolute top-[16px] right-[28px] left-[28px] h-[180px] flex items-center justify-center;
-}
-.subject-art>span {
-  font-family: var(--font-sans),sans-serif;
-  @apply text-[165px] leading-[1] text-[#224fbd];
-  transform: rotate(-12deg);
-  text-shadow: 3px 3px #afc4ef,6px 6px #afc4ef;
-}
-.subject-art>i {
-  font-family: var(--font-sans),sans-serif;
-  @apply text-[106px] text-[#7d9edc];
-}
-.orbital {
-  perspective: 500px;
-}
-.orbital i {
-  @apply absolute [border:1px_solid_#adc9ff] w-[190px] h-[100px] rounded-[50%];
-  transform: rotate(-30deg);
-}
-.orbital i:nth-child(2) {
-  transform: rotate(30deg);
-}
-.orbital i:nth-child(3) {
-  transform: rotate(90deg);
-}
-.orbital b {
-  @apply w-[25px] h-[25px];
-  background: #d4e5ff;
-  box-shadow: inset -5px -5px 8px #739ae2;
-  @apply rounded-[50%];
-}
-.club-art {
-  @apply text-[190px] text-[#63804c] leading-[1];
-  transform: rotate(-10deg);
-  text-shadow: 4px 5px #c0d0b1;
-}
-.learning-card:hover .subject-art {
-  translate: 0 -4px;
-}
-.subject-art {
-  transition: translate .4s;
 }
 .public-site .section {
   @apply py-[90px];
@@ -1071,12 +980,6 @@
   .school-introduction>.eyebrow {
     @apply [grid-column:1/-1];
   }
-  .learning-card {
-    @apply [padding:210px_22px_30px];
-  }
-  .learning-card h3 {
-    @apply text-[32px];
-  }
 }
 @media (max-width:980px) {
   .public-site .desktop-nav {
@@ -1084,15 +987,6 @@
   }
   .arrival h1 {
     @apply text-[74px];
-  }
-  .learning-grid {
-    @apply gap-[12px];
-  }
-  .learning-card h3 {
-    @apply text-[29px];
-  }
-  .learning-label {
-    @apply text-[12px];
   }
   .public-site .news-layout {
     @apply grid-cols-[repeat(2,minmax(0,1fr))] gap-[18px];
@@ -1153,47 +1047,11 @@
   .school-numbers span {
     @apply text-[12px];
   }
-  .learning-section {
-    @apply [padding:55px_0];
-  }
   .public-site .section-heading {
     @apply grid-cols-[1fr] gap-[14px];
   }
   .public-site .section-heading h2 {
     @apply text-[34px];
-  }
-  .learning-grid {
-    @apply grid-cols-[1fr];
-  }
-  .learning-card {
-    @apply min-h-[280px] [padding:35px_25px] flex flex-col justify-center;
-  }
-  .learning-card h3 {
-    @apply text-[32px];
-  }
-  .learning-card p {
-    @apply max-w-[190px] text-[12px];
-  }
-  .learning-label {
-    @apply text-[12px];
-  }
-  .subject-art {
-    @apply left-auto right-[15px] top-[25px] w-[135px] h-[130px] opacity-[.55];
-  }
-  .subject-art>span {
-    @apply text-[126px];
-  }
-  .subject-art>i {
-    @apply text-[60px];
-  }
-  .orbital i {
-    @apply w-[120px] h-[70px];
-  }
-  .club-art {
-    @apply text-[140px];
-  }
-  .learning-arrow {
-    @apply bottom-[27px];
   }
   .public-site .section {
     @apply py-[60px];
@@ -1384,7 +1242,7 @@
 }
 .public-site .preview-notice {
   background: #f3ce24;
-  @apply text-[#50441e] text-[12px] py-[5px];
+  @apply text-[#50441e] text-[13px] py-[6px];
 }
 .public-site .primary-button {
   background: #2149c6;
@@ -1522,6 +1380,19 @@
 }
 .arrival-bottom>a {
   @apply flex items-center gap-[18px] text-[14px];
+  min-block-size: 44px;
+}
+.arrival-anniversary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-block-size: 44px;
+  margin-block-end: 8px;
+  color: var(--blue-deep);
+  font-size: 1rem;
+  font-weight: 750;
+  text-decoration: underline;
+  text-underline-offset: .2em;
 }
 .arrival-bottom svg {
   @apply [border:1px_solid_#19233b60] rounded-[50%] p-[10px] w-[40px] h-[40px];
@@ -1576,79 +1447,370 @@
 .public-site .school-numbers strong i {
   @apply text-[#2149c6];
 }
-.public-site .learning-section {
-  background: #eeedff;
-  @apply [padding:80px_0_100px] overflow-hidden;
-}
 .public-site .section-heading {
   @apply items-center mb-[40px];
 }
 .public-site .section-heading h2 {
   @apply text-[clamp(40px,4.6vw,64px)] font-[750] leading-[1.08] m-0;
 }
-.public-site .learning-grid {
-  @apply gap-[24px] items-start pt-[12px];
+.anniversary-plan {
+  padding-block: clamp(52px, 7vw, 96px);
+  background: var(--blue-soft);
+  color: var(--ink);
 }
-.public-site .learning-card {
-  @apply rounded-[2px] min-h-[445px] [padding:215px_28px_32px] [border:1px_solid_#19233b];
-  box-shadow: none;
-  transform: rotate(-3deg);
+.anniversary-plan-group + .anniversary-plan-group {
+  margin-block-start: clamp(32px, 5vw, 56px);
 }
-.public-site .learning-card:nth-child(2) {
-  transform: rotate(3deg);
-  @apply mt-[30px];
+.anniversary-plan-group > h3 {
+  margin-block-end: 14px;
+  color: var(--blue-deep);
+  font-size: clamp(1.25rem, 2.45vw, 1.75rem);
+  font-weight: 750;
+  line-height: 1.2;
 }
-.public-site .learning-card:nth-child(3) {
-  transform: rotate(-2deg);
-  @apply mt-[8px];
+.anniversary-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
-.public-site .learning-card:hover {
-  transform: rotate(0deg) translateY(-9px);
-  box-shadow: 0 18px 26px #26244020;
+.anniversary-card {
+  padding: 21px 22px;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  box-shadow: 3px 3px var(--blue);
 }
-.public-site .mathematics {
-  background: #ffdd2d;
+.anniversary-card > span {
+  display: inline-block;
+  padding: 5px 8px;
+  background: var(--gold);
+  color: var(--ink);
+  font-size: 1.25rem;
+  font-weight: 750;
+  line-height: 1;
 }
-.public-site .science {
-  background: #2149c6;
+.anniversary-card h4 {
+  margin-block: 12px 8px;
+  color: var(--ink);
+  font-size: 1.25rem;
+  font-weight: 750;
+  line-height: 1.25;
 }
-.public-site .clubs {
-  background: #f5a1bd;
+.anniversary-card p {
+  color: var(--slate);
 }
-.public-site .learning-card h3 {
-  @apply text-[40px] font-bold leading-[1.06];
+.anniversary-card p,
+.anniversary-heading > p:not(.anniversary-kicker),
+.anniversary-memory blockquote,
+.reunion-details p {
+  font-family: system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
 }
-.public-site .learning-card p {
-  @apply text-[15px] leading-[1.5] opacity-[1] max-w-[220px];
+.anniversary-plan-link,
+.anniversary-archive-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-block-size: 44px;
+  color: var(--blue-deep);
+  font-weight: 750;
 }
-.public-site .learning-label {
-  @apply text-[12px] font-[650] tracking-[.05em];
+.anniversary-plan-link {
+  margin-block-start: 4px;
+  text-decoration: underline;
+  text-underline-offset: .2em;
 }
-.public-site .learning-arrow {
-  background: #19233b;
-  @apply [border:0] text-white w-[38px] h-[38px] bottom-[24px] right-[22px];
+.anniversary-plan-link:hover,
+.anniversary-archive-link:hover {
+  color: var(--blue);
 }
-.public-site .science .learning-arrow {
-  background: #ffdd2d;
-  @apply text-[#19233b];
+@media (max-width: 639px) {
+  .anniversary-grid {
+    gap: 0;
+    border-block-start: 1px solid var(--line);
+  }
+  .anniversary-card {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    gap: 4px 14px;
+    padding: 16px 0;
+    border: 0;
+    border-block-end: 1px solid var(--line);
+    background: transparent;
+    box-shadow: none;
+  }
+  .anniversary-card > span {
+    grid-row: span 2;
+    margin-block-start: 2px;
+    font-variant-numeric: tabular-nums;
+  }
+  .anniversary-card h4 {
+    margin: 0;
+  }
+  .anniversary-plan-link {
+    grid-column: 2;
+    justify-self: start;
+  }
 }
-.public-site .subject-art>span {
-  @apply text-[#2149c6];
-  text-shadow: none;
+@media (min-width: 640px) {
+  .anniversary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
-.public-site .subject-art>i {
-  @apply text-[#2149c6];
+@media (min-width: 1024px) {
+  .anniversary-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .anniversary-card {
+    grid-column: span 2;
+  }
+  .anniversary-plan-group:first-of-type .anniversary-card:first-child {
+    grid-column: span 4;
+    padding: 24px 28px;
+    border-color: var(--blue-deep);
+    background: var(--blue-deep);
+    color: var(--paper);
+    box-shadow: 3px 3px var(--gold);
+  }
+  .anniversary-plan-group:first-of-type .anniversary-card:first-child :is(h4, p) {
+    color: inherit;
+  }
+  .anniversary-plan-group:first-of-type .anniversary-card:first-child p {
+    max-inline-size: 60ch;
+  }
+  .anniversary-card:nth-last-child(-n + 2) {
+    grid-column: span 3;
+  }
 }
-.public-site .club-art {
-  @apply text-[#a4235c];
-  text-shadow: none;
+.alumni-reunion {
+  padding-block: clamp(52px, 7vw, 96px);
+  background: var(--blue);
+  color: var(--paper);
 }
-.public-site .subject-art.orbital i {
-  @apply border-[#f8e6ff];
+.anniversary-heading {
+  margin-block-end: clamp(28px, 5vw, 48px);
+  text-align: center;
 }
-.public-site .subject-art.orbital b {
-  background: #ffdd2d;
-  box-shadow: inset -5px -5px 8px #bd8f08;
+.anniversary-kicker {
+  color: var(--blue-deep);
+  font-size: .875rem;
+  font-weight: 750;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.alumni-reunion .anniversary-kicker {
+  color: var(--gold);
+}
+.anniversary-heading h2 {
+  margin-block: 10px 16px;
+  font-size: clamp(2.125rem, 4.5vw, 3.5rem);
+  font-weight: 750;
+  line-height: 1.08;
+}
+.anniversary-heading > p:not(.anniversary-kicker) {
+  max-inline-size: 56ch;
+  margin-inline: auto;
+}
+.reunion-panel {
+  padding: clamp(16px, 4vw, 40px);
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  box-shadow: 5px 5px var(--gold);
+  color: var(--ink);
+}
+.reunion-schedule {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.reunion-schedule > li {
+  display: grid;
+  grid-template-columns: minmax(4.25rem, 16%) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(12px, 3vw, 24px);
+  padding-block: 16px;
+  border-block-end: 1px solid var(--line);
+}
+.reunion-schedule > li:first-child {
+  padding-block-start: 0;
+}
+.reunion-date {
+  display: grid;
+  justify-items: start;
+  gap: 4px;
+  color: var(--blue-deep);
+  font-size: 1.375rem;
+  font-weight: 750;
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+}
+.reunion-date > time:last-child {
+  padding: 3px 6px;
+  background: var(--gold);
+  color: var(--ink);
+  font-size: .9375rem;
+}
+.reunion-panel h3 {
+  font-size: 1.25rem;
+  font-weight: 750;
+  line-height: 1.2;
+}
+.reunion-schedule p,
+.reunion-details p {
+  color: var(--slate);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+.reunion-schedule p {
+  margin-block-start: 4px;
+}
+.reunion-venue {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-block-start: 20px;
+  padding: 12px;
+  border-inline-start: 4px solid var(--gold);
+  background: var(--blue-soft);
+}
+.reunion-venue svg,
+.reunion-preparation li::marker {
+  color: var(--blue-deep);
+}
+.reunion-details {
+  margin-block-start: 28px;
+}
+.reunion-preparation {
+  display: grid;
+  gap: 12px;
+  margin: 12px 0 0;
+  padding-inline-start: 1.375rem;
+}
+.reunion-preparation li::marker,
+.reunion-preparation h4 {
+  font-weight: 700;
+}
+.reunion-preparation h4 {
+  font-size: 1rem;
+}
+.reunion-contacts {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 20px;
+  margin-block: 4px;
+}
+.reunion-contacts a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  color: var(--blue-deep);
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+.reunion-details .reunion-signature {
+  margin-block-start: 16px;
+  color: var(--ink);
+  font-weight: 750;
+}
+.anniversary-portraits,
+.anniversary-memories {
+  padding-block: clamp(52px, 7vw, 96px);
+  color: var(--ink);
+}
+.anniversary-portraits {
+  background: var(--paper);
+}
+.anniversary-memories {
+  background: var(--blue-soft);
+}
+.anniversary-portraits .anniversary-heading > p:not(.anniversary-kicker),
+.anniversary-memories .anniversary-heading > p:not(.anniversary-kicker) {
+  color: var(--slate);
+}
+.anniversary-tribute {
+  display: grid;
+  align-items: center;
+  gap: 24px;
+}
+.anniversary-tribute .anniversary-heading {
+  margin: 0;
+  text-align: start;
+}
+.anniversary-tribute .anniversary-heading > p {
+  margin-inline: 0;
+}
+.anniversary-archive-link {
+  margin-block-start: 14px;
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+.anniversary-archive-photo {
+  margin: 0 4px 4px 0;
+  padding: 8px;
+  border: 1px solid var(--ink);
+  background: #fff;
+  box-shadow: 4px 4px var(--blue);
+}
+.anniversary-archive-photo img {
+  inline-size: 100%;
+  block-size: auto;
+}
+.anniversary-archive-photo figcaption {
+  padding: 8px 4px 2px;
+  color: var(--slate);
+  font-size: .9375rem;
+}
+.anniversary-memory-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(16px, 3vw, 30px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.anniversary-memory {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 16px;
+  min-block-size: 100%;
+  margin: 0;
+  padding: clamp(18px, 3vw, 28px);
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  box-shadow: 4px 4px var(--blue);
+}
+.anniversary-quote-mark {
+  display: grid;
+  place-items: center;
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  background: var(--gold);
+  font-size: 2rem;
+  font-weight: 750;
+  line-height: 1;
+}
+.anniversary-memory blockquote {
+  margin: 0;
+}
+.anniversary-memory figcaption {
+  padding-inline-start: 10px;
+  border-inline-start: 3px solid var(--gold);
+  color: var(--blue-deep);
+  font-weight: 750;
+}
+@media (min-width: 768px) {
+  .anniversary-tribute {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 5fr);
+    gap: clamp(32px, 6vw, 86px);
+  }
+  .anniversary-memory-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 .public-site .home-news {
   @apply py-[100px];
@@ -1871,18 +2033,6 @@
   .intro-symbol {
     @apply hidden;
   }
-  .public-site .learning-grid {
-    @apply gap-[15px];
-  }
-  .public-site .learning-card {
-    @apply px-[22px];
-  }
-  .public-site .learning-card h3 {
-    @apply text-[33px];
-  }
-  .public-site .learning-card p {
-    @apply text-[14px] max-w-[180px];
-  }
 }
 @media (max-width:800px) {
   .arrival-grid {
@@ -1924,28 +2074,6 @@
   .school-ribbon svg {
     @apply w-[22px] h-[22px];
   }
-  .public-site .learning-grid {
-    @apply grid-cols-[1fr] gap-[28px] max-w-[560px] m-auto;
-  }
-  .public-site .learning-card, .public-site .learning-card:nth-child(2), .public-site .learning-card:nth-child(3) {
-    @apply mt-0 min-h-[290px] [padding:45px_32px] justify-center flex flex-col;
-    transform: rotate(-2deg);
-  }
-  .public-site .learning-card:nth-child(2) {
-    transform: rotate(2deg);
-  }
-  .public-site .learning-card .subject-art {
-    @apply left-auto right-[10px] top-[25px] w-[180px] h-[175px] opacity-[.8];
-  }
-  .public-site .learning-card h3 {
-    @apply text-[38px] relative z-[1];
-  }
-  .public-site .learning-card p {
-    @apply text-[15px] max-w-[240px] relative z-[1];
-  }
-  .public-site .learning-label {
-    @apply relative z-[1];
-  }
   .public-site .join-mark>svg {
     @apply w-[160px] h-[160px];
   }
@@ -1969,9 +2097,6 @@
   .public-site .site-brand small {
     @apply text-[12px];
   }
-  .public-site .preview-notice {
-    @apply text-[12px];
-  }
   .public-site .arrival {
     @apply pt-[24px];
   }
@@ -1979,7 +2104,7 @@
     @apply text-[12px] mb-[22px];
   }
   .public-site .arrival h1 {
-    @apply text-[clamp(66px,17.25vw,105px)] tracking-[-.04em];
+    @apply text-[clamp(57px,16.5vw,96px)] tracking-[-.04em];
   }
   .public-site .arrival h1>span:after {
     @apply h-[10px] left-[-5px] right-[-7px];
@@ -1997,18 +2122,18 @@
     @apply text-[14px];
   }
   .arrival-collage {
-    @apply h-[465px] mt-[5px];
+    @apply h-[clamp(285px,86vw,395px)] mt-[5px];
   }
   .school-sculpture {
-    @apply [inset:0_-2px_110px];
+    @apply [inset:-14px_-2px_90px];
   }
   .sculpture-number {
     --sculpture-scale: .9;
-    @apply text-[clamp(265px,76vw,330px)] [inset:-20px_8px_0_-8px];
+    @apply text-[clamp(215px,63vw,285px)] [inset:-20px_8px_0_-8px];
     text-shadow: 1px 1px #16349b,2px 2px #16349b,3px 3px #16349b,4px 4px #16349b,5px 5px #16349b,6px 6px #16349b,7px 7px #16349b,0 12px 16px #94741524;
   }
   .curiosity-stamp {
-    @apply w-[92px] h-[92px] text-[17px] right-[3%] top-[34px];
+    @apply w-[84px] h-[84px] text-[16px] right-[3%] top-[24px];
   }
   .curiosity-stamp svg {
     @apply w-[20px] h-[20px] mt-[6px];
@@ -2020,7 +2145,7 @@
     @apply w-[80%] left-[15%] bottom-0;
   }
   .postcard-photo {
-    @apply h-[145px];
+    @apply h-[clamp(108px,32vw,145px)];
   }
   .postcard-caption {
     @apply text-[12px] py-[12px];
@@ -2067,32 +2192,11 @@
   .public-site .school-numbers span {
     @apply text-[12px];
   }
-  .public-site .learning-section {
-    @apply [padding:60px_0_65px];
-  }
   .public-site .section-heading h2 {
     @apply text-[44px];
   }
   .public-site .section-heading {
     @apply gap-[18px] grid-cols-[1fr] mb-[30px];
-  }
-  .public-site .learning-grid {
-    @apply gap-[25px] w-[calc(100%_-_10px)];
-  }
-  .public-site .learning-card, .public-site .learning-card:nth-child(2), .public-site .learning-card:nth-child(3) {
-    @apply [padding:35px_23px] min-h-[315px];
-  }
-  .public-site .learning-card h3 {
-    @apply text-[37px];
-  }
-  .public-site .learning-card .subject-art {
-    @apply w-[135px] h-[145px] top-[15px] right-[8px] opacity-[.65];
-  }
-  .public-site .learning-card .orbital i {
-    @apply w-[120px] h-[75px];
-  }
-  .public-site .learning-card p {
-    @apply max-w-[215px];
   }
   .public-site .home-news {
     @apply py-[65px];

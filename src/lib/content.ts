@@ -51,7 +51,7 @@ export const fallbackNews: NewsArticle[] = [
     body_mn: "Нийслэлийн 11-р сургуулийн түүхэн замналыг баримтжуулах зорилгоор төгсөгчид, ахмад багш нар, сурагчдын дурсамж, гэрэл зураг, баримтат материалыг нэгтгэх ажил эхэллээ.",
     excerpt_en: null,
     body_en: null,
-    cover_image_url: null,
+    cover_image_url: "/school-building-1955.jpg",
     category_id: "fallback-category-event",
     category: category("fallback-category-event", "Арга хэмжээ", "#F6B512", "event"),
     author_name: "Сургалтын алба",

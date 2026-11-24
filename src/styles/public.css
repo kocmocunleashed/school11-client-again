@@ -2758,7 +2758,7 @@
   @apply h-[112px];
 }
 .public-site .site-brand img {
-  width: 124px;
+  width: 144px;
   height: auto;
 }
 .public-site .site-brand strong {
@@ -2808,10 +2808,12 @@
 .year-playback button {
   @apply inline-flex items-center gap-[9px] [background:var(--ink)] text-[white] [border:0] rounded-[30px] [padding:13px_18px];
 }
-@media (max-width: 1100px) {
+@media (max-width: 1120px) {
   .public-site .site-brand img {
-    width: 96px;
+    width: 112px;
   }
+}
+@media (max-width: 1100px) {
   .public-site .site-brand strong {
     @apply text-[21px];
   }
@@ -2824,10 +2826,11 @@
     @apply h-[88px];
   }
   .public-site .site-brand img {
-    width: 80px;
+    width: 92px;
   }
   .public-site .site-brand strong {
     @apply text-[17px];
+    text-wrap: balance;
   }
   .principal-section {
     @apply grid-cols-[1fr] gap-[18px] mb-[40px];

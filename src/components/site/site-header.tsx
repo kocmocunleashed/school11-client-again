@@ -51,11 +51,11 @@ export function SiteHeader() {
       <div className="header-inner">
         <Link className="site-brand" href="/" aria-label="Нүүр хуудас">
           <Image
-            src="/school-anniversary-logo.jpg"
+            src="/school-anniversary-mark.webp"
             alt=""
-            width={1056}
-            height={824}
-            sizes="(max-width: 700px) 80px, (max-width: 1100px) 96px, 124px"
+            width={459}
+            height={302}
+            sizes="(max-width: 700px) 92px, (max-width: 1120px) 112px, 144px"
             loading="eager"
           />
           <strong>{schoolBrandName}</strong>

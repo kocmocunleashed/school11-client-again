@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { unoptimizedPublicImage } from "@/lib/image-policy";
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import type { SchoolSettings } from "@/types/database";
 import styles from "./site-footer.module.css";
+import { schoolBrandName } from "./school-brand";
 
 const socialIcons = {
   Facebook: <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.095 10.125 24v-8.437H7.078v-3.49h3.047v-2.66c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.931-1.956 1.887v2.264h3.328l-.532 3.49h-2.796V24C19.612 23.095 24 18.1 24 12.073Z" />,
@@ -20,8 +20,14 @@ export function SiteFooter({ settings }: { settings: SchoolSettings }) {
         <div className={styles.grid}>
           <div className={styles.identity}>
             <Link className={styles.brand} href="/" aria-label="Нүүр хуудас">
-              <Image src={settings.logo_url || "/school-logo.png"} unoptimized={unoptimizedPublicImage(settings.logo_url || "/school-logo.png")} alt="" width={76} height={76} />
-              <strong>{settings.school_name_mn}</strong>
+              <Image
+                src="/school-anniversary-mark.webp"
+                alt=""
+                width={459}
+                height={302}
+                sizes="(max-width: 600px) 76px, 94px"
+              />
+              <strong>{schoolBrandName}</strong>
             </Link>
             {socials.length > 0 && (
               <div className={styles.socials}>
@@ -48,7 +54,7 @@ export function SiteFooter({ settings }: { settings: SchoolSettings }) {
           </div>
         </div>
         <div className={styles.bottom}>
-          <p>© {new Date().getFullYear()} {settings.school_name_mn}.</p>
+          <p>© {new Date().getFullYear()} {schoolBrandName}.</p>
           <nav aria-label="Нэмэлт холбоосууд">
             <Link href="/">Нүүр</Link>
             <Link href="/about">Бидний тухай</Link>

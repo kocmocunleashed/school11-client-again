@@ -29,12 +29,11 @@ Reuse existing components before creating new ones. No new UI library is needed.
 
 ## School marks and Home
 
-Use the supplied 1947–2027 mark in the header and beside the anniversary plan.
-The header uses the short name “Нийслэлийн 11-р сургууль” to leave room for
-navigation. Use the school seal as the default footer, admin, and browser mark.
-The CMS can set the footer and signed-in admin logo.
-Keep “Нүүр” as a text link in the public menus. The masthead and footer seal also
-link home.
+Use the supplied 1947–2027 mark in the header, footer, and anniversary plan.
+Use the short name “Нийслэлийн 11-р сургууль” in the header and footer. Use
+the school seal as the default admin and browser mark. The CMS can set the
+signed-in admin logo. Keep “Нүүр” as a text link in the public menus. The
+masthead and footer logo also link home.
 
 ## Palette
 

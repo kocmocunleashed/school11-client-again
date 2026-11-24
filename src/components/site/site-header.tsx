@@ -6,6 +6,8 @@ import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { schoolBrandName } from "./school-brand";
+
 const navItems = [
   ["/", "Нүүр"],
   ["/about", "Бидний тухай"],
@@ -48,8 +50,15 @@ export function SiteHeader() {
     <header className="site-header">
       <div className="header-inner">
         <Link className="site-brand" href="/" aria-label="Нүүр хуудас">
-          <Image src="/school-anniversary-logo.jpg" alt="" width={72} height={56} loading="eager" />
-          <strong>Нийслэлийн 11-р сургууль</strong>
+          <Image
+            src="/school-anniversary-logo.jpg"
+            alt=""
+            width={1056}
+            height={824}
+            sizes="(max-width: 700px) 80px, (max-width: 1100px) 96px, 124px"
+            loading="eager"
+          />
+          <strong>{schoolBrandName}</strong>
         </Link>
         <nav className="desktop-nav" aria-label="Үндсэн цэс">
           {navItems.map(([href, label]) => <Link aria-current={pathname === href ? "page" : undefined} key={href} href={href}>{label}</Link>)}

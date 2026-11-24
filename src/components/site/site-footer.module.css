@@ -16,17 +16,19 @@
   padding-bottom: 40px;
 }
 .identity {
+  --brand-mark-width: 94px;
+  --brand-gap: 18px;
   display: grid;
   gap: 24px;
 }
 .brand {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: var(--brand-gap);
 }
 .brand img {
-  width: 76px;
-  height: 76px;
+  width: var(--brand-mark-width);
+  height: auto;
   flex-shrink: 0;
   object-fit: contain;
 }
@@ -73,8 +75,9 @@
 }
 .socials {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
-  padding-left: 94px;
+  padding-inline-start: calc(var(--brand-mark-width) + var(--brand-gap));
 }
 .socials a {
   display: grid;
@@ -127,18 +130,12 @@
     gap: 32px;
     padding-bottom: 32px;
   }
-  .brand {
-    gap: 14px;
-  }
-  .brand img {
-    width: 64px;
-    height: 64px;
+  .identity {
+    --brand-mark-width: 76px;
+    --brand-gap: 14px;
   }
   .brand strong {
     font-size: 21px;
-  }
-  .socials {
-    padding-left: 78px;
   }
   .bottom {
     align-items: flex-start;

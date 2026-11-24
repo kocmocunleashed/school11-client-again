@@ -2758,7 +2758,8 @@
   @apply h-[112px];
 }
 .public-site .site-brand img {
-  @apply w-[70px] h-[70px];
+  width: 124px;
+  height: auto;
 }
 .public-site .site-brand strong {
   @apply text-[clamp(22px,_1.495vw,_29px)];
@@ -2808,6 +2809,9 @@
   @apply inline-flex items-center gap-[9px] [background:var(--ink)] text-[white] [border:0] rounded-[30px] [padding:13px_18px];
 }
 @media (max-width: 1100px) {
+  .public-site .site-brand img {
+    width: 96px;
+  }
   .public-site .site-brand strong {
     @apply text-[21px];
   }
@@ -2820,7 +2824,7 @@
     @apply h-[88px];
   }
   .public-site .site-brand img {
-    @apply w-[54px] h-[54px];
+    width: 80px;
   }
   .public-site .site-brand strong {
     @apply text-[17px];

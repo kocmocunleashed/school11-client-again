@@ -50,7 +50,7 @@ export function HomeHero({ copy, photo }: { copy: SiteCopy; photo: string }) {
           ))}
         </dl>
       </div>
-      <a href="#discover" className={styles.scroll}>Цааш нээх <ArrowDown size={16} aria-hidden="true" /></a>
+      <a href="#discover" className={styles.scroll} aria-label="Цааш нээх"><ArrowDown size={16} aria-hidden="true" /></a>
     </section>
   );
 }

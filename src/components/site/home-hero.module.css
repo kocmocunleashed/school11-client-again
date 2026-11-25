@@ -82,8 +82,7 @@
   filter: drop-shadow(0 8px 18px #081d4270);
 }
 
-.anniversary,
-.scroll {
+.anniversary {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -95,8 +94,7 @@
   text-transform: uppercase;
 }
 
-.anniversary:hover,
-.scroll:hover {
+.anniversary:hover {
   text-decoration: underline;
   text-underline-offset: 4px;
 }
@@ -202,13 +200,15 @@
 }
 
 .scroll {
-  color: var(--hero-paper);
-  letter-spacing: .04em;
-  text-transform: none;
+  display: grid;
+  place-items: center;
+  min-inline-size: 44px;
+  min-block-size: 44px;
+  color: var(--hero-gold);
 }
 
-.scroll svg {
-  color: var(--hero-gold);
+.scroll:hover {
+  color: var(--hero-paper);
 }
 
 @media (max-width: 700px) {

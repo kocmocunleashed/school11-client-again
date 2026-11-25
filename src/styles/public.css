@@ -743,10 +743,6 @@
 .public-site .header-apply:hover {
   @apply [background:var(--blue-deep)];
 }
-.arrival {
-  @apply pt-[40px];
-  background: linear-gradient(#f7f9fc,#fff);
-}
 .eyebrow {
   font-size: 12px !important;
   @apply font-bold;
@@ -755,12 +751,6 @@
 }
 .eyebrow>span {
   @apply inline-block w-[7px] h-[7px] [background:var(--blue)] rounded-[50%] mr-[9px];
-}
-.arrival h1 {
-  @apply text-[clamp(55px,7.245vw,108px)] font-[650] leading-[1.08] tracking-[-.065em];
-}
-.arrival h1 span {
-  @apply text-school-blue;
 }
 .school-introduction {
   @apply grid grid-cols-[.65fr_1.55fr_1fr] gap-[50px] py-[105px];
@@ -960,21 +950,6 @@
 .public-site .mobile-nav a {
   font-family: var(--font-sans),sans-serif;
 }
-@keyframes arrival-in {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-@media (min-width:1800px) {
-  .arrival h1 {
-    @apply text-[115px];
-  }
-}
 @media (max-width:1100px) {
   .public-site {
     --shell: calc(100% - 56px);
@@ -995,9 +970,6 @@
 @media (max-width:980px) {
   .public-site .desktop-nav {
     @apply hidden;
-  }
-  .arrival h1 {
-    @apply text-[74px];
   }
   .public-site .news-layout {
     @apply grid-cols-[repeat(2,minmax(0,1fr))] gap-[18px];
@@ -1024,12 +996,6 @@
   }
   .public-site .menu-button {
     @apply rounded-[50%] w-[44px] h-[44px] shrink-0;
-  }
-  .arrival {
-    @apply pt-[26px];
-  }
-  .arrival h1 {
-    @apply text-[clamp(46px,12.305vw,78px)] leading-[1.12];
   }
   .school-introduction {
     @apply py-[60px] grid-cols-[1fr] gap-[22px];
@@ -1257,134 +1223,6 @@
 }
 .public-site .primary-button svg {
   @apply w-[20px] h-[20px];
-}
-.public-site .arrival {
-  background: var(--gold);
-  @apply pt-[28px] relative overflow-hidden;
-}
-.arrival-grid {
-  @apply grid grid-cols-[1.05fr_1fr] gap-[30px] min-h-[620px];
-}
-.arrival-copy {
-  @apply relative z-[2] pt-[28px];
-}
-.school-tag {
-  @apply text-[12px] font-[550] tracking-[.12em] mb-[26px];
-}
-.public-site .arrival h1 {
-  @apply text-[clamp(74px,7.705vw,116px)] leading-[.99] font-extrabold tracking-[-.045em];
-}
-.public-site .arrival h1>span {
-  @apply text-[var(--blue)] relative inline-block z-[0];
-}
-.public-site .arrival h1>span:after {
-  content: "";
-  @apply absolute left-[-10px] right-[-15px] bottom-[1px] h-[13px];
-  background: var(--pink);
-  @apply z-[-1];
-  transform: rotate(-2deg);
-}
-.arrival-lead {
-  @apply mt-[32px] text-[18px] leading-[1.55];
-}
-.arrival-actions {
-  @apply flex items-center gap-[30px] mt-[26px];
-}
-.arrival-actions .text-action {
-  @apply gap-[12px];
-}
-.arrival-collage {
-  @apply relative min-w-0;
-  perspective: 1000px;
-}
-.school-sculpture {
-  @apply absolute [inset:-20px_-15px_125px_-35px];
-  perspective: 900px;
-  @apply isolate;
-}
-.sculpture-number {
-  --sculpture-scale: .84;
-  @apply absolute [inset:-35px_0_0] flex items-center justify-center text-[clamp(340px,30vw,660px)] leading-[1] font-[800] tracking-[-.025em] text-[var(--blue)];
-  text-shadow: 1px 1px var(--blue-deep),2px 2px var(--blue-deep),3px 3px var(--blue-deep),4px 4px var(--blue-deep),5px 5px var(--blue-deep),6px 6px var(--blue-deep),7px 7px var(--blue-deep),8px 8px var(--blue-deep),9px 9px var(--blue-deep),10px 10px var(--blue-deep),0 16px 20px #94741524;
-  transform: translate3d(var(--shift-x,0px),var(--shift-y,0px),0) rotate(-8deg) rotateY(calc(-10deg + var(--turn-x,0deg))) rotateX(calc(5deg + var(--turn-y,0deg))) scaleX(var(--sculpture-scale));
-  transition: transform .24s cubic-bezier(.22,1,.36,1);
-  @apply select-none z-[1];
-}
-.sculpture-orbit {
-  @apply absolute left-[3%] top-[18%] w-[98%] h-[48%] [border:1.5px_solid_#19233b75] rounded-[50%];
-  transform: rotate(-31deg);
-}
-.orbit-two {
-  transform: rotate(50deg);
-  @apply w-[82%] left-[13%] top-[25%] border-[#19233b33];
-}
-.curiosity-stamp {
-  @apply absolute right-0 top-[40px] z-[3] flex flex-col items-center justify-center;
-  background: var(--pink);
-  @apply rounded-[50%] w-[132px] h-[132px] font-[750] text-[23px] leading-[1.08];
-  transform: rotate(13deg);
-  @apply [border:1px_solid_var(--ink)];
-}
-.curiosity-stamp svg {
-  @apply w-[25px] h-[25px];
-  stroke: var(--ink);
-  stroke-width: 2;
-  @apply mt-[7px];
-}
-.sculpture-formula {
-  @apply absolute left-[1%] top-[51%] text-[20px] italic;
-  transform: rotate(-18deg);
-}
-.campus-postcard {
-  @apply absolute bottom-[8px] left-[14%] w-[82%] max-w-[420px];
-  background: var(--paper);
-  @apply [padding:10px_10px_0];
-  transform: rotate(5deg);
-  box-shadow: 0 16px 30px #634d2426;
-  @apply z-[4];
-  transition: transform .35s cubic-bezier(.22,1,.36,1);
-}
-.campus-postcard:hover {
-  transform: rotate(1deg) translateY(-8px);
-}
-.campus-postcard:before {
-  content: "";
-  @apply absolute w-[90px] h-[26px] top-[-13px] left-[calc(50%_-_45px)];
-  background: #ef9cbdde;
-  transform: rotate(-7deg);
-  @apply z-[2];
-}
-.postcard-photo {
-  @apply relative h-[190px] overflow-hidden;
-}
-.postcard-photo img {
-  @apply object-cover;
-  object-position: center 40%;
-}
-.arrival-bottom {
-  @apply flex justify-between items-center min-h-[82px] mt-[10px];
-}
-.arrival-bottom>span {
-  @apply text-[12px] font-semibold tracking-[.15em];
-}
-.arrival-bottom>a {
-  @apply flex items-center gap-[18px] text-[14px];
-  min-block-size: 44px;
-}
-.arrival-anniversary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-block-size: 44px;
-  margin-block-end: 8px;
-  color: var(--blue-deep);
-  font-size: 1rem;
-  font-weight: 750;
-  text-decoration: underline;
-  text-underline-offset: .2em;
-}
-.arrival-bottom svg {
-  @apply [border:1px_solid_#19233b60] rounded-[50%] p-[10px] w-[40px] h-[40px];
 }
 .school-ribbon {
   background: var(--blue);
@@ -2202,30 +2040,6 @@
   .public-site {
     --shell: calc(100% - 56px);
   }
-  .arrival-grid {
-    @apply min-h-[595px] gap-[10px] grid-cols-[1.05fr_1fr];
-  }
-  .public-site .arrival h1 {
-    @apply text-[clamp(71px,8.28vw,97px)];
-  }
-  .arrival-actions {
-    @apply gap-[15px];
-  }
-  .arrival-actions .primary-button {
-    @apply text-[14px] [padding:16px_19px] gap-[12px];
-  }
-  .sculpture-number {
-    @apply text-[clamp(270px,36vw,400px)];
-  }
-  .curiosity-stamp {
-    @apply w-[105px] h-[105px] text-[20px] right-[3%] top-[60px];
-  }
-  .sculpture-formula {
-    @apply left-[8%];
-  }
-  .campus-postcard {
-    @apply left-[9%] w-[88%];
-  }
   .public-site .school-introduction {
     @apply grid-cols-[1.3fr_.7fr] gap-[35px];
   }
@@ -2234,36 +2048,6 @@
   }
 }
 @media (max-width:800px) {
-  .arrival-grid {
-    @apply grid-cols-[1fr] min-h-auto;
-  }
-  .arrival-copy {
-    @apply pt-[14px];
-  }
-  .public-site .arrival h1 {
-    @apply text-[clamp(75px,11.5vw,103px)];
-  }
-  .arrival-collage {
-    @apply h-[540px] max-w-[580px] w-full [margin:0_auto];
-  }
-  .school-sculpture {
-    @apply [inset:-30px_0_100px];
-  }
-  .sculpture-number {
-    @apply text-[360px];
-  }
-  .curiosity-stamp {
-    @apply right-[5%] top-[30px];
-  }
-  .campus-postcard {
-    @apply bottom-0 left-[25%] w-[70%];
-  }
-  .postcard-photo {
-    @apply h-[170px];
-  }
-  .arrival-bottom {
-    @apply mt-[30px];
-  }
   .school-ribbon {
     @apply gap-[22px] p-[20px];
   }
@@ -2292,65 +2076,6 @@
   }
   .public-site .site-brand strong {
     @apply text-[17px];
-  }
-  .public-site .arrival {
-    @apply pt-[24px];
-  }
-  .school-tag {
-    @apply text-[12px] mb-[22px];
-  }
-  .public-site .arrival h1 {
-    @apply text-[clamp(57px,16.5vw,96px)] tracking-[-.04em];
-  }
-  .public-site .arrival h1>span:after {
-    @apply h-[10px] left-[-5px] right-[-7px];
-  }
-  .arrival-lead {
-    @apply text-[16px] mt-[26px] max-w-[340px];
-  }
-  .arrival-actions {
-    @apply gap-[20px] flex-wrap mt-[23px];
-  }
-  .arrival-actions .primary-button {
-    @apply text-[14px] [padding:15px_20px] gap-[14px];
-  }
-  .arrival-actions .text-action {
-    @apply text-[14px];
-  }
-  .arrival-collage {
-    @apply h-[clamp(285px,86vw,395px)] mt-[5px];
-  }
-  .school-sculpture {
-    @apply [inset:-14px_-2px_90px];
-  }
-  .sculpture-number {
-    --sculpture-scale: .9;
-    @apply text-[clamp(215px,63vw,285px)] [inset:-20px_8px_0_-8px];
-    text-shadow: 1px 1px var(--blue-deep),2px 2px var(--blue-deep),3px 3px var(--blue-deep),4px 4px var(--blue-deep),5px 5px var(--blue-deep),6px 6px var(--blue-deep),7px 7px var(--blue-deep),0 12px 16px #94741524;
-  }
-  .curiosity-stamp {
-    @apply w-[84px] h-[84px] text-[16px] right-[3%] top-[24px];
-  }
-  .curiosity-stamp svg {
-    @apply w-[20px] h-[20px] mt-[6px];
-  }
-  .sculpture-formula {
-    @apply left-0 top-[58%] text-[16px];
-  }
-  .campus-postcard {
-    @apply w-[80%] left-[15%] bottom-0;
-  }
-  .postcard-photo {
-    @apply h-[clamp(108px,32vw,145px)];
-  }
-  .arrival-bottom {
-    @apply min-h-[65px] mt-[20px];
-  }
-  .arrival-bottom>span {
-    @apply text-[12px] tracking-[.08em];
-  }
-  .arrival-bottom>a {
-    @apply text-[12px] gap-[9px];
   }
   .school-ribbon {
     @apply gap-[17px] justify-start flex-wrap [padding:20px_18px];
@@ -2443,9 +2168,6 @@
   }
 }
 @media (prefers-reduced-motion:reduce) {
-  .sculpture-number {
-    transform: rotate(-8deg) rotateY(-10deg) rotateX(5deg) scaleX(var(--sculpture-scale)) !important;
-  }
   .public-site *, .public-site *::before, .public-site *::after {
     animation: none !important;
     transition: none !important;
@@ -2668,7 +2390,7 @@
 .honoree-more[open] summary {
   @apply mb-[12px];
 }
-.arrival-lead, .school-introduction h2, .join-section h2 {
+.school-introduction h2, .join-section h2 {
   @apply whitespace-pre-line;
 }
 .cms-teachers {
@@ -2727,30 +2449,6 @@
 @media (max-width:700px) {
   .public-site .school-numbers {
     @apply grid-cols-[repeat(2,minmax(0,1fr))] gap-y-[24px];
-  }
-}
-/* Let the desktop composition grow with the display instead of stopping at 1320px. */
-@media (min-width: 1101px) {
-  .public-site .arrival {
-    @apply flex flex-col min-h-[calc(100svh_-_112px)];
-  }
-  .arrival-grid {
-    @apply [flex:1] min-h-[620px];
-  }
-  .arrival-copy {
-    @apply self-center py-[28px];
-  }
-  .public-site .arrival h1 {
-    @apply text-[clamp(92px,_7.705vw,_189px)];
-  }
-  .arrival-lead {
-    @apply text-[clamp(18px,_1.208vw,_28px)];
-  }
-  .campus-postcard {
-    @apply max-w-[600px] w-[74%];
-  }
-  .postcard-photo {
-    @apply h-[clamp(190px,_14vw,_340px)];
   }
 }
 /* Clearer navigation and a school-led About page. */

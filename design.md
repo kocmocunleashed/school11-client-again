@@ -5,8 +5,9 @@
 Bold, playful, and graceful. A contemporary Mongolian school yearbook with
 confident typography, sunflower yellow, cobalt blue, and genuine school imagery.
 The user's reference is inspiration for craft and consistency, not a template
-to repeat across every section. Keep the expressive oversized 11, campus
-postcard, occasional pink accents, rounded actions, and generous breathing room.
+to repeat across every section. The homepage hero draws on the anniversary reference with a dark blue field,
+gold frame, serif headline, and a campus image behind the copy. Keep occasional
+pink accents, rounded actions, and generous breathing room across the site.
 
 The reference memory card establishes a precise detail language: paper surface,
 one-pixel navy outline, four-pixel solid cobalt offset shadow, yellow quote marker,

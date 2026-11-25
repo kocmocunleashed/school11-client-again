@@ -1,12 +1,10 @@
 "use client";
-import Image from "next/image";
-import { unoptimizedPublicImage } from "@/lib/image-policy";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, ArrowDown } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import type { ReactNode } from "react";
 import anniversaryFacts from "@/lib/data/anniversary-facts.json";
 import { defaultSiteCopy } from "@/lib/site-copy";
-import { SchoolSculpture } from "@/components/site/school-sculpture";
+import { HomeHero } from "@/components/site/home-hero";
 import { NewsBrowser } from "@/components/site/news-browser";
 import { useSiteData } from "@/components/site/site-data-provider";
 import { LandingTimeline } from "@/components/site/landing-timeline";
@@ -16,19 +14,7 @@ export function HomeContent({ children }: { children: ReactNode }) {
   const { settings } = useSiteData();
   const copy = { ...defaultSiteCopy, ...settings.site_copy };
   return <main id="main-content">
-    <section className="arrival">
-      <div className="arrival-grid shell mx-auto w-[var(--shell)]">
-        <div className="arrival-copy">
-          <a href="#oin-ajil" className="arrival-anniversary">80 жилийн ой <ArrowDown size={16} aria-hidden="true" /></a>
-          <h1>{copy.hero_line_1}<br /><span>{copy.hero_line_2}</span><br />{copy.hero_line_3}</h1>
-          <div className="arrival-actions"><Link href="/about" className="primary-button">Манай ертөнцөөр аялаарай <ArrowUpRight /></Link><Link href="/apply" className="text-action">Элсэлт <ArrowRight /></Link></div>
-        </div>
-        <div className="arrival-collage"><SchoolSculpture /><Link href="/about" className="campus-postcard" aria-label="Сургуулийн тухай"><div className="postcard-photo"><Image src={settings.hero_image_url || "/school-bg.jpg"} alt="Улаанбаатар хотын 11-р сургуулийн хичээлийн байр" fill sizes="(max-width: 700px) 80vw, 32vw" loading="eager" fetchPriority="high" unoptimized={unoptimizedPublicImage(settings.hero_image_url || "/school-bg.jpg")} /></div></Link></div>
-      </div>
-      <div className="arrival-bottom shell mx-auto w-[var(--shell)]">
-        <a href="#discover" className="ml-auto">Цааш нээх <ArrowDown aria-hidden="true" /></a>
-      </div>
-    </section>
+    <HomeHero copy={copy} photo={settings.hero_image_url || "/school-bg.jpg"} />
     <section className="school-introduction shell mx-auto w-[var(--shell)]" id="discover">
       <div className="intro-symbol" aria-hidden="true">( x + y )<sup>∞</sup></div>
       <div>

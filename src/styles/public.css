@@ -1163,6 +1163,9 @@
 /* The public shell sets its own width and layout. */
 .public-site {
   --shell: calc(100% - clamp(88px,8vw,192px));
+  --masthead-blue: #0b2f63;
+  --masthead-paper: #fffbf0;
+  --masthead-gold: #ffce5c;
   background: var(--paper);
   @apply text-school-ink;
 }
@@ -1179,7 +1182,13 @@
   @apply tracking-[-.035em];
 }
 .public-site .site-header {
-  background: var(--gold);
+  background: var(--masthead-blue);
+  color: var(--masthead-paper);
+  border-block-end: 1px solid #ffce5c30;
+}
+.public-site .site-header :focus-visible {
+  outline-color: var(--masthead-gold);
+  box-shadow: none;
 }
 .public-site .header-inner {
   @apply h-[91px];
@@ -1190,20 +1199,24 @@
 .public-site .desktop-nav a {
   @apply text-[15px] font-semibold;
 }
+.public-site .desktop-nav a:hover,
 .public-site .desktop-nav a[aria-current=page] {
-  @apply text-[var(--ink)] border-[var(--ink)];
+  color: var(--masthead-gold);
+  border-color: var(--masthead-gold);
 }
 .public-site .header-apply {
-  @apply rounded-[100px];
-  background: var(--ink);
-  @apply text-white [padding:14px_24px] text-[15px];
+  @apply rounded-[100px] [padding:14px_24px] text-[15px];
+  background: var(--masthead-gold);
+  color: var(--masthead-blue);
 }
 .public-site .header-apply:hover {
-  background: var(--blue);
+  background: var(--masthead-paper);
+  color: var(--masthead-blue);
 }
 .public-site .preview-notice {
-  background: #f3ce24;
-  @apply text-[#50441e] text-[13px] py-[6px];
+  background: #142f54;
+  color: var(--masthead-paper);
+  @apply text-[13px] py-[6px];
 }
 .public-site .primary-button {
   background: var(--blue);
@@ -1297,7 +1310,6 @@
   width: clamp(86px, 14vw, 156px);
   height: auto;
 }
-.public-site .site-brand img,
 .anniversary-logo {
   /* Neutralize the white backing and pale JPEG corners before blending. */
   filter: contrast(1.3) brightness(1.04);
@@ -1955,18 +1967,26 @@
   color: var(--paper);
 }
 .public-site .mobile-nav {
-  background: var(--gold);
+  background: var(--masthead-blue);
+  color: var(--masthead-paper);
 }
 .public-site .mobile-nav a {
-  @apply font-bold border-[#19233b40];
+  @apply font-bold;
+  border-color: #ffce5c40;
+}
+.public-site .mobile-nav a:is(:hover, [aria-current=page]) {
+  color: var(--masthead-gold);
+  border-color: var(--masthead-gold);
 }
 .public-site .mobile-nav>button {
-  @apply rounded-[50%];
-  background: var(--ink);
-  @apply text-[var(--gold)] [border:0];
+  @apply rounded-[50%] [border:0];
+  background: var(--masthead-gold);
+  color: var(--masthead-blue);
 }
 .public-site .menu-button {
-  @apply border-[var(--ink)] [background:transparent];
+  background: transparent;
+  border-color: #ffce5c80;
+  color: var(--masthead-paper);
 }
 .public-site .school-eyebrow {
   @apply text-[var(--blue)];
